@@ -34,26 +34,26 @@ public class SwerveModule {
     private PIDCtrl speed_pid_ ;
     private Speedometer linear_ ;
     private double ticks_ ;
-    private double inches_per_tick_ ;
+    private double ticks_per_meter_ ;
     static private int logger_id_ = -1 ;
 
-    private final String LinearSamplesName = "swervedrive:linear:samples" ;
-    private final String InchesPerTickName = "swervedrive:inches_per_tick" ;
+    private final String LinearSamplesName = "linear:samples" ;
+    private final String TicksPerMeterName = "ticks_per_meter" ;
 
-    public SwerveModule(XeroRobot robot, SwerveDriveSubsystem subsystem, String name, String config) throws BadParameterTypeException,
+    public SwerveModule(XeroRobot robot, SwerveDriveSubsystem subsystem, String name, String config, String sname) throws BadParameterTypeException,
             MissingParameterException, EncoderConfigException, BadMotorRequestException {
 
         ISettingsSupplier settings = subsystem.getRobot().getSettingsSupplier() ;
         MessageLogger logger = subsystem.getRobot().getMessageLogger() ;
 
-        inches_per_tick_ = settings.get(InchesPerTickName).getDouble() ;
+        ticks_per_meter_ = subsystem.getSettingsValue(TicksPerMeterName).getDouble() ;
 
         robot_ = robot ;
         name_ = name ;
 
-        steer_ = robot.getMotorFactory().createMotor(name + "-steer", config + ":steer");
-        drive_ = robot.getMotorFactory().createMotor(name + "-drive", config + ":drive");
-        encoder_ = new XeroEncoder(robot, config + ":encoder", true, null) ;
+        steer_ = robot.getMotorFactory().createMotor(name + "-steer", config + ":hw:" + sname + ":steer");
+        drive_ = robot.getMotorFactory().createMotor(name + "-drive", config + ":hw:" + sname + ":drive");
+        encoder_ = new XeroEncoder(robot, config + ":hw:" + sname + ":encoder", true, null) ;
 
         drive_power_ = 0.0;
         steer_power_ = 0.0;
@@ -63,8 +63,8 @@ public class SwerveModule {
         target_angle_ = 0.0 ;
         target_speed_ = 0.0 ;
 
-        angle_pid_ = new PIDCtrl(settings, config + ":steer:pid", true) ;
-        speed_pid_ = new PIDCtrl(settings, config + ":speed:pid", false) ;
+        angle_pid_ = new PIDCtrl(settings, config + ":pid:" + sname + ":steer", true) ;
+        speed_pid_ = new PIDCtrl(settings, config + ":pid:" + sname + ":drive", false) ;
 
         int samples =  2 ;
         if (settings.isDefined(LinearSamplesName) && settings.get(LinearSamplesName).isInteger())
@@ -110,7 +110,7 @@ public class SwerveModule {
 
     public void computeMyState(double dt) throws BadMotorRequestException {
         ticks_ = drive_.getPosition() ;
-        linear_.update(dt, ticks_ * inches_per_tick_) ;
+        linear_.update(dt, ticks_ / ticks_per_meter_) ;
     }
 
     public SwerveModuleState getModuleState() {

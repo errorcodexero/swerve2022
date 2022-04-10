@@ -67,7 +67,7 @@ public class StandardGamepad extends Gamepad {
         db_ = (TankDriveSubsystem)drive;
 
         if (db_ == null) {
-            throw new Exception("invalid drivebase for Xero1425Gamepad - expected tankdrive");
+            throw new Exception("invalid drivebase for StandardGamepad - expected tankdrive");
         }
         
         use_max_increase_ = false ;

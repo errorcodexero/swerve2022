@@ -246,10 +246,6 @@ public abstract class XeroRobot extends TimedRobot {
         compressor_.enableAnalog(minp, maxp);
     }
 
-    public double getPressure() {
-        return compressor_.getPressure() ;
-    }
-
     /// \brief enable pneumatics for this robot
     /// \returns true if pneumatics were enabled sucessfully, otherwise false
     protected boolean enablePneumatics() {
@@ -747,7 +743,8 @@ public abstract class XeroRobot extends TimedRobot {
         double initial_time = getTime() ;
         delta_time_ = initial_time - last_time_ ;
 
-        robot_subsystem_.putDashboard("Pressure", DisplayType.Always, getPressure());
+        if (getCompressor() != null)
+            robot_subsystem_.putDashboard("Pressure", DisplayType.Always, getCompressor().getPressure()) ;
 
         if (isSimulation() && delta_time_ < 0.005) {
             //

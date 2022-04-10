@@ -21,7 +21,7 @@ public abstract class DriveBaseSubsystem extends Subsystem {
 
         MessageLogger logger = getRobot().getMessageLogger();
 
-        String gyrotype = getRobot().getSettingsSupplier().get("hw:gyro").getString();
+        String gyrotype = getSettingsValue("hw:gyro").getString();
         if (gyrotype.equals("navx")) {
             gyro_ = new NavxGyro();
         } else if (gyrotype.equals("LSM6DS33")) {

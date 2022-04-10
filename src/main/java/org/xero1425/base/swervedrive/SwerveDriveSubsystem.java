@@ -70,9 +70,10 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
     /// \param parent the parent subsystem
     /// \param name the name of the subsystem
     /// \param config the prefix for configuration entries in the settings file
-    public SwerveDriveSubsystem(Subsystem parent, String name, String config) throws Exception {
+    public SwerveDriveSubsystem(Subsystem parent, String name) throws Exception {
         super(parent, name);
 
+        String config = "subsystems:" + name  ;
         plotting_ = false ;
         plot_id_ = initPlot("swervepids") ;
         plot_data_ = new Double[plot_columns_.length] ;
@@ -96,7 +97,7 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
         //
         pairs_ = new SwerveModule[getModuleCount()];
         for (int i = 0; i < getModuleCount(); i++) {
-            pairs_[i] = new SwerveModule(getRobot(), this, names_[i].LongName, config + ":" + names_[i].ShortName);
+            pairs_[i] = new SwerveModule(getRobot(), this, names_[i].LongName, config, names_[i].ShortName);
         }
 
         //

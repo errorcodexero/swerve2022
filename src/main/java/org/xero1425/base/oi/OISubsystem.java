@@ -52,6 +52,7 @@ public class OISubsystem extends Subsystem {
     // The index of the gamepad
     private final String DriverGamepadXero1425 = "xero1425_gamepad:index" ;
     private final String DriverGamepadStandard = "standard_gamepad:index" ;
+    private final String DriverGamepadSwerve = "swerve_gamepad:index" ;
     
     /// \brief Create a new OI subsystem
     /// \param parent the subsystem that manages this one
@@ -243,6 +244,37 @@ public class OISubsystem extends Subsystem {
                         gp_index_ = -1 ;
                     }
 
+                }
+                else if (isSettingDefined(DriverGamepadSwerve)) 
+                {
+                    try {
+                        gp_index_ = getSettingsValue(DriverGamepadSwerve).getInteger() ;
+                    }
+                    catch(BadParameterTypeException ex) {
+                        logger.startMessage(MessageType.Error) ;
+                        logger.add("parameter ").addQuoted(DriverGamepadSwerve) ;
+                        logger.add("exists but is not an integer type").endMessage();
+                        gp_index_ = -2 ;
+                    }
+                    catch(MissingParameterException ex) {
+                        //
+                        // This will not happen, but this catch keeps the compiler happy
+                        //
+                    }      
+                    
+                    try { 
+                        gp_ = new SwerveDriveGamepad(this, gp_index_, db_) ;
+                        addHIDDevice(gp_) ;
+                        logger.startMessage(MessageType.Info) ;
+                        logger.add("using standard gamepad control").endMessage();
+                    }
+                    catch(Exception ex) {
+                        //
+                        // This is thrown if the gamepad cannot be created sucessfully, which means either
+                        // the driver station has not connected to the robot, or that the joystick is not plugged in
+                        //
+                        gp_index_ = -1 ;
+                    }                    
                 }
                 else
                 {

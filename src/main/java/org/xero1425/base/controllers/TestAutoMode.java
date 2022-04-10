@@ -1,6 +1,7 @@
 package org.xero1425.base.controllers ;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.xero1425.misc.BadParameterTypeException;
@@ -42,13 +43,20 @@ public class TestAutoMode extends AutoMode {
             int testno ;
 
             try {
+                List<String> children = parser.getAllKeys(TestModeKey + ":" + key) ;
                 testno = Integer.parseInt(key) ;
+
+                Map<String, SettingsValue> values  = new HashMap<String, SettingsValue>() ;
+                for(String child : children) {
+                    SettingsValue v = parser.get(TestModeKey + ":" + key + ":" + child) ;
+                    values.put(child, v) ;
+                }
+
+                parameters_.put(testno, values) ;
             }
             catch(Exception ex) {
                 continue ;                
             }
-
-            throw new MissingParameterException("FIX THE STUFF HERE") ;
         }
     }
 

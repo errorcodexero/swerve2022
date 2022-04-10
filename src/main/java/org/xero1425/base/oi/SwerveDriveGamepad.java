@@ -21,7 +21,7 @@ public class SwerveDriveGamepad extends Gamepad {
     private SwerveDirectionRotateAction action_;
 
     public SwerveDriveGamepad(OISubsystem oi, int index, DriveBaseSubsystem drive_) throws Exception {
-        super(oi, "Xero1425GamePad", index);
+        super(oi, "swerve_gamepad", index);
 
         if (DriverStation.getStickPOVCount(getIndex()) == 0) {
             throw new Exception("invalid gamepad for TankDriveGamepad");
@@ -32,6 +32,9 @@ public class SwerveDriveGamepad extends Gamepad {
         }
 
         db_ = (SwerveDriveSubsystem)drive_;
+        if (db_ == null) {
+            throw new Exception("invalid drivebase for SwerveDriveGamepad - expected swerve drive");            
+        }
     }
     
     @Override
@@ -40,7 +43,9 @@ public class SwerveDriveGamepad extends Gamepad {
 
     @Override
     public void createStaticActions() throws BadParameterTypeException, MissingParameterException {
-        deadband_pos_x_ = getSubsystem().getSettingsValue("driver:deadband:x").getDouble() ;
+        deadband_pos_x_ = getSubsystem().getSettingsValue("swerve_gamepad:position:deadband:x").getDouble() ;
+        deadband_pos_y_ = getSubsystem().getSettingsValue("swerve_gamepad:position:deadband:y").getDouble() ;
+        deadband_rotate_ = getSubsystem().getSettingsValue("swerve_gamepad:angle:deadband").getDouble() ;
         action_ = new SwerveDirectionRotateAction(db_, 0.0, 0.0, 0.0) ;
     }
 

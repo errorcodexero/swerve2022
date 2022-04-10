@@ -17,13 +17,13 @@ import org.xero1425.misc.XeroPathType;
  * creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Swerve2021 extends XeroRobot {
-    public Swerve2021() {
+public class Swerve2022 extends XeroRobot {
+    public Swerve2022() {
         super(0.02);
     }
 
     public String getName() {
-        return "swerve2021";
+        return "swerve2022";
     }
 
     public String getSimulationFileName() {

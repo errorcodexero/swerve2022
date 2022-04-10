@@ -49,6 +49,6 @@ public final class Main {
         i++ ;
     }
     
-    RobotBase.startRobot(Swerve2021::new);
+    RobotBase.startRobot(Swerve2022::new);
   }
 }

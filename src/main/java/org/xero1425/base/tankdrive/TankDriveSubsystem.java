@@ -80,7 +80,7 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
         last_dist_l_ = 0.0 ;
         last_dist_r_ = 0.0 ;
 
-        left_inches_per_tick_ = getSettingsValue("inches_per_tick").getDouble();
+        left_inches_per_tick_ = getSettingsValue("ticks_per_meter").getDouble();
         right_inches_per_tick_ = left_inches_per_tick_;
 
         int linearsamples = 2 ;

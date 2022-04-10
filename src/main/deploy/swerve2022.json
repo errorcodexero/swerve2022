@@ -36,7 +36,8 @@
                         "type" : "talon_fx"
                     },
                     "encoder" : {
-                        "analog" : 0,
+                        "type":  "analog",
+                        "ainput" : 0,
                         "rmin" : -180.0,
                         "rmax" : 180.0,
                         "emin" : 5.0,
@@ -55,7 +56,8 @@
                         "type" : "talon_fx"
                     },
                     "encoder" : {
-                        "analog" : 1,
+                        "type" : "analog",
+                        "ainput" : 1,
                         "rmin" : -180.0,
                         "rmax" : 180.0,
                         "emin" : 5.0,
@@ -74,7 +76,8 @@
                         "type" : "talon_fx"
                     },
                     "encoder" : {
-                        "analog" : 2,
+                        "type" : "analog",
+                        "ainput" : 2,
                         "rmin" : -180.0,
                         "rmax" : 180.0,
                         "emin" : 5.0,
@@ -93,7 +96,8 @@
                         "type" : "talon_fx"
                     },
                     "encoder" : {
-                        "analog" : 3,
+                        "type" : "analog",
+                        "ainput" : 3,
                         "rmin" : -180.0,
                         "rmax" : 180.0,
                         "emin" : 5.0,
@@ -185,24 +189,30 @@
                     }
                 }
             },
-            "width" : 23,
-            "length:" : 23,
-            "linear:samples" : 2,
-            "angularsamples" : 2,
-            "inches_per_tick" : 0.000739, 
-            "maxspeed" : 140
+            "physical" : {
+                "width" : 0.5842,               // meters
+                "length" : 0.5842,              // meters
+                "maxspeed" : 3.556              // meters per second
+            },
+            "samples" : {
+                "linear" : 2,
+                "angular" : 2
+            },
+            "ticks_per_meter" : 53274.8
         },
         "swerveoi" : {
-            "hid" : 0,
-            "driver" : {
+            "swerve_gamepad" : {
+                "index" : 0,
                 "angle" : {
                     "maximum" : 735,
                     "deadband" : 0.1
                 },
                 "position" : {
                     "maximum" : 154,
-                    "deadband-x" : 0.1,
-                    "deadband-y" : 0.1
+                    "deadband" : {
+                        "x" : 0.1,
+                        "y" : 0.1
+                    }
                 },
                 "power" : 1.5
             }
@@ -214,6 +224,63 @@
         "0" : {
             "power" : 0.0,
             "duration" : 0.0
+        },
+        "1" : {
+            "power" : 0.0,
+            "duration" : 0.0            
+        },
+        "2" : {
+            "power" : 0.0,
+            "duration" : 0.0            
+        },
+        "3" : {
+            "power" : 0.0,
+            "duration" : 0.0            
+        },
+        "4" : {
+            "power" : 0.0,
+            "duration" : 0.0            
+        },
+        "5" : {
+            "power" : 0.0,
+            "duration" : 0.0            
+        },
+        "6" : {
+            "power" : 0.0,
+            "duration" : 0.0            
+        },
+        "7" : {
+            "power" : 0.0,
+            "duration" : 0.0            
+        },
+        "8" : {
+            "power" : 0.0,
+            "duration" : 0.0            
+        },
+        "9" : {
+            "power" : 0.0,
+            "duration" : 0.0            
+        },
+        "10" : {
+            "power" : 0.0,
+            "duration" : 0.0            
+        },
+        "11" : {
+            "power" : 0.0,
+            "duration" : 0.0            
+        },
+        "12" : {
+            "power" : 0.0,
+            "duration" : 0.0            
+        },
+        "13" : {
+            "x" : 0.0,
+            "y" : 0.0,
+            "rotate": 0.0,
+            "duration" : 0.0
+        },
+        "14" : {
+            "name" : "pathone"
         }
     }
 }
