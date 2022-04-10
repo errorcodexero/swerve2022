@@ -1,0 +1,69 @@
+{
+    "stimulus" :
+    [
+        {
+            "time" : 0.0,
+            "events" :
+            [
+                {
+                    "model" : "fms",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "start" : 1.0,
+                        "autonomous" : 0.0,
+                        "between" : 0.0,
+                        "teleop" : 10.0,
+                        "fms" : false
+                    }
+                },
+                {
+                    "model" : "swervedrive",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "xpos" : 0.0,
+                        "ypos" : 0.0,
+                        "angle" : 0.0
+                    }
+                }           
+            ]
+        },
+        {
+            "time" : 1.0,
+            "events" : 
+            [
+                {
+                    "model" : "drivergamepad",
+                    "instance" : "1",
+                    "values" :
+                    {
+                        "comment" : "move left",
+                        "axis0" : -1.0,
+                        "axis1" : 0.0,
+                        "axis4" : 0.0,
+                        "axis5" : 0.0
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 8.0,
+            "events" : 
+            [
+                {
+                    "model" : "drivergamepad",
+                    "instance" : "1",
+                    "values" :
+                    {
+                        "comment" : "stop",
+                        "axis0" : 0.0,
+                        "axis1" : 0.0,
+                        "axis4" : 0.0,
+                        "axis5" : 0.0
+                    }
+                }
+            ]
+        }        
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "stimulus" :
+    [
+        {
+            "time" : 0.0,
+            "events" :
+            [
+                {
+                    "model" : "fms",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "start" : 1.0,
+                        "autonomous" : 8.0,
+                        "between" : 0.0,
+                        "teleop" : 0.0,
+                        "fms" : false
+                    }
+                },
+                {
+                    "model" : "swervedrive",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "xpos" : 0.0,
+                        "ypos" : 0.0,
+                        "angle" : 0.0,
+                        "fl:angle" : 0.0,
+                        "fr:angle" : 0.0,
+                        "bl:angle" : 0.0,
+                        "br:angle" : 0.0                        
+                    }
+                }           
+            ]
+        }      
+    ]
+}

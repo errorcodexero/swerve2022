@@ -1,0 +1,34 @@
+{
+    "stimulus" :
+    [
+        {
+            "time" : 0.0,
+            "events" :
+            [
+                {
+                    "model" : "fms",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "automode must be set to the correct testmode in droid param file",
+                        "start" : 1.0,
+                        "autonomous" : 10.0,
+                        "between" : 0.0,
+                        "teleop" : 0.0,
+                        "fms" : false
+                    }
+                },
+                {
+                    "model" : "swervedrive",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "xpos" : 0.0,
+                        "ypos" : 180.0,
+                        "angle" : 0.0
+                    }
+                }           
+            ]
+        }
+    ]
+}

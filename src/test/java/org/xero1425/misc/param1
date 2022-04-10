@@ -1,0 +1,8 @@
+#
+# Comments
+#
+
+a:bool				true
+b:integer			1
+c:double			3.14
+d:string			"string"

@@ -1,0 +1,10 @@
+This repo contains the test code for the xero1425 software framework.  Run the following commands
+from a shell prompt on linux or macos, or from a cygwin prompt on windows to add the test repo
+to this robot source.
+
+mkdir -p src/test/java
+cd src/test/java
+mkdir org
+cd org
+git submodule add -b main https://github.com/errorcodexero/xero1425test.git xero1425
+git commit -a -m "added test repo to robot code"

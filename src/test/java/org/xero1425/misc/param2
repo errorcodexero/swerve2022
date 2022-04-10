@@ -1,0 +1,17 @@
+#
+# Comments
+#
+
+if FIRST
+a:bool				true
+b:integer			1
+c:double			3.14
+d:string			"string"
+endif
+
+if SECOND
+a:bool				false
+b:integer			13
+c:double			42.42
+d:string			"ball-of-twine"
+endif

@@ -1,0 +1,55 @@
+{
+    "stimulus" :
+    [
+        {
+            "time" : 0.0,
+            "events" :
+            [
+                {
+                    "model" : "fms",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "start" : 1.0,
+                        "autonomous" : 0.0,
+                        "between" : 0.0,
+                        "teleop" : 10.0,
+                        "fms" : false
+                    }
+                },
+                {
+                    "model" : "swervedrive",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "xpos" : 0.0,
+                        "ypos" : 0.0,
+                        "angle" : 0.0,
+                        "fl:angle" : -90.0,
+                        "fr:angle" : -90.0,
+                        "bl:angle" : -90.0,
+                        "br:angle" : -90.0                                                                        
+                    }
+                }           
+            ]
+        },
+        {
+            "time" : 1.0,
+            "events" : 
+            [
+                {
+                    "model" : "drivergamepad",
+                    "instance" : "1",
+                    "values" :
+                    {
+                        "comment" : "move forward to the left - left X = 0.5, left Y = -0.5, right X = 0, right Y = 0",
+                        "axis0" : 0.5,
+                        "axis1" : -0.5,
+                        "axis4" : 0.0,
+                        "axis5" : 0.0
+                    }
+                }
+            ]
+        }
+    ]
+}
