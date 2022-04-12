@@ -6,6 +6,7 @@ import com.revrobotics.REVLibError;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.revrobotics.CANSparkMax.IdleMode;
+
 import edu.wpi.first.hal.SimBoolean;
 import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDouble;
@@ -52,6 +53,7 @@ public class SparkMaxMotorController extends MotorController
         brushless_ = brushless ;
         pid_ = null ;
         target_ = 0 ;
+        ptype_ = PidType.None ;
 
         if (RobotBase.isSimulation()) {
             boolean usesticks = false ;
@@ -84,8 +86,7 @@ public class SparkMaxMotorController extends MotorController
                 controller_ = new CANSparkMax(index, CANSparkMax.MotorType.kBrushed) ;
             }
 
-            // controller_.restoreFactoryDefaults() ;
-            
+            controller_.restoreFactoryDefaults() ;
             code = controller_.enableVoltageCompensation(11.0) ;
             if (code != REVLibError.kOk)
                 throw new MotorRequestFailedException(this, "enableVoltageCompensation() failed during initialization", code) ;
@@ -133,7 +134,6 @@ public class SparkMaxMotorController extends MotorController
         target_ = target ;
 
         if (pid_ != null) {
-
             if (ptype_ == PidType.Position)
                 code = pid_.setReference(target, CANSparkMax.ControlType.kPosition) ;
             else if (ptype_ == PidType.Velocity)
@@ -152,8 +152,7 @@ public class SparkMaxMotorController extends MotorController
     /// \param d the derivative parameter for the PID controller
     /// \param f the feed forward parameter for the PID controller
     /// \param outmax the maximum output parameter for the PID controller     
-    public void setPID(PidType type, double p, double i, double d, double f, double outmax) throws BadMotorRequestException,
-            MotorRequestFailedException {
+    public void setPID(PidType type, double p, double i, double d, double f, double outmax) throws BadMotorRequestException, MotorRequestFailedException {
         REVLibError code = REVLibError.kOk ;
 
         if (pid_ == null)
@@ -184,11 +183,11 @@ public class SparkMaxMotorController extends MotorController
             throw new MotorRequestFailedException(this, "setOutputRange() failed during setPID() call", code) ;
 
         ptype_ = type ;
-        setTarget(target_) ;
     }
 
     /// \brief Stop the PID loop in the motor controller      
     public void stopPID() throws BadMotorRequestException {
+        set(0.0) ;   
     }
 
     /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
@@ -374,21 +373,27 @@ public class SparkMaxMotorController extends MotorController
     /// sends back the CAN status packets that contain encoder information form the motor controller to 
     /// the software running on the RoboRio.
     /// \param freq the frequency to update the encoder values     
-    public void setEncoderUpdateFrequncy(EncoderUpdateFrequency freq) throws BadMotorRequestException {
-        if (freq == EncoderUpdateFrequency.Infrequent) {
-            controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 100) ;
-            controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 100) ;
-            controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 100) ;        
+    public void setEncoderUpdateFrequncy(EncoderUpdateFrequency pos, EncoderUpdateFrequency vel) throws BadMotorRequestException {
+        int p0 = 100 ;
+        int p1 = 100 ;
+        int p2 = 100 ;
+
+        if (pos == EncoderUpdateFrequency.Default) {
+            p2 = 20 ;
         }
-        else if (freq == EncoderUpdateFrequency.Default) {
-            controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 10) ;
-            controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20) ;
-            controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 50) ;  
+        else if (pos == EncoderUpdateFrequency.Frequent) {
+            p2 = 5 ;
         }
-        else if (freq == EncoderUpdateFrequency.Frequent) {
-            controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 10) ;
-            controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20) ;
-            controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 10) ; 
-        }        
+
+        if (vel == EncoderUpdateFrequency.Default) {
+            p1 = 20 ;
+        }
+        else if (vel == EncoderUpdateFrequency.Frequent) {
+            p1 = 5 ;
+        }
+        
+        controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, p0) ;
+        controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, p1) ;
+        controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, p2) ;    
     }    
 } ;

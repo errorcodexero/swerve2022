@@ -26,7 +26,7 @@ public class TalonFXMotorController extends MotorController
 {  
     private TalonFX controller_ ;
     private boolean inverted_ ;
-    private boolean pid_setup_ ;
+    private PidType type_ ;
 
     private SimDevice sim_ ;
     private SimDouble sim_power_ ;
@@ -46,7 +46,7 @@ public class TalonFXMotorController extends MotorController
         super(name) ;
 
         inverted_ = false ;
-        pid_setup_ = false ;
+        type_ = PidType.None ;
 
         if (RobotBase.isSimulation()) {
             sim_ = SimDevice.create(SimDeviceName, index) ;
@@ -61,8 +61,6 @@ public class TalonFXMotorController extends MotorController
             sim_.createBoolean(MotorController.SimEncoderStoresTicksParamName, SimDevice.Direction.kBidir, true) ;
         }
         else {
-
-
             sim_ = null ;
             sim_power_ = null ;
             sim_encoder_ = null ;
@@ -93,17 +91,22 @@ public class TalonFXMotorController extends MotorController
     /// \brief Returns true if the motor controller supports PID loops on the controller
     /// \returns true if the motor controller supports PID loops on the controller
     public boolean hasPID() throws BadMotorRequestException {
-        return false ;
+        if (RobotBase.isSimulation())
+            return false ;
+
+        return true ;
     }
 
     /// \brief Set the target if running a PID loop on the motor controller
     /// \param target the target for the PID loop on the motor controller    
     public void setTarget(double target) throws BadMotorRequestException {
-        if (pid_setup_ == false)
+        if (type_ == PidType.None)
             throw new BadMotorRequestException(this, "calling setTarget() before calling setPID()");
 
-        TalonFX ctrl = (TalonFX)controller_ ;
-        ctrl.set(TalonFXControlMode.Velocity, target) ;
+        if (type_ == PidType.Velocity)
+            controller_.set(TalonFXControlMode.Velocity, target) ;
+        else if (type_ == PidType.Position)
+            controller_.set(TalonFXControlMode.Position, target) ;
     }
 
     /// \brief Set the PID parameters for a PID loop running on the motor controller
@@ -136,7 +139,7 @@ public class TalonFXMotorController extends MotorController
         if (code != ErrorCode.OK)
             throw new MotorRequestFailedException(this, "CTRE config_kF() call failed during setPID() call", code) ; 
 
-        pid_setup_= true ;
+        type_ = type ;
     }
 
     /// \brief Stop the PID loop in the motor controller    
@@ -321,21 +324,23 @@ public class TalonFXMotorController extends MotorController
     /// sends back the CAN status packets that contain encoder information form the motor controller to 
     /// the software running on the RoboRio.
     /// \param freq the frequency to update the encoder values    
-    public void setEncoderUpdateFrequncy(EncoderUpdateFrequency freq) throws BadMotorRequestException {
-        if (controller_ != null)
-        {
-            if (freq == EncoderUpdateFrequency.Infrequent) {
-                controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 500) ;
-                controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 500) ;
-            }
-            else if (freq == EncoderUpdateFrequency.Default) {
-                controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10) ;
-                controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 20) ;            
-            }
-            else if (freq == EncoderUpdateFrequency.Frequent) {
-                controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 10) ;
-                controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 10) ;             
-            }
+    public void setEncoderUpdateFrequncy(EncoderUpdateFrequency pos, EncoderUpdateFrequency vel) throws BadMotorRequestException {
+
+        int p1 = 255 ;
+        int p2 = 255 ;
+
+        if (pos == EncoderUpdateFrequency.Frequent || vel == EncoderUpdateFrequency.Frequent) {
+            p1 = 20 ;
+            p2 = 5 ;
+        }
+        else if (pos == EncoderUpdateFrequency.Default || vel == EncoderUpdateFrequency.Default) {
+            p1 = 20 ;
+            p2 = 20 ;
+        }
+
+        if (controller_ != null) {
+            controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, p1) ;
+            controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, p2) ;
         }        
     }     
 } ;

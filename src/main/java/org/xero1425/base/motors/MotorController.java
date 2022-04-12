@@ -53,6 +53,7 @@ public abstract class MotorController
 
     /// \brief PidType the type of PID control to run on the motor controller
     public enum PidType {
+        None,                       ///< No PID type has been set
         Position,                   ///< Position PID control
         Velocity,                   ///< Velocity PID control
     }
@@ -134,7 +135,7 @@ public abstract class MotorController
     /// sends back the CAN status packets that contain encoder information form the motor controller to 
     /// the software running on the RoboRio.
     /// \param freq the frequency to update the encoder values
-    public abstract void setEncoderUpdateFrequncy(EncoderUpdateFrequency freq) throws BadMotorRequestException ;
+    public abstract void setEncoderUpdateFrequncy(EncoderUpdateFrequency pos, EncoderUpdateFrequency vel) throws BadMotorRequestException ;
 
     /// \brief Returns true if the motor encoder has an embedded encoder that can return position
     /// \returns true if the motor encoder has an embedded encoder that can return position

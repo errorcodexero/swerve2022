@@ -249,7 +249,7 @@ public class MotorGroupController extends MotorController
     /// sends back the CAN status packets that contain encoder information form the motor controller to 
     /// the software running on the RoboRio.
     /// \param freq the frequency to update the encoder values        
-    public void setEncoderUpdateFrequncy(EncoderUpdateFrequency freq) throws BadMotorRequestException {
+    public void setEncoderUpdateFrequncy(EncoderUpdateFrequency pos, EncoderUpdateFrequency vel) throws BadMotorRequestException {
         if (motors_.size() == 0)
             throw new BadMotorRequestException(this, "request made to empty MotorGroupController") ;
 
@@ -257,9 +257,9 @@ public class MotorGroupController extends MotorController
         for(MotorController ctrl : motors_)
         {
             if (which == 0)
-                ctrl.setEncoderUpdateFrequncy(freq);
+                ctrl.setEncoderUpdateFrequncy(pos, vel);
             else
-                ctrl.setEncoderUpdateFrequncy(EncoderUpdateFrequency.Infrequent);
+                ctrl.setEncoderUpdateFrequncy(EncoderUpdateFrequency.Infrequent, EncoderUpdateFrequency.Infrequent) ;
         }
     }
 } ;

@@ -357,7 +357,7 @@ public class CTREMotorController extends MotorController
     /// sends back the CAN status packets that contain encoder information form the motor controller to 
     /// the software running on the RoboRio.
     /// \param freq the frequency to update the encoder values    
-    public void setEncoderUpdateFrequncy(EncoderUpdateFrequency freq) throws BadMotorRequestException {
+    public void setEncoderUpdateFrequncy(EncoderUpdateFrequency pos, EncoderUpdateFrequency vel) throws BadMotorRequestException {
         throw new BadMotorRequestException(this, "this motor does not contains integrated encoders") ;
     }
 } ;
