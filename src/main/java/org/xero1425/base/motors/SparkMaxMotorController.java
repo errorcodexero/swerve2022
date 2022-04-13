@@ -25,7 +25,6 @@ public class SparkMaxMotorController extends MotorController
     private boolean brushless_ ;
     private SparkMaxPIDController pid_ ;
     private PidType ptype_ ;
-    private double target_ ;
 
     private SimDevice sim_ ;
     private SimDouble sim_power_ ;
@@ -52,7 +51,6 @@ public class SparkMaxMotorController extends MotorController
         inverted_ = false ;
         brushless_ = brushless ;
         pid_ = null ;
-        target_ = 0 ;
         ptype_ = PidType.None ;
 
         if (RobotBase.isSimulation()) {
@@ -130,8 +128,6 @@ public class SparkMaxMotorController extends MotorController
     /// \param target the target for the PID loop on the motor controller     
     public void setTarget(double target) throws BadMotorRequestException, MotorRequestFailedException {
         REVLibError code = REVLibError.kOk ;
-
-        target_ = target ;
 
         if (pid_ != null) {
             if (ptype_ == PidType.Position)

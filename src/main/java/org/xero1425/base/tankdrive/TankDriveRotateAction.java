@@ -57,7 +57,7 @@ public class TankDriveRotateAction extends TankDriveAction {
 
         double dt = robot.getDeltaTime() ;
         double elapsed = robot.getTime() - start_time_ ;
-        double position = sub.getAngle() ;
+        double position = sub.getAngle().getDegrees() ;
         double traveled = XeroMath.normalizeAngleDegrees(position - start_position_) ;
 
         if (elapsed > profile_.getTotalTime())
@@ -101,7 +101,7 @@ public class TankDriveRotateAction extends TankDriveAction {
         TankDriveSubsystem sub = (TankDriveSubsystem)getSubsystem() ;
 
         // Check the current position to see if we are done
-        double dist = XeroMath.normalizeAngleDegrees(target_ = sub.getAngle()) ;
+        double dist = XeroMath.normalizeAngleDegrees(target_ = sub.getAngle().getDegrees()) ;
         if (Math.abs(dist) < threshold_)
         {
             setDone() ;
@@ -118,7 +118,7 @@ public class TankDriveRotateAction extends TankDriveAction {
             // Update the trapezoidal profile based on when we are starting.
             profile_.update(dist, 0, 0) ;
             start_time_ = sub.getRobot().getTime() ;
-            start_position_ = sub.getAngle() ;
+            start_position_ = sub.getAngle().getDegrees() ;
             start_time_ = sub.getRobot().getTime() ;
         }
     }    

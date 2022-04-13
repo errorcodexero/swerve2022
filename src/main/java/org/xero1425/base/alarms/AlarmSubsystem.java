@@ -13,6 +13,10 @@ import org.xero1425.base.Subsystem;
 /// of the match.  Alarms are presented to the drive team in terms of AlarmSounders. 
 /// These can be flashing lights on the OI, vibrating the gamepad, etc.
 public class AlarmSubsystem extends Subsystem {
+    
+    // List of alarms to monitor
+    private List<AlarmEntry> entries_ ;
+
     /// \brief create the AlarmSubsystem.
     /// \param parent the parent subsystem
     public AlarmSubsystem(Subsystem parent) {
@@ -85,5 +89,4 @@ public class AlarmSubsystem extends Subsystem {
         }
     }
 
-    private List<AlarmEntry> entries_ ;
 }

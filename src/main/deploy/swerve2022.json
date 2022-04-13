@@ -25,7 +25,10 @@
             // right side of the robot
             //
             "hw" : {
-                "gyro" : "navx",
+                "gyro" : {
+                    "type" : "navx",
+                    "start-time" : 3.0
+                },
                 "fl" : {
                     "steer" : {
                         "canid" : 2,

@@ -99,7 +99,7 @@ public class TankDrivePathFollowerAction extends TankDrivePathAction {
 
         index_ = 0 ;
         start_time_ = getSubsystem().getRobot().getTime() ;
-        start_angle_ = getSubsystem().getAngle() ;
+        start_angle_ = getSubsystem().getAngle().getDegrees() ;
         target_start_angle_ = getPath().getSegment(LeftSide, 0).getHeading() ;
 
         XeroPathSegment lseg = getPath().getSegment(LeftSide, 0) ;
@@ -154,7 +154,7 @@ public class TankDrivePathFollowerAction extends TankDrivePathAction {
 
             // Compute the actual and target robot headings
             thead = XeroMath.normalizeAngleDegrees(lseg.getHeading() - target_start_angle_) ;
-            ahead = XeroMath.normalizeAngleDegrees(getSubsystem().getAngle() - start_angle_) ;   
+            ahead = XeroMath.normalizeAngleDegrees(getSubsystem().getAngle().getDegrees() - start_angle_) ;   
 
             // Compute teh distance travled by each side of the robot
             double ldist, rdist ;

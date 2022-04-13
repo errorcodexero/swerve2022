@@ -73,9 +73,10 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
     public SwerveDriveSubsystem(Subsystem parent, String name) throws Exception {
         super(parent, name);
 
-        String config = "subsystems:" + name  ;
         plotting_ = false ;
-        plot_id_ = initPlot("swervepids") ;
+        
+        String config = "subsystems:" + name  ;
+        plot_id_ = initPlot("swerve") ;
         plot_data_ = new Double[plot_columns_.length] ;
 
         // Set the module names (short and long)
@@ -185,35 +186,35 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
         return getModule(module).getAngle() ;
     }
 
-    public double getAcceleration() {
-        double total = 0.0 ;
+    // public double getAcceleration() {
+    //     double total = 0.0 ;
 
-        for(int i = 0 ; i < getModuleCount() ; i++) {
-            total += getModule(i).getAcceleration() ;
-        }
+    //     for(int i = 0 ; i < getModuleCount() ; i++) {
+    //         total += getModule(i).getAcceleration() ;
+    //     }
 
-        return total / getModuleCount() ;
-    }
+    //     return total / getModuleCount() ;
+    // }
 
-    public double getVelocity() {
-        double total = 0.0 ;
+    // public double getVelocity() {
+    //     double total = 0.0 ;
 
-        for(int i = 0 ; i < getModuleCount() ; i++) {
-            total += getModule(i).getSpeed() ;
-        }
+    //     for(int i = 0 ; i < getModuleCount() ; i++) {
+    //         total += getModule(i).getSpeed() ;
+    //     }
 
-        return total / getModuleCount() ;
-    }
+    //     return total / getModuleCount() ;
+    // }
 
-    public double getDistance() {
-        double total = 0.0 ;
+    // public double getDistance() {
+    //     double total = 0.0 ;
 
-        for(int i = 0 ; i < getModuleCount() ; i++) {
-            total += getModule(i).getDistance() ;
-        }
+    //     for(int i = 0 ; i < getModuleCount() ; i++) {
+    //         total += getModule(i).getDistance() ;
+    //     }
 
-        return total / getModuleCount() ;
-    }
+    //     return total / getModuleCount() ;
+    // }
 
     /// \brief This method is called when the robot enters one of its specifc modes.
     /// The modes are Autonomous, Teleop, Test, or Disabled. It is used to set the

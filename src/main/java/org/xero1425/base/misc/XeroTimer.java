@@ -25,6 +25,10 @@ public class XeroTimer {
         }
     }
 
+    public double getDuration() {
+        return duration_ ;
+    }
+
     public void start() {
         if (running_) {
             MessageLogger logger = robot_.getMessageLogger() ;
@@ -33,6 +37,10 @@ public class XeroTimer {
 
         running_ = true ;
         endtime_ = robot_.getTime() + duration_ ;
+    }
+
+    public boolean isRunning() {
+        return running_ ;
     }
 
     public boolean isExpired() {

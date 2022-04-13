@@ -148,6 +148,5 @@ public class Speedometer
     /// \returns the oldest velocity
     private double getOldestVelocity() {
         return velocities_.get(0) ;
-    }    
-
+    }
 }

@@ -2,11 +2,13 @@ package org.xero1425.base.tankdrive;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Twist2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 
 import org.xero1425.base.DriveBaseSubsystem;
 import org.xero1425.base.LoopType;
-import org.xero1425.base.PositionTracker;
 import org.xero1425.base.Subsystem;
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorController;
@@ -27,7 +29,9 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
 
     static private final String CurrentLimitName = "current_limit" ;
 
-    private PositionTracker tracker_ ;
+    private DifferentialDriveOdometry tracker_ ;
+    private DifferentialDriveKinematics kinematic_ ;
+
     private double left_power_ ;
     private double right_power_ ;
     private int ticks_left_ ;
@@ -43,7 +47,6 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
     private MotorController.NeutralMode teleop_neutral_ ;
     private MotorController.NeutralMode disabled_neutral_ ;
 
-    private Speedometer angular_ ;
     private Speedometer left_linear_ ;
     private Speedometer right_linear_ ;
 
@@ -57,14 +60,11 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
 
     private boolean recording_ ;
 
-    private final static double kEpsilon = 1e-9 ;
-
     /// \brief create a new tankdrive subsystem
     /// \param parent the parent subsystem
     /// \param name the name of the subsystem
     /// \param config the string prefix to use when searching for settings file entries
-    public TankDriveSubsystem(Subsystem parent, String name, String config)
-            throws BadParameterTypeException, MissingParameterException, BadMotorRequestException {
+    public TankDriveSubsystem(Subsystem parent, String name, String config) throws Exception {
         super(parent, name);
 
         ISettingsSupplier settings = getRobot().getSettingsSupplier() ;
@@ -72,8 +72,9 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
         recording_ = false ;
 
         double width = getSettingsValue("width").getDouble() ;
-        double scrub = getSettingsValue("scrub").getDouble() ;
-        tracker_ = new PositionTracker(width, scrub) ;
+
+        tracker_ = new DifferentialDriveOdometry(getAngle()) ;
+        kinematic_ = new DifferentialDriveKinematics(width) ;
 
         dist_l_ = 0.0;
         dist_r_ = 0.0;
@@ -84,19 +85,12 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
         right_inches_per_tick_ = left_inches_per_tick_;
 
         int linearsamples = 2 ;
-        int angularsamples = 2 ;
         String linear = "linearsamples" ;
-        String angular = "angularsamples" ;
 
         if (settings.isDefined(linear) && settings.get(linear).isInteger()) {
             linearsamples = settings.get(linear).getInteger() ;
         }
 
-        if (settings.isDefined(angular) && settings.get(angular).isInteger()) {
-            angularsamples = settings.get(angular).getInteger() ;
-        }
-
-        angular_ = new Speedometer("angles", angularsamples, true);
         left_linear_ = new Speedometer("left", linearsamples, false);
         right_linear_ = new Speedometer("right", linearsamples, false);
 
@@ -127,19 +121,19 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
         recording_ = v ;
     }
 
-    /// \brief returns the width of the robot
-    /// This width is the track width which is basically from the center of the left 
-    /// wheels to the center of the right wheels.
-    /// \returns the width of the robot
-    public double getWidth() {
-        return tracker_.getWidth() ;
-    }
+    // /// \brief returns the width of the robot
+    // /// This width is the track width which is basically from the center of the left 
+    // /// wheels to the center of the right wheels.
+    // /// \returns the width of the robot
+    // public double getWidth() {
+    //     return tracker_.getWidth() ;
+    // }
 
-    /// \brief returns the scrub value for the robot
-    /// \returns the scrub value for the robot
-    public double getScrub() {
-        return tracker_.getScrub() ;
-    }
+    // /// \brief returns the scrub value for the robot
+    // /// \returns the scrub value for the robot
+    // public double getScrub() {
+    //     return tracker_.getScrub() ;
+    // }
 
     /// \brief returns the distance traveled by the left sdie of the robot
     /// \returns the distance traveled by the left sdie of the robot     
@@ -209,8 +203,12 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
 
     /// \brief returns the current angle in degrees of the robot
     /// \returns the current angle of the robot
-    public double getAngle() {
-        return angular_.getDistance() ;
+    public Rotation2d getAngle() {
+        return Rotation2d.fromDegrees(gyro().getYaw()) ;
+    }
+
+    public double getWidth() {
+        return kinematic_.trackWidthMeters ;
     }
 
     /// \brief returns the net total angle in degrees the robot has rotated since the drivebase was initialization
@@ -279,8 +277,10 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
 
     /// \brief set the pose (x and y location plus heading) of the robot
     /// \param pose the pose for the robot
-    public void setPose(Pose2d pose) {
-        tracker_.setPose(pose);
+    public void setPose(Pose2d pose) throws BadMotorRequestException {
+        tracker_.resetPosition(pose, getAngle()) ;
+        left_motors_.resetEncoder();
+        right_motors_.resetEncoder();
     }
 
     /// \brief get the pose for the robot
@@ -288,7 +288,7 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
     /// assigned to the drivebase.
     /// \returns the current pose for the robot
     public Pose2d getPose() {
-        return tracker_.getPose() ;
+        return tracker_.getPoseMeters() ;
     }
 
     /// \brief compute the state of the drivebase.
@@ -297,8 +297,6 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
     /// of the robot and to update the position tracker for the robot.
     public void computeMyState() {
         MessageLogger logger = getRobot().getMessageLogger() ;
-
-        double angle = 0.0;
 
         try {
             if (left_motors_.hasPosition() && right_motors_.hasPosition()) {
@@ -312,13 +310,10 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
 
             dist_l_ = ticks_left_ * left_inches_per_tick_;
             dist_r_ = ticks_right_ * right_inches_per_tick_;
-            if (hasGyro()) {
-                angle = gyro().getYaw();
-                angular_.update(getRobot().getDeltaTime(), angle);
-                total_angle_ = gyro().getAngle() ;
-            }
 
-            tracker_.updatePosition(dist_l_ - last_dist_l_, dist_r_ - last_dist_r_, angle);
+            total_angle_ = gyro().getAngle() ;
+
+            tracker_.update(getAngle(), dist_l_ - last_dist_l_, dist_r_ - last_dist_r_);
             left_linear_.update(getRobot().getDeltaTime(), getLeftDistance());
             right_linear_.update(getRobot().getDeltaTime(), getRightDistance());
 
@@ -338,9 +333,9 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
             logger.startMessage(MessageType.Info, getLoggerID()) ;
             logger.add("TankDrive: ") ;
             logger.add("db-trk-t", getRobot().getTime()) ;
-            logger.add("db-trk-x", tracker_.getPose().getX()) ;
-            logger.add("db-trk-y", tracker_.getPose().getY()) ;
-            logger.add("db-trk-a", tracker_.getPose().getRotation().getDegrees()) ;
+            logger.add("db-trk-x", tracker_.getPoseMeters().getX()) ;
+            logger.add("db-trk-y", tracker_.getPoseMeters().getY()) ;
+            logger.add("db-trk-a", tracker_.getPoseMeters().getRotation().getDegrees()) ;
             logger.endMessage();
         }
 
@@ -349,26 +344,10 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
         logger.add("left", left_power_).add("right", right_power_).endMessage();
     }
 
-    /// \brief This method return reverse kinematics for the drivebase
-    ///
-    /// For a tank drive, the inverse kinematics are the velocities of the
-    /// left and right wheels, given the velocity of the robot.  The velocity 
-    /// of the robot includes a linear velocity and an angular velocity.
-    ///
-    /// \param velocity the desired velocity of the robot
-    /// \returns the inverse kinematics for the robot
-    public TankDriveVelocities inverseKinematics(Twist2d velocity) {
-        if (Math.abs(velocity.dtheta) < kEpsilon) {
-            return new TankDriveVelocities(velocity.dx, velocity.dx);
-        }
-        double delta_v = getWidth() * velocity.dtheta / (2 * getScrub());
-        return new TankDriveVelocities(velocity.dx - delta_v, velocity.dx + delta_v);
-    }
-
     /// \brief set the power for the tank drive
     /// \param v the velocity of the left and right sides of the drivebase
-    protected void setPower(TankDriveVelocities v) {
-        setPower(v.getLeft(), v.getRight()) ;
+    protected void setPower(DifferentialDriveWheelSpeeds v) {
+        setPower(v.leftMetersPerSecond, v.rightMetersPerSecond) ;
     }
 
     /// \brief set the power for the tank drive

@@ -64,7 +64,7 @@ public class TankDriveScrubCharAction extends TankDriveAction {
         } else {
             final Double[] data = new Double[7];
             data[0] = getSubsystem().getRobot().getTime() - start_;
-            data[1] = getSubsystem().getAngle();
+            data[1] = getSubsystem().getAngle().getDegrees() ;
             data[4] = (double) getSubsystem().getLeftTick();
             data[5] = (double) getSubsystem().getRightTick();
             data[6] = power_;

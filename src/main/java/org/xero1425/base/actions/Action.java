@@ -47,6 +47,7 @@ public abstract class Action
         logger_.startMessage(MessageType.Debug, logger_id_) ;
         logger_.add("starting action: ") ;
         addActionToMessage() ;
+        logger_.endMessage();
 
         done_ = false ;
         canceled_ = false ;
@@ -96,6 +97,7 @@ public abstract class Action
             logger_.startMessage(MessageType.Debug, logger_id_) ;
             logger_.add("canceling action: ") ;
             addActionToMessage() ;
+            logger_.endMessage();
             done_ = true ;
             canceled_ = true ;
         }
@@ -120,6 +122,7 @@ public abstract class Action
         logger_.startMessage(MessageType.Debug, logger_id_) ;
         logger_.add("completing action: ") ;
         addActionToMessage() ;   
+        logger_.endMessage();
         done_ = true ;
     }
 
@@ -148,6 +151,6 @@ public abstract class Action
             logger_.add("\n") ;
         }
 
-        logger_.add(toString(0)).endMessage();
+        logger_.add(toString(0)) ;
     }    
 }
