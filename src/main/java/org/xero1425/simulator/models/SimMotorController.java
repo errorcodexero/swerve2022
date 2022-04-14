@@ -17,10 +17,16 @@ public class SimMotorController {
     private SimulationModel model_ ;
     private int count_ ;
     private int index_ ;
+    private int ticks_per_rev_ ;
     
     public SimMotorController(SimulationModel model, String name) {
         model_ = model;
         name_ = name ;
+        ticks_per_rev_ = -1 ;
+    }
+
+    public int ticksPerRev() {
+        return ticks_per_rev_ ;
     }
 
     public int getIndex() {
@@ -101,6 +107,7 @@ public class SimMotorController {
             if (handle_ == -1)
             {
                 handle_ = SimDeviceDataJNI.getSimDeviceHandle(CTREMotorController.SimDeviceName + "[" + index_ + "]") ;
+                ticks_per_rev_ = 2048 ;
             }
         }
         else if (t.equals("sparkmax-brushed")) {
@@ -110,6 +117,8 @@ public class SimMotorController {
         else if (t.equals("sparkmax-brushless")) {
             if (handle_ == -1)
                 handle_ = SimDeviceDataJNI.getSimDeviceHandle(SparkMaxMotorController.SimDeviceNameBrushless + "[" + index_ + "]") ;            
+            
+                ticks_per_rev_ = 42 ;
         }        
         else {
             return false ;

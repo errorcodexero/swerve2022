@@ -5,9 +5,9 @@ import frc.robot.SwerveDriveRobotSubsystem;
 import org.xero1425.base.actions.DelayAction;
 import org.xero1425.base.actions.ParallelAction;
 import org.xero1425.base.controllers.TestAutoMode;
-import org.xero1425.base.swervedrive.SwerveAnglePowerAction;
 import org.xero1425.base.swervedrive.SwerveAngleVelocityAction;
 import org.xero1425.base.swervedrive.SwerveDirectionRotateAction;
+import org.xero1425.base.swervedrive.SwerveDrivePowerAction;
 import org.xero1425.base.swervedrive.SwervePathFollowAction;
 import org.xero1425.base.swervedrive.SwerveDriveSubsystem;
 import org.xero1425.base.swervedrive.SwerveSetMotorPowerAction;
@@ -115,17 +115,16 @@ public class SwerveTestAutoMode extends TestAutoMode {
 
             case 11:
                 for (int i = 0; i < 4; i++) {
-                    angles[i] = getDouble("power");
+                    angles[i] = getDouble("angle");
                     speeds[i] = 0.0;
                 }
                 addSubActionPair(swerve, new SwerveAngleVelocityAction(swerve, angles, speeds, false), false);
-
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("duration")));
                 addSubActionPair(swerve, new SwerveStopAction(swerve), true) ;
                 break;
 
             case 12:
-                addSubActionPair(swerve, new SwerveAnglePowerAction(swerve, 0, getDouble("power"), getDouble("duration")), true);
+                addSubActionPair(swerve, new SwerveDrivePowerAction(swerve, 0, getDouble("power"), getDouble("duration")), true);
                 break;
 
             case 13:

@@ -46,7 +46,7 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
     static public final int BL = 2;                                                             // Index of the back left module
     static public final int BR = 3;                                                             // Index of the back right module
 
-    static private Names[] names_ = new Names[4] ;                                              // The names of each module (short name and long name)
+    static private final Names[] names_ = new Names[4] ;                                        // The names of each module (short name and long name)
 
     static private final String AngularSamplesName = "samples:angular";              // The settings file entry for the angular speedometer
 

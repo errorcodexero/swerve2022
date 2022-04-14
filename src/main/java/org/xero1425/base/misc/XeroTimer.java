@@ -11,6 +11,7 @@ public class XeroTimer {
     private boolean running_ ;
     private double duration_ ;
     private double endtime_ ;
+    private double start_ ;
     private String name_ ;
 
     public XeroTimer(XeroRobot robot, String name, double duration) {
@@ -29,6 +30,10 @@ public class XeroTimer {
         return duration_ ;
     }
 
+    public double elapsed() {
+        return robot_.getTime() - start_ ;
+    }
+
     public void start() {
         if (running_) {
             MessageLogger logger = robot_.getMessageLogger() ;
@@ -36,7 +41,8 @@ public class XeroTimer {
         }
 
         running_ = true ;
-        endtime_ = robot_.getTime() + duration_ ;
+        start_ = robot_.getTime() ;
+        endtime_ = start_ + duration_ ;
     }
 
     public boolean isRunning() {

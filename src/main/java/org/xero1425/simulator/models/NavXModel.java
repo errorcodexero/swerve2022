@@ -9,6 +9,9 @@ import org.xero1425.misc.SettingsValue;
 public class NavXModel extends SimulationModel {
     private final static String YawDeviceName = "navX-Sensor[0]" ;
     private final static String YawValueName = "Yaw" ;
+    
+    private int sim_dev_handle_ ;
+    private int sim_dev_yaw_handle_ ;
 
     public NavXModel(SimulationEngine engine, String model, String inst) {
         super(engine, model, inst) ;
@@ -40,6 +43,8 @@ public class NavXModel extends SimulationModel {
         SimDeviceJNI.setSimValueDouble(sim_dev_yaw_handle_, v);
     }
 
-    private int sim_dev_handle_ ;
-    private int sim_dev_yaw_handle_ ;
+    public double getYaw() {
+        return SimDeviceJNI.getSimValueDouble(sim_dev_yaw_handle_) ;
+    }
+
 }

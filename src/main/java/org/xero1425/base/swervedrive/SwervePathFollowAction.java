@@ -13,7 +13,6 @@ public class SwervePathFollowAction extends SwerveDriveAction {
     private XeroPath path_;
     private double[] angles_;
     private double[] speeds_;
-    private double start_dist_ ;
 
     private final int FL = 0 ;
     private final int FR = 1 ;
@@ -34,8 +33,6 @@ public class SwervePathFollowAction extends SwerveDriveAction {
     @Override
     public void start() throws Exception {
         super.start();
-
-        start_dist_ = getSubsystem().getDistance() ;
 
         getSubsystem().startSwervePlot();
 
@@ -89,12 +86,6 @@ public class SwervePathFollowAction extends SwerveDriveAction {
             getSubsystem().endSwervePlot();
             getSubsystem().stop();
             setDone() ;
-
-            MessageLogger logger = getSubsystem().getRobot().getMessageLogger() ;
-            logger.startMessage(MessageType.Debug, getSubsystem().getLoggerID()) ;
-            logger.add("Path Following") ;
-            logger.add("distance", getSubsystem().getDistance() - start_dist_) ;
-            logger.endMessage();
         }
     }
 
