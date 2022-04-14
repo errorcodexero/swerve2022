@@ -198,8 +198,7 @@
                 "maxspeed" : 3.556              // meters per second
             },
             "samples" : {
-                "linear" : 2,
-                "angular" : 2
+                "linear" : 2
             },
             "ticks_per_meter" : 6416.325
         },
@@ -223,7 +222,7 @@
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 11,
+        "which" : 14,
         "0" : {
             "power" : 0.0,
             "duration" : 0.0
@@ -283,7 +282,7 @@
             "duration" : 0.0
         },
         "14" : {
-            "name" : "pathone"
+            "name" : "Test_CurveLeft"
         }
     }
 }

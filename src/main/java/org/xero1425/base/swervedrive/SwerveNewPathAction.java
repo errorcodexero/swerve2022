@@ -27,8 +27,6 @@ public class SwerveNewPathAction extends SwerveDriveAction {
     public void start() throws Exception {
         super.start();
 
-        getSubsystem().startSwervePlot();
-
         path_ = getSubsystem().getRobot().getPathManager().getPath(pathname_);
         index_ = 0 ;
 
@@ -61,16 +59,6 @@ public class SwerveNewPathAction extends SwerveDriveAction {
             }
 
             getSubsystem().setTargets(angles_, speeds_);
-
-            sub.putDashboard("db-trk-t", DisplayType.Always, sub.getRobot().getTime()) ;
-            sub.putDashboard("db-trk-x", DisplayType.Always, pos.getX()) ;
-            sub.putDashboard("db-trk-y", DisplayType.Always, pos.getY()) ;
-            sub.putDashboard("db-trk-a", DisplayType.Always, pos.getRotation().getDegrees()) ;
-
-            sub.putDashboard("db-path-t", DisplayType.Always, sub.getRobot().getTime()) ;
-            sub.putDashboard("db-path-x", DisplayType.Always, seg.getX()) ;
-            sub.putDashboard("db-path-y", DisplayType.Always, seg.getY()) ;
-            sub.putDashboard("db-path-a", DisplayType.Always, seg.getHeading()) ;
         }
 
         index_++ ;
@@ -78,7 +66,6 @@ public class SwerveNewPathAction extends SwerveDriveAction {
         if (index_ == path_.getSize())
         {
             setDone() ;
-            getSubsystem().endSwervePlot();
         }
     }
 

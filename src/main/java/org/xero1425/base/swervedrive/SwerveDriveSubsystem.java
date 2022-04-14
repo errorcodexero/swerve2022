@@ -53,19 +53,6 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
     private SwerveDriveKinematics kinematics_ ;
     private SwerveDriveOdometry odometry_ ;
 
-    private double plot_start_time_ ;
-    private boolean plotting_ ;
-    private int plot_id_ ;
-    private Double [] plot_data_ ;
-    static final String[] plot_columns_ = {             
-        "time", 
-        "fl-spd-target", "fl-spd-actual", "fl-ang-target", "fl-ang-actual",
-        "fr-spd-target", "fr-spd-actual", "fr-ang-target", "fr-ang-actual",
-        "bl-spd-target", "bl-spd-actual", "bl-ang-target", "bl-ang-actual",
-        "br-spd-target", "br-spd-actual", "br-ang-target", "br-ang-actual",                        
-    } ;
-
-
     /// \brief create the serve drive subsystem
     /// \param parent the parent subsystem
     /// \param name the name of the subsystem
@@ -73,11 +60,7 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
     public SwerveDriveSubsystem(Subsystem parent, String name) throws Exception {
         super(parent, name);
 
-        plotting_ = false ;
-        
         String config = "subsystems:" + name  ;
-        plot_id_ = initPlot("swerve") ;
-        plot_data_ = new Double[plot_columns_.length] ;
 
         // Set the module names (short and long)
         names_[FL] = new Names("fl",  "FrontLeft") ;
@@ -126,24 +109,11 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
         Translation2d br = new Translation2d(-width_ / 2.0, -length_ / 2.0) ;
 
         kinematics_ = new SwerveDriveKinematics(fl, fr, bl, br) ;
-
-        resetOdometry(new Pose2d(0, 0, Rotation2d.fromDegrees(0))) ;
-    }
-
-    public void startSwervePlot() {
-        plotting_ = true ;
-        startPlot(plot_id_, plot_columns_) ;
-        plot_start_time_ = getRobot().getTime() ;
-    }
-
-    public void endSwervePlot() {
-        plotting_ = false ;
-        endPlot(plot_id_) ;;
+        odometry_ = new SwerveDriveOdometry(kinematics_, Rotation2d.fromDegrees(gyro().getAngle())) ;
     }
 
     public void resetOdometry(Pose2d pose) {
-        Rotation2d gyroangle = Rotation2d.fromDegrees(getAngle()) ;
-        odometry_ = new SwerveDriveOdometry(kinematics_, gyroangle, pose) ;
+        odometry_.resetPosition(pose, Rotation2d.fromDegrees(getAngle())) ;
     }
 
     public Pose2d getPose() {
@@ -185,36 +155,6 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
     public double getModuleAngle(int module) {
         return getModule(module).getAngle() ;
     }
-
-    // public double getAcceleration() {
-    //     double total = 0.0 ;
-
-    //     for(int i = 0 ; i < getModuleCount() ; i++) {
-    //         total += getModule(i).getAcceleration() ;
-    //     }
-
-    //     return total / getModuleCount() ;
-    // }
-
-    // public double getVelocity() {
-    //     double total = 0.0 ;
-
-    //     for(int i = 0 ; i < getModuleCount() ; i++) {
-    //         total += getModule(i).getSpeed() ;
-    //     }
-
-    //     return total / getModuleCount() ;
-    // }
-
-    // public double getDistance() {
-    //     double total = 0.0 ;
-
-    //     for(int i = 0 ; i < getModuleCount() ; i++) {
-    //         total += getModule(i).getDistance() ;
-    //     }
-
-    //     return total / getModuleCount() ;
-    // }
 
     /// \brief This method is called when the robot enters one of its specifc modes.
     /// The modes are Autonomous, Teleop, Test, or Disabled. It is used to set the
@@ -260,13 +200,11 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
             angular_.update(getRobot().getDeltaTime(), angle);
         }
        
-        if (odometry_ != null) {
-            SwerveModuleState fl = getModule(FL).getModuleState() ;
-            SwerveModuleState fr = getModule(FR).getModuleState() ;
-            SwerveModuleState bl = getModule(BL).getModuleState() ;
-            SwerveModuleState br = getModule(BR).getModuleState() ;
-            odometry_.updateWithTime(getRobot().getTime(), Rotation2d.fromDegrees(getAngle()), fl, fr, bl, br) ;
-        }
+        SwerveModuleState fl = getModule(FL).getModuleState() ;
+        SwerveModuleState fr = getModule(FR).getModuleState() ;
+        SwerveModuleState bl = getModule(BL).getModuleState() ;
+        SwerveModuleState br = getModule(BR).getModuleState() ;
+        odometry_.updateWithTime(getRobot().getTime(), Rotation2d.fromDegrees(getAngle()), fl, fr, bl, br) ;
 
         putDashboard("fl", DisplayType.Always, getModule(FL).status());
         putDashboard("fr", DisplayType.Always, getModule(FR).status());
@@ -288,21 +226,6 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
         logger.add("bl", getModule(BL).status()) ;        
         logger.add("br", getModule(BR).status()) ;
         logger.endMessage();        
-
-        if (plotting_) {
-            int index = 0 ;
-            plot_data_[index++] = getRobot().getTime() - plot_start_time_ ;
-
-            for(int i = 0 ; i < getModuleCount() ; i++) {
-                SwerveModule module = getModule(i) ;
-                plot_data_[index++] = module.getSpeedTarget() ;
-                plot_data_[index++] = module.getSpeed() ;
-                plot_data_[index++] = module.getAngleTarget() ;
-                plot_data_[index++] = module.getAngle() ;
-            }
-
-            addPlotData(plot_id_, plot_data_) ;
-        }
     }
 
     @Override

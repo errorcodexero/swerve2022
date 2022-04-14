@@ -2,10 +2,14 @@ package org.xero1425.base.swervedrive;
 
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
-import org.xero1425.misc.MessageLogger;
-import org.xero1425.misc.MessageType;
 import org.xero1425.misc.XeroPath;
 import org.xero1425.misc.XeroPathSegment;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class SwervePathFollowAction extends SwerveDriveAction {
     private int index_;
@@ -13,11 +17,12 @@ public class SwervePathFollowAction extends SwerveDriveAction {
     private XeroPath path_;
     private double[] angles_;
     private double[] speeds_;
+    private Number[] path_data_ ;
 
-    private final int FL = 0 ;
-    private final int FR = 1 ;
-    private final int BL = 2 ;
-    private final int BR = 3 ;
+    private NetworkTableInstance inst_ ;
+    private NetworkTable table_ ;
+
+    private final static String PathKey = "XeroPath" ;
 
     public SwervePathFollowAction(SwerveDriveSubsystem drive, String path) {
 
@@ -28,26 +33,43 @@ public class SwervePathFollowAction extends SwerveDriveAction {
 
         angles_ = new double[4] ;
         speeds_ = new double[4] ;
+
+        path_data_ = new Number[3] ;
     }
 
     @Override
     public void start() throws Exception {
         super.start();
 
-        getSubsystem().startSwervePlot();
-
         index_ = 0;
         path_ = getSubsystem().getRobot().getPathManager().getPath(pathname_);
+
+        XeroPathSegment fl = path_.getSegment(SwerveDriveSubsystem.FL, 0) ;
+        XeroPathSegment fr = path_.getSegment(SwerveDriveSubsystem.FR, 0) ;
+        XeroPathSegment bl = path_.getSegment(SwerveDriveSubsystem.BL, 0) ;
+        XeroPathSegment br = path_.getSegment(SwerveDriveSubsystem.BR, 0) ;
+
+        double x = (fl.getX() + fr.getX() + bl.getX() + br.getX()) / 4.0 ;
+        double y = (fl.getY() + fr.getY() + bl.getY() + br.getY()) / 4.0 ;
+        double heading = fl.getHeading() ;
+
+        Pose2d pose = new Pose2d(x, y, Rotation2d.fromDegrees(heading)) ;
+        getSubsystem().resetOdometry(pose);
+
+        inst_ = NetworkTableInstance.getDefault() ;
+        table_ = inst_.getTable(PathKey) ;
     }
 
     @Override
     public void run() throws BadMotorRequestException, MotorRequestFailedException {
         if (index_ < path_.getSize())
         {
-            XeroPathSegment fl = path_.getSegment(FL, index_) ;
-            XeroPathSegment fr = path_.getSegment(FR, index_) ;
-            XeroPathSegment bl = path_.getSegment(BL, index_) ;
-            XeroPathSegment br = path_.getSegment(BR, index_) ;
+            NetworkTableEntry entry ;
+
+            XeroPathSegment fl = path_.getSegment(SwerveDriveSubsystem.FL, index_) ;
+            XeroPathSegment fr = path_.getSegment(SwerveDriveSubsystem.FR, index_) ;
+            XeroPathSegment bl = path_.getSegment(SwerveDriveSubsystem.BL, index_) ;
+            XeroPathSegment br = path_.getSegment(SwerveDriveSubsystem.BR, index_) ;
 
             angles_[SwerveDriveSubsystem.FL] = fl.getHeading() ;
             angles_[SwerveDriveSubsystem.FR] = fr.getHeading() ;
@@ -59,31 +81,25 @@ public class SwervePathFollowAction extends SwerveDriveAction {
             speeds_[SwerveDriveSubsystem.BL] = bl.getVelocity() ;
             speeds_[SwerveDriveSubsystem.BR] = br.getVelocity() ;
 
-            MessageLogger logger = getSubsystem().getRobot().getMessageLogger() ;
-            logger.startMessage(MessageType.Debug, getSubsystem().getLoggerID()) ;
-            logger.add("Assigned Data") ;
-            logger.add("fl").add(fl.getHeading()) ;
-            logger.add("fr").add(fr.getHeading()) ;
-            logger.add("bl").add(bl.getHeading()) ;
-            logger.add("br").add(br.getHeading()) ;
-            logger.endMessage();
-
             getSubsystem().setTargets(angles_, speeds_);
-
-            logger.startMessage(MessageType.Debug, getSubsystem().getLoggerID()) ;
-            logger.add("Assigned Data") ;
-            logger.add("fl").add(getSubsystem().getModule(SwerveDriveSubsystem.FL).getAngle()) ;
-            logger.add("fr").add(getSubsystem().getModule(SwerveDriveSubsystem.FR).getAngle()) ;
-            logger.add("bl").add(getSubsystem().getModule(SwerveDriveSubsystem.BL).getAngle()) ;
-            logger.add("br").add(getSubsystem().getModule(SwerveDriveSubsystem.BR).getAngle()) ;
-            logger.endMessage();
-
             index_++ ;
+
+            entry = table_.getEntry("path") ;
+            path_data_[0] = (fl.getX() + fr.getX() + bl.getX() + br.getX()) / 4.0 ;
+            path_data_[1] = (fl.getY() + fr.getY() + bl.getY() + br.getY()) / 4.0 ;
+            path_data_[2] = fl.getHeading() ;
+            entry.setNumberArray(path_data_) ;
+
+            Pose2d pose = getSubsystem().getPose() ;
+            entry = table_.getEntry("robot") ;
+            path_data_[0] = pose.getX() ;
+            path_data_[1] = pose.getY() ;
+            path_data_[2] = pose.getRotation().getDegrees() ;
+            entry.setNumberArray(path_data_) ;
         }
 
         if (index_ == path_.getSize())
         {
-            getSubsystem().endSwervePlot();
             getSubsystem().stop();
             setDone() ;
         }
