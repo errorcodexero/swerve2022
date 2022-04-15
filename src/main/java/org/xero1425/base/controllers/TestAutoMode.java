@@ -96,6 +96,36 @@ public class TestAutoMode extends AutoMode {
         return ret ;
     }
 
+    /// \brief Returns the double value of a given parameter from the settings file test mode settings
+    /// \returns the name value from the settings file    
+    protected int getInteger(String name) throws Exception {
+        if (!parameters_.containsKey(which_)) {
+            throw new Exception("settings file does not contain test parameters for test number " + which_) ;
+        }
+
+        Map<String, SettingsValue> params = parameters_.get(which_) ;
+        if (!params.containsKey(name)) {
+            throw new Exception("settings file contains parameters for test " + which_ + ", but not the parameter '" + name + "'") ;
+        }
+
+        int ret = -1 ;
+        SettingsValue v = params.get(name) ;
+        if (v.isInteger()) {
+            ret = v.getInteger() ;
+        }
+        else if (v.isDouble()) {
+            throw new Exception("the parameter '" + name + "' for test " + which_ + " is a double and not a double") ;
+        }
+        else if (v.isBoolean()) {
+            throw new Exception("the parameter '" + name + "' for test " + which_ + " is a boolean and not a double") ;
+        }
+        else if (v.isString()) {
+            throw new Exception("the parameter '" + name + "' for test " + which_ + " is a string and not a double") ;            
+        }
+
+        return ret ;
+    }
+
     protected String getString(String name) throws Exception {
         if (!parameters_.containsKey(which_)) {
             throw new Exception("settings file does not contain test parameters for test number " + which_) ;

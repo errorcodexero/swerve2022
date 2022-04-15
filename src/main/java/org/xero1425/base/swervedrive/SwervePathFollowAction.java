@@ -81,6 +81,8 @@ public class SwervePathFollowAction extends SwerveDriveAction {
             speeds_[SwerveDriveSubsystem.BL] = bl.getVelocity() ;
             speeds_[SwerveDriveSubsystem.BR] = br.getVelocity() ;
 
+            System.out.println("path " + speeds_[0] + " " + speeds_[1] + " " + speeds_[2] + " " + speeds_[3]);
+
             getSubsystem().setTargets(angles_, speeds_);
             index_++ ;
 

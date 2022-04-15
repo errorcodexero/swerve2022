@@ -1,7 +1,6 @@
 package org.xero1425.base.swervedrive;
 
 import org.xero1425.base.DriveBaseSubsystem;
-import org.xero1425.base.Subsystem.DisplayType;
 import org.xero1425.misc.XeroPath;
 import org.xero1425.misc.XeroPathSegment;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -38,7 +37,6 @@ public class SwerveNewPathAction extends SwerveDriveAction {
     public void run() {
         if (index_ < path_.getSize())
         {
-            var sub = getSubsystem() ;
             XeroPathSegment seg = path_.getSegment(MainRobot, index_) ;
 
             Pose2d pos = getSubsystem().getPose() ;

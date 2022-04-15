@@ -14,21 +14,21 @@
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 140,
+                    "maxacceleration": 3.556,
                     "maxcentripetal": 10000,
-                    "maxjerk": 1400,
-                    "maxvelocity": 140,
+                    "maxjerk": 35.559999999999995,
+                    "maxvelocity": 3.556,
                     "name": "Straight",
                     "points": [
                         {
                             "heading": 0,
                             "x": 0,
-                            "y": 180
+                            "y": 4.572
                         },
                         {
                             "heading": 0,
-                            "x": 120,
-                            "y": 180
+                            "x": 3.048,
+                            "y": 4.572
                         }
                     ],
                     "startangle": 0,
@@ -45,21 +45,21 @@
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 140,
+                    "maxacceleration": 3.556,
                     "maxcentripetal": 10000,
-                    "maxjerk": 1400,
-                    "maxvelocity": 140,
+                    "maxjerk": 35.559999999999995,
+                    "maxvelocity": 3.556,
                     "name": "CurveRight",
                     "points": [
                         {
                             "heading": 0,
                             "x": 0,
-                            "y": 180
+                            "y": 4.572
                         },
                         {
                             "heading": -90,
-                            "x": 120,
-                            "y": 60
+                            "x": 3.048,
+                            "y": 1.524
                         }
                     ],
                     "startangle": 0,
@@ -76,36 +76,36 @@
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 60,
+                    "maxacceleration": 1.524,
                     "maxcentripetal": 10000,
-                    "maxjerk": 1400,
-                    "maxvelocity": 60,
+                    "maxjerk": 35.559999999999995,
+                    "maxvelocity": 1.524,
                     "name": "ThereBack",
                     "points": [
                         {
                             "heading": 0,
                             "x": 0,
-                            "y": 180
+                            "y": 4.572
                         },
                         {
                             "heading": 0,
-                            "x": 151.82554344051675,
-                            "y": 246.63212723105767
+                            "x": 3.8563688033891252,
+                            "y": 6.264456031668865
                         },
                         {
                             "heading": -90,
-                            "x": 227.5988054726023,
-                            "y": 196.444641989027
+                            "x": 5.7810096590040985,
+                            "y": 4.9896939065212855
                         },
                         {
                             "heading": -180,
-                            "x": 153.7936801166748,
-                            "y": 136.41647336620593
+                            "x": 3.9063594749635397,
+                            "y": 3.4649784235016305
                         },
                         {
                             "heading": -180,
                             "x": 0,
-                            "y": 180
+                            "y": 4.572
                         }
                     ],
                     "startangle": 0,
@@ -122,21 +122,21 @@
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 140,
+                    "maxacceleration": 3.556,
                     "maxcentripetal": 100000,
-                    "maxjerk": 1400,
-                    "maxvelocity": 140,
+                    "maxjerk": 35.559999999999995,
+                    "maxvelocity": 3.556,
                     "name": "CurveLeft",
                     "points": [
                         {
                             "heading": 0,
                             "x": 0,
-                            "y": 180
+                            "y": 4.572
                         },
                         {
                             "heading": 90,
-                            "x": 120,
-                            "y": 300
+                            "x": 3.048,
+                            "y": 7.62
                         }
                     ],
                     "startangle": 0,
@@ -146,5 +146,5 @@
             ]
         }
     ],
-    "outdir": "C:/cygwin64/home/bwg/robottools/swerve2021/src/main/deploy/paths"
+    "outdir": "C:/cygwin64/home/bwg/robottools/swerve2022/src/main/deploy/paths"
 }

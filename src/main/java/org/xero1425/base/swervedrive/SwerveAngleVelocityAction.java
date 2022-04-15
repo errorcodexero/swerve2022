@@ -33,7 +33,7 @@ public class SwerveAngleVelocityAction extends SwerveDriveAction {
         speeds_ = speeds.clone() ;
         hold_ = hold ;
 
-        plot_timer_ = new XeroTimer(subsys.getRobot(), "SwerveAngleVelocityAction-plot-timer", 8) ;
+        plot_timer_ = new XeroTimer(subsys.getRobot(), "SwerveAngleVelocityAction-plot-timer", 4) ;
         plot_data_ = new Double[columns_.length] ;
         plotid_ = subsys.initPlot("SwerveAngleVelocityAction") ;
     }
