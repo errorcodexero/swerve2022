@@ -1,0 +1,15 @@
+{
+    "_version": "1",
+    "drivetype": 1,
+    "efflength": 0.014839,
+    "effwidth": 0.014839,
+    "maxacceleration": 3.6,
+    "maxcentripetal": 100000,
+    "maxjerk": 36,
+    "maxvelocity": 3.6,
+    "name": "Swerve",
+    "robotlength": 0.017419,
+    "robotwidth": 0.017419,
+    "timestep": 0.02,
+    "weight": 120
+}
