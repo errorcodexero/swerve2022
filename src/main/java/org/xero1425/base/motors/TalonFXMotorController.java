@@ -117,29 +117,37 @@ public class TalonFXMotorController extends MotorController
     /// \param f the feed forward parameter for the PID controller
     /// \param outmax the maximum output parameter for the PID controller 
     public void setPID(PidType type, double p, double i, double d, double f, double outmax) throws BadMotorRequestException, MotorRequestFailedException {
-        ErrorCode code ;
 
-        code = controller_.config_kP(0, p, ControllerTimeout) ;
-        if (code != ErrorCode.OK)
-            throw new MotorRequestFailedException(this, "CTRE config_kP() call failed during setPID() call", code) ; 
+        if (sim_ != null) {
+            //
+            // TODO: simulate the PID loop in the simulation model
+            //
+        }
+        else {
+            ErrorCode code ;
 
-        code = controller_.config_kI(0, i, ControllerTimeout) ;
-        if (code != ErrorCode.OK)
-            throw new MotorRequestFailedException(this, "CTRE config_kI() call failed during setPID() call", code) ; 
+            code = controller_.config_kP(0, p, ControllerTimeout) ;
+            if (code != ErrorCode.OK)
+                throw new MotorRequestFailedException(this, "CTRE config_kP() call failed during setPID() call", code) ; 
 
-        code = controller_.config_kD(0, d, ControllerTimeout) ;
-        if (code != ErrorCode.OK)
-            throw new MotorRequestFailedException(this, "CTRE config_kD() call failed during setPID() call", code) ; 
+            code = controller_.config_kI(0, i, ControllerTimeout) ;
+            if (code != ErrorCode.OK)
+                throw new MotorRequestFailedException(this, "CTRE config_kI() call failed during setPID() call", code) ; 
 
-        code = controller_.config_kF(0, f, ControllerTimeout) ;
-        if (code != ErrorCode.OK)
-            throw new MotorRequestFailedException(this, "CTRE config_kF() call failed during setPID() call", code) ;  
+            code = controller_.config_kD(0, d, ControllerTimeout) ;
+            if (code != ErrorCode.OK)
+                throw new MotorRequestFailedException(this, "CTRE config_kD() call failed during setPID() call", code) ; 
 
-        code = controller_.configClosedLoopPeakOutput(0, outmax, ControllerTimeout) ;
-        if (code != ErrorCode.OK)
-            throw new MotorRequestFailedException(this, "CTRE config_kF() call failed during setPID() call", code) ; 
+            code = controller_.config_kF(0, f, ControllerTimeout) ;
+            if (code != ErrorCode.OK)
+                throw new MotorRequestFailedException(this, "CTRE config_kF() call failed during setPID() call", code) ;  
 
-        type_ = type ;
+            code = controller_.configClosedLoopPeakOutput(0, outmax, ControllerTimeout) ;
+            if (code != ErrorCode.OK)
+                throw new MotorRequestFailedException(this, "CTRE config_kF() call failed during setPID() call", code) ; 
+
+            type_ = type ;
+        }
     }
 
     /// \brief Stop the PID loop in the motor controller    
@@ -158,9 +166,16 @@ public class TalonFXMotorController extends MotorController
     /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
     /// \param factor the factor to convert encoder units to real world units     
     public void setVelocityConversion(double factor) throws BadMotorRequestException, MotorRequestFailedException {
-        ErrorCode code = controller_.configSelectedFeedbackCoefficient(factor, 0, ControllerTimeout) ;
-        if (code != ErrorCode.OK)
-            throw new MotorRequestFailedException(this, "CTRE configSelectedFeedbackCoefficient() call failed during setPositionConversion() calls", code) ; 
+        if (sim_ != null) {
+            //
+            // TODO: simulate the PID loop in the simulation model
+            //
+        }
+        else {
+            ErrorCode code = controller_.configSelectedFeedbackCoefficient(factor, 0, ControllerTimeout) ;
+            if (code != ErrorCode.OK)
+                throw new MotorRequestFailedException(this, "CTRE configSelectedFeedbackCoefficient() call failed during setPositionConversion() calls", code) ; 
+        }
     }
 
     /// \brief Set the motor power

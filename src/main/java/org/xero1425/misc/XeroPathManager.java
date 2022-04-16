@@ -217,7 +217,7 @@ public class XeroPathManager
 
             for(int i = 0 ; i < iters.size() ; i++)
             {
-                if (recs[i].size() != 8)
+                if (recs[i].size() != 10)
                 {
                     logger_.startMessage(MessageType.Error) ;
                     logger_.add("cannot load path '").add(name) ;
@@ -293,7 +293,7 @@ public class XeroPathManager
     }
 
     private XeroPathSegment parseCSVRecord(CSVRecord r) throws NumberFormatException {
-        double time, x, y, pos, vel, accel, jerk, heading ;
+        double time, x, y, pos, vel, accel, jerk, heading, curv, rot ;
 
         time = Double.parseDouble(r.get(0)) ;
         x = Double.parseDouble(r.get(1)) ;
@@ -303,8 +303,9 @@ public class XeroPathManager
         accel = Double.parseDouble(r.get(5)) ;
         jerk = Double.parseDouble(r.get(6)) ;
         heading = Double.parseDouble(r.get(7)) ;
+        curv = Double.parseDouble(r.get(8)) ;
+        rot = Double.parseDouble(r.get(9)) ;
 
-        return new XeroPathSegment(time, x, y, pos, vel, accel, jerk, heading) ;
+        return new XeroPathSegment(time, x, y, pos, vel, accel, jerk, heading, curv, rot) ;
     }
-
 }

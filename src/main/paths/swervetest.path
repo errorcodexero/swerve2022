@@ -84,8 +84,8 @@
                     "points": [
                         {
                             "heading": 0,
-                            "x": 0,
-                            "y": 4.572
+                            "x": -0.06395605102368984,
+                            "y": 4.578635746596634
                         },
                         {
                             "heading": 0,
@@ -142,9 +142,86 @@
                     "startangle": 0,
                     "startangledelay": 0,
                     "startvelocity": 0
+                },
+                {
+                    "constraints": [
+                    ],
+                    "endangle": 180,
+                    "endangledelay": 0,
+                    "endvelocity": 0,
+                    "flags": [
+                    ],
+                    "markers": [
+                    ],
+                    "maxacceleration": 3.5,
+                    "maxcentripetal": 100000,
+                    "maxjerk": 35,
+                    "maxvelocity": 3.5,
+                    "name": "StraightRotate",
+                    "points": [
+                        {
+                            "heading": 0,
+                            "x": 0,
+                            "y": 4.572
+                        },
+                        {
+                            "heading": 0,
+                            "x": 3.048,
+                            "y": 4.572
+                        }
+                    ],
+                    "startangle": 0,
+                    "startangledelay": 0,
+                    "startvelocity": 0
+                },
+                {
+                    "constraints": [
+                    ],
+                    "endangle": 180,
+                    "endangledelay": 0,
+                    "endvelocity": 0,
+                    "flags": [
+                    ],
+                    "markers": [
+                    ],
+                    "maxacceleration": 3.5,
+                    "maxcentripetal": 100000,
+                    "maxjerk": 35,
+                    "maxvelocity": 3.5,
+                    "name": "ThereBackRotate",
+                    "points": [
+                        {
+                            "heading": 0,
+                            "x": 0,
+                            "y": 4.572
+                        },
+                        {
+                            "heading": 0,
+                            "x": 3.85637,
+                            "y": 6.26446
+                        },
+                        {
+                            "heading": -90,
+                            "x": 5.78101,
+                            "y": 4.98969
+                        },
+                        {
+                            "heading": -180,
+                            "x": 3.90636,
+                            "y": 3.46498
+                        },
+                        {
+                            "heading": -180,
+                            "x": 0,
+                            "y": 4.572
+                        }
+                    ],
+                    "startangle": 0,
+                    "startangledelay": 0,
+                    "startvelocity": 0
                 }
             ]
         }
     ],
-    "outdir": "C:/cygwin64/home/bwg/robottools/swerve2022/src/main/deploy/paths"
+    "outdir": "D:/cygwin64/home/bwg/robottools/swerve2022/src/main/deploy/paths"
 }

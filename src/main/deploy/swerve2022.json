@@ -195,8 +195,12 @@
             "physical" : {
                 "width" : 0.5842,               // meters
                 "length" : 0.5842,              // meters
-                "maxspeed" : 3.556              // meters per second
+                "maxspeed" : 3.556,             // meters per second
+                "maxaccel" : 3.556,             // meters per second per second
+                "max-angular-speed" : 6.28,     // 1 rotation per second
+                "max-angular-accel" : 3.14      // 0.5 rotations per second per second acceleration
             },
+            "pid-in-controller" : true,         // If true, the speed PIDs for the modules runs in the motor controller
             "samples" : {
                 "linear" : 2
             },

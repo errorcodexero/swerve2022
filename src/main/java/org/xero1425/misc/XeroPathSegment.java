@@ -15,6 +15,8 @@ public class XeroPathSegment
     private double accel_ ;
     private double jerk_ ;
     private double heading_ ;
+    private double curvature_ ;
+    private double rotation_ ;
 
     /// \brief create a new path segment
     /// \param time the time since the start of this path for this segment
@@ -25,7 +27,7 @@ public class XeroPathSegment
     /// \param accel the acceleration at this point of the path
     /// \param jerk the jerk at this point of the path
     /// \param heading the heading of the robot at this point of the path
-    public XeroPathSegment(double time, double x, double y, double dist, double vel, double accel, double jerk, double heading) {
+    public XeroPathSegment(double time, double x, double y, double dist, double vel, double accel, double jerk, double heading, double curv, double rot) {
         time_ = time ;
         x_ = x ;
         y_ = y ;
@@ -34,6 +36,8 @@ public class XeroPathSegment
         accel_ = accel ;
         jerk_ = jerk ;
         heading_ = heading ;
+        curvature_ = curv ;
+        rotation_ = rot ;
     }
 
     /// \brief create a new path segment
@@ -99,4 +103,11 @@ public class XeroPathSegment
         return heading_ ;
     }
 
+    public double getCurvature() {
+        return curvature_ ;
+    }
+
+    public double getRotation() {
+        return rotation_ ;
+    }
 }
