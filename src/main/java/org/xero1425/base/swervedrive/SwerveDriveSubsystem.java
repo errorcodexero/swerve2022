@@ -7,8 +7,6 @@ import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorController;
 import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.misc.ISettingsSupplier;
-import org.xero1425.misc.MessageLogger;
-import org.xero1425.misc.MessageType;
 import org.xero1425.misc.Speedometer;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -235,27 +233,7 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
         SwerveModuleState br = getModule(BR).getModuleState() ;
         odometry_.updateWithTime(getRobot().getTime(), Rotation2d.fromDegrees(getAngle()), fl, fr, bl, br) ;
 
-        putDashboard("fl", DisplayType.Always, getModule(FL).status());
-        putDashboard("fr", DisplayType.Always, getModule(FR).status());
-        putDashboard("bl", DisplayType.Always, getModule(BL).status());
-        putDashboard("br", DisplayType.Always, getModule(BR).status());
 
-        putDashboard("flticks", DisplayType.Verbose, getModule(FL).getTicks()) ;
-        putDashboard("frticks", DisplayType.Verbose, getModule(FR).getTicks()) ;
-        putDashboard("blticks", DisplayType.Verbose, getModule(BL).getTicks()) ;
-        putDashboard("brticks", DisplayType.Verbose, getModule(BR).getTicks()) ;
-
-        putDashboard("dbangle", DisplayType.Always, getAngle()) ;
-
-        MessageLogger logger = getRobot().getMessageLogger() ;
-        logger.startMessage(MessageType.Debug, getLoggerID()) ;
-        logger.add("angle", getAngle()) ;
-        logger.add("fl", getModule(FL).status()) ;
-        logger.add("fr", getModule(FR).status()) ;
-        logger.add("bl", getModule(BL).status()) ;        
-        logger.add("br", getModule(BR).status()) ;
-        logger.endMessage();       
-        
         int index = 0 ;
         plotdata_[index++] = getRobot().getTime() - plotstart_ ;
         plotdata_[index++] = getModule(FL).getAngleTarget() ;

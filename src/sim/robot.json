@@ -37,9 +37,10 @@
 
                 "width" : 23.0,
                 "length" : 23.0,
-                "meters-per-second-per-power" : 3.048,
+                "meters-per-second-per-power" : 3.999029563,
                 "degrees-per-second-per-power" : 360.0,
                 "wheel-diameter" : 0.1016,
+                "ticks-per-meter" : 53274.802,
 
                 "rmax" : 180.0,
                 "rmin" : -180.0,
@@ -52,14 +53,12 @@
                 "fl-steer:degrees_per_second_per_volt" : 284,
                 "fl-steer:encoder" : 0,
                 "fl-steer:ec" : 2.29980,
-
-
                 "fl-drive:motor:index" : 1,
                 "fl-drive:motor:type" : "talonfx",
-                "fl-drive:kv" : 0.0083333333333333,
-                "fl-drive:ticks_per_inch" : 0.000613592,
+                "fl-drive:kv" : 0.250932718,
                 "fl-drive:angle" : 0.0,
                 "fl-drive:maxchange" : 0.24,
+
 
                 "fr-steer:motor:index" : 4,
                 "fr-steer:motor:type" : "sparkmax-brushless",
@@ -68,8 +67,7 @@
                 "fr-steer:ec" :  0.819092,
                 "fr-drive:motor:index" : 3,
                 "fr-drive:motor:type" : "talonfx",
-                "fr-drive:kv" : 0.0083333333333333,
-                "fr-drive:ticks_per_inch" : 0.000613592,
+                "fr-drive:kv" : 0.250932718,
                 "fr-drive:angle" : 0.0,
                 "fr-drive:maxchange" : 0.24,
 
@@ -80,8 +78,7 @@
                 "bl-steer:ec" :  3.29711,
                 "bl-drive:motor:index" : 5,
                 "bl-drive:motor:type" : "talonfx",
-                "bl-drive:kv" : 0.0083333333333333,
-                "bl-drive:ticks_per_inch" : 0.000613592,
+                "bl-drive:kv" : 0.250932718,
                 "bl-drive:angle" : 0.0,                
                 "bl-drive:maxchange" : 0.24,                
 
@@ -92,8 +89,7 @@
                 "br-steer:ec" : 0.4870605,
                 "br-drive:motor:index" : 7,
                 "br-drive:motor:type" : "talonfx",
-                "br-drive:kv" : 0.0083333333333333,
-                "br-drive:ticks_per_inch" : 0.000613592,
+                "br-drive:kv" : 0.250932718,
                 "br-drive:angle" : 0.0,
                 "br-drive:maxchange" : 0.24
             }

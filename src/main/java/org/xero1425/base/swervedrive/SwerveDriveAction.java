@@ -2,6 +2,8 @@ package org.xero1425.base.swervedrive;
 
 import org.xero1425.base.actions.Action;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 
 public abstract class SwerveDriveAction extends Action {
@@ -26,6 +28,14 @@ public abstract class SwerveDriveAction extends Action {
     /// returns the tank drive subsystem
     public SwerveDriveSubsystem getSubsystem() {
         return swerverive_ ;
+    }
+
+    protected Pose2d combinePose(Pose2d fl, Pose2d fr, Pose2d bl, Pose2d br) {
+        double x = (fl.getX() + fr.getX() + bl.getX() + br.getX()) / 4.0 ;
+        double y = (fl.getY() + fr.getY() + bl.getY() + br.getY()) / 4.0 ;
+        double h = (fl.getRotation().getDegrees() + fr.getRotation().getDegrees()  + bl.getRotation().getDegrees()  + br.getRotation().getDegrees()) / 4.0 ;
+
+        return new Pose2d(x, y, Rotation2d.fromDegrees(h)) ;
     }
 
     protected Translation2d rotateVector(Translation2d vec, double angle) {
@@ -64,4 +74,20 @@ public abstract class SwerveDriveAction extends Action {
     protected Translation2d addVectors(Translation2d v1, Translation2d v2) {
         return new Translation2d(v1.getX() + v2.getX(), v1.getY() + v2.getY()) ;
     }    
+
+    protected void outputPath(Pose2d path, double rot) {
+        Pose2d pose = getSubsystem().getPose() ;
+        System.out.print("spath " + getSubsystem().getRobot().getTime()) ;
+        System.out.print(" " + pose.getX() + " " + pose.getY() + " " + pose.getRotation().getDegrees()) ;
+        System.out.print(" " + path.getX() + " " + path.getY() + " " + rot) ;
+        System.out.print(" spd " + getSubsystem().getModule(SwerveDriveSubsystem.FL).getSpeedTarget()) ;
+        System.out.print(" " + getSubsystem().getModule(SwerveDriveSubsystem.FR).getSpeedTarget()) ;
+        System.out.print(" " + getSubsystem().getModule(SwerveDriveSubsystem.BL).getSpeedTarget()) ;
+        System.out.print(" " + getSubsystem().getModule(SwerveDriveSubsystem.BR).getSpeedTarget()) ;
+        System.out.print(" power " + getSubsystem().getModule(SwerveDriveSubsystem.FL).drivePower()) ;
+        System.out.print(" " + getSubsystem().getModule(SwerveDriveSubsystem.FR).drivePower()) ;
+        System.out.print(" " + getSubsystem().getModule(SwerveDriveSubsystem.BL).drivePower()) ;
+        System.out.print(" " + getSubsystem().getModule(SwerveDriveSubsystem.BR).drivePower()) ;
+        System.out.println() ;
+    }
 }

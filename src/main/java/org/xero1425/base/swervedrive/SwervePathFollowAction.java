@@ -67,7 +67,7 @@ public class SwervePathFollowAction extends SwerveDriveAction {
             speeds_[SwerveDriveSubsystem.BL] = bl.getVelocity() ;
             speeds_[SwerveDriveSubsystem.BR] = br.getVelocity() ;
 
-            System.out.println("path " + speeds_[0] + " " + speeds_[1] + " " + speeds_[2] + " " + speeds_[3]);
+            outputPath(getPoseFromPath(index_), fl.getRotation()) ;
 
             getSubsystem().setTargets(angles_, speeds_);
             index_++ ;
@@ -91,4 +91,17 @@ public class SwervePathFollowAction extends SwerveDriveAction {
         String ret = prefix(indent) + "SwerveDriveFollowPathAction-" + pathname_ ;
         return ret ;
     }
+
+    private Pose2d getPoseFromPath(int index) {
+        XeroPathSegment fl = path_.getSegment(SwerveDriveSubsystem.FL, index) ;
+        XeroPathSegment fr = path_.getSegment(SwerveDriveSubsystem.FR, index) ;
+        XeroPathSegment bl = path_.getSegment(SwerveDriveSubsystem.BL, index) ;
+        XeroPathSegment br = path_.getSegment(SwerveDriveSubsystem.BR, index) ;
+
+        double x = (fl.getX() + fr.getX() + bl.getX() + br.getX()) / 4.0 ;
+        double y = (fl.getY() + fr.getY() + bl.getY() + br.getY()) / 4.0 ;
+        double heading = fl.getHeading() ;
+
+        return new Pose2d(x, y, Rotation2d.fromDegrees(heading)) ;
+    }    
 }

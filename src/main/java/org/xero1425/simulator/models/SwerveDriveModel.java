@@ -36,6 +36,7 @@ public class SwerveDriveModel extends SimulationModel {
 
     private double width_ ;
     private double length_ ;
+    private double ticks_per_meter_ ;
 
     private SwerveDriveKinematics kinematics_ ;
     private SwerveDriveOdometry odometry_ ;
@@ -58,6 +59,7 @@ public class SwerveDriveModel extends SimulationModel {
             meters_per_sec_per_power_ = getProperty("meters-per-second-per-power").getDouble() ;
             degs_per_sec_per_power_ = getProperty("degrees-per-second-per-power").getDouble() ;
             wheel_diameter_ = getProperty("wheel-diameter").getDouble() ;
+            ticks_per_meter_ = getProperty("ticks-per-meter").getDouble() ;
         }
         catch(Exception ex) {
             return false ;
@@ -139,7 +141,7 @@ public class SwerveDriveModel extends SimulationModel {
         motor = new SimMotorController(this, "fl-drive");
         if (!motor.createMotor())
             return false;
-        drive_[FL] = new WheelSubModel(motor, wheel_diameter_, meters_per_sec_per_power_) ;
+        drive_[FL] = new WheelSubModel(motor, ticks_per_meter_, meters_per_sec_per_power_) ;
 
         try {
             encoder = getIntProperty("fr-steer:encoder");
@@ -156,7 +158,7 @@ public class SwerveDriveModel extends SimulationModel {
         motor = new SimMotorController(this, "fr-drive");
         if (!motor.createMotor())
             return false;
-        drive_[FR] = new WheelSubModel(motor, wheel_diameter_, meters_per_sec_per_power_) ;
+        drive_[FR] = new WheelSubModel(motor, ticks_per_meter_, meters_per_sec_per_power_) ;
 
         try {
             encoder = getIntProperty("bl-steer:encoder");
@@ -173,7 +175,7 @@ public class SwerveDriveModel extends SimulationModel {
         motor = new SimMotorController(this, "bl-drive");
         if (!motor.createMotor())
             return false;
-        drive_[BL] = new WheelSubModel(motor, wheel_diameter_, meters_per_sec_per_power_) ;
+        drive_[BL] = new WheelSubModel(motor, ticks_per_meter_, meters_per_sec_per_power_) ;
 
         try {
             encoder = getIntProperty("br-steer:encoder");
@@ -190,7 +192,7 @@ public class SwerveDriveModel extends SimulationModel {
         motor = new SimMotorController(this, "br-drive");
         if (!motor.createMotor())
             return false;
-        drive_[BR] = new WheelSubModel(motor, wheel_diameter_, meters_per_sec_per_power_) ;
+        drive_[BR] = new WheelSubModel(motor, ticks_per_meter_, meters_per_sec_per_power_) ;
 
         //
         // Attach to the navx model to update the navx angle settings as the robot turns

@@ -92,6 +92,8 @@ public class SwerveModule {
             logger.add("pidout", out) ;
             logger.add("]") ;
             steer_.set(out) ;
+
+            steer_power_ = out ;
         }
 
         if (has_drive_target_)
@@ -104,6 +106,8 @@ public class SwerveModule {
             logger.add("pidout", out) ;
             logger.add("]") ;
             drive_.set(out) ;
+
+            drive_power_ = out ;
         }
         logger.endMessage();
     }
