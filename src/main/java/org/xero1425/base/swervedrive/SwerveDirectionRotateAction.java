@@ -7,7 +7,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 public class SwerveDirectionRotateAction extends SwerveDriveAction {
     private Translation2d dir_ ;
     private double rot_ ;
-    private double circum_ ;
     private double [] angles_ ;
     private double [] speeds_ ;
     private boolean dirty_ ;
@@ -49,12 +48,6 @@ public class SwerveDirectionRotateAction extends SwerveDriveAction {
             speeds_[i] = 0.0 ;
         }
 
-        //
-        // We approximate the circumference of the robot by averaging the length and width and applying
-        // the CIRCUM = 2 * PI * R.  Calculating the circumference of an ellipse is more computational intensive
-        // and really does not get us that much.
-        //
-        circum_ = (subsys.getLength() + subsys.getWidth()) * Math.PI / 2.0 ;
     }
 
     public void updateTargets(double dirx, double diry, double rot) {
@@ -125,10 +118,6 @@ public class SwerveDirectionRotateAction extends SwerveDriveAction {
         return ret ;
     }
 
-    private Translation2d rotateVector(Translation2d vec, double angle) {
-        double rads = angle / 180.0 * Math.PI ;
-        return new Translation2d(vec.getX() * Math.cos(rads) - vec.getY() * Math.sin(rads), vec.getY() * Math.cos(rads) + vec.getX() * Math.sin(rads)) ;
-    }
 
     private void calcModuleTrajectories() {       
         MessageLogger logger  = getSubsystem().getRobot().getMessageLogger() ;
@@ -169,35 +158,4 @@ public class SwerveDirectionRotateAction extends SwerveDriveAction {
         }
     }
 
-    private Translation2d createRotVector(int which, double rot) {
-        //
-        // The rot value is in degress per second, we need to transform this to a
-        // linear speed for the wheel
-        //
-        double linear = rot / 360.0 * circum_ / 2 ;
-        double angle = 0.0 ;
-        double phi = getSubsystem().getPHI() ;
-
-        switch(which) {
-            case SwerveDriveSubsystem.FL:
-                angle = 180 - phi ;
-                break ;
-            case SwerveDriveSubsystem.FR:
-                angle = phi ;
-                break ;
-            case SwerveDriveSubsystem.BL:
-                angle = -180 + phi ;
-                break ;
-            case SwerveDriveSubsystem.BR:
-                angle = -phi ;
-                break ;                                                
-        }
-
-        angle = angle / 180.0 * Math.PI ;
-        return new Translation2d(Math.cos(angle) * linear, Math.sin(angle) * linear) ;
-    }
-
-    private Translation2d addVectors(Translation2d v1, Translation2d v2) {
-        return new Translation2d(v1.getX() + v2.getX(), v1.getY() + v2.getY()) ;
-    }
 }

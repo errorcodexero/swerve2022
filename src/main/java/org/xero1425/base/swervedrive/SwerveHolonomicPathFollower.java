@@ -22,7 +22,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
     private HolonomicDriveController ctrl_ ;
     private XeroPath path_;
     private int index_ ;
-    private Pose2d end_pose_ ;
+    private Rotation2d end_rotation_ ;
 
     public SwerveHolonomicPathFollower(SwerveDriveSubsystem sub, String pathname) {
         super(sub) ;
@@ -46,7 +46,11 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         Pose2d pose = getPoseFromPath(0) ;
         getSubsystem().resetOdometry(pose);
 
-        end_pose_ = getPoseFromPath(path_.getSize() - 1) ;
+        // 
+        // Get the final rotation from the path
+        //
+        end_rotation_ = Rotation2d.fromDegrees(path_.getSegment(SwerveDriveSubsystem.FL, path_.getSize() - 1).getRotation()) ;
+
         index_ = 0 ;
 
         getSubsystem().startSwervePlot("SwerveHolonomicPathFollower") ;
@@ -59,7 +63,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         {
             Pose2d target = getPoseFromPath(index_);
             double velocity = getVelocityFromPath(index_) ;
-            ChassisSpeeds speed = ctrl_.calculate(getSubsystem().getPose(), target, velocity, getRotationFromPath(path_.getSize() - 1)) ;
+            ChassisSpeeds speed = ctrl_.calculate(getSubsystem().getPose(), target, velocity, end_rotation_) ;
             getSubsystem().setChassisSpeeds(speed) ;
             index_++ ;
         }
@@ -97,9 +101,5 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
 
         double ret = (fl.getVelocity() + fr.getVelocity() + bl.getVelocity() + br.getVelocity()) ;
         return ret ;
-    }
-
-    private Rotation2d getRotationFromPath(int index) {
-        return Rotation2d.fromDegrees(path_.getSegment(SwerveDriveSubsystem.FL, index).getRotation()) ;
     }
 }

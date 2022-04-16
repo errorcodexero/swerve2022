@@ -53,6 +53,17 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
     private SwerveDriveKinematics kinematics_ ;
     private SwerveDriveOdometry odometry_ ;
 
+    private int plotid_ ;
+    private double plotstart_ ;
+    private Double[] plotdata_ ;
+    private static final String [] columns_ = {
+        "time",
+        "fl-ang-t", "fl-ang-a","fl-drv-t","fl-drv-a",
+        "fr-ang-t", "fr-ang-a","fr-drv-t","fr-drv-a",
+        "bl-ang-t", "bl-ang-a","bl-drv-t","bl-drv-a",
+        "br-ang-t", "br-ang-a","br-drv-t","br-drv-a",
+    } ;
+
     /// \brief create the serve drive subsystem
     /// \param parent the parent subsystem
     /// \param name the name of the subsystem
@@ -110,6 +121,24 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
 
         kinematics_ = new SwerveDriveKinematics(fl, fr, bl, br) ;
         odometry_ = new SwerveDriveOdometry(kinematics_, Rotation2d.fromDegrees(gyro().getAngle())) ;
+
+        plotdata_ = new Double[columns_.length] ;
+        plotid_ = -1 ;
+    }
+
+    public void startSwervePlot(String name) {
+        if (plotid_ != -1)
+            return ;
+
+        plotid_ = initPlot(name) ;
+        startPlot(plotid_, columns_);
+
+        plotstart_ = getRobot().getTime();
+    }
+
+    public void endSwervePlot() {
+        endPlot(plotid_);
+        plotid_ = -1 ;
     }
 
     public void resetOdometry(Pose2d pose) {
@@ -225,7 +254,27 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
         logger.add("fr", getModule(FR).status()) ;
         logger.add("bl", getModule(BL).status()) ;        
         logger.add("br", getModule(BR).status()) ;
-        logger.endMessage();        
+        logger.endMessage();       
+        
+        int index = 0 ;
+        plotdata_[index++] = getRobot().getTime() - plotstart_ ;
+        plotdata_[index++] = getModule(FL).getAngleTarget() ;
+        plotdata_[index++] = getModule(FL).getAngle() ;
+        plotdata_[index++] = getModule(FL).getSpeedTarget() ;
+        plotdata_[index++] = getModule(FL).getSpeed() ;
+        plotdata_[index++] = getModule(FR).getAngleTarget() ;
+        plotdata_[index++] = getModule(FR).getAngle() ;
+        plotdata_[index++] = getModule(FR).getSpeedTarget() ;
+        plotdata_[index++] = getModule(FR).getSpeed() ;
+        plotdata_[index++] = getModule(BL).getAngleTarget() ;
+        plotdata_[index++] = getModule(BL).getAngle() ;
+        plotdata_[index++] = getModule(BL).getSpeedTarget() ;
+        plotdata_[index++] = getModule(BL).getSpeed() ;
+        plotdata_[index++] = getModule(BR).getAngleTarget() ;
+        plotdata_[index++] = getModule(BR).getAngle() ;
+        plotdata_[index++] = getModule(BR).getSpeedTarget() ;
+        plotdata_[index++] = getModule(BR).getSpeed() ;
+        addPlotData(plotid_, plotdata_);
     }
 
     @Override

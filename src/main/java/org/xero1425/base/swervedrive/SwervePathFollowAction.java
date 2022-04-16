@@ -7,9 +7,6 @@ import org.xero1425.misc.XeroPathSegment;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class SwervePathFollowAction extends SwerveDriveAction {
     private int index_;
@@ -17,12 +14,6 @@ public class SwervePathFollowAction extends SwerveDriveAction {
     private XeroPath path_;
     private double[] angles_;
     private double[] speeds_;
-    private Number[] path_data_ ;
-
-    private NetworkTableInstance inst_ ;
-    private NetworkTable table_ ;
-
-    private final static String PathKey = "XeroPath" ;
 
     public SwervePathFollowAction(SwerveDriveSubsystem drive, String path) {
 
@@ -33,8 +24,6 @@ public class SwervePathFollowAction extends SwerveDriveAction {
 
         angles_ = new double[4] ;
         speeds_ = new double[4] ;
-
-        path_data_ = new Number[3] ;
     }
 
     @Override
@@ -56,16 +45,13 @@ public class SwervePathFollowAction extends SwerveDriveAction {
         Pose2d pose = new Pose2d(x, y, Rotation2d.fromDegrees(heading)) ;
         getSubsystem().resetOdometry(pose);
 
-        inst_ = NetworkTableInstance.getDefault() ;
-        table_ = inst_.getTable(PathKey) ;
+        getSubsystem().startSwervePlot("SwervePathFollowAction") ;
     }
 
     @Override
     public void run() throws BadMotorRequestException, MotorRequestFailedException {
         if (index_ < path_.getSize())
         {
-            NetworkTableEntry entry ;
-
             XeroPathSegment fl = path_.getSegment(SwerveDriveSubsystem.FL, index_) ;
             XeroPathSegment fr = path_.getSegment(SwerveDriveSubsystem.FR, index_) ;
             XeroPathSegment bl = path_.getSegment(SwerveDriveSubsystem.BL, index_) ;
@@ -85,19 +71,6 @@ public class SwervePathFollowAction extends SwerveDriveAction {
 
             getSubsystem().setTargets(angles_, speeds_);
             index_++ ;
-
-            entry = table_.getEntry("path") ;
-            path_data_[0] = (fl.getX() + fr.getX() + bl.getX() + br.getX()) / 4.0 ;
-            path_data_[1] = (fl.getY() + fr.getY() + bl.getY() + br.getY()) / 4.0 ;
-            path_data_[2] = fl.getHeading() ;
-            entry.setNumberArray(path_data_) ;
-
-            Pose2d pose = getSubsystem().getPose() ;
-            entry = table_.getEntry("robot") ;
-            path_data_[0] = pose.getX() ;
-            path_data_[1] = pose.getY() ;
-            path_data_[2] = pose.getRotation().getDegrees() ;
-            entry.setNumberArray(path_data_) ;
         }
 
         if (index_ == path_.getSize())
