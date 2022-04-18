@@ -180,14 +180,27 @@ public class SwerveModule {
     }
 
     public void setTargets(double angle, double speed) {
+
+        boolean print = false ;
+        if (name_.equals("FrontLeft"))
+            print = true ;
+
         has_steer_target_ = true ;
         has_drive_target_ = true ;
+
+        if (print)
+            System.out.print("SetTarget: " + name_ + " target " + angle + " current " + getAngle()) ;
 
         double dist = Math.abs(XeroMath.normalizeAngleDegrees(angle - getAngle())) ;
         if (Math.abs(dist) > 90.0) {
             angle = XeroMath.normalizeAngleDegrees(angle + 180.0) ;
             speed = -speed ;
+
+            if (print)
+                System.out.print(" normalized dist " + dist + " result " + angle) ;
         }
+        if (print)
+            System.out.println() ;
 
         target_angle_ = angle ;
         target_speed_ = speed ;

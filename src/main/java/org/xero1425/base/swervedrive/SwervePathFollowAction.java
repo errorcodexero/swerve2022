@@ -46,6 +46,7 @@ public class SwervePathFollowAction extends SwerveDriveAction {
         getSubsystem().resetOdometry(pose);
 
         getSubsystem().startSwervePlot("SwervePathFollowAction") ;
+        getSubsystem().startPathing();
     }
 
     @Override
@@ -67,8 +68,7 @@ public class SwervePathFollowAction extends SwerveDriveAction {
             speeds_[SwerveDriveSubsystem.BL] = bl.getVelocity() ;
             speeds_[SwerveDriveSubsystem.BR] = br.getVelocity() ;
 
-            outputPath(getPoseFromPath(index_), fl.getRotation()) ;
-
+            getSubsystem().setPathLocation(getPoseFromPath(index_));
             getSubsystem().setTargets(angles_, speeds_);
             index_++ ;
         }
@@ -76,6 +76,8 @@ public class SwervePathFollowAction extends SwerveDriveAction {
         if (index_ == path_.getSize())
         {
             getSubsystem().stop();
+            getSubsystem().endPathing();
+            getSubsystem().endSwervePlot();
             setDone() ;
         }
     }

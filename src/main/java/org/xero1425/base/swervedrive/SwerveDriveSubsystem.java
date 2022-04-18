@@ -16,6 +16,10 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /// \brief The swerve drive subsystem for driving a robot using a drive base where each wheel can be independently steered.
 public class SwerveDriveSubsystem extends DriveBaseSubsystem {
@@ -51,15 +55,20 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
     private SwerveDriveKinematics kinematics_ ;
     private SwerveDriveOdometry odometry_ ;
 
+    private boolean pathing_ ;
+    private NetworkTableEntry robot_loc_ ;
+    private NetworkTableEntry path_loc_ ;
+    private double [] path_values_ ;
+
     private int plotid_ ;
     private double plotstart_ ;
     private Double[] plotdata_ ;
     private static final String [] columns_ = {
         "time",
-        "fl-ang-t", "fl-ang-a","fl-drv-t","fl-drv-a",
-        "fr-ang-t", "fr-ang-a","fr-drv-t","fr-drv-a",
-        "bl-ang-t", "bl-ang-a","bl-drv-t","bl-drv-a",
-        "br-ang-t", "br-ang-a","br-drv-t","br-drv-a",
+        "fl-ang-t (deg)", "fl-ang-a (deg)","fl-drv-t (m/s)","fl-drv-a (m/s)",
+        "fr-ang-t (deg)", "fr-ang-a (deg)","fr-drv-t (m/s)","fr-drv-a (m/s)",
+        "bl-ang-t (deg)", "bl-ang-a (deg)","bl-drv-t (m/s)","bl-drv-a (m/s)",
+        "br-ang-t (deg)", "br-ang-a (deg)","br-drv-t (m/s)","br-drv-a (m/s)",
     } ;
 
     /// \brief create the serve drive subsystem
@@ -122,6 +131,42 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
 
         plotdata_ = new Double[columns_.length] ;
         plotid_ = -1 ;
+        pathing_ = false ;
+
+        NetworkTableInstance inst = NetworkTableInstance.getDefault() ;
+        NetworkTable table = inst.getTable("XeroLocation") ;
+        robot_loc_ = table.getEntry("Robot") ;
+        path_loc_ = table.getEntry("Path") ;
+        path_values_ = new double[3] ;
+    }
+
+    public void startPathing() {
+        if (!DriverStation.isFMSAttached())
+        {
+            pathing_ = true ;
+        }
+    }
+
+    public void setPathLocation(Pose2d loc) {
+        if (pathing_) {
+            path_values_[0] = loc.getX() ;
+            path_values_[1] = loc.getY() ;
+            path_values_[2] = loc.getRotation().getDegrees() ;
+            path_loc_.setDoubleArray(path_values_) ;
+        }
+    }
+
+    public void setRobotLocation(Pose2d loc) {
+        if (pathing_) {
+            path_values_[0] = loc.getX() ;
+            path_values_[1] = loc.getY() ;
+            path_values_[2] = loc.getRotation().getDegrees() ;
+            robot_loc_.setDoubleArray(path_values_) ;
+        }
+    }
+
+    public void endPathing() {
+        pathing_ = false ;
     }
 
     public void startSwervePlot(String name) {
@@ -233,6 +278,7 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
         SwerveModuleState br = getModule(BR).getModuleState() ;
         odometry_.updateWithTime(getRobot().getTime(), Rotation2d.fromDegrees(getAngle()), fl, fr, bl, br) ;
 
+        setRobotLocation(getPose());
 
         int index = 0 ;
         plotdata_[index++] = getRobot().getTime() - plotstart_ ;

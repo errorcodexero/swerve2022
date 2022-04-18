@@ -204,7 +204,7 @@
             "samples" : {
                 "linear" : 2
             },
-            "ticks_per_meter" : 53274.80208
+            "ticks_per_meter" : 53274.80208,
         },
         "swerveoi" : {
             "swerve_gamepad" : {
@@ -226,7 +226,7 @@
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 14,
+        "which" : 15,
         "0" : {
             "power" : 0.0,
             "duration" : 0.0
@@ -286,9 +286,12 @@
             "duration" : 0.0
         },
         "14" : {
-            "name" : "Test_StraightRotate"
+            "name" : "Test_ThereBack"
         },
         "15" : {
+            "name" : "Test_ThereBack"
+        },
+        "16" : {
             "angle" : 30.0,
             "wheel" : 0,
             "duration" : 5

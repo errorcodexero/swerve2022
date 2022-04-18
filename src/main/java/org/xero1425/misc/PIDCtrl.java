@@ -84,6 +84,7 @@ public class PIDCtrl
     /// \param isangle if true it is managing an angle between =180 and +180
     public PIDCtrl(ISettingsSupplier settings, String name, boolean isangle) throws MissingParameterException, BadParameterTypeException {
         init(settings, name) ;
+        is_angle_ = isangle ;
     }
 
     public void setP(double p) {

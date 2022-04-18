@@ -73,21 +73,5 @@ public abstract class SwerveDriveAction extends Action {
 
     protected Translation2d addVectors(Translation2d v1, Translation2d v2) {
         return new Translation2d(v1.getX() + v2.getX(), v1.getY() + v2.getY()) ;
-    }    
-
-    protected void outputPath(Pose2d path, double rot) {
-        Pose2d pose = getSubsystem().getPose() ;
-        System.out.print("spath " + getSubsystem().getRobot().getTime()) ;
-        System.out.print(" " + pose.getX() + " " + pose.getY() + " " + pose.getRotation().getDegrees()) ;
-        System.out.print(" " + path.getX() + " " + path.getY() + " " + rot) ;
-        System.out.print(" spd " + getSubsystem().getModule(SwerveDriveSubsystem.FL).getSpeedTarget()) ;
-        System.out.print(" " + getSubsystem().getModule(SwerveDriveSubsystem.FR).getSpeedTarget()) ;
-        System.out.print(" " + getSubsystem().getModule(SwerveDriveSubsystem.BL).getSpeedTarget()) ;
-        System.out.print(" " + getSubsystem().getModule(SwerveDriveSubsystem.BR).getSpeedTarget()) ;
-        System.out.print(" power " + getSubsystem().getModule(SwerveDriveSubsystem.FL).drivePower()) ;
-        System.out.print(" " + getSubsystem().getModule(SwerveDriveSubsystem.FR).drivePower()) ;
-        System.out.print(" " + getSubsystem().getModule(SwerveDriveSubsystem.BL).drivePower()) ;
-        System.out.print(" " + getSubsystem().getModule(SwerveDriveSubsystem.BR).drivePower()) ;
-        System.out.println() ;
     }
 }

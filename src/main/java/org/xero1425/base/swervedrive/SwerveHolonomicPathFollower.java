@@ -32,11 +32,11 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
 
     @Override
     public void start() throws BadParameterTypeException, MissingParameterException, MissingPathException {
-        double maxv = getSubsystem().getSettingsValue("max-angular-speed").getDouble() ;
-        double maxa = getSubsystem().getSettingsValue("max-angular-accel").getDouble() ;
+        double maxv = getSubsystem().getSettingsValue("physical:max-angular-speed").getDouble() ;
+        double maxa = getSubsystem().getSettingsValue("physical:max-angular-accel").getDouble() ;
 
-        PIDController xctrl = new PIDController(1, 0, 0) ;
-        PIDController yctrl = new PIDController(1, 0, 0) ;
+        PIDController xctrl = new PIDController(2, 0, 0) ;
+        PIDController yctrl = new PIDController(2, 0, 0) ;
         TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(maxv, maxa) ;
         ProfiledPIDController thetactrl = new ProfiledPIDController(1, 0, 0, constraints) ;
         ctrl_ = new HolonomicDriveController(xctrl, yctrl, thetactrl) ;
@@ -54,6 +54,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         index_ = 0 ;
 
         getSubsystem().startSwervePlot("SwerveHolonomicPathFollower") ;
+        getSubsystem().startPathing();
     }
 
     @Override
@@ -62,6 +63,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         if (index_ < path_.getSize())
         {
             Pose2d target = getPoseFromPath(index_);
+            getSubsystem().setPathLocation(target);
             double velocity = getVelocityFromPath(index_) ;
             ChassisSpeeds speed = ctrl_.calculate(getSubsystem().getPose(), target, velocity, end_rotation_) ;
             getSubsystem().setChassisSpeeds(speed) ;
@@ -72,6 +74,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         {
             getSubsystem().endSwervePlot() ;
             getSubsystem().stop() ;
+            getSubsystem().endPathing();
         }
     }
 
