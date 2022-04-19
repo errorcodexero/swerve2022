@@ -57,10 +57,11 @@ echo
 echo
 
 
+EXIT_STATUS=0
 ./runtests
 if [ $? -eq -0 ]; then
-    exit 1
+    EXIT_STATUS=1
 fi
 
-exit 0
-
+echo EXIT_STATUS is $EXIT_STATUS
+exit $EXIT_STATUS
