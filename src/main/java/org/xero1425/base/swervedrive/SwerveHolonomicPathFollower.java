@@ -32,13 +32,26 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
 
     @Override
     public void start() throws BadParameterTypeException, MissingParameterException, MissingPathException {
+        double kp, ki, kd ;
+
         double maxv = getSubsystem().getSettingsValue("physical:max-angular-speed").getDouble() ;
         double maxa = getSubsystem().getSettingsValue("physical:max-angular-accel").getDouble() ;
 
-        PIDController xctrl = new PIDController(2, 0, 0) ;
-        PIDController yctrl = new PIDController(2, 0, 0) ;
+        kp = getSubsystem().getSettingsValue("pid:xctrl:kp").getDouble() ;
+        ki = getSubsystem().getSettingsValue("pid:xctrl:ki").getDouble() ;
+        kd = getSubsystem().getSettingsValue("pid:xctrl:kd").getDouble() ;
+        PIDController xctrl = new PIDController(kp, ki, kd) ;
+
+        kp = getSubsystem().getSettingsValue("pid:yctrl:kp").getDouble() ;
+        ki = getSubsystem().getSettingsValue("pid:yctrl:ki").getDouble() ;
+        kd = getSubsystem().getSettingsValue("pid:yctrl:kd").getDouble() ;
+        PIDController yctrl = new PIDController(kp, ki, kd) ;
+
+        kp = getSubsystem().getSettingsValue("pid:rotation:kp").getDouble() ;
+        ki = getSubsystem().getSettingsValue("pid:rotation:ki").getDouble() ;
+        kd = getSubsystem().getSettingsValue("pid:rotation:kd").getDouble() ;
         TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(maxv, maxa) ;
-        ProfiledPIDController thetactrl = new ProfiledPIDController(1, 0, 0, constraints) ;
+        ProfiledPIDController thetactrl = new ProfiledPIDController(kp, ki, kd, constraints) ;
         ctrl_ = new HolonomicDriveController(xctrl, yctrl, thetactrl) ;
 
         path_ = getSubsystem().getRobot().getPathManager().getPath(pathname_);

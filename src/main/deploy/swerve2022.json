@@ -111,6 +111,21 @@
                 }
             },
             "pid" : {
+                "xctrl" : {
+                    "kp" : 16.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0
+                },
+                "yctrl" : {
+                    "kp" : 16.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0
+                },
+                "rotation" : {
+                    "kp" : 1.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0
+                },
                 "fl" : {
                     "drive" : {
                         "kp" : 0.006,
@@ -226,7 +241,7 @@
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 15,
+        "which" : 14,
         "0" : {
             "power" : 0.0,
             "duration" : 0.0
