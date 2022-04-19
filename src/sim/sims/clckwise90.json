@@ -50,6 +50,16 @@
                     }
                 }
             ]
+        },
+        {
+            "time" : 1.1,
+            "asserts" : [
+                {
+                    "subsystem" : "swervedrive",
+                    "property" : "fl-power",
+                    "value" : 1.0
+                }
+            ]
         }
     ]
 }
