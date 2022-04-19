@@ -131,4 +131,5 @@ fi
 
 prunetests $@
 runtests
+echo RUNTESTS EXIT_STATUS $EXIT_STATUS
 exit $EXIT_STATUS

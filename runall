@@ -59,9 +59,9 @@ echo
 
 EXIT_STATUS=0
 ./runtests
-if [ $? -eq 0 ]; then
+if [ $? -ne 0 ]; then
     EXIT_STATUS=1
 fi
 
-echo EXIT_STATUS is $EXIT_STATUS
+echo RUNALL EXIT_STATUS $EXIT_STATUS
 exit $EXIT_STATUS
