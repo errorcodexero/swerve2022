@@ -42,7 +42,8 @@ function initlinux()
 {
     echo "initialzing for linux"
     JPATH="-Djava.library.path=build/jni/release:/usr/java/packages/lib:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"
-    export JAVA_HOME=~/wpilib/2022/jdk
+    echo Found java at $JAVA_HOME
+    # export JAVA_HOME=~/wpilib/2022/jdk
     export LD_LIBRARY_PATH=build/jni/release:$LD_LIBRARY_PATH
 }
 
