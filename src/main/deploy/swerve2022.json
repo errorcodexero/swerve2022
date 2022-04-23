@@ -112,12 +112,12 @@
             },
             "pid" : {
                 "xctrl" : {
-                    "kp" : 16.0,
+                    "kp" : 2.0,
                     "ki" : 0.0,
                     "kd" : 0.0
                 },
                 "yctrl" : {
-                    "kp" : 16.0,
+                    "kp" : 2.0,
                     "ki" : 0.0,
                     "kd" : 0.0
                 },
@@ -241,7 +241,7 @@
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 14,
+        "which" : 15,
         "0" : {
             "power" : 0.0,
             "duration" : 0.0

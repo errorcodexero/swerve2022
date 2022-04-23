@@ -53,6 +53,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(maxv, maxa) ;
         ProfiledPIDController thetactrl = new ProfiledPIDController(kp, ki, kd, constraints) ;
         ctrl_ = new HolonomicDriveController(xctrl, yctrl, thetactrl) ;
+        ctrl_.setEnabled(true);
 
         path_ = getSubsystem().getRobot().getPathManager().getPath(pathname_);
 
@@ -115,7 +116,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         XeroPathSegment bl = path_.getSegment(SwerveDriveSubsystem.BL, index) ;
         XeroPathSegment br = path_.getSegment(SwerveDriveSubsystem.BR, index) ;
 
-        double ret = (fl.getVelocity() + fr.getVelocity() + bl.getVelocity() + br.getVelocity()) ;
+        double ret = (fl.getVelocity() + fr.getVelocity() + bl.getVelocity() + br.getVelocity())  / 4.0 ;
         return ret ;
     }
 }
