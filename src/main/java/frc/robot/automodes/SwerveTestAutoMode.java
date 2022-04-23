@@ -137,7 +137,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 break ;
 
             case 15:
-                addSubActionPair(swerve, new SwerveHolonomicPathFollower(swerve, getString("name")), true);
+                addSubActionPair(swerve, new SwerveHolonomicPathFollower(swerve, getString("name"), getDouble("endangle")), true);
                 break ;
 
             case 16:

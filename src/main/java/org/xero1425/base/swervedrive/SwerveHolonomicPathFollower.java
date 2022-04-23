@@ -24,10 +24,11 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
     private int index_ ;
     private Rotation2d end_rotation_ ;
 
-    public SwerveHolonomicPathFollower(SwerveDriveSubsystem sub, String pathname) {
+    public SwerveHolonomicPathFollower(SwerveDriveSubsystem sub, String pathname, double endangle) {
         super(sub) ;
 
         pathname_ = pathname ;
+        end_rotation_ = Rotation2d.fromDegrees(endangle) ;
     }
 
     @Override
@@ -59,11 +60,6 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
 
         Pose2d pose = getPoseFromPath(0) ;
         getSubsystem().resetOdometry(pose);
-
-        // 
-        // Get the final rotation from the path
-        //
-        end_rotation_ = Rotation2d.fromDegrees(path_.getSegment(SwerveDriveSubsystem.FL, path_.getSize() - 1).getRotation()) ;
 
         index_ = 0 ;
 
