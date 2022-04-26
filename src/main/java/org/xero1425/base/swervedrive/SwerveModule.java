@@ -4,6 +4,7 @@ import org.xero1425.base.XeroRobot;
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorController;
 import org.xero1425.base.motors.MotorRequestFailedException;
+import org.xero1425.base.motors.MotorController.PidType;
 import org.xero1425.base.motorsubsystem.EncoderConfigException;
 import org.xero1425.base.motorsubsystem.XeroEncoder;
 import org.xero1425.misc.BadParameterTypeException;
@@ -40,8 +41,8 @@ public class SwerveModule {
     private final String LinearSamplesName = "linear:samples" ;
     private final String TicksPerMeterName = "ticks_per_meter" ;
 
-    public SwerveModule(XeroRobot robot, SwerveDriveSubsystem subsystem, String name, String config, String sname) throws BadParameterTypeException,
-            MissingParameterException, EncoderConfigException, BadMotorRequestException {
+    public SwerveModule(XeroRobot robot, SwerveDriveSubsystem subsystem, String name, String config, String sname, boolean hwpid) throws BadParameterTypeException,
+            MissingParameterException, EncoderConfigException, BadMotorRequestException, MotorRequestFailedException {
 
         ISettingsSupplier settings = subsystem.getRobot().getSettingsSupplier() ;
         MessageLogger logger = subsystem.getRobot().getMessageLogger() ;
@@ -64,13 +65,28 @@ public class SwerveModule {
         target_speed_ = 0.0 ;
 
         angle_pid_ = new PIDCtrl(settings, config + ":pid:" + sname + ":steer", true) ;
-        speed_pid_ = new PIDCtrl(settings, config + ":pid:" + sname + ":drive", false) ;
 
-        int samples =  2 ;
-        if (settings.isDefined(LinearSamplesName) && settings.get(LinearSamplesName).isInteger())
-            samples = settings.get(LinearSamplesName).getInteger() ;
-            
-        linear_ = new Speedometer("linear", samples, false) ;
+        if (hwpid) {
+            speed_pid_ = null ;
+            linear_ = null ;
+
+            double p = settings.get(config + ":pid:" + sname + ":drive:p").getDouble() ;
+            double i = settings.get(config + ":pid:" + sname + ":drive:i").getDouble() ;
+            double d = settings.get(config + ":pid:" + sname + ":drive:d").getDouble() ;
+            double f = settings.get(config + ":pid:" + sname + ":drive:f").getDouble() ;
+            double outmax = settings.get(config + ":pid:" + sname + ":drive:max").getDouble() ;
+            drive_.setPID(PidType.Velocity, p, i, d, f, outmax);
+
+        }
+        else {
+            speed_pid_ = new PIDCtrl(settings, config + ":pid:" + sname + ":drive", false) ;
+
+            int samples =  2 ;
+            if (settings.isDefined(LinearSamplesName) && settings.get(LinearSamplesName).isInteger())
+                samples = settings.get(LinearSamplesName).getInteger() ;
+                
+            linear_ = new Speedometer("linear", samples, false) ;
+        }
 
         if (logger_id_ == -1)
             logger_id_ = logger.registerSubsystem("swervemodule") ;
@@ -96,7 +112,7 @@ public class SwerveModule {
             steer_power_ = out ;
         }
 
-        if (has_drive_target_)
+        if (has_drive_target_ && speed_pid_ != null)
         {
             double out = speed_pid_.getOutput(target_speed_, getSpeed(), dt) ;
             logger.add(" [SpeedPID") ;
@@ -109,32 +125,45 @@ public class SwerveModule {
 
             drive_power_ = out ;
         }
+        else
+        {
+            logger.add("[SpeedPID controller]");
+        }
         logger.endMessage();
     }
 
     public void computeMyState(double dt) throws BadMotorRequestException {
-        ticks_ = drive_.getPosition() ;
-        linear_.update(dt, ticks_ / ticks_per_meter_) ;
+        if (linear_ != null) {
+            ticks_ = drive_.getPosition() ;
+            linear_.update(dt, ticks_ / ticks_per_meter_) ;
+        }
     }
 
     public SwerveModuleState getModuleState() {
         return new SwerveModuleState(getSpeed(), Rotation2d.fromDegrees(getAngle())) ;
     }
 
-    public double getAcceleration() {
-        return linear_.getAcceleration() ;
-    }
-
     public double getSpeed() {
-        return linear_.getVelocity() ;
+        double ret = 0.0 ;
+
+        if (linear_ != null)
+            ret = linear_.getVelocity() ;
+        else {
+            try {
+                ret = drive_.getVelocity() ;
+            }
+            catch(Exception ex) {
+                MessageLogger logger = robot_.getMessageLogger() ;
+                logger.startMessage(MessageType.Error) ;
+                logger.add("swervemodule: error reading velocity from drive motor - ").add(ex.getMessage()) ;
+                logger.endMessage();
+            }
+        }
+        return ret ;
     }
 
     public double getSpeedTarget() {
         return target_speed_;
-    }
-
-    public double getDistance() {
-        return linear_.getDistance() ;
     }
 
     public double getAngle() {
@@ -181,29 +210,33 @@ public class SwerveModule {
 
     public void setTargets(double angle, double speed) {
 
-        boolean print = false ;
-        if (name_.equals("FrontLeft"))
-            print = true ;
-
         has_steer_target_ = true ;
         has_drive_target_ = true ;
-
-        if (print)
-            System.out.print("SetTarget: " + name_ + " target " + angle + " current " + getAngle()) ;
 
         double dist = Math.abs(XeroMath.normalizeAngleDegrees(angle - getAngle())) ;
         if (Math.abs(dist) > 90.0) {
             angle = XeroMath.normalizeAngleDegrees(angle + 180.0) ;
             speed = -speed ;
-
-            if (print)
-                System.out.print(" normalized dist " + dist + " result " + angle) ;
         }
-        if (print)
-            System.out.println() ;
 
         target_angle_ = angle ;
         target_speed_ = speed ;
+
+        if (speed_pid_ == null) {
+            try {
+                //
+                // The velocity of the talon fx device is measured in ticks per 100ms.  So, we need to conver
+                // our meters per second to ticks per 100 ms
+                //               
+                drive_.setTarget(target_speed_ * ticks_per_meter_ / 100.0) ;
+            }
+            catch(Exception ex) {
+                MessageLogger logger = robot_.getMessageLogger() ;
+                logger.startMessage(MessageType.Error) ;
+                logger.add("swervemodule: error writing velocity target to drive motor - ").add(ex.getMessage()) ;
+                logger.endMessage();
+            }            
+        }
     }
 
     public void setAngle(double angle) {
