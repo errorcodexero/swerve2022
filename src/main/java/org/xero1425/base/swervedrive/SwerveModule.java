@@ -150,7 +150,7 @@ public class SwerveModule {
             ret = linear_.getVelocity() ;
         else {
             try {
-                ret = drive_.getVelocity() ;
+                ret = drive_.getVelocity() / ticks_per_meter_ * 100.0 ;
             }
             catch(Exception ex) {
                 MessageLogger logger = robot_.getMessageLogger() ;
