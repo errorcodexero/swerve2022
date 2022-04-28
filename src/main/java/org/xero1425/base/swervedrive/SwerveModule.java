@@ -4,6 +4,7 @@ import org.xero1425.base.XeroRobot;
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorController;
 import org.xero1425.base.motors.MotorRequestFailedException;
+import org.xero1425.base.motors.MotorController.EncoderUpdateFrequency;
 import org.xero1425.base.motorsubsystem.EncoderConfigException;
 import org.xero1425.base.motorsubsystem.XeroEncoder;
 import org.xero1425.misc.BadParameterTypeException;
@@ -54,6 +55,8 @@ public class SwerveModule {
         steer_ = robot.getMotorFactory().createMotor(name + "-steer", config + ":hw:" + sname + ":steer");
         drive_ = robot.getMotorFactory().createMotor(name + "-drive", config + ":hw:" + sname + ":drive");
         encoder_ = new XeroEncoder(robot, config + ":hw:" + sname + ":encoder", true, null) ;
+
+        drive_.setEncoderUpdateFrequncy(EncoderUpdateFrequency.Frequent, EncoderUpdateFrequency.Default);
 
         drive_power_ = 0.0;
         steer_power_ = 0.0;
@@ -187,9 +190,6 @@ public class SwerveModule {
 
         has_steer_target_ = true ;
         has_drive_target_ = true ;
-
-        if (print)
-            System.out.print("SetTarget: " + name_ + " target " + angle + " current " + getAngle()) ;
 
         double dist = Math.abs(XeroMath.normalizeAngleDegrees(angle - getAngle())) ;
         if (Math.abs(dist) > 90.0) {

@@ -53,8 +53,11 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         kd = getSubsystem().getSettingsValue("pid:rotation:kd").getDouble() ;
         TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(maxv, maxa) ;
         ProfiledPIDController thetactrl = new ProfiledPIDController(kp, ki, kd, constraints) ;
+        
         ctrl_ = new HolonomicDriveController(xctrl, yctrl, thetactrl) ;
         ctrl_.setEnabled(true);
+        Pose2d done = new Pose2d(0.05, 0.05, Rotation2d.fromDegrees(5)) ;
+        ctrl_.setTolerance(done);
 
         path_ = getSubsystem().getRobot().getPathManager().getPath(pathname_);
 
@@ -72,12 +75,17 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
 
         if (index_ < path_.getSize())
         {
+            Rotation2d rot = getSubsystem().getPose().getRotation() ;
+            if (index_ > 200)
+                rot = end_rotation_ ;
             Pose2d target = getPoseFromPath(index_);
             getSubsystem().setPathLocation(target);
             double velocity = getVelocityFromPath(index_) ;
-            ChassisSpeeds speed = ctrl_.calculate(getSubsystem().getPose(), target, velocity, end_rotation_) ;
+            ChassisSpeeds speed = ctrl_.calculate(getSubsystem().getPose(), target, velocity, rot) ;
             getSubsystem().setChassisSpeeds(speed) ;
-            index_++ ;
+
+            if (index_ != path_.getSize() - 1 || ctrl_.atReference())
+                index_++ ;
         }
 
         if (index_ >= path_.getSize())

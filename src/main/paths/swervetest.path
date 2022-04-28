@@ -76,10 +76,10 @@
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 1.524,
+                    "maxacceleration": 3,
                     "maxcentripetal": 10000,
                     "maxjerk": 35.559999999999995,
-                    "maxvelocity": 1.524,
+                    "maxvelocity": 3,
                     "name": "ThereBack",
                     "points": [
                         {
@@ -223,5 +223,5 @@
             ]
         }
     ],
-    "outdir": "D:/cygwin64/home/bwg/robottools/swerve2022/src/main/deploy/paths"
+    "outdir": "C:/cygwin64/home/bwg/robottools/swerve2022/src/main/deploy/paths"
 }

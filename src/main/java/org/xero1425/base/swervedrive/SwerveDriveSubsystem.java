@@ -153,6 +153,14 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
             path_values_[1] = loc.getY() ;
             path_values_[2] = loc.getRotation().getDegrees() ;
             path_loc_.setDoubleArray(path_values_) ;
+
+            Pose2d here = getPose() ;
+            System.out.print("Swerve:") ;
+            System.out.print(" OX " + here.getX()) ;
+            System.out.print(" OY " + here.getY()) ;
+            System.out.print(" PX " + loc.getX()) ;
+            System.out.print(" PY " + loc.getY()) ;
+            System.out.println() ;
         }
     }
 
