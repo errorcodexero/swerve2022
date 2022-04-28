@@ -12,10 +12,10 @@ public class SwerveAngleVelocityAction extends SwerveDriveAction {
     private Double [] plot_data_ ;
     private final static String columns_[] = { 
         "time", 
-        "flspeed (m/s)", "flangle (degrees)",
-        "frspeed (m/s)", "frangle (degrees)",
-        "blspeed (m/s)", "blangle (degrees)",
-        "brspeed (m/s)", "brangle (degrees)",
+        "flspeed (m/s)", "flangle (degrees)", "fltarget (m/s)",
+        "frspeed (m/s)", "frangle (degrees)", "frtarget (m/s)",
+        "blspeed (m/s)", "blangle (degrees)", "bltarget (m/s)",
+        "brspeed (m/s)", "brangle (degrees)", "brtarget (m/s)"
     } ;
 
     public SwerveAngleVelocityAction(SwerveDriveSubsystem subsys, double [] angles, double [] speeds, boolean hold) throws Exception {
@@ -65,16 +65,18 @@ public class SwerveAngleVelocityAction extends SwerveDriveAction {
             plot_data_[index++] = plot_timer_.elapsed() ;
             plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.FL).getSpeed() ;
             plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.FL).getAngle() ;
+            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.FL).getSpeedTarget() ;
             plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.FR).getSpeed() ;
             plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.FR).getAngle() ;
+            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.FR).getSpeedTarget() ;            
             plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.BL).getSpeed() ;
             plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.BL).getAngle() ;
+            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.BL).getSpeedTarget() ;            
             plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.BR).getSpeed() ;
             plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.BR).getAngle() ;           
-            
+            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.BR).getSpeedTarget() ;            
             getSubsystem().addPlotData(plotid_, plot_data_);
         }
-
     }
 
     @Override

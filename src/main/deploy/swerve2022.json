@@ -13,7 +13,7 @@
         "verbose" : {
             "swervedrive": true
         },
-        "plotting" : false,
+        "plotting" : true,
         "pneumatics": {
             "type": "NONE"
         }
@@ -131,7 +131,7 @@
                         "kp" : 0.006,
                         "ki" : 0.0,
                         "kd" : 0.0,
-                        "kf" : 0.250932718,
+                        "kf" : 0.00004596,
                         "min" : -1.0,
                         "max" : 1.0,
                         "imax" : 0.0
@@ -148,10 +148,10 @@
                 },
                 "fr" : {
                     "drive" : {
-                        "kp" : 0.006,
+                        "kp" : 0.0,
                         "ki" : 0.0,
                         "kd" : 0.0,
-                        "kf" : 0.250060667,
+                        "kf" : 0.00004598,
                         "min" : -1.0,
                         "max" : 1.0,
                         "imax" : 0.0
@@ -168,16 +168,16 @@
                 },
                 "bl" : {
                     "drive" : {
-                        "kp" : 0.006,
+                        "kp" : 0.0,
                         "ki" : 0.0,
                         "kd" : 0.0,
-                        "kf" : 0.248125804,
+                        "kf" : 0.00004578,
                         "min" : -1.0,
                         "max" : 1.0,
                         "imax" : 0.0
                     },
                     "steer" : {
-                        "kp" : 0.015,
+                        "kp" : 0.0,
                         "ki" : 0.0,
                         "kd" : 0.0,
                         "kf" : 0.0,
@@ -188,10 +188,10 @@
                 },
                 "br" : {
                     "drive" : {
-                        "kp" : 0.006,
+                        "kp" : 0.0,
                         "ki" : 0.0,
                         "kd" : 0.0,
-                        "kf" : 0.24771703,
+                        "kf" : 0.00004578,
                         "min" : -1.0,
                         "max" : 1.0,
                         "imax" : 0.0
@@ -219,7 +219,7 @@
             "samples" : {
                 "linear" : 2
             },
-            "ticks_per_meter" : 53274.80208,
+            "ticks_per_meter" : 53274.80208
         },
         "swerveoi" : {
             "swerve_gamepad" : {
@@ -241,14 +241,14 @@
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 15,
+        "which" : 17,
         "0" : {
-            "power" : 0.0,
-            "duration" : 0.0
+            "power" : 0.5,
+            "duration" : 5.0
         },
         "1" : {
-            "power" : 0.0,
-            "duration" : 0.0            
+            "power" : 0.5,
+            "duration" : 5.0            
         },
         "2" : {
             "power" : 0.0,
@@ -311,6 +311,16 @@
             "angle" : 30.0,
             "wheel" : 0,
             "duration" : 5
-        }
+        },
+        "17" : {
+            "speed" : 2.0,
+            "wheel" : 0,
+            "duration" : 5
+        },
+        "18" : {
+            "drive" : 0.5,
+            "angle" : 0.0,
+            "duration" : 3.0
+        }    
     }
 }

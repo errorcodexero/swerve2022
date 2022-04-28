@@ -42,10 +42,10 @@ public class SwerveDrivePowerAction extends SwerveDriveAction {
     public void run() {
 
         plot_data_[0] = timer_.elapsed() ;
-        plot_data_[1] = getSubsystem().getModule(SwerveDriveSubsystem.FL).getSpeed() ;
-        plot_data_[2] = getSubsystem().getModule(SwerveDriveSubsystem.FR).getSpeed() ;
-        plot_data_[3] = getSubsystem().getModule(SwerveDriveSubsystem.BL).getSpeed() ;
-        plot_data_[4] = getSubsystem().getModule(SwerveDriveSubsystem.BR).getSpeed() ;
+        plot_data_[1] = getSubsystem().getModule(SwerveDriveSubsystem.FL).getRawSpeed() ;
+        plot_data_[2] = getSubsystem().getModule(SwerveDriveSubsystem.FR).getRawSpeed() ;
+        plot_data_[3] = getSubsystem().getModule(SwerveDriveSubsystem.BL).getRawSpeed() ;
+        plot_data_[4] = getSubsystem().getModule(SwerveDriveSubsystem.BR).getRawSpeed() ;
 
         System.out.println("Plot " + plot_data_[0] + " " + plot_data_[2] + " " + plot_data_[2] + " " + plot_data_[3] + " " + plot_data_[4] + " ") ;
         getSubsystem().addPlotData(plotid_, plot_data_) ;

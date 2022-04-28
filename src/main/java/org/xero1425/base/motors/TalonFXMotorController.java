@@ -73,7 +73,7 @@ public class TalonFXMotorController extends MotorController
     }
 
     public double getVelocity() throws BadMotorRequestException, MotorRequestFailedException {
-        return 0.0 ;
+        return controller_.getSensorCollection().getIntegratedSensorVelocity() ;
     }
 
     /// \brief Return the current input voltage to the motor controller

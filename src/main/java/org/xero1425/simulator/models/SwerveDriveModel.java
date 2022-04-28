@@ -32,7 +32,6 @@ public class SwerveDriveModel extends SimulationModel {
     private NavXModel navx_ ;
     private double meters_per_sec_per_power_ ;
     private double degs_per_sec_per_power_ ;
-    private double wheel_diameter_ ;
 
     private double width_ ;
     private double length_ ;
@@ -58,7 +57,6 @@ public class SwerveDriveModel extends SimulationModel {
             length_ = getProperty("length").getDouble() ;
             meters_per_sec_per_power_ = getProperty("meters-per-second-per-power").getDouble() ;
             degs_per_sec_per_power_ = getProperty("degrees-per-second-per-power").getDouble() ;
-            wheel_diameter_ = getProperty("wheel-diameter").getDouble() ;
             ticks_per_meter_ = getProperty("ticks-per-meter").getDouble() ;
         }
         catch(Exception ex) {
