@@ -72,7 +72,7 @@ public abstract class XeroRobot extends TimedRobot {
     // The plot manager for the robot
     private PlotManager plot_mgr_ ;
 
-    // The path following paths 
+    // The path following paths
     private XeroPathManager paths_ ;
 
     // The motor factor for creating new motors
@@ -139,7 +139,7 @@ public abstract class XeroRobot extends TimedRobot {
         // Setup the mesasge logger to log messages
         start = getTime() ;
         enableMessageLogger();
-        logger_id_ = logger_.registerSubsystem(LoggerName) ;        
+        logger_id_ = logger_.registerSubsystem(LoggerName) ;
         logger_.startMessage(MessageType.Info).add("============================================================").endMessage();
         logger_.startMessage(MessageType.Info).add("robot code starting").endMessage();
         logger_.startMessage(MessageType.Info).add("enableMessageLogger time", getTime() - start).endMessage();
@@ -149,7 +149,7 @@ public abstract class XeroRobot extends TimedRobot {
             String str = SimArgs.InputFileName;
             if (str == null)
                 str = getSimulationFileName() ;
-                
+
             if (str == null) {
                 System.out.println("The code is setup to simulate, but the derived robot class did not provide a stimulus file") ;
                 System.out.println("Not initializing the Xero1425 Simulation engine - assuming Romi robot") ;
@@ -266,7 +266,7 @@ public abstract class XeroRobot extends TimedRobot {
             logger_.endMessage();
             return false ;
         }
-        
+
         try {
             if (v.getString().equals("CTREPCM")) {
                 type = PneumaticsModuleType.CTREPCM ;
@@ -278,7 +278,7 @@ public abstract class XeroRobot extends TimedRobot {
                 logger_.startMessage(MessageType.Error) ;
                 logger_.add("enablePneumatics() called but settings value 'system:pneumatics:type' must be either 'CTREPCM' or 'REVPH'") ;
                 logger_.endMessage();
-                return false ;                
+                return false ;
             }
         }
         catch(BadParameterTypeException e) {
@@ -297,7 +297,7 @@ public abstract class XeroRobot extends TimedRobot {
         return logger_id_ ;
     }
 
-    /// \brief Returns the simulation stimulus file (JSON) name.  This method should be overridden by the 
+    /// \brief Returns the simulation stimulus file (JSON) name.  This method should be overridden by the
     /// derived robot specific class.
     /// \returns the simulation stimulus file (JSON) name
     protected String getSimulationFileName() {
@@ -362,7 +362,7 @@ public abstract class XeroRobot extends TimedRobot {
             start = getTime() ;
             hardwareInit();
             logger_.startMessage(MessageType.Info).add("hardwareInit time", getTime() - start).endMessage() ;
-            
+
             if (RobotBase.isSimulation() && SimulationEngine.getInstance() != null)
             {
                 //
@@ -434,7 +434,7 @@ public abstract class XeroRobot extends TimedRobot {
         catch(Exception ex) {
             logger_.startMessage(MessageType.Error);
             logger_.add("Exception caught creating teleop controller - ").add(ex.getMessage());
-            logger_.endMessage();            
+            logger_.endMessage();
         }
     }
 
@@ -468,7 +468,7 @@ public abstract class XeroRobot extends TimedRobot {
         loop_count_++ ;
     }
 
-    /// \brief Called from the base class to indicate we are entering teleop mode.    
+    /// \brief Called from the base class to indicate we are entering teleop mode.
     @Override
     public void teleopInit() {
         if (robot_subsystem_ == null)
@@ -509,11 +509,11 @@ public abstract class XeroRobot extends TimedRobot {
             current_controller_.init();
 
         robot_subsystem_.init(LoopType.Test);
-        
+
         loop_count_ = 0 ;
     }
 
-    /// \brief Called from the base class each robot loop while in test mode    
+    /// \brief Called from the base class each robot loop while in test mode
     @Override
     public void testPeriodic() {
         if (robot_subsystem_ == null)
@@ -522,12 +522,12 @@ public abstract class XeroRobot extends TimedRobot {
         loop_count_++ ;
     }
 
-    /// \brief Called from the base class to indicate we are a simulation    
+    /// \brief Called from the base class to indicate we are a simulation
     @Override
     public void simulationInit() {
     }
 
-    /// \brief Called from the base class each robot loop while in simulation    
+    /// \brief Called from the base class each robot loop while in simulation
     @Override
     public void simulationPeriodic() {
     }
@@ -547,7 +547,7 @@ public abstract class XeroRobot extends TimedRobot {
         loop_count_ = 0 ;
     }
 
-    /// \brief Called from the base class each robot loop while in the disabled state    
+    /// \brief Called from the base class each robot loop while in the disabled state
     static int mycount = 0 ;
     static double mytime = 0.0 ;
     @Override
@@ -559,7 +559,7 @@ public abstract class XeroRobot extends TimedRobot {
         delta_time_ = initial_time - last_time_;
 
         updateAutoMode();
-        
+
         double start = getTime() ;
         try {
             robot_subsystem_.computeState();
@@ -630,7 +630,7 @@ public abstract class XeroRobot extends TimedRobot {
     }
 
     /// \brief Returns the mesasge logger
-    /// \returns the message logger    
+    /// \returns the message logger
     public PlotManager getPlotManager() {
         return plot_mgr_;
     }
@@ -713,7 +713,7 @@ public abstract class XeroRobot extends TimedRobot {
         }
         catch(IOException ex) {
         }
-    }   
+    }
 
     private void enableMessagesFromSettingsFile() {
         String path = "system:messages" ;
@@ -768,7 +768,7 @@ public abstract class XeroRobot extends TimedRobot {
             if (engine != null) {
                 engine.run(delta_time_) ;
             }
-        }        
+        }
 
         try {
             robot_subsystem_.computeState();
@@ -790,7 +790,7 @@ public abstract class XeroRobot extends TimedRobot {
             logger_.startMessage(MessageType.Error) ;
             logger_.add("exception caught in run() in robot loop -") ;
             logger_.add(ex.getMessage()) ;
-            logger_.endMessage();            
+            logger_.endMessage();
         }
 
         last_time_ = initial_time ;
@@ -819,8 +819,8 @@ public abstract class XeroRobot extends TimedRobot {
         logger_.add("    Location: ").add(DriverStation.getLocation()).endMessage();
 
         logger_.startMessage(MessageType.Info) ;
-        logger_.add("    GameData: '").add(game_data_).add("'").endMessage();   
-        
+        logger_.add("    GameData: '").add(game_data_).add("'").endMessage();
+
         logger_.startMessage(MessageType.Info) ;
         logger_.add("    EventName: ").add(DriverStation.getEventName()).endMessage();
 
@@ -843,8 +843,8 @@ public abstract class XeroRobot extends TimedRobot {
         logger_.add("    MatchType: ").add(str).endMessage();
 
         logger_.startMessage(MessageType.Info) ;
-        logger_.add("    MatchNumber: ").add(DriverStation.getMatchNumber()).endMessage();     
-        
+        logger_.add("    MatchNumber: ").add(DriverStation.getMatchNumber()).endMessage();
+
         logger_.startMessage(MessageType.Info) ;
         logger_.add("    MatchTime: ").add(DriverStation.getMatchTime()).endMessage();
 
@@ -865,7 +865,7 @@ public abstract class XeroRobot extends TimedRobot {
             String msg = DriverStation.getGameSpecificMessage() ;
 
             int sel = -1 ;
-            
+
             if (robot_subsystem_.getOI() != null) {
                 sel = getAutoModeSelection() ;
                 if (sel != automode_ || msg.equals(game_data_) || DriverStation.isFMSAttached() != fms_connection_ || auto_controller_.isTestMode())
@@ -916,11 +916,11 @@ public abstract class XeroRobot extends TimedRobot {
         file.addDefine(bot) ;
         logger_.startMessage(MessageType.Info).add("reading params for bot ").addQuoted(bot).endMessage() ;
 
-        String filename = robot_paths_.deployDirectory() + getName() + ".json" ;
+        String filename = robot_paths_.deployDirectory() + getName() + ".jsonc" ;
 
         File f = new File(filename) ;
         if (!f.exists()) {
-            filename = robot_paths_.deployDirectory() + getName() + ".jsonc" ;
+            filename = robot_paths_.deployDirectory() + getName() + ".json" ;
             f = new File(filename) ;
             if (!f.exists()) {
                 //
@@ -937,7 +937,7 @@ public abstract class XeroRobot extends TimedRobot {
 
         settings_ = file ;
     }
-     
+
     private void getMacAddress() {
         // Enumeration<NetworkInterface> netlist ;
         mac_addr_ = null ;
@@ -950,7 +950,7 @@ public abstract class XeroRobot extends TimedRobot {
         //         String name = ni.getName() ;
         //         if (name.equals("lo"))
         //             continue ;
-                    
+
         //         mac_addr_ = ni.getHardwareAddress() ;
         //         break ;
         //     }
@@ -1003,7 +1003,7 @@ public abstract class XeroRobot extends TimedRobot {
                 }
             }
             logger_.startMessage(MessageType.Debug, logger_id_) ;
-            logger_.add("  contained ").add(actions.size()).add(" actions total").endMessage(); 
+            logger_.add("  contained ").add(actions.size()).add(" actions total").endMessage();
         }
 
         if (!valid) {
