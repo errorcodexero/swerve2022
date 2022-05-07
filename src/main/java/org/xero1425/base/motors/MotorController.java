@@ -11,6 +11,9 @@ public abstract class MotorController
     // The name of the motor
     private String name_ ;
 
+    // The PDP channel for the motor
+    private int channel_ ;
+
     /// \brief Property name for property used for motor power in a simulation
     public final static String SimPowerParamName = "Power" ;
 

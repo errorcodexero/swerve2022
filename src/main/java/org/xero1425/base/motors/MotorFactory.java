@@ -2,6 +2,7 @@ package org.xero1425.base.motors;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.List;
 
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.ISettingsSupplier;
@@ -27,6 +28,7 @@ public class MotorFactory {
     private MessageLogger logger_;
     private ISettingsSupplier settings_;
     private Map<Integer, MotorController> motors_;
+    private List<IMotorFactoryListener> listeners_ ;
 
     /// \brief This method creates a new motor factory.
     /// \param logger the message logger for the robot
@@ -183,6 +185,9 @@ public class MotorFactory {
         MotorController.NeutralMode nm = getNeutralMode(id);
         if (nm != null)
             ctrl.setNeutralMode(nm);
+
+        for(IMotorFactoryListener listener: listeners_)
+            listener.motorAdded(ctrl);
 
         return ctrl ;
     }
