@@ -33,10 +33,10 @@ public class SwerveDriveGamepad extends Gamepad {
 
         db_ = (SwerveDriveSubsystem)drive_;
         if (db_ == null) {
-            throw new Exception("invalid drivebase for SwerveDriveGamepad - expected swerve drive");            
+            throw new Exception("invalid drivebase for SwerveDriveGamepad - expected swerve drive");
         }
     }
-    
+
     @Override
     public void init(LoopType ltype) {
     }
@@ -46,6 +46,9 @@ public class SwerveDriveGamepad extends Gamepad {
         deadband_pos_x_ = getSubsystem().getSettingsValue("swerve_gamepad:position:deadband:x").getDouble() ;
         deadband_pos_y_ = getSubsystem().getSettingsValue("swerve_gamepad:position:deadband:y").getDouble() ;
         deadband_rotate_ = getSubsystem().getSettingsValue("swerve_gamepad:angle:deadband").getDouble() ;
+        pos_maximum_ = getSubsystem().getSettingsValue("swerve_gamepad:position:maximum").getDouble();
+        angle_maximum_ = getSubsystem().getSettingsValue("swerve_gamepad:angle:maximum").getDouble();
+        power_ = getSubsystem().getSettingsValue("swerve_gamepad:power").getDouble();
         action_ = new SwerveDirectionRotateAction(db_, 0.0, 0.0, 0.0) ;
     }
 
@@ -77,12 +80,12 @@ public class SwerveDriveGamepad extends Gamepad {
         // Note, the x and y are swapped because of the orientation of the gamepad versus the orientation of the
         // field.  The drive team is at the end of the field looking down the X axis.  So, when the Y axis on the
         // gamepad is pushed forward (negative value from the gamepad), the driver expects the robot to move along
-        // the positive X axis of the field.  
+        // the positive X axis of the field.
         //
         action_.updateTargets(-lyscaled, -lxscaled, -rxscaled) ;
         if (db_.getAction() != action_)
             db_.setAction(action_) ;
-    }    
+    }
 
     private double mapJoyStick(double v, double maxv, double db, double power) {
         if (Math.abs(v) < db)

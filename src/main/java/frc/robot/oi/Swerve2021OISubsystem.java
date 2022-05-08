@@ -10,15 +10,20 @@ public class Swerve2021OISubsystem extends OISubsystem {
     private SwerveDriveSubsystem db_ ;
 
     public final static String SubsystemName = "swerveoi";
-    
-    private final static String DriverGamepadHIDIndexName = "hw:driverstation:hid:driver" ;
+
+    private final static String DriverGamepadHIDIndexName = "swerve_gamepad:index" ;
     private final static String[] devices_ = { "driver" } ;
 
     public Swerve2021OISubsystem(Subsystem parent, SwerveDriveSubsystem db) {
         super(parent, SubsystemName, GamePadType.Swerve, db) ;
-        
+
         db_ = db ;
-    }    
+        try {
+            addHIDDevice(createDevice("driver"));
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+    }
 
 
     public Gamepad createDevice(String name) throws Exception {
@@ -26,7 +31,7 @@ public class Swerve2021OISubsystem extends OISubsystem {
 
         if (!name.equals(devices_[0]))
         {
-            throw new Exception("OI HIDdevice '" + name + "' is not a valid device") ;            
+            throw new Exception("OI HIDdevice '" + name + "' is not a valid device") ;
         }
 
         //
