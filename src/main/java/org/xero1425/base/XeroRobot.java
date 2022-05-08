@@ -53,9 +53,6 @@ public abstract class XeroRobot extends TimedRobot {
     // This object contains important file system paths for the robot code
     private final RobotPaths robot_paths_;
 
-    // The period of the robot (generally 20 ms)
-    private final double period_ ;
-
     // The amount of time between the current robot loop and the previous robot loop.  Should be
     // approximately 20 ms but may vary some.
     private double delta_time_ ;
@@ -131,8 +128,6 @@ public abstract class XeroRobot extends TimedRobot {
 
         double start ;
 
-        period_ = period;
-
         // Generate the paths to the various important places (logfile directory, settings file, path follow paths directoryh, etc.)
         robot_paths_ = new RobotPaths(RobotBase.isSimulation(), getName());
 
@@ -197,12 +192,6 @@ public abstract class XeroRobot extends TimedRobot {
         last_time_ = getTime();
 
         automode_ = -1;
-    }
-
-    /// \brief return the period for the robot loop
-    /// \returns the period for the robot loop
-    public double getPeriod() {
-        return period_ ;
     }
 
     /// \brief returns true if pneumatics are enabled
@@ -389,7 +378,7 @@ public abstract class XeroRobot extends TimedRobot {
         }
 
         // Now that all subsystem are in place, compute the initial state of the robot
-        delta_time_ = period_;
+        delta_time_ = getPeriod();
         start = getTime() ;
         try {
             robot_subsystem_.computeState();
