@@ -13,6 +13,7 @@ import org.xero1425.base.swervedrive.SwerveDriveSubsystem;
 import org.xero1425.base.swervedrive.SwerveHolonomicPathFollower;
 import org.xero1425.base.swervedrive.SwerveSetMotorPowerAction;
 import org.xero1425.base.swervedrive.SwerveStopAction;
+import org.xero1425.misc.XeroMath;
 
 public class SwerveTestAutoMode extends TestAutoMode {
     public SwerveTestAutoMode(SwerveDriveRobotAutoController ctrl) throws Exception {
@@ -170,9 +171,9 @@ public class SwerveTestAutoMode extends TestAutoMode {
             }
 
             angles[0] = 45.0 ;
-            angles[1] = 135.0 ;
-            angles[2] = 225.0 ;
-            angles[3] = 225.0 + 90.0 ;
+            angles[1] = XeroMath.normalizeAngleDegrees(angles[0] + 90.0) ;
+            angles[2] = XeroMath.normalizeAngleDegrees(angles[1] + 90.0) ;
+            angles[3] = XeroMath.normalizeAngleDegrees(angles[2] + 90.0) ;
 
             addSubActionPair(swerve, new SwerveAngleVelocityAction(swerve, angles, speeds, false), false);
             addAction(new DelayAction(ctrl.getRobot(), getDouble("duration")));
