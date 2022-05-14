@@ -241,7 +241,7 @@
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 17,
+        "which" : 19,
         "0" : {
             "power" : 0.5,
             "duration" : 5.0
@@ -321,6 +321,10 @@
             "drive" : 0.5,
             "angle" : 0.0,
             "duration" : 30.0
+        },
+        "19" : {
+            "duration" : 5.0,
+            "speed" : 4.0
         }
     }
 }
