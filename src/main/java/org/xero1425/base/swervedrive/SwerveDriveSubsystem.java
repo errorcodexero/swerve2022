@@ -232,6 +232,10 @@ public class SwerveDriveSubsystem extends DriveBaseSubsystem {
         return angular_.getDistance() ;
     }
 
+    public double getAngleSpeed() {
+        return angular_.getVelocity() ;
+    }
+
     public double getModuleAngle(int module) {
         return getModule(module).getAngle() ;
     }
