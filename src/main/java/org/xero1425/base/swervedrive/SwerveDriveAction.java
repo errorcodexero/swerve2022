@@ -43,7 +43,7 @@ public abstract class SwerveDriveAction extends Action {
         return new Translation2d(vec.getX() * Math.cos(rads) - vec.getY() * Math.sin(rads), vec.getY() * Math.cos(rads) + vec.getX() * Math.sin(rads)) ;
     }
 
-    protected double createRotAngle(int which, double rot) {
+    protected double createRotAngle(int which) {
         //
         // The rot value is in degress per second, we need to transform this to a
         // linear speed for the wheel
@@ -71,7 +71,7 @@ public abstract class SwerveDriveAction extends Action {
 
     protected Translation2d createRotVector(int which, double rot) {
         double linear = rot / 360.0 * circum_ / 2 ;
-        double angle = createRotAngle(which, rot);
+        double angle = createRotAngle(which);
         angle = angle / 180.0 * Math.PI ;
         return new Translation2d(Math.cos(angle) * linear, Math.sin(angle) * linear) ;
     }
