@@ -166,9 +166,14 @@ public class SwerveTestAutoMode extends TestAutoMode {
 
         case 19:
             for (int i = 0; i < 4; i++) {
-                angles[i] = 0.0 ;
                 speeds[i] = getDouble("speed");
             }
+
+            angles[0] = 45.0 ;
+            angles[1] = 135.0 ;
+            angles[2] = 225.0 ;
+            angles[3] = 225.0 + 90.0 ;
+
             addSubActionPair(swerve, new SwerveAngleVelocityAction(swerve, angles, speeds, false), false);
             addAction(new DelayAction(ctrl.getRobot(), getDouble("duration")));
             break ;
