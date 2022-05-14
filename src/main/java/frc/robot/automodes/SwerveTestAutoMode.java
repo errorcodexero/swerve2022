@@ -166,16 +166,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 break ;
 
         case 19:
-            for (int i = 0; i < 4; i++) {
-                speeds[i] = getDouble("speed");
-            }
-
-            angles[0] = 45.0 ;
-            angles[1] = XeroMath.normalizeAngleDegrees(angles[0] + 90.0) ;
-            angles[2] = XeroMath.normalizeAngleDegrees(angles[1] + 90.0) ;
-            angles[3] = XeroMath.normalizeAngleDegrees(angles[2] + 90.0) ;
-
-            addSubActionPair(swerve, new SwerveAngleVelocityAction(swerve, angles, speeds, false), false);
+            addSubActionPair(swerve, new SwerveAngleVelocityAction(swerve, 45.0, getDouble("speed")), false);
             addAction(new DelayAction(ctrl.getRobot(), getDouble("duration")));
             break ;
         }

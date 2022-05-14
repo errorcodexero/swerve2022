@@ -39,6 +39,24 @@ public class SwerveAngleVelocityAction extends SwerveDriveAction {
         plotid_ = subsys.initPlot("SwerveAngleVelocityAction") ;
     }
 
+    public SwerveAngleVelocityAction(SwerveDriveSubsystem subsys, double angle, double speeds) throws Exception {
+        super(subsys) ;
+
+        angles_ = new double[4] ;
+        angles_[SwerveDriveSubsystem.FL] = createRotAngle(SwerveDriveSubsystem.FL, angle) ;
+        angles_[SwerveDriveSubsystem.BL] = createRotAngle(SwerveDriveSubsystem.BL, angle) ;
+        angles_[SwerveDriveSubsystem.FR] = createRotAngle(SwerveDriveSubsystem.FR, angle) ;
+        angles_[SwerveDriveSubsystem.BR] = createRotAngle(SwerveDriveSubsystem.BR, angle) ;
+
+        speeds_ = new double[4] ;
+        for(int i = 0 ; i < 4 ; i++) 
+            speeds_[i] = speeds ;
+
+        plot_timer_ = new XeroTimer(subsys.getRobot(), "SwerveAngleVelocityAction-plot-timer", 4) ;
+        plot_data_ = new Double[columns_.length] ;
+        plotid_ = subsys.initPlot("SwerveAngleVelocityAction") ;
+    }
+
     void updateTargets(double[] angles, double[] speeds) {
         angles_ = angles.clone() ;
         speeds_ = speeds.clone() ;
