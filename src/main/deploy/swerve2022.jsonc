@@ -8,7 +8,8 @@
 
             // Tank drive related settings
             "pathfollowing": false,
-            "swervedrive": false
+            "swervedrive": false,
+            "swerveoi": true
         },
         "verbose" : {
             "swervedrive": true
@@ -225,11 +226,11 @@
             "swerve_gamepad" : {
                 "index" : 0,
                 "angle" : {
-                    "maximum" : 735,
+                    "maximum" : 561,
                     "deadband" : 0.05
                 },
                 "position" : {
-                    "maximum" : 154,
+                    "maximum" : 3.99,
                     "deadband" : {
                         "x" : 0.1,
                         "y" : 0.1
@@ -325,6 +326,7 @@
         "19" : {
             "duration" : 5.0,
             "speed" : 4.0
+            
         }
     }
 }

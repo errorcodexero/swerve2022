@@ -6,6 +6,8 @@ import org.xero1425.base.actions.SequenceAction;
 import org.xero1425.base.swervedrive.SwerveDirectionRotateAction;
 import org.xero1425.base.swervedrive.SwerveDriveSubsystem;
 import org.xero1425.misc.BadParameterTypeException;
+import org.xero1425.misc.MessageLogger;
+import org.xero1425.misc.MessageType;
 import org.xero1425.misc.MissingParameterException;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -83,6 +85,7 @@ public class SwerveDriveGamepad extends Gamepad {
         // the positive X axis of the field.
         //
         action_.updateTargets(-lyscaled, -lxscaled, -rxscaled) ;
+        getSubsystem().getRobot().getMessageLogger().startMessage(MessageType.Debug, getSubsystem().getLoggerID()).add("SwerveGamepad:").add("lx", -lyscaled).add("ly", -lxscaled).add("rx", -rxscaled).endMessage();
         if (db_.getAction() != action_)
             db_.setAction(action_) ;
     }
