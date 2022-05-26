@@ -66,9 +66,10 @@ public class TalonFXMotorController extends MotorController
             sim_encoder_ = null ;
 
             controller_ = new TalonFX(index) ;
-
-            controller_.configVoltageCompSaturation(12.0, ControllerTimeout) ;
-            controller_.enableVoltageCompensation(true);
+            controller_.configFactoryDefault() ;
+            
+            // controller_.configVoltageCompSaturation(12.0, ControllerTimeout) ;
+            // controller_.enableVoltageCompensation(true);
         }
     }
 
@@ -126,6 +127,8 @@ public class TalonFXMotorController extends MotorController
         }
         else {
             ErrorCode code ;
+
+            System.out.println("setPID p = " + p + " i = " + i + " d = " + d + " f = " + f + " outmax = " + outmax) ;
 
             code = controller_.config_kP(0, p, ControllerTimeout) ;
             if (code != ErrorCode.OK)
@@ -357,6 +360,7 @@ public class TalonFXMotorController extends MotorController
         if (controller_ != null) {
             controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, p1) ;
             controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, p2) ;
+            controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_21_FeedbackIntegrated, p2) ;
         }
     }
 } ;

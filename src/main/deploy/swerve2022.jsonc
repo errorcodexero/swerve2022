@@ -129,7 +129,7 @@
                 },
                 "fl" : {
                     "drive" : {
-                        "kp" : 0.0,
+                        "kp" : 0.001,
                         "ki" : 0.0,
                         "kd" : 0.0,
                         "kf" : 0.04701708,
@@ -149,7 +149,7 @@
                 },
                 "fr" : {
                     "drive" : {
-                        "kp" : 0.006,
+                        "kp" : 0.001,
                         "ki" : 0.0,
                         "kd" : 0.0,
                         "kf" : 0.04701708,
@@ -169,7 +169,7 @@
                 },
                 "bl" : {
                     "drive" : {
-                        "kp" : 0.0,
+                        "kp" : 0.001,
                         "ki" : 0.0,
                         "kd" : 0.0,
                         "kf" : 0.04701708,
@@ -189,7 +189,7 @@
                 },
                 "br" : {
                     "drive" : {
-                        "kp" : 0.006,
+                        "kp" : 0.001,
                         "ki" : 0.0,
                         "kd" : 0.0,
                         "kf" : 0.04701708,
@@ -242,7 +242,7 @@
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 17,
+        "which" : 16,
         "0" : {
             "power" : 0.5,
             "duration" : 5.0
@@ -256,24 +256,24 @@
             "duration" : 0.0
         },
         "3" : {
-            "power" : 0.0,
-            "duration" : 0.0
+            "power" : 0.5,
+            "duration" : 5.0
         },
         "4" : {
             "power" : 0.0,
             "duration" : 0.0
         },
         "5" : {
-            "power" : 0.0,
-            "duration" : 0.0
+            "power" : 0.5,
+            "duration" : 5.0
         },
         "6" : {
             "power" : 0.0,
             "duration" : 0.0
         },
         "7" : {
-            "power" : 0.0,
-            "duration" : 0.0
+            "power" : 0.5,
+            "duration" : 5.0
         },
         "8" : {
             "power" : 0.0,
@@ -284,8 +284,8 @@
             "duration" : 1.0
         },
         "10" : {
-            "power" : 0.0,
-            "duration" : 0.0
+            "speed" : 1.0,
+            "duration" : 3.0
         },
         "11" : {
             "angle" : 30.0,
@@ -309,14 +309,14 @@
             "endangle" : 0.0
         },
         "16" : {
-            "angle" : 30.0,
+            "angle" : 90.0,
             "wheel" : 0,
             "duration" : 5
         },
         "17" : {
             "speed" : 2.0,
             "wheel" : 1,
-            "duration" : 5
+            "duration" : 3
         },
         "18" : {
             "drive" : 0.5,

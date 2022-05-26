@@ -110,6 +110,11 @@ public class SwerveTestAutoMode extends TestAutoMode {
                     speeds[i] = getDouble("speed");
                 }
 
+                speeds[0] = 1.0 ;
+                speeds[1] = 0.5 ;
+                speeds[2] = 1.5 ;
+                speeds[3] = 2.0 ;
+
                 addSubActionPair(swerve, new SwerveAngleVelocityAction(swerve, angles, speeds, false), false);
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("duration")));
                 addSubActionPair(swerve, new SwerveStopAction(swerve), true);

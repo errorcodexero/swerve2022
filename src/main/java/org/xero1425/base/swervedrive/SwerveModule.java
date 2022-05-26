@@ -54,10 +54,10 @@ public class SwerveModule {
         name_ = name ;
 
         steer_ = robot.getMotorFactory().createMotor(name + "-steer", config + ":hw:" + sname + ":steer");
-        drive_ = robot.getMotorFactory().createMotor(name + "-drive", config + ":hw:" + sname + ":drive");
+        drive_ = robot.getMotorFactory().createMotor(name + "-drive", config + ":hw:" + sname + ":drive") ;
         encoder_ = new XeroEncoder(robot, config + ":hw:" + sname + ":encoder", true, null) ;
 
-        // drive_.setEncoderUpdateFrequncy(EncoderUpdateFrequency.Frequent, EncoderUpdateFrequency.Frequent);
+        drive_.setEncoderUpdateFrequncy(EncoderUpdateFrequency.Frequent, EncoderUpdateFrequency.Frequent);
 
         drive_power_ = 0.0;
         steer_power_ = 0.0;
@@ -249,8 +249,7 @@ public class SwerveModule {
                 // The velocity of the talon fx device is measured in ticks per 100ms.  So, we need to conver
                 // our meters per second to ticks per 100 ms
                 //                
-                double d = target_speed_ * ticks_per_meter_ / 10.0 ;               
-                System.out.println("Target " + d) ;
+                double d = target_speed_ * ticks_per_meter_ / 10.0 ;  
                 drive_.setTarget(d) ;
             }
             catch(Exception ex) {
