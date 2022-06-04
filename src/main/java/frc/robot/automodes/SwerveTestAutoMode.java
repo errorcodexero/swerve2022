@@ -13,9 +13,9 @@ import org.xero1425.base.swervedrive.SwerveDriveSubsystem;
 import org.xero1425.base.swervedrive.SwerveHolonomicPathFollower;
 import org.xero1425.base.swervedrive.SwerveSetMotorPowerAction;
 import org.xero1425.base.swervedrive.SwerveStopAction;
-import org.xero1425.misc.XeroMath;
 
 public class SwerveTestAutoMode extends TestAutoMode {
+
     public SwerveTestAutoMode(SwerveDriveRobotAutoController ctrl) throws Exception {
         super(ctrl, "Swerver-Test-Mode");
 
