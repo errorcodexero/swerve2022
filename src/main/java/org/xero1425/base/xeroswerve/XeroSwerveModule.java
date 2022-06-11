@@ -1,4 +1,4 @@
-package org.xero1425.base.swervedrive;
+package org.xero1425.base.xeroswerve;
 
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.motors.BadMotorRequestException;
@@ -20,7 +20,7 @@ import org.xero1425.misc.XeroMath;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
-public class SwerveModule {
+public class XeroSwerveModule {
     private XeroRobot robot_ ;
     private String name_ ;
     private MotorController steer_;
@@ -42,7 +42,7 @@ public class SwerveModule {
     private final String LinearSamplesName = "linear:samples" ;
     private final String TicksPerMeterName = "ticks_per_meter" ;
 
-    public SwerveModule(XeroRobot robot, SwerveDriveSubsystem subsystem, String name, String config, String sname, boolean hwpid) throws BadParameterTypeException,
+    public XeroSwerveModule(XeroRobot robot, XeroSwerveDriveSubsystem subsystem, String name, String config, String sname, boolean hwpid) throws BadParameterTypeException,
             MissingParameterException, EncoderConfigException, BadMotorRequestException, MotorRequestFailedException {
 
         ISettingsSupplier settings = subsystem.getRobot().getSettingsSupplier() ;

@@ -2,25 +2,29 @@ package org.xero1425.base.oi;
 
 import org.xero1425.base.DriveBaseSubsystem;
 import org.xero1425.base.LoopType;
+import org.xero1425.base.actions.Action;
 import org.xero1425.base.actions.SequenceAction;
-import org.xero1425.base.swervedrive.SwerveDirectionRotateAction;
+import org.xero1425.base.swervedrive.SwerveDriveSubsystem;
+import org.xero1425.base.swervedrive.SwerveTranslateRotateAction;
+import org.xero1425.base.xeroswerve.XeroSwerveDirectionRotateAction;
+import org.xero1425.base.xeroswerve.XeroSwerveDriveSubsystem;
 import org.xero1425.base.swervedrive.SwerveDriveSubsystem;
 import org.xero1425.misc.BadParameterTypeException;
-import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
 import org.xero1425.misc.MissingParameterException;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class SwerveDriveGamepad extends Gamepad {
-    private SwerveDriveSubsystem db_;
+    private DriveBaseSubsystem db_;
     private double angle_maximum_;
     private double pos_maximum_;
     private double deadband_pos_x_ ;
     private double deadband_pos_y_ ;
     private double deadband_rotate_ ;
     private double power_ ;
-    private SwerveDirectionRotateAction action_;
+    private Action action_;
 
     public SwerveDriveGamepad(OISubsystem oi, int index, DriveBaseSubsystem drive_) throws Exception {
         super(oi, "swerve_gamepad", index);
@@ -33,8 +37,8 @@ public class SwerveDriveGamepad extends Gamepad {
             throw new Exception("invalid gamepad for TankDriveGamepad");
         }
 
-        db_ = (SwerveDriveSubsystem)drive_;
-        if (db_ == null) {
+        db_ = drive_;
+        if (!(db_ instanceof XeroSwerveDriveSubsystem) && !(db_ instanceof SwerveDriveSubsystem)) {
             throw new Exception("invalid drivebase for SwerveDriveGamepad - expected swerve drive");
         }
     }
@@ -51,7 +55,11 @@ public class SwerveDriveGamepad extends Gamepad {
         pos_maximum_ = getSubsystem().getSettingsValue("swerve_gamepad:position:maximum").getDouble();
         angle_maximum_ = getSubsystem().getSettingsValue("swerve_gamepad:angle:maximum").getDouble();
         power_ = getSubsystem().getSettingsValue("swerve_gamepad:power").getDouble();
-        action_ = new SwerveDirectionRotateAction(db_, 0.0, 0.0, 0.0) ;
+
+        if (db_ instanceof XeroSwerveDriveSubsystem)
+            action_ = new XeroSwerveDirectionRotateAction((XeroSwerveDriveSubsystem)db_, 0.0, 0.0, 0.0) ;
+        else
+            action_ = new SwerveTranslateRotateAction((SwerveDriveSubsystem)db_) ;
     }
 
     @Override
@@ -84,8 +92,15 @@ public class SwerveDriveGamepad extends Gamepad {
         // gamepad is pushed forward (negative value from the gamepad), the driver expects the robot to move along
         // the positive X axis of the field.
         //
-        action_.updateTargets(-lyscaled, -lxscaled, -rxscaled) ;
-        getSubsystem().getRobot().getMessageLogger().startMessage(MessageType.Debug, getSubsystem().getLoggerID()).add("SwerveGamepad:").add("lx", -lyscaled).add("ly", -lxscaled).add("rx", -rxscaled).endMessage();
+        if (db_ instanceof XeroSwerveDriveSubsystem) {
+            XeroSwerveDirectionRotateAction a = (XeroSwerveDirectionRotateAction)action_ ;
+            a.updateTargets(-lyscaled, -lxscaled, -rxscaled) ;
+        }
+        else {
+            SwerveTranslateRotateAction a = (SwerveTranslateRotateAction)action_ ;
+            a.update(new ChassisSpeeds(-lyscaled, -lxscaled, -rxscaled));
+        }
+        
         if (db_.getAction() != action_)
             db_.setAction(action_) ;
     }

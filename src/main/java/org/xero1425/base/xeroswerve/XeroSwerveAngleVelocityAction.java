@@ -1,8 +1,8 @@
-package org.xero1425.base.swervedrive;
+package org.xero1425.base.xeroswerve;
 
 import org.xero1425.base.misc.XeroTimer;
 
-public class SwerveAngleVelocityAction extends SwerveDriveAction {
+public class XeroSwerveAngleVelocityAction extends XeroSwerveDriveAction {
     private double [] angles_ ;
     private double [] speeds_ ;
     private boolean hold_ ;
@@ -19,7 +19,7 @@ public class SwerveAngleVelocityAction extends SwerveDriveAction {
         "rot (deg)", "rotspeed (deg/s)"
     } ;
 
-    public SwerveAngleVelocityAction(SwerveDriveSubsystem subsys, double [] angles, double [] speeds, boolean hold) throws Exception {
+    public XeroSwerveAngleVelocityAction(XeroSwerveDriveSubsystem subsys, double [] angles, double [] speeds, boolean hold) throws Exception {
         super(subsys) ;
 
         if (angles.length != 4) {
@@ -39,14 +39,14 @@ public class SwerveAngleVelocityAction extends SwerveDriveAction {
         plotid_ = subsys.initPlot("SwerveAngleVelocityAction") ;
     }
 
-    public SwerveAngleVelocityAction(SwerveDriveSubsystem subsys, double angle, double speeds) throws Exception {
+    public XeroSwerveAngleVelocityAction(XeroSwerveDriveSubsystem subsys, double angle, double speeds) throws Exception {
         super(subsys) ;
 
         angles_ = new double[4] ;
-        angles_[SwerveDriveSubsystem.FL] = createRotAngle(SwerveDriveSubsystem.FL) ;
-        angles_[SwerveDriveSubsystem.BL] = createRotAngle(SwerveDriveSubsystem.BL) ;
-        angles_[SwerveDriveSubsystem.FR] = createRotAngle(SwerveDriveSubsystem.FR) ;
-        angles_[SwerveDriveSubsystem.BR] = createRotAngle(SwerveDriveSubsystem.BR) ;
+        angles_[XeroSwerveDriveSubsystem.FL] = createRotAngle(XeroSwerveDriveSubsystem.FL) ;
+        angles_[XeroSwerveDriveSubsystem.BL] = createRotAngle(XeroSwerveDriveSubsystem.BL) ;
+        angles_[XeroSwerveDriveSubsystem.FR] = createRotAngle(XeroSwerveDriveSubsystem.FR) ;
+        angles_[XeroSwerveDriveSubsystem.BR] = createRotAngle(XeroSwerveDriveSubsystem.BR) ;
 
         speeds_ = new double[4] ;
         for(int i = 0 ; i < 4 ; i++) 
@@ -82,18 +82,18 @@ public class SwerveAngleVelocityAction extends SwerveDriveAction {
         else {
             int index = 0 ;
             plot_data_[index++] = plot_timer_.elapsed() ;
-            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.FL).getSpeed() ;
-            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.FL).getAngle() ;
-            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.FL).getSpeedTarget() ;
-            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.FR).getSpeed() ;
-            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.FR).getAngle() ;
-            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.FR).getSpeedTarget() ;            
-            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.BL).getSpeed() ;
-            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.BL).getAngle() ;
-            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.BL).getSpeedTarget() ;            
-            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.BR).getSpeed() ;
-            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.BR).getAngle() ;           
-            plot_data_[index++] = getSubsystem().getModule(SwerveDriveSubsystem.BR).getSpeedTarget() ;
+            plot_data_[index++] = getSubsystem().getModule(XeroSwerveDriveSubsystem.FL).getSpeed() ;
+            plot_data_[index++] = getSubsystem().getModule(XeroSwerveDriveSubsystem.FL).getAngle() ;
+            plot_data_[index++] = getSubsystem().getModule(XeroSwerveDriveSubsystem.FL).getSpeedTarget() ;
+            plot_data_[index++] = getSubsystem().getModule(XeroSwerveDriveSubsystem.FR).getSpeed() ;
+            plot_data_[index++] = getSubsystem().getModule(XeroSwerveDriveSubsystem.FR).getAngle() ;
+            plot_data_[index++] = getSubsystem().getModule(XeroSwerveDriveSubsystem.FR).getSpeedTarget() ;            
+            plot_data_[index++] = getSubsystem().getModule(XeroSwerveDriveSubsystem.BL).getSpeed() ;
+            plot_data_[index++] = getSubsystem().getModule(XeroSwerveDriveSubsystem.BL).getAngle() ;
+            plot_data_[index++] = getSubsystem().getModule(XeroSwerveDriveSubsystem.BL).getSpeedTarget() ;            
+            plot_data_[index++] = getSubsystem().getModule(XeroSwerveDriveSubsystem.BR).getSpeed() ;
+            plot_data_[index++] = getSubsystem().getModule(XeroSwerveDriveSubsystem.BR).getAngle() ;           
+            plot_data_[index++] = getSubsystem().getModule(XeroSwerveDriveSubsystem.BR).getSpeedTarget() ;
             plot_data_[index++] = getSubsystem().getAngle();
             plot_data_[index++] = getSubsystem().getAngleSpeed() ;
             getSubsystem().addPlotData(plotid_, plot_data_);

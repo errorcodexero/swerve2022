@@ -1,4 +1,4 @@
-package org.xero1425.base.swervedrive;
+package org.xero1425.base.xeroswerve;
 
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
@@ -8,14 +8,14 @@ import org.xero1425.misc.XeroPathSegment;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 
-public class SwervePathFollowAction extends SwerveDriveAction {
+public class XeroSwervePathFollowAction extends XeroSwerveDriveAction {
     private int index_;
     private String pathname_;
     private XeroPath path_;
     private double[] angles_;
     private double[] speeds_;
 
-    public SwervePathFollowAction(SwerveDriveSubsystem drive, String path) {
+    public XeroSwervePathFollowAction(XeroSwerveDriveSubsystem drive, String path) {
 
         super(drive);
 
@@ -33,10 +33,10 @@ public class SwervePathFollowAction extends SwerveDriveAction {
         index_ = 0;
         path_ = getSubsystem().getRobot().getPathManager().getPath(pathname_);
 
-        XeroPathSegment fl = path_.getSegment(SwerveDriveSubsystem.FL, 0) ;
-        XeroPathSegment fr = path_.getSegment(SwerveDriveSubsystem.FR, 0) ;
-        XeroPathSegment bl = path_.getSegment(SwerveDriveSubsystem.BL, 0) ;
-        XeroPathSegment br = path_.getSegment(SwerveDriveSubsystem.BR, 0) ;
+        XeroPathSegment fl = path_.getSegment(XeroSwerveDriveSubsystem.FL, 0) ;
+        XeroPathSegment fr = path_.getSegment(XeroSwerveDriveSubsystem.FR, 0) ;
+        XeroPathSegment bl = path_.getSegment(XeroSwerveDriveSubsystem.BL, 0) ;
+        XeroPathSegment br = path_.getSegment(XeroSwerveDriveSubsystem.BR, 0) ;
 
         double x = (fl.getX() + fr.getX() + bl.getX() + br.getX()) / 4.0 ;
         double y = (fl.getY() + fr.getY() + bl.getY() + br.getY()) / 4.0 ;
@@ -53,20 +53,20 @@ public class SwervePathFollowAction extends SwerveDriveAction {
     public void run() throws BadMotorRequestException, MotorRequestFailedException {
         if (index_ < path_.getSize())
         {
-            XeroPathSegment fl = path_.getSegment(SwerveDriveSubsystem.FL, index_) ;
-            XeroPathSegment fr = path_.getSegment(SwerveDriveSubsystem.FR, index_) ;
-            XeroPathSegment bl = path_.getSegment(SwerveDriveSubsystem.BL, index_) ;
-            XeroPathSegment br = path_.getSegment(SwerveDriveSubsystem.BR, index_) ;
+            XeroPathSegment fl = path_.getSegment(XeroSwerveDriveSubsystem.FL, index_) ;
+            XeroPathSegment fr = path_.getSegment(XeroSwerveDriveSubsystem.FR, index_) ;
+            XeroPathSegment bl = path_.getSegment(XeroSwerveDriveSubsystem.BL, index_) ;
+            XeroPathSegment br = path_.getSegment(XeroSwerveDriveSubsystem.BR, index_) ;
 
-            angles_[SwerveDriveSubsystem.FL] = fl.getHeading() ;
-            angles_[SwerveDriveSubsystem.FR] = fr.getHeading() ;
-            angles_[SwerveDriveSubsystem.BL] = bl.getHeading() ;
-            angles_[SwerveDriveSubsystem.BR] = br.getHeading() ;
+            angles_[XeroSwerveDriveSubsystem.FL] = fl.getHeading() ;
+            angles_[XeroSwerveDriveSubsystem.FR] = fr.getHeading() ;
+            angles_[XeroSwerveDriveSubsystem.BL] = bl.getHeading() ;
+            angles_[XeroSwerveDriveSubsystem.BR] = br.getHeading() ;
 
-            speeds_[SwerveDriveSubsystem.FL] = fl.getVelocity() ;
-            speeds_[SwerveDriveSubsystem.FR] = fr.getVelocity() ;
-            speeds_[SwerveDriveSubsystem.BL] = bl.getVelocity() ;
-            speeds_[SwerveDriveSubsystem.BR] = br.getVelocity() ;
+            speeds_[XeroSwerveDriveSubsystem.FL] = fl.getVelocity() ;
+            speeds_[XeroSwerveDriveSubsystem.FR] = fr.getVelocity() ;
+            speeds_[XeroSwerveDriveSubsystem.BL] = bl.getVelocity() ;
+            speeds_[XeroSwerveDriveSubsystem.BR] = br.getVelocity() ;
 
             getSubsystem().setPathLocation(getPoseFromPath(index_));
             getSubsystem().setTargets(angles_, speeds_);
@@ -95,10 +95,10 @@ public class SwervePathFollowAction extends SwerveDriveAction {
     }
 
     private Pose2d getPoseFromPath(int index) {
-        XeroPathSegment fl = path_.getSegment(SwerveDriveSubsystem.FL, index) ;
-        XeroPathSegment fr = path_.getSegment(SwerveDriveSubsystem.FR, index) ;
-        XeroPathSegment bl = path_.getSegment(SwerveDriveSubsystem.BL, index) ;
-        XeroPathSegment br = path_.getSegment(SwerveDriveSubsystem.BR, index) ;
+        XeroPathSegment fl = path_.getSegment(XeroSwerveDriveSubsystem.FL, index) ;
+        XeroPathSegment fr = path_.getSegment(XeroSwerveDriveSubsystem.FR, index) ;
+        XeroPathSegment bl = path_.getSegment(XeroSwerveDriveSubsystem.BL, index) ;
+        XeroPathSegment br = path_.getSegment(XeroSwerveDriveSubsystem.BR, index) ;
 
         double x = (fl.getX() + fr.getX() + bl.getX() + br.getX()) / 4.0 ;
         double y = (fl.getY() + fr.getY() + bl.getY() + br.getY()) / 4.0 ;

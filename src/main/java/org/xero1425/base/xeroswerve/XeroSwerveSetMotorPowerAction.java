@@ -1,6 +1,6 @@
-package org.xero1425.base.swervedrive;
+package org.xero1425.base.xeroswerve;
 
-public class SwerveSetMotorPowerAction extends SwerveDriveAction {
+public class XeroSwerveSetMotorPowerAction extends XeroSwerveDriveAction {
     private int which_ ;
     private double steer_power_ ;
     private double drive_power_ ;
@@ -8,7 +8,7 @@ public class SwerveSetMotorPowerAction extends SwerveDriveAction {
     private double duration_ ;
     private boolean timed_ ;
 
-    public SwerveSetMotorPowerAction(SwerveDriveSubsystem subsys, int which, double steer, double drive) {
+    public XeroSwerveSetMotorPowerAction(XeroSwerveDriveSubsystem subsys, int which, double steer, double drive) {
         super(subsys) ;
 
         which_ = which ;
@@ -19,7 +19,7 @@ public class SwerveSetMotorPowerAction extends SwerveDriveAction {
         timed_ = false ;
     }
 
-    public SwerveSetMotorPowerAction(SwerveDriveSubsystem subsys, int which, double steer, double drive, double dur) {
+    public XeroSwerveSetMotorPowerAction(XeroSwerveDriveSubsystem subsys, int which, double steer, double drive, double dur) {
         super(subsys) ;
 
         which_ = which ;

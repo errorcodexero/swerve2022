@@ -21,6 +21,67 @@
     },
     "subsystems" : {
         "swervedrive" : {
+            "hw" : {
+                "gyro" : {
+                    "type" : "navx",
+                    "start-time" : 3.0
+                },
+                "fl" : {
+                    "steer" : {
+                        "canid" : 1
+                    },
+                    "drive" : {
+                        "canid" : 2
+                    },
+                    "encoder" : {
+                        "canid" : 3,
+                        "offset" : 0.0
+                    }
+                },
+                "fr" : {
+                    "steer" : {
+                        "canid" : 4
+                    },
+                    "drive" : {
+                        "canid" : 5
+                    },
+                    "encoder" : {
+                        "canid" : 6,
+                        "offset" : 0.0                        
+                    }
+                },
+                "bl" : {
+                    "steer" : {
+                        "canid" : 7
+                    },
+                    "drive" : {
+                        "canid" : 8
+                    },
+                    "encoder" : {
+                        "canid" : 9,
+                        "offset" : 0.0                        
+                    }
+                },
+                "br" : {
+                    "steer" : {
+                        "canid" : 10
+                    },
+                    "drive" : {
+                        "canid" : 11
+                    },
+                    "encoder" : {
+                        "canid" : 12,
+                        "offset" : 0.0                        
+                    }
+                }               
+            },
+            "physical" : {
+                "width" : 0.5715,               // meters
+                "length" : 0.5842,              // meters
+                "maxspeed" : 4.14528            // meters per second
+            }         
+        },   
+        "xeroswervedrive" : {        
             //
             // Calibration of the analog EC value is done with the bevel side of the wheels towards the
             // right side of the robot

@@ -1,8 +1,8 @@
-package org.xero1425.base.swervedrive;
+package org.xero1425.base.xeroswerve;
 
-public class SwerveStopAction extends SwerveDriveAction {
+public class XeroSwerveStopAction extends XeroSwerveDriveAction {
 
-    public SwerveStopAction(SwerveDriveSubsystem subsys)  {
+    public XeroSwerveStopAction(XeroSwerveDriveSubsystem subsys)  {
         super(subsys) ;
     }
 

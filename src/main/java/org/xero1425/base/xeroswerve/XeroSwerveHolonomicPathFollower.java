@@ -1,4 +1,4 @@
-package org.xero1425.base.swervedrive;
+package org.xero1425.base.xeroswerve;
 
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
@@ -16,7 +16,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
-public class SwerveHolonomicPathFollower extends SwerveDriveAction {
+public class XeroSwerveHolonomicPathFollower extends XeroSwerveDriveAction {
 
     private String pathname_ ;
     private HolonomicDriveController ctrl_ ;
@@ -24,7 +24,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
     private int index_ ;
     private Rotation2d end_rotation_ ;
 
-    public SwerveHolonomicPathFollower(SwerveDriveSubsystem sub, String pathname, double endangle) {
+    public XeroSwerveHolonomicPathFollower(XeroSwerveDriveSubsystem sub, String pathname, double endangle) {
         super(sub) ;
 
         pathname_ = pathname ;
@@ -102,10 +102,10 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
     }
 
     private Pose2d getPoseFromPath(int index) {
-        XeroPathSegment fl = path_.getSegment(SwerveDriveSubsystem.FL, index) ;
-        XeroPathSegment fr = path_.getSegment(SwerveDriveSubsystem.FR, index) ;
-        XeroPathSegment bl = path_.getSegment(SwerveDriveSubsystem.BL, index) ;
-        XeroPathSegment br = path_.getSegment(SwerveDriveSubsystem.BR, index) ;
+        XeroPathSegment fl = path_.getSegment(XeroSwerveDriveSubsystem.FL, index) ;
+        XeroPathSegment fr = path_.getSegment(XeroSwerveDriveSubsystem.FR, index) ;
+        XeroPathSegment bl = path_.getSegment(XeroSwerveDriveSubsystem.BL, index) ;
+        XeroPathSegment br = path_.getSegment(XeroSwerveDriveSubsystem.BR, index) ;
 
         double x = (fl.getX() + fr.getX() + bl.getX() + br.getX()) / 4.0 ;
         double y = (fl.getY() + fr.getY() + bl.getY() + br.getY()) / 4.0 ;
@@ -115,10 +115,10 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
     }
 
     private double getVelocityFromPath(int index) {
-        XeroPathSegment fl = path_.getSegment(SwerveDriveSubsystem.FL, index) ;
-        XeroPathSegment fr = path_.getSegment(SwerveDriveSubsystem.FR, index) ;
-        XeroPathSegment bl = path_.getSegment(SwerveDriveSubsystem.BL, index) ;
-        XeroPathSegment br = path_.getSegment(SwerveDriveSubsystem.BR, index) ;
+        XeroPathSegment fl = path_.getSegment(XeroSwerveDriveSubsystem.FL, index) ;
+        XeroPathSegment fr = path_.getSegment(XeroSwerveDriveSubsystem.FR, index) ;
+        XeroPathSegment bl = path_.getSegment(XeroSwerveDriveSubsystem.BL, index) ;
+        XeroPathSegment br = path_.getSegment(XeroSwerveDriveSubsystem.BR, index) ;
 
         double ret = (fl.getVelocity() + fr.getVelocity() + bl.getVelocity() + br.getVelocity())  / 4.0 ;
         return ret ;

@@ -1,10 +1,10 @@
-package org.xero1425.base.swervedrive;
+package org.xero1425.base.xeroswerve;
 
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
 import edu.wpi.first.math.geometry.Translation2d;
 
-public class SwerveDirectionRotateAction extends SwerveDriveAction {
+public class XeroSwerveDirectionRotateAction extends XeroSwerveDriveAction {
     private Translation2d dir_ ;
     private double rot_ ;
     private double [] angles_ ;
@@ -18,11 +18,11 @@ public class SwerveDirectionRotateAction extends SwerveDriveAction {
 
     private final double NearZero = 0.005 ;
 
-    public SwerveDirectionRotateAction(SwerveDriveSubsystem subsys, double x, double y, double rot) {
+    public XeroSwerveDirectionRotateAction(XeroSwerveDriveSubsystem subsys, double x, double y, double rot) {
         this(subsys, x, y, rot, Double.MAX_VALUE) ;
     }
 
-    public SwerveDirectionRotateAction(SwerveDriveSubsystem subsys, double x, double y, double rot, double duration) {
+    public XeroSwerveDirectionRotateAction(XeroSwerveDriveSubsystem subsys, double x, double y, double rot, double duration) {
         super(subsys) ;
 
         threshold_ = 0.5 ;
