@@ -1,8 +1,8 @@
 package frc.robot;
 
-import org.xero1425.base.DriveBaseSubsystem;
 import org.xero1425.base.RobotSubsystem;
 import org.xero1425.base.XeroRobot;
+import org.xero1425.base.swerve.common.SwerveBaseSubsystem;
 import org.xero1425.base.swerve.swervedrive.SDSSwerveDriveSubsystem;
 import org.xero1425.base.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 
@@ -12,7 +12,7 @@ public class SwerveDriveRobotSubsystem extends RobotSubsystem {
     public SwerveDriveRobotSubsystem(XeroRobot robot) throws Exception {
         super(robot, "SwerveRobotSubsystem") ;
 
-        DriveBaseSubsystem db ;
+        SwerveBaseSubsystem db ;
         boolean usehwpid = true ;
         boolean usesds = true ;
 

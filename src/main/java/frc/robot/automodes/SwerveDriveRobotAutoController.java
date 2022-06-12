@@ -14,7 +14,6 @@ public class SwerveDriveRobotAutoController extends AutoController {
     public SwerveDriveRobotAutoController(XeroRobot robot) throws MissingParameterException, BadParameterTypeException, InvalidActionRequest {
         super(robot, "SwerveDriveAutoController");
 
-        mode_ = new SwerveMotorTestAutoMode(this) ;
         try {
             test_mode_ = new SwerveTestAutoMode(this) ;
         }

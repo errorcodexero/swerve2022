@@ -13,12 +13,13 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 ///
 
 public class SwervePowerAngleAction extends SwerveDriveAction {
+    static final double DefaultPlotInterval = 4.0 ;
+
     private double [] angles_ ;
     private double [] speeds_ ;
-    private double duration_ ;
-    private double start_time_ ;
 
     private XeroTimer plot_timer_ ;
+    private XeroTimer action_timer_ ;
 
     public SwervePowerAngleAction(XeroSwerveDriveSubsystem subsys, double [] angles, double [] speeds) throws Exception {
         this(subsys, angles, speeds, Double.NaN) ;
@@ -37,9 +38,10 @@ public class SwervePowerAngleAction extends SwerveDriveAction {
 
         angles_ = angles.clone() ;
         speeds_ = speeds.clone() ;
-        duration_ = duration ;
 
-        plot_timer_ = new XeroTimer(subsys.getRobot(), "SwerveAngleVelocityAction-plot-timer", 4) ;
+        if (Double.isFinite(duration))
+            action_timer_ = new XeroTimer(subsys.getRobot(), "SwervePowerAngleAction-action", duration) ;
+        plot_timer_ = new XeroTimer(subsys.getRobot(), "SwerveAngleVelocityAction-timer", DefaultPlotInterval) ;
     }
 
     public SwervePowerAngleAction(XeroSwerveDriveSubsystem subsys, double angle, double speed) throws Exception {
@@ -59,8 +61,8 @@ public class SwervePowerAngleAction extends SwerveDriveAction {
         for(int i = 0 ; i < 4 ; i++) 
             speeds_[i] = speed ;
 
-        duration_ = duration ;
-
+        if (Double.isFinite(duration))
+            action_timer_ = new XeroTimer(subsys.getRobot(), "SwervePowerAngleAction-action", duration) ;
         plot_timer_ = new XeroTimer(subsys.getRobot(), "SwerveAngleVelocityAction-plot-timer", 4) ;
     }
 
@@ -76,10 +78,12 @@ public class SwervePowerAngleAction extends SwerveDriveAction {
         super.start() ;
 
         plot_timer_.start();
+        if (action_timer_ != null)
+            action_timer_.start() ;
+
         getSubsystem().startSwervePlot("swerve");
         getSubsystem().setRawTargets(true, angles_, speeds_);
 
-        start_time_ = getSubsystem().getRobot().getTime() ;
     }
 
     @Override
@@ -87,11 +91,18 @@ public class SwervePowerAngleAction extends SwerveDriveAction {
 
         getSubsystem().newPlotData();
 
-        if (!Double.isFinite(duration_) && plot_timer_.isExpired()) {
+        if (action_timer_ == null && plot_timer_.isExpired()) {
+            //
+            // The action will run forever, we will stop the plot after the DefaultPlotInterval
+            //
             getSubsystem().endSwervePlot();
         }
 
-        if (Double.isFinite(duration_) && getSubsystem().getRobot().getTime() - start_time_ > duration_) {
+        if (action_timer_ != null && action_timer_.isExpired()) {
+            //
+            // If the action has a duration, we stop the action and the plot after the duration has
+            // expired
+            //
             getSubsystem().endSwervePlot();
             setDone() ;
         }
