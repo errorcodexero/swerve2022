@@ -27,12 +27,12 @@ public class SwerveTestAutoMode extends TestAutoMode {
             case 0:
                 // Set the steering motor to the angle given, and the drive motor to the power given.  Run indefintely.  Action will
                 // stop the plot after the default plot interval (four seconds)
-                addSubActionPair(swerve, new SwervePowerAngleAction(swerve, getDouble("angle"), getDouble("speed")), true) ;
+                addSubActionPair(swerve, new SwervePowerAngleAction(swerve, getDouble("angle"), getDouble("power")), true) ;
                 break;
 
             case 1:
                 // Set the steering motor to the angle given, and the drive motor to the power given.  Run  until the duration has expired
-                addSubActionPair(swerve, new SwervePowerAngleAction(swerve, getDouble("angle"), getDouble("speed"), getDouble("duration")), true) ;
+                addSubActionPair(swerve, new SwervePowerAngleAction(swerve, getDouble("angle"), getDouble("power"), getDouble("duration")), true) ;
                 break ;
 
             case 2:

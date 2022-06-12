@@ -6,6 +6,9 @@ import com.swervedrivespecialties.swervelib.SwerveModule;
 
 import org.xero1425.base.Subsystem;
 import org.xero1425.base.swerve.common.SwerveBaseSubsystem;
+import org.xero1425.misc.BadParameterTypeException;
+import org.xero1425.misc.MissingParameterException;
+import org.xero1425.misc.PIDCtrl;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -32,6 +35,8 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
     private final SwerveModule bl_ ;
     private final SwerveModule br_ ;
 
+    private PIDCtrl[] pid_ctrls_ ;
+
     private final SwerveDriveOdometry odometry_ ;
     private final SwerveDriveKinematics kinematics_ ;
     private ChassisSpeeds chassis_speed_ ;
@@ -52,6 +57,12 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
         speeds_ = new double[4] ;
         powers_ = new double[4] ;
         angles_ = new double[4] ;
+
+        pid_ctrls_ = new PIDCtrl[4] ;
+        pid_ctrls_[FL] = createPIDCtrl("fl") ;
+        pid_ctrls_[FR] = createPIDCtrl("fr") ;
+        pid_ctrls_[BL] = createPIDCtrl("bl") ;
+        pid_ctrls_[BR] = createPIDCtrl("br") ;
 
         if (isSettingDefined("electrical:drive-current-limit")) {
             config.setDriveCurrentLimit(getSettingsValue("electrical:drive-current-limit").getDouble()) ;
@@ -106,6 +117,11 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
         shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry_.getPoseMeters().getX());
         shuffleboardTab.addNumber("Pose Y", () -> odometry_.getPoseMeters().getY());
+    }
+
+    private PIDCtrl createPIDCtrl(String name) throws MissingParameterException, BadParameterTypeException {
+        String pidname = "subsystems:" + getName() + ":pids:" + name ;
+        return new PIDCtrl(getRobot().getSettingsSupplier(), pidname, false) ;
     }
 
     public SwerveModuleState getModuleState(int which) {
@@ -212,11 +228,10 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
 
         if (mode_ == Mode.Chassis || mode_ == Mode.RawSpeed)
         {
-            //
-            // TODO: write this PID control
-            //
-
-            // Run the PID controller for drive speed and set the powers_ values
+            powers_[FL] = pid_ctrls_[FL].getOutput(speeds_[FL], getModuleState(FL).speedMetersPerSecond, getRobot().getDeltaTime()) ;
+            powers_[FR] = pid_ctrls_[FR].getOutput(speeds_[FR], getModuleState(FR).speedMetersPerSecond, getRobot().getDeltaTime()) ;
+            powers_[BL] = pid_ctrls_[BL].getOutput(speeds_[BL], getModuleState(BL).speedMetersPerSecond, getRobot().getDeltaTime()) ;
+            powers_[BR] = pid_ctrls_[BR].getOutput(speeds_[BR], getModuleState(BR).speedMetersPerSecond, getRobot().getDeltaTime()) ;
         }
 
         fl_.set(powers_[FL], Math.toRadians(angles_[FL])) ;
