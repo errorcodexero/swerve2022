@@ -1,21 +1,23 @@
-package org.xero1425.base.xeroswerve;
+package org.xero1425.base.swerve.common;
 
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
+import org.xero1425.base.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 import org.xero1425.misc.XeroPath;
 import org.xero1425.misc.XeroPathSegment;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
-public class XeroSwervePathFollowAction extends XeroSwerveDriveAction {
+public class SwervePathFollowAction extends SwerveDriveAction {
     private int index_;
     private String pathname_;
     private XeroPath path_;
     private double[] angles_;
     private double[] speeds_;
 
-    public XeroSwervePathFollowAction(XeroSwerveDriveSubsystem drive, String path) {
+    public SwervePathFollowAction(XeroSwerveDriveSubsystem drive, String path) {
 
         super(drive);
 
@@ -69,13 +71,13 @@ public class XeroSwervePathFollowAction extends XeroSwerveDriveAction {
             speeds_[XeroSwerveDriveSubsystem.BR] = br.getVelocity() ;
 
             getSubsystem().setPathLocation(getPoseFromPath(index_));
-            getSubsystem().setTargets(angles_, speeds_);
+            getSubsystem().setRawTargets(false, angles_, speeds_);
             index_++ ;
         }
 
         if (index_ == path_.getSize())
         {
-            getSubsystem().stop();
+            getSubsystem().drive(new ChassisSpeeds()) ;
             getSubsystem().endPathing();
             getSubsystem().endSwervePlot();
             setDone() ;

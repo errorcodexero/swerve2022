@@ -1,11 +1,11 @@
-package org.xero1425.base.xeroswerve;
+package org.xero1425.base.swerve.xeroswerve;
 
-import org.xero1425.base.DriveBaseSubsystem;
 import org.xero1425.base.LoopType;
 import org.xero1425.base.Subsystem;
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorController;
 import org.xero1425.base.motors.MotorRequestFailedException;
+import org.xero1425.base.swerve.common.SwerveBaseSubsystem;
 import org.xero1425.misc.ISettingsSupplier;
 import org.xero1425.misc.Speedometer;
 
@@ -16,13 +16,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
 
 /// \brief The swerve drive subsystem for driving a robot using a drive base where each wheel can be independently steered.
-public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
+public class XeroSwerveDriveSubsystem extends SwerveBaseSubsystem {
     //
     // This object stores the names of the swerve modules
     //
@@ -38,15 +34,9 @@ public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
 
     private double width_;                                                                      // The width of the robot, from the settings file
     private double length_;                                                                     // The length of the robot, from the settings file
-    private XeroSwerveModule[] pairs_;                                                              // The serve modules, created by this class
+    private XeroSwerveModule[] pairs_;                                                          // The serve modules, created by this class
     private Speedometer angular_;                                                               // The angular position, velocity, and acceleration of the robot
-    private double rotate_angle_ ;                                                              // The base angle for a rotate vector, calculated from the length and width
-    private double maxspeed_ ;                                                                  // The maximum linear speed of the 
 
-    static public final int FL = 0;                                                             // Index of the front left module
-    static public final int FR = 1;                                                             // Index of the front right module
-    static public final int BL = 2;                                                             // Index of the back left module
-    static public final int BR = 3;                                                             // Index of the back right module
 
     static private final Names[] names_ = new Names[4] ;                                        // The names of each module (short name and long name)
 
@@ -54,22 +44,6 @@ public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
 
     private SwerveDriveKinematics kinematics_ ;
     private SwerveDriveOdometry odometry_ ;
-
-    private boolean pathing_ ;
-    private NetworkTableEntry robot_loc_ ;
-    private NetworkTableEntry path_loc_ ;
-    private double [] path_values_ ;
-
-    private int plotid_ ;
-    private double plotstart_ ;
-    private Double[] plotdata_ ;
-    private static final String [] columns_ = {
-        "time",
-        "fl-ang-t (deg)", "fl-ang-a (deg)","fl-drv-t (m/s)","fl-drv-a (m/s)",
-        "fr-ang-t (deg)", "fr-ang-a (deg)","fr-drv-t (m/s)","fr-drv-a (m/s)",
-        "bl-ang-t (deg)", "bl-ang-a (deg)","bl-drv-t (m/s)","bl-drv-a (m/s)",
-        "br-ang-t (deg)", "br-ang-a (deg)","br-drv-t (m/s)","br-drv-a (m/s)",
-    } ;
 
     /// \brief create the serve drive subsystem
     /// \param parent the parent subsystem
@@ -92,7 +66,6 @@ public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
         ISettingsSupplier settings = getRobot().getSettingsSupplier();
         width_ = getSettingsValue("physical:width").getDouble() ;
         length_ = getSettingsValue("physical:length").getDouble();
-        maxspeed_ = getSettingsValue("physical:maxspeed").getDouble();
 
         //
         // Create the swerve modules
@@ -112,11 +85,6 @@ public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
         angular_ = new Speedometer("angles", angularsamples, true);
 
         //
-        // Calculate the angle for the velocity vector to rotate the robot
-        //
-        rotate_angle_ = Math.toDegrees(Math.atan2(length_, width_)) ;
-
-        //
         // Reset the GYRO to zero degrees
         //
         gyro().reset() ;
@@ -128,116 +96,43 @@ public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
 
         kinematics_ = new SwerveDriveKinematics(fl, fr, bl, br) ;
         odometry_ = new SwerveDriveOdometry(kinematics_, Rotation2d.fromDegrees(gyro().getAngle())) ;
-
-        plotdata_ = new Double[columns_.length] ;
-        plotid_ = -1 ;
-        pathing_ = false ;
-
-        NetworkTableInstance inst = NetworkTableInstance.getDefault() ;
-        NetworkTable table = inst.getTable("XeroLocation") ;
-        robot_loc_ = table.getEntry("Robot") ;
-        path_loc_ = table.getEntry("Path") ;
-        path_values_ = new double[3] ;
     }
 
-    public void startPathing() {
-        if (!DriverStation.isFMSAttached())
-        {
-            pathing_ = true ;
-        }
-    }
-
-    public void setPathLocation(Pose2d loc) {
-        if (pathing_) {
-            path_values_[0] = loc.getX() ;
-            path_values_[1] = loc.getY() ;
-            path_values_[2] = loc.getRotation().getDegrees() ;
-            path_loc_.setDoubleArray(path_values_) ;
-
-            Pose2d here = getPose() ;
-            System.out.print("Swerve:") ;
-            System.out.print(" OX " + here.getX()) ;
-            System.out.print(" OY " + here.getY()) ;
-            System.out.print(" PX " + loc.getX()) ;
-            System.out.print(" PY " + loc.getY()) ;
-            System.out.println() ;
-        }
-    }
-
-    public void setRobotLocation(Pose2d loc) {
-        if (pathing_) {
-            path_values_[0] = loc.getX() ;
-            path_values_[1] = loc.getY() ;
-            path_values_[2] = loc.getRotation().getDegrees() ;
-            robot_loc_.setDoubleArray(path_values_) ;
-        }
-    }
-
-    public void endPathing() {
-        pathing_ = false ;
-    }
-
-    public void startSwervePlot(String name) {
-        if (plotid_ != -1)
-            return ;
-
-        plotid_ = initPlot(name) ;
-        startPlot(plotid_, columns_);
-
-        plotstart_ = getRobot().getTime();
-    }
-
-    public void endSwervePlot() {
-        endPlot(plotid_);
-        plotid_ = -1 ;
+    public void zeroGyro() {
+        odometry_.resetPosition(
+                new Pose2d(odometry_.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0.0)), getHeading()) ;
     }
 
     public void resetOdometry(Pose2d pose) {
-        odometry_.resetPosition(pose, Rotation2d.fromDegrees(getAngle())) ;
+        odometry_.resetPosition(pose, getHeading()) ;
     }
 
     public Pose2d getPose() {
         return odometry_.getPoseMeters() ;
     }
 
-    public double getMaxSpeed() {
-        return maxspeed_ ;
-    }
-
-    /// \brief return the base angle for a vector to rotate the robot.
-    /// \returns the base angle for a vector to rotate the robot
-    public double getPHI() {
-        return rotate_angle_ ;
-    }
-
     public int getModuleCount() {
         return names_.length ;
     }
 
-    public XeroSwerveModule getModule(int index) {
-        return pairs_[index] ;
+    public void setRawTargets(boolean power, double[] angles, double [] speed_powers) {
     }
 
-    public double getWidth() {
-        return width_;
+    public void drive(ChassisSpeeds speeds) {
+        SwerveModuleState[] states = kinematics_.toSwerveModuleStates(speeds);
+
+        pairs_[FL].setTargets(states[FL].angle.getDegrees(), states[FL].speedMetersPerSecond);
+        pairs_[FR].setTargets(states[FR].angle.getDegrees(), states[FR].speedMetersPerSecond);
+        pairs_[BL].setTargets(states[BL].angle.getDegrees(), states[BL].speedMetersPerSecond);
+        pairs_[BR].setTargets(states[BR].angle.getDegrees(), states[FR].speedMetersPerSecond);
     }
 
-    public double getLength() {
-        return length_;
+    public SwerveModuleState getModuleState(int which) {
+        return pairs_[which].getModuleState() ;
     }
 
-    /// \brief returns the current angle in degrees of the robot
-    /// \returns the current angle of the robot
-    public double getAngle() {
-        return angular_.getDistance() ;
-    }
-
-    public double getAngleSpeed() {
-        return angular_.getVelocity() ;
-    }
-
-    public double getModuleAngle(int module) {
-        return getModule(module).getAngle() ;
+    public SwerveModuleState getModuleTarget(int which) {
+        return pairs_[which].getModuleTarget() ;
     }
 
     /// \brief This method is called when the robot enters one of its specifc modes.
@@ -264,7 +159,7 @@ public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
 
         for (int i = 0; i  < getModuleCount() ; i++) {
             try {
-                getModule(i).setNeutralMode(nm);
+                pairs_[i].setNeutralMode(nm);
             } catch (Exception ex) {
             }
         }
@@ -277,40 +172,20 @@ public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
 
     public void computeMyState() throws BadMotorRequestException {
         for (int i = 0; i < getModuleCount(); i++)
-            getModule(i).computeMyState(getRobot().getDeltaTime());
+            pairs_[i].computeMyState(getRobot().getDeltaTime());
 
         if (gyro() != null) {
             double angle = gyro().getYaw();
             angular_.update(getRobot().getDeltaTime(), angle);
         }
        
-        SwerveModuleState fl = getModule(FL).getModuleState() ;
-        SwerveModuleState fr = getModule(FR).getModuleState() ;
-        SwerveModuleState bl = getModule(BL).getModuleState() ;
-        SwerveModuleState br = getModule(BR).getModuleState() ;
-        odometry_.updateWithTime(getRobot().getTime(), Rotation2d.fromDegrees(getAngle()), fl, fr, bl, br) ;
+        SwerveModuleState fl = pairs_[FL].getModuleState() ;
+        SwerveModuleState fr = pairs_[FR].getModuleState() ;
+        SwerveModuleState bl = pairs_[BL].getModuleState() ;
+        SwerveModuleState br = pairs_[BR].getModuleState() ;
+        odometry_.updateWithTime(getRobot().getTime(), getHeading(), fl, fr, bl, br) ;
 
         setRobotLocation(getPose());
-
-        int index = 0 ;
-        plotdata_[index++] = getRobot().getTime() - plotstart_ ;
-        plotdata_[index++] = getModule(FL).getAngleTarget() ;
-        plotdata_[index++] = getModule(FL).getAngle() ;
-        plotdata_[index++] = getModule(FL).getSpeedTarget() ;
-        plotdata_[index++] = getModule(FL).getSpeed() ;
-        plotdata_[index++] = getModule(FR).getAngleTarget() ;
-        plotdata_[index++] = getModule(FR).getAngle() ;
-        plotdata_[index++] = getModule(FR).getSpeedTarget() ;
-        plotdata_[index++] = getModule(FR).getSpeed() ;
-        plotdata_[index++] = getModule(BL).getAngleTarget() ;
-        plotdata_[index++] = getModule(BL).getAngle() ;
-        plotdata_[index++] = getModule(BL).getSpeedTarget() ;
-        plotdata_[index++] = getModule(BL).getSpeed() ;
-        plotdata_[index++] = getModule(BR).getAngleTarget() ;
-        plotdata_[index++] = getModule(BR).getAngle() ;
-        plotdata_[index++] = getModule(BR).getSpeedTarget() ;
-        plotdata_[index++] = getModule(BR).getSpeed() ;
-        addPlotData(plotid_, plotdata_);
     }
 
     @Override
@@ -319,13 +194,13 @@ public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
 
         double dt = getRobot().getDeltaTime();
         for (int i = 0; i < getModuleCount(); i++)
-            getModule(i).run(dt);
+            pairs_[i].run(dt);
 
     }
 
     public void stop() throws BadMotorRequestException, MotorRequestFailedException {
         for(int i = 0 ; i < getModuleCount() ; i++) {
-            getModule(i).setPower(0.0, 0.0) ;
+            pairs_[i].setPower(0.0, 0.0) ;
         }
     }
 
@@ -333,7 +208,7 @@ public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
         SwerveModuleState[] states = kinematics_.toSwerveModuleStates(speeds);
 
         for (int i = 0; i < getModuleCount(); i++) {
-            getModule(i).setTargets(states[i].angle.getDegrees(), states[i].speedMetersPerSecond) ;
+            pairs_[i].setTargets(states[i].angle.getDegrees(), states[i].speedMetersPerSecond) ;
         }
     }
 
@@ -341,7 +216,7 @@ public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
         if (which < 0 || which > BR)
             throw new Exception("invalid swerve pair address") ;
        
-        getModule(which).setPower(steer, drive) ;
+        pairs_[which].setPower(steer, drive) ;
     }
 
     
@@ -349,7 +224,7 @@ public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
         if (which < 0 || which > BR)
             throw new Exception("invalid swerve pair address") ;
        
-        getModule(which).setSteerMotorPower(steer) ;
+        pairs_[which].setSteerMotorPower(steer) ;
     }
 
     
@@ -357,18 +232,18 @@ public class XeroSwerveDriveSubsystem extends DriveBaseSubsystem {
         if (which < 0 || which > BR)
             throw new Exception("invalid swerve pair address") ;
        
-        getModule(which).setDriveMotorPower(drive) ;
+        pairs_[which].setDriveMotorPower(drive) ;
     }
 
     public void setTargets(double[] angles, double[] speeds) {
         for(int i = 0 ; i < getModuleCount() ; i++) {
-            getModule(i).setTargets(angles[i], speeds[i]) ;
+            pairs_[i].setTargets(angles[i], speeds[i]) ;
         }
     }
 
     public void setAngleTarget(double angle) {
         for(int i = 0 ; i < getModuleCount() ; i++) {
-            getModule(i).setAngle(angle);
+            pairs_[i].setAngle(angle);
         }
     }
 }

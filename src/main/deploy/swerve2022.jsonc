@@ -28,49 +28,49 @@
                 },
                 "fl" : {
                     "steer" : {
-                        "canid" : 1
+                        "canid" : 11
                     },
                     "drive" : {
-                        "canid" : 2
+                        "canid" : 12
                     },
                     "encoder" : {
-                        "canid" : 3,
+                        "canid" : 13,
                         "offset" : 0.0
                     }
                 },
                 "fr" : {
                     "steer" : {
-                        "canid" : 4
+                        "canid" : 21
                     },
                     "drive" : {
-                        "canid" : 5
+                        "canid" : 22
                     },
                     "encoder" : {
-                        "canid" : 6,
+                        "canid" : 23,
                         "offset" : 0.0                        
                     }
                 },
                 "bl" : {
                     "steer" : {
-                        "canid" : 7
+                        "canid" : 31
                     },
                     "drive" : {
-                        "canid" : 8
+                        "canid" : 32
                     },
                     "encoder" : {
-                        "canid" : 9,
+                        "canid" : 33,
                         "offset" : 0.0                        
                     }
                 },
                 "br" : {
                     "steer" : {
-                        "canid" : 10
+                        "canid" : 41
                     },
                     "drive" : {
-                        "canid" : 11
+                        "canid" : 42
                     },
                     "encoder" : {
-                        "canid" : 12,
+                        "canid" : 43,
                         "offset" : 0.0                        
                     }
                 }               
@@ -78,8 +78,15 @@
             "physical" : {
                 "width" : 0.5715,               // meters
                 "length" : 0.5842,              // meters
-                "maxspeed" : 4.14528            // meters per second
-            }         
+                "maxspeed" : 4.14528,           // meters per second
+                "maxvoltage" : 12.0
+            },
+            "electrical" : {
+                "max-voltage" : 12.0,
+                "nominal-voltage" : 11.0,
+                "steer-current-limit" : 10.0,
+                "drive-current-limit" : 30.0
+            }
         },   
         "xeroswervedrive" : {        
             //

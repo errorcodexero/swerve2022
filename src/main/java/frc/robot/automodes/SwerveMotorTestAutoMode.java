@@ -2,8 +2,8 @@ package frc.robot.automodes;
 
 import org.xero1425.base.actions.InvalidActionRequest;
 import org.xero1425.base.controllers.AutoController;
-import org.xero1425.base.xeroswerve.XeroSwerveDriveSubsystem;
-import org.xero1425.base.xeroswerve.XeroSwerveSetMotorPowerAction;
+import org.xero1425.base.swerve.xeroswerve.XeroSwerveDriveSubsystem;
+import org.xero1425.base.swerve.xeroswerve.XeroSwerveSetMotorPowerAction;
 
 public class SwerveMotorTestAutoMode extends SwerveDriveAutoMode {
     public SwerveMotorTestAutoMode(AutoController ctrl) throws InvalidActionRequest {

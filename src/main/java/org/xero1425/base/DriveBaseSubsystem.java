@@ -47,6 +47,10 @@ public abstract class DriveBaseSubsystem extends Subsystem {
         }
     }
 
+    public Rotation2d getHeading() {
+        return Rotation2d.fromDegrees(gyro_.getYaw()) ;
+    }
+
     public static Pose2d segmentToPose(XeroPathSegment seg) {
         return new Pose2d(seg.getX(), seg.getY(), Rotation2d.fromDegrees(seg.getHeading())) ;
     }

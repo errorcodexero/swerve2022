@@ -3,8 +3,8 @@ package frc.robot;
 import org.xero1425.base.DriveBaseSubsystem;
 import org.xero1425.base.RobotSubsystem;
 import org.xero1425.base.XeroRobot;
-import org.xero1425.base.swervedrive.SwerveDriveSubsystem;
-import org.xero1425.base.xeroswerve.XeroSwerveDriveSubsystem;
+import org.xero1425.base.swerve.swervedrive.SDSSwerveDriveSubsystem;
+import org.xero1425.base.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 
 import frc.robot.oi.Swerve2021OISubsystem;
 
@@ -21,7 +21,7 @@ public class SwerveDriveRobotSubsystem extends RobotSubsystem {
 
 
         if (usesds) {
-            db = new SwerveDriveSubsystem(this, "swervedrive") ;
+            db = new SDSSwerveDriveSubsystem(this, "swervedrive") ;
         }
         else {
             db = new XeroSwerveDriveSubsystem(this, "xeroswervedrive", usehwpid) ;

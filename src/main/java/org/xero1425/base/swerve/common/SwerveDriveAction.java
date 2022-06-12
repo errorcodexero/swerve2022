@@ -1,33 +1,34 @@
-package org.xero1425.base.xeroswerve;
+package org.xero1425.base.swerve.common;
 
 import org.xero1425.base.actions.Action;
+import org.xero1425.base.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 
-public abstract class XeroSwerveDriveAction extends Action {
-    private XeroSwerveDriveSubsystem swerverive_ ;
+public abstract class SwerveDriveAction extends Action {
+    private SwerveBaseSubsystem swerve_drive_ ;
     private double circum_ ;
 
     /// \brief Create the object holding a reference to the subsystem
     /// \param drive the tankdrive subsystem
-    public XeroSwerveDriveAction(XeroSwerveDriveSubsystem drive) {
+    public SwerveDriveAction(SwerveBaseSubsystem drive) {
         super(drive.getRobot().getMessageLogger()) ;
-        swerverive_ = drive ;
+        swerve_drive_ = drive ;
 
         //
         // We approximate the circumference of the robot by averaging the length and width and applying
         // the CIRCUM = 2 * PI * R.  Calculating the circumference of an ellipse is more computational intensive
         // and really does not get us that much.
         //
-        circum_ = (swerverive_.getLength() + swerverive_.getWidth()) * Math.PI / 2.0 ;
+        circum_ = (swerve_drive_.getLength() + swerve_drive_.getWidth()) * Math.PI / 2.0 ;
     }
 
     /// \brief return the tank drive subsystem
     /// returns the tank drive subsystem
-    public XeroSwerveDriveSubsystem getSubsystem() {
-        return swerverive_ ;
+    public SwerveBaseSubsystem getSubsystem() {
+        return swerve_drive_ ;
     }
 
     protected Pose2d combinePose(Pose2d fl, Pose2d fr, Pose2d bl, Pose2d br) {
@@ -44,10 +45,6 @@ public abstract class XeroSwerveDriveAction extends Action {
     }
 
     protected double createRotAngle(int which) {
-        //
-        // The rot value is in degress per second, we need to transform this to a
-        // linear speed for the wheel
-        //
         double angle = 0.0 ;
         double phi = getSubsystem().getPHI() ;
 

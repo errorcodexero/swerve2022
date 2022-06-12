@@ -1,4 +1,4 @@
-package org.xero1425.base.xeroswerve;
+package org.xero1425.base.swerve.xeroswerve;
 
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.motors.BadMotorRequestException;
@@ -144,6 +144,10 @@ public class XeroSwerveModule {
 
     public SwerveModuleState getModuleState() {
         return new SwerveModuleState(getSpeed(), Rotation2d.fromDegrees(getAngle())) ;
+    }
+
+    public SwerveModuleState getModuleTarget() {
+        return new SwerveModuleState(target_speed_, Rotation2d.fromDegrees(target_angle_)) ;
     }
 
     public double getRawSpeed() {

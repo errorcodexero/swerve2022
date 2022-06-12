@@ -8,6 +8,7 @@ import org.xero1425.base.LoopType;
 import org.xero1425.base.Subsystem;
 import org.xero1425.base.actions.InvalidActionRequest;
 import org.xero1425.base.actions.SequenceAction;
+import org.xero1425.base.swerve.common.SwerveBaseSubsystem;
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
@@ -263,7 +264,8 @@ public class OISubsystem extends Subsystem {
                     }      
                     
                     try { 
-                        gp_ = new SwerveDriveGamepad(this, gp_index_, db_) ;
+                        // TODO: check that db_ is an instance of SwerveBaseSubsystem
+                        gp_ = new SwerveDriveGamepad(this, gp_index_, (SwerveBaseSubsystem)db_) ;
                         addHIDDevice(gp_) ;
                         logger.startMessage(MessageType.Info) ;
                         logger.add("using standard gamepad control").endMessage();

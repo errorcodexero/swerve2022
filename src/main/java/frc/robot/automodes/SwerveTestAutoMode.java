@@ -5,14 +5,14 @@ import frc.robot.SwerveDriveRobotSubsystem;
 import org.xero1425.base.actions.DelayAction;
 import org.xero1425.base.actions.ParallelAction;
 import org.xero1425.base.controllers.TestAutoMode;
-import org.xero1425.base.xeroswerve.XeroSwerveAngleVelocityAction;
-import org.xero1425.base.xeroswerve.XeroSwerveDirectionRotateAction;
-import org.xero1425.base.xeroswerve.XeroSwerveDrivePowerAction;
-import org.xero1425.base.xeroswerve.XeroSwerveDriveSubsystem;
-import org.xero1425.base.xeroswerve.XeroSwerveHolonomicPathFollower;
-import org.xero1425.base.xeroswerve.XeroSwervePathFollowAction;
-import org.xero1425.base.xeroswerve.XeroSwerveSetMotorPowerAction;
-import org.xero1425.base.xeroswerve.XeroSwerveStopAction;
+import org.xero1425.base.swerve.common.SwerveSpeedAngleAction;
+import org.xero1425.base.swerve.common.SwerveHolonomicPathFollower;
+import org.xero1425.base.swerve.common.SwervePathFollowAction;
+import org.xero1425.base.swerve.xeroswerve.XeroSwerveDirectionRotateAction;
+import org.xero1425.base.swerve.xeroswerve.XeroSwerveDrivePowerAction;
+import org.xero1425.base.swerve.xeroswerve.XeroSwerveDriveSubsystem;
+import org.xero1425.base.swerve.xeroswerve.XeroSwerveSetMotorPowerAction;
+import org.xero1425.base.swerve.xeroswerve.XeroSwerveStopAction;
 
 public class SwerveTestAutoMode extends TestAutoMode {
 
@@ -115,7 +115,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 speeds[2] = 1.5 ;
                 speeds[3] = 2.0 ;
 
-                addSubActionPair(swerve, new XeroSwerveAngleVelocityAction(swerve, angles, speeds, false), false);
+                addSubActionPair(swerve, new SwerveSpeedAngleAction(swerve, angles, speeds, false), false);
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("duration")));
                 addSubActionPair(swerve, new XeroSwerveStopAction(swerve), true);
                 break;
@@ -125,7 +125,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
                     angles[i] = getDouble("angle");
                     speeds[i] = 0.0;
                 }
-                addSubActionPair(swerve, new XeroSwerveAngleVelocityAction(swerve, angles, speeds, false), false);
+                addSubActionPair(swerve, new SwerveSpeedAngleAction(swerve, angles, speeds, false), false);
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("duration")));
                 addSubActionPair(swerve, new XeroSwerveStopAction(swerve), true) ;
                 break;
@@ -139,11 +139,11 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 break ;
 
             case 14:
-                addSubActionPair(swerve, new XeroSwervePathFollowAction(swerve, getString("name")), true);
+                addSubActionPair(swerve, new SwervePathFollowAction(swerve, getString("name")), true);
                 break ;
 
             case 15:
-                addSubActionPair(swerve, new XeroSwerveHolonomicPathFollower(swerve, getString("name"), getDouble("endangle")), true);
+                addSubActionPair(swerve, new SwerveHolonomicPathFollower(swerve, getString("name"), getDouble("endangle")), true);
                 break ;
 
             case 16:
@@ -152,7 +152,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
                     speeds[i] = 0.0;
                 }
                 angles[getInteger("wheel")] = getDouble("angle") ;
-                addSubActionPair(swerve, new XeroSwerveAngleVelocityAction(swerve, angles, speeds, false), false);
+                addSubActionPair(swerve, new SwerveSpeedAngleAction(swerve, angles, speeds, false), false);
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("duration")));
                 break ;
 
@@ -162,7 +162,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
                     speeds[i] = 0.0;
                 }
                 speeds[getInteger("wheel")] = getDouble("speed") ;
-                addSubActionPair(swerve, new XeroSwerveAngleVelocityAction(swerve, angles, speeds, false), false);
+                addSubActionPair(swerve, new SwerveSpeedAngleAction(swerve, angles, speeds, false), false);
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("duration")));
                 break ;
 
@@ -171,7 +171,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 break ;
 
             case 19:
-                addSubActionPair(swerve, new XeroSwerveAngleVelocityAction(swerve, 45.0, getDouble("speed")), false);
+                addSubActionPair(swerve, new SwerveSpeedAngleAction(swerve, 45.0, getDouble("speed")), false);
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("duration")));
                 break ;
         }

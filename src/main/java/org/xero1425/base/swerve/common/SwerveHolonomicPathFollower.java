@@ -1,7 +1,8 @@
-package org.xero1425.base.xeroswerve;
+package org.xero1425.base.swerve.common;
 
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
+import org.xero1425.base.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MissingParameterException;
 import org.xero1425.misc.MissingPathException;
@@ -16,7 +17,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
-public class XeroSwerveHolonomicPathFollower extends XeroSwerveDriveAction {
+public class SwerveHolonomicPathFollower extends SwerveDriveAction {
 
     private String pathname_ ;
     private HolonomicDriveController ctrl_ ;
@@ -24,7 +25,7 @@ public class XeroSwerveHolonomicPathFollower extends XeroSwerveDriveAction {
     private int index_ ;
     private Rotation2d end_rotation_ ;
 
-    public XeroSwerveHolonomicPathFollower(XeroSwerveDriveSubsystem sub, String pathname, double endangle) {
+    public SwerveHolonomicPathFollower(XeroSwerveDriveSubsystem sub, String pathname, double endangle) {
         super(sub) ;
 
         pathname_ = pathname ;
@@ -82,7 +83,7 @@ public class XeroSwerveHolonomicPathFollower extends XeroSwerveDriveAction {
             getSubsystem().setPathLocation(target);
             double velocity = getVelocityFromPath(index_) ;
             ChassisSpeeds speed = ctrl_.calculate(getSubsystem().getPose(), target, velocity, rot) ;
-            getSubsystem().setChassisSpeeds(speed) ;
+            getSubsystem().drive(speed) ;
 
             if (index_ != path_.getSize() - 1 || ctrl_.atReference())
                 index_++ ;
@@ -91,7 +92,7 @@ public class XeroSwerveHolonomicPathFollower extends XeroSwerveDriveAction {
         if (index_ >= path_.getSize())
         {
             getSubsystem().endSwervePlot() ;
-            getSubsystem().stop() ;
+            getSubsystem().drive(new ChassisSpeeds()) ;
             getSubsystem().endPathing();
         }
     }
