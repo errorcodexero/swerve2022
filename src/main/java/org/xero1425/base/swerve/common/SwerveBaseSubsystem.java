@@ -4,7 +4,11 @@ import org.xero1425.base.DriveBaseSubsystem;
 import org.xero1425.base.Subsystem;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -30,6 +34,9 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     private NetworkTableEntry path_loc_ ;
     private double [] path_values_ ;
     private int index_ ;
+
+    private SwerveDriveKinematics kinematics_ ;
+    private SwerveDriveOdometry odometry_ ;
 
     private double width_ ;
     private double length_ ;
@@ -61,6 +68,12 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         //
         rotate_angle_ = Math.toDegrees(Math.atan2(length_, width_)) ;
 
+        
+        kinematics_ = new SwerveDriveKinematics(new Translation2d(getWidth() / 2.0, getLength() / 2.0), new Translation2d(getWidth() / 2.0, -getLength() / 2.0), 
+                        new Translation2d(-getWidth() / 2.0, getLength() / 2.0), new Translation2d(-getWidth() / 2.0, -getLength() / 2.0)) ;
+
+        odometry_ = new SwerveDriveOdometry(kinematics_, getHeading()) ;
+
         ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("Drivetrain");
         shuffleboardTab.addNumber("Heading", () -> getHeading().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> getPose().getX());
@@ -80,9 +93,35 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
 
     public abstract SwerveModuleState getModuleTarget(int which) ;
 
-    public abstract void zeroGyro() ;
+    @Override
+    public void computeMyState() throws Exception {
+        odometry_.update(getHeading(), getModuleState(FL), getModuleState(FR), getModuleState(BL), getModuleState(BR));
+    }
 
-    public abstract void resetOdometry(Pose2d pose) ;
+    @Override
+    public void run() throws Exception {
+    }
+
+    protected SwerveDriveKinematics getKinematics() {
+        return kinematics_ ;
+    }
+
+    protected SwerveDriveOdometry getOdometry() {
+        return odometry_ ;
+    }
+    
+    public Pose2d getPose() {
+        return odometry_.getPoseMeters() ;
+    }
+
+    public void zeroGyro() {
+        odometry_.resetPosition(
+                new Pose2d(odometry_.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0.0)), getHeading()) ;
+    }
+
+    public void resetOdometry(Pose2d pose) {
+        odometry_.resetPosition(pose, getHeading()) ;
+    }
 
     public int getModuleCount() {
         return 4 ;
@@ -93,8 +132,6 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     public double getPHI() {
         return rotate_angle_ ;
     }
-
-    public abstract Pose2d getPose() ;
 
     public double getWidth() {
         return width_ ;

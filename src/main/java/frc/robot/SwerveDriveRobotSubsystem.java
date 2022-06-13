@@ -3,7 +3,7 @@ package frc.robot;
 import org.xero1425.base.RobotSubsystem;
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.swerve.common.SwerveBaseSubsystem;
-import org.xero1425.base.swerve.swervedrive.SDSSwerveDriveSubsystem;
+import org.xero1425.base.swerve.sdsswerve.SDSSwerveDriveSubsystem;
 import org.xero1425.base.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 
 import frc.robot.oi.Swerve2021OISubsystem;

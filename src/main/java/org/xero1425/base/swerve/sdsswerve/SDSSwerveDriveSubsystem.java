@@ -1,4 +1,4 @@
-package org.xero1425.base.swerve.swervedrive;
+package org.xero1425.base.swerve.sdsswerve;
 
 import com.swervedrivespecialties.swervelib.Mk4ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
@@ -10,12 +10,8 @@ import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MissingParameterException;
 import org.xero1425.misc.PIDCtrl;
 
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -37,8 +33,6 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
 
     private PIDCtrl[] pid_ctrls_ ;
 
-    private final SwerveDriveOdometry odometry_ ;
-    private final SwerveDriveKinematics kinematics_ ;
     private ChassisSpeeds chassis_speed_ ;
 
     private Mode mode_ ;
@@ -105,18 +99,6 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
         encoder = getSettingsValue("hw:br:encoder:canid").getInteger() ;
         offset = getSettingsValue("hw:br:encoder:offset").getDouble() ;
         br_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
-
-        kinematics_ = new SwerveDriveKinematics(new Translation2d(getWidth() / 2.0, getLength() / 2.0), new Translation2d(getWidth() / 2.0, -getLength() / 2.0), 
-                        new Translation2d(-getWidth() / 2.0, getLength() / 2.0), new Translation2d(-getWidth() / 2.0, -getLength() / 2.0)) ;
-
-        odometry_ = new SwerveDriveOdometry(kinematics_, getRotation()) ;
-
-        mode_ = Mode.Chassis ;
-        chassis_speed_ = new ChassisSpeeds(0.0, 0.0, 0.0);
-
-        shuffleboardTab.addNumber("Heading", () -> getRotation().getDegrees());
-        shuffleboardTab.addNumber("Pose X", () -> odometry_.getPoseMeters().getX());
-        shuffleboardTab.addNumber("Pose Y", () -> odometry_.getPoseMeters().getY());
     }
 
     private PIDCtrl createPIDCtrl(String name) throws MissingParameterException, BadParameterTypeException {
@@ -155,14 +137,6 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
         return st ;
     }
 
-    public void zeroGyro() {
-        odometry_.resetPosition(
-                new Pose2d(odometry_.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0.0)), getRotation()) ;
-    }
-
-    public void resetOdometry(Pose2d pose) {
-        odometry_.resetPosition(pose, getHeading()) ;
-    }
 
     public Rotation2d getRotation() {
         return Rotation2d.fromDegrees(gyro().getYaw()) ;
@@ -172,10 +146,6 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
         chassis_speed_ = speed ;     
     }
 
-    @Override
-    public Pose2d getPose() {
-        return odometry_.getPoseMeters() ;
-    }
 
     @Override
     public void setRawTargets(boolean power, double [] angles, double [] speeds_powers)  {
@@ -191,7 +161,14 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
     }
 
     @Override
-    public void run() {
+    public void computeMyState() throws Exception {
+        super.computeMyState();
+    }
+
+    @Override
+    public void run() throws Exception {
+        super.run() ;
+
         //
         // Just in case, paranoid code.  Be sure the arrays we are intersted in are there.  SHould be set
         // in the constructor and in any setter that provides new values
@@ -205,16 +182,10 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
         if (powers_ == null || powers_.length != 4)
             powers_ = new double[4] ;   
 
-        odometry_.update(getRotation(), 
-            new SwerveModuleState(fl_.getDriveVelocity(), new Rotation2d(fl_.getSteerAngle())),
-            new SwerveModuleState(fr_.getDriveVelocity(), new Rotation2d(fr_.getSteerAngle())),
-            new SwerveModuleState(bl_.getDriveVelocity(), new Rotation2d(bl_.getSteerAngle())),
-            new SwerveModuleState(br_.getDriveVelocity(), new Rotation2d(br_.getSteerAngle())));
-
         if (mode_ == Mode.Chassis) {
 
             // Convert chassis speeds to module speeds and angles
-            SwerveModuleState[] states = kinematics_.toSwerveModuleStates(chassis_speed_);
+            SwerveModuleState[] states = getKinematics().toSwerveModuleStates(chassis_speed_);
             
             angles_[FL] = states[FL].angle.getDegrees() ;
             speeds_[FL] = states[FL].speedMetersPerSecond ;
