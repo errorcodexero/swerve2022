@@ -10,6 +10,8 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     private int plotid_ ;
@@ -32,7 +34,7 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     private double width_ ;
     private double length_ ;
     private double rotate_angle_ ;
-    
+   
     static public final int FL = 0;                                                             // Index of the front left module
     static public final int FR = 1;                                                             // Index of the front right module
     static public final int BL = 2;                                                             // Index of the back left module
@@ -58,6 +60,11 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         // Calculate the angle for the velocity vector to rotate the robot
         //
         rotate_angle_ = Math.toDegrees(Math.atan2(length_, width_)) ;
+
+        ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("Drivetrain");
+        shuffleboardTab.addNumber("Heading", () -> getHeading().getDegrees());
+        shuffleboardTab.addNumber("Pose X", () -> getPose().getX());
+        shuffleboardTab.addNumber("Pose Y", () -> getPose().getY());
     }
 
     // Control the swerve drive by settings a ChassisSppeds object

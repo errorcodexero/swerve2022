@@ -114,7 +114,7 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
         mode_ = Mode.Chassis ;
         chassis_speed_ = new ChassisSpeeds(0.0, 0.0, 0.0);
 
-        shuffleboardTab.addNumber("Gyroscope Angle", () -> getRotation().getDegrees());
+        shuffleboardTab.addNumber("Heading", () -> getRotation().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> odometry_.getPoseMeters().getX());
         shuffleboardTab.addNumber("Pose Y", () -> odometry_.getPoseMeters().getY());
     }
