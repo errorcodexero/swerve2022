@@ -144,6 +144,7 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
 
     public void drive(ChassisSpeeds speed) {
         chassis_speed_ = speed ;     
+        mode_ = Mode.Chassis ;
     }
 
 
