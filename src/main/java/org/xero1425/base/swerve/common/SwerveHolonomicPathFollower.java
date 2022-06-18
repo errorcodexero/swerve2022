@@ -25,7 +25,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
     private int index_ ;
     private Rotation2d end_rotation_ ;
 
-    public SwerveHolonomicPathFollower(XeroSwerveDriveSubsystem sub, String pathname, double endangle) {
+    public SwerveHolonomicPathFollower(SwerveBaseSubsystem sub, String pathname, double endangle) {
         super(sub) ;
 
         pathname_ = pathname ;
