@@ -21,11 +21,11 @@ public class SwervePowerAngleAction extends SwerveDriveAction {
     private XeroTimer plot_timer_ ;
     private XeroTimer action_timer_ ;
 
-    public SwervePowerAngleAction(XeroSwerveDriveSubsystem subsys, double [] angles, double [] speeds) throws Exception {
+    public SwervePowerAngleAction(SwerveBaseSubsystem subsys, double [] angles, double [] speeds) throws Exception {
         this(subsys, angles, speeds, Double.NaN) ;
     }
 
-    public SwervePowerAngleAction(XeroSwerveDriveSubsystem subsys, double [] angles, double [] speeds, double duration) throws Exception {
+    public SwervePowerAngleAction(SwerveBaseSubsystem subsys, double [] angles, double [] speeds, double duration) throws Exception {
         super(subsys) ;
 
         if (angles.length != 4) {
@@ -44,11 +44,11 @@ public class SwervePowerAngleAction extends SwerveDriveAction {
         plot_timer_ = new XeroTimer(subsys.getRobot(), "SwerveAngleVelocityAction-timer", DefaultPlotInterval) ;
     }
 
-    public SwervePowerAngleAction(XeroSwerveDriveSubsystem subsys, double angle, double speed) throws Exception {
+    public SwervePowerAngleAction(SwerveBaseSubsystem subsys, double angle, double speed) throws Exception {
         this(subsys, angle, speed, Double.NaN) ;
     }
 
-    public SwervePowerAngleAction(XeroSwerveDriveSubsystem subsys, double angle, double speed, double duration) throws Exception {
+    public SwervePowerAngleAction(SwerveBaseSubsystem subsys, double angle, double speed, double duration) throws Exception {
         super(subsys) ;
 
         angles_ = new double[4] ;

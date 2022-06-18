@@ -76,28 +76,28 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
         drive = getSettingsValue("hw:fl:drive:canid").getInteger() ;
         steer = getSettingsValue("hw:fl:steer:canid").getInteger() ;
         encoder = getSettingsValue("hw:fl:encoder:canid").getInteger() ;
-        offset = getSettingsValue("hw:fl:encoder:offset").getDouble() ;
+        offset = Math.toRadians(getSettingsValue("hw:fl:encoder:offset").getDouble()) ;
         fl_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
 
         lay = shuffleboardTab.getLayout("FRModule", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0) ;
         drive = getSettingsValue("hw:fr:drive:canid").getInteger() ;
         steer = getSettingsValue("hw:fr:steer:canid").getInteger() ;
         encoder = getSettingsValue("hw:fr:encoder:canid").getInteger() ;
-        offset = getSettingsValue("hw:fr:encoder:offset").getDouble() ;
+        offset = Math.toRadians(getSettingsValue("hw:fr:encoder:offset").getDouble()) ;
         fr_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
 
         lay = shuffleboardTab.getLayout("BLModule", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0) ;
         drive = getSettingsValue("hw:bl:drive:canid").getInteger() ;
         steer = getSettingsValue("hw:bl:steer:canid").getInteger() ;
         encoder = getSettingsValue("hw:bl:encoder:canid").getInteger() ;
-        offset = getSettingsValue("hw:bl:encoder:offset").getDouble() ;
+        offset = Math.toRadians(getSettingsValue("hw:bl:encoder:offset").getDouble()) ;
         bl_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
 
         lay = shuffleboardTab.getLayout("BRModule", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0) ;
         drive = getSettingsValue("hw:br:drive:canid").getInteger() ;
         steer = getSettingsValue("hw:br:steer:canid").getInteger() ;
         encoder = getSettingsValue("hw:br:encoder:canid").getInteger() ;
-        offset = getSettingsValue("hw:br:encoder:offset").getDouble() ;
+        offset = Math.toRadians(getSettingsValue("hw:br:encoder:offset").getDouble()) ;
         br_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
     }
 

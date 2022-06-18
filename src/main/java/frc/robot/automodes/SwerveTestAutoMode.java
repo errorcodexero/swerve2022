@@ -6,6 +6,8 @@ import org.xero1425.base.actions.DelayAction;
 import org.xero1425.base.actions.ParallelAction;
 import org.xero1425.base.controllers.TestAutoMode;
 import org.xero1425.base.swerve.common.SwerveSpeedAngleAction;
+import org.xero1425.base.swerve.sdsswerve.SDSSwerveDriveSubsystem;
+import org.xero1425.base.swerve.common.SwerveBaseSubsystem;
 import org.xero1425.base.swerve.common.SwerveDriveChassisSpeedAction;
 import org.xero1425.base.swerve.common.SwerveHolonomicPathFollower;
 import org.xero1425.base.swerve.common.SwervePathFollowAction;
@@ -20,7 +22,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
         double[] angles = new double[4];
         double[] speeds = new double[4];
         SwerveDriveRobotSubsystem robotsys = (SwerveDriveRobotSubsystem) ctrl.getRobot().getRobotSubsystem();
-        XeroSwerveDriveSubsystem swerve = (XeroSwerveDriveSubsystem) robotsys.getDB();
+        SwerveBaseSubsystem swerve = (SwerveBaseSubsystem) robotsys.getDB();
         ParallelAction pact = new ParallelAction(ctrl.getRobot().getMessageLogger(), ParallelAction.DonePolicy.All);
 
         switch (getTestNumber()) {
