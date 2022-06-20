@@ -77,28 +77,42 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
         steer = getSettingsValue("hw:fl:steer:canid").getInteger() ;
         encoder = getSettingsValue("hw:fl:encoder:canid").getInteger() ;
         offset = Math.toRadians(getSettingsValue("hw:fl:encoder:offset").getDouble()) ;
-        fl_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
+
+        if (isVerbose())
+            fl_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
+        else
+            fl_ = Mk4iSwerveModuleHelper.createFalcon500(config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
 
         lay = shuffleboardTab.getLayout("FRModule", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0) ;
         drive = getSettingsValue("hw:fr:drive:canid").getInteger() ;
         steer = getSettingsValue("hw:fr:steer:canid").getInteger() ;
         encoder = getSettingsValue("hw:fr:encoder:canid").getInteger() ;
         offset = Math.toRadians(getSettingsValue("hw:fr:encoder:offset").getDouble()) ;
-        fr_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
+
+        if (isVerbose())
+            fr_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
+        else
+            fr_ = Mk4iSwerveModuleHelper.createFalcon500(config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
 
         lay = shuffleboardTab.getLayout("BLModule", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0) ;
         drive = getSettingsValue("hw:bl:drive:canid").getInteger() ;
         steer = getSettingsValue("hw:bl:steer:canid").getInteger() ;
         encoder = getSettingsValue("hw:bl:encoder:canid").getInteger() ;
         offset = Math.toRadians(getSettingsValue("hw:bl:encoder:offset").getDouble()) ;
-        bl_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
+        if (isVerbose())
+            bl_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
+        else
+            bl_ = Mk4iSwerveModuleHelper.createFalcon500(config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;        
 
         lay = shuffleboardTab.getLayout("BRModule", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0) ;
         drive = getSettingsValue("hw:br:drive:canid").getInteger() ;
         steer = getSettingsValue("hw:br:steer:canid").getInteger() ;
         encoder = getSettingsValue("hw:br:encoder:canid").getInteger() ;
         offset = Math.toRadians(getSettingsValue("hw:br:encoder:offset").getDouble()) ;
-        br_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
+        if (isVerbose())
+            br_ = Mk4iSwerveModuleHelper.createFalcon500(lay, config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;
+        else
+            br_ = Mk4iSwerveModuleHelper.createFalcon500(config, Mk4iSwerveModuleHelper.GearRatio.L2, drive, steer, encoder, offset) ;        
     }
 
     private PIDCtrl createPIDCtrl(String name) throws MissingParameterException, BadParameterTypeException {
