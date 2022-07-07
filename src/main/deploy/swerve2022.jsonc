@@ -35,7 +35,7 @@
                     },
                     "encoder" : {
                         "canid" : 13,
-                        "offset" : -105.9
+                        "offset" : 74.1
                     }
                 },
                 "fr" : {
@@ -47,7 +47,7 @@
                     },
                     "encoder" : {
                         "canid" : 23,
-                        "offset" : -255.4                        
+                        "offset" : 104.6                        
                     }
                 },
                 "bl" : {
@@ -59,7 +59,7 @@
                     },
                     "encoder" : {
                         "canid" : 43,
-                        "offset" : -258.9       
+                        "offset" : -78.9       
                     }
                 },
                 "br" : {
@@ -71,7 +71,7 @@
                     },
                     "encoder" : {
                         "canid" : 33,
-                        "offset" : -314.3               
+                        "offset" : 45.7               
                     }
                 }               
             },
@@ -350,8 +350,8 @@
         "enabled" : true,
         "which" : 0,
         "0" : {
-            "angle" : 90.0,
-            "power" : 0.5
+            "angle" : 45.0,
+            "power" : 1.0
         },
         "1" : {
             "angle" :0.0,

@@ -52,10 +52,10 @@ public class SwervePowerAngleAction extends SwerveDriveAction {
         super(subsys) ;
 
         angles_ = new double[4] ;
-        angles_[XeroSwerveDriveSubsystem.FL] = createRotAngle(XeroSwerveDriveSubsystem.FL) ;
-        angles_[XeroSwerveDriveSubsystem.BL] = createRotAngle(XeroSwerveDriveSubsystem.BL) ;
-        angles_[XeroSwerveDriveSubsystem.FR] = createRotAngle(XeroSwerveDriveSubsystem.FR) ;
-        angles_[XeroSwerveDriveSubsystem.BR] = createRotAngle(XeroSwerveDriveSubsystem.BR) ;
+        angles_[XeroSwerveDriveSubsystem.FL] = angle ;
+        angles_[XeroSwerveDriveSubsystem.BL] = angle ;
+        angles_[XeroSwerveDriveSubsystem.FR] = angle ;
+        angles_[XeroSwerveDriveSubsystem.BR] = angle ;
 
         speeds_ = new double[4] ;
         for(int i = 0 ; i < 4 ; i++) 

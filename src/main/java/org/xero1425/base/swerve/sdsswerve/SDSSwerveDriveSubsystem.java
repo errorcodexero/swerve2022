@@ -40,6 +40,8 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
     private double [] powers_ ;
     private double [] angles_ ;
 
+    private double nominal_voltage_ ;
+
     public SDSSwerveDriveSubsystem(Subsystem parent, String name) throws Exception {
         super(parent, name) ;
 
@@ -67,7 +69,11 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
         }
 
         if (isSettingDefined("electrical:nominal-voltage")) {
-            config.setNominalVoltage(getSettingsValue("electrical:nominal-voltage").getDouble()) ;
+            nominal_voltage_ = getSettingsValue("electrical:nominal-voltage").getDouble() ;
+            config.setNominalVoltage(nominal_voltage_) ;
+        }
+        else {
+            nominal_voltage_ = 12.0 ;
         }
 
         ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("Drivetrain");
@@ -164,13 +170,13 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
 
     @Override
     public void setRawTargets(boolean power, double [] angles, double [] speeds_powers)  {
-        angles.clone() ;
+        angles_ = angles.clone() ;
         if (power) {
             mode_ = Mode.RawPower ;
             powers_ = speeds_powers.clone() ;
         }
         else {
-            mode_ = Mode.RawPower ;
+            mode_ = Mode.RawSpeed ;
             speeds_ = speeds_powers.clone() ;
         }
     }
@@ -220,9 +226,9 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
             powers_[BR] = pid_ctrls_[BR].getOutput(speeds_[BR], getModuleState(BR).speedMetersPerSecond, getRobot().getDeltaTime()) ;
         }
 
-        fl_.set(powers_[FL], Math.toRadians(angles_[FL])) ;
-        fr_.set(powers_[FR], Math.toRadians(angles_[FR])) ;
-        bl_.set(powers_[BL], Math.toRadians(angles_[BL])) ;
-        br_.set(powers_[BR], Math.toRadians(angles_[BR])) ;
+        fl_.set(powers_[FL] * nominal_voltage_, Math.toRadians(angles_[FL])) ;
+        fr_.set(powers_[FR] * nominal_voltage_, Math.toRadians(angles_[FR])) ;
+        bl_.set(powers_[BL] * nominal_voltage_, Math.toRadians(angles_[BL])) ;
+        br_.set(powers_[BR] * nominal_voltage_, Math.toRadians(angles_[BR])) ;
     }
 }
