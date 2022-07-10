@@ -184,6 +184,14 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
     @Override
     public void computeMyState() throws Exception {
         super.computeMyState();
+
+        if (getRobot().isDisabled())
+        {
+            fl_.set(0.0, 0.0) ;
+            fr_.set(0.0, 0.0) ;
+            bl_.set(0.0, 0.0) ;
+            br_.set(0.0, 0.0) ;
+        }
     }
 
     @Override
@@ -229,6 +237,6 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
         fl_.set(powers_[FL] * nominal_voltage_, Math.toRadians(angles_[FL])) ;
         fr_.set(powers_[FR] * nominal_voltage_, Math.toRadians(angles_[FR])) ;
         bl_.set(powers_[BL] * nominal_voltage_, Math.toRadians(angles_[BL])) ;
-        br_.set(powers_[BR] * nominal_voltage_, Math.toRadians(angles_[BR])) ;
+        br_.set(powers_[BR] * nominal_voltage_, Math.toRadians(angles_[BR])) ;                      
     }
 }

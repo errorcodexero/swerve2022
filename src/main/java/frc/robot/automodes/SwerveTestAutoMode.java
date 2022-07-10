@@ -20,10 +20,10 @@ public class SwerveTestAutoMode extends TestAutoMode {
         super(ctrl, "Swerver-Test-Mode");
 
         double[] angles = new double[4];
-        double[] speeds = new double[4];
+        double[] powers = new double[4];
+
         SwerveDriveRobotSubsystem robotsys = (SwerveDriveRobotSubsystem) ctrl.getRobot().getRobotSubsystem();
         SwerveBaseSubsystem swerve = (SwerveBaseSubsystem) robotsys.getDB();
-        ParallelAction pact = new ParallelAction(ctrl.getRobot().getMessageLogger(), ParallelAction.DonePolicy.All);
 
         switch (getTestNumber()) {
             case 0:
@@ -54,6 +54,21 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 // Run the path follower against the path given
                 addSubActionPair(swerve, new SwerveHolonomicPathFollower(swerve, getString("name"), getDouble("endangle")), true);
                 break ;
+
+            case 5:
+                // Set the steering motor to the angle given, and the drive motor to the power given.  Run  until the duration has expired
+                angles[0] = 0.0 ;
+                angles[1] = 0.0 ;
+                angles[2] = 0.0 ;
+                angles[3] = 0.0 ;
+                powers[0] = 0.0 ;
+                powers[1] = 0.0 ;
+                powers[2] = 0.0 ;
+                powers[3] = 0.1 ;
+                addSubActionPair(swerve, new SwervePowerAngleAction(swerve, angles, powers, getDouble("duration")), true) ;
+                break ;
+
+
         }
     }
 }

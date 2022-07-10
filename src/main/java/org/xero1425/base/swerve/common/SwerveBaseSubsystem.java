@@ -2,6 +2,8 @@ package org.xero1425.base.swerve.common;
 
 import org.xero1425.base.DriveBaseSubsystem;
 import org.xero1425.base.Subsystem;
+import org.xero1425.base.motors.BadMotorRequestException;
+import org.xero1425.base.motors.MotorRequestFailedException;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -38,6 +40,9 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     private SwerveDriveKinematics kinematics_ ;
     private SwerveDriveOdometry odometry_ ;
 
+    private double [] angles_ ;
+    private double [] powers_ ;
+
     private double width_ ;
     private double length_ ;
     private double rotate_angle_ ;
@@ -49,6 +54,14 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
 
     public SwerveBaseSubsystem(Subsystem parent, String name) throws Exception {
         super(parent, name) ;
+
+        angles_ = new double[4] ;
+        powers_ = new double[4] ;
+
+        for(int i = 0 ; i < 4 ; i++) {
+            angles_[i] = 0.0 ;
+            powers_[i] = 0.0 ;
+        }
 
         plotdata_ = new Double[columns_.length] ;
         plotid_ = -1 ;
@@ -93,6 +106,10 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
 
     public abstract SwerveModuleState getModuleTarget(int which) ;
 
+    public void stop() throws BadMotorRequestException, MotorRequestFailedException {
+        setRawTargets(false, powers_, angles_);
+    }
+
     @Override
     public void computeMyState() throws Exception {
         odometry_.update(getHeading(), getModuleState(FL), getModuleState(FR), getModuleState(BL), getModuleState(BR));
@@ -100,6 +117,7 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
 
     @Override
     public void run() throws Exception {
+        super.run() ;
     }
 
     protected SwerveDriveKinematics getKinematics() {
@@ -154,14 +172,6 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
             path_values_[1] = loc.getY() ;
             path_values_[2] = loc.getRotation().getDegrees() ;
             path_loc_.setDoubleArray(path_values_) ;
-
-            Pose2d here = getPose() ;
-            System.out.print("Swerve:") ;
-            System.out.print(" OX " + here.getX()) ;
-            System.out.print(" OY " + here.getY()) ;
-            System.out.print(" PX " + loc.getX()) ;
-            System.out.print(" PY " + loc.getY()) ;
-            System.out.println() ;
         }
     }
 

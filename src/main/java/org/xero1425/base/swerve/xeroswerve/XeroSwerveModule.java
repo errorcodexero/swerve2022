@@ -174,7 +174,6 @@ public class XeroSwerveModule {
         } else {
             try {
                 double d = drive_.getVelocity() ;
-                // System.out.println("Velocity " + name_ + " " + d) ;
                 ret = d / ticks_per_meter_ * 10.0 ;
             }
             catch(Exception ex) {

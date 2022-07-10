@@ -128,8 +128,6 @@ public class TalonFXMotorController extends MotorController
         else {
             ErrorCode code ;
 
-            System.out.println("setPID p = " + p + " i = " + i + " d = " + d + " f = " + f + " outmax = " + outmax) ;
-
             code = controller_.config_kP(0, p, ControllerTimeout) ;
             if (code != ErrorCode.OK)
                 throw new MotorRequestFailedException(this, "CTRE config_kP() call failed during setPID() call. Code: " + code.toString(), code) ;

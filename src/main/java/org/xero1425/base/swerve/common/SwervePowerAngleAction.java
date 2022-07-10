@@ -41,6 +41,7 @@ public class SwervePowerAngleAction extends SwerveDriveAction {
 
         if (Double.isFinite(duration))
             action_timer_ = new XeroTimer(subsys.getRobot(), "SwervePowerAngleAction-action", duration) ;
+
         plot_timer_ = new XeroTimer(subsys.getRobot(), "SwerveAngleVelocityAction-timer", DefaultPlotInterval) ;
     }
 
@@ -63,6 +64,7 @@ public class SwervePowerAngleAction extends SwerveDriveAction {
 
         if (Double.isFinite(duration))
             action_timer_ = new XeroTimer(subsys.getRobot(), "SwervePowerAngleAction-action", duration) ;
+
         plot_timer_ = new XeroTimer(subsys.getRobot(), "SwerveAngleVelocityAction-plot-timer", 4) ;
     }
 
@@ -83,7 +85,6 @@ public class SwervePowerAngleAction extends SwerveDriveAction {
 
         getSubsystem().startSwervePlot("swerve");
         getSubsystem().setRawTargets(true, angles_, speeds_);
-
     }
 
     @Override
@@ -104,6 +105,7 @@ public class SwervePowerAngleAction extends SwerveDriveAction {
             // expired
             //
             getSubsystem().endSwervePlot();
+            getSubsystem().drive(new ChassisSpeeds()) ;
             setDone() ;
         }
     }
@@ -121,7 +123,7 @@ public class SwervePowerAngleAction extends SwerveDriveAction {
     }
 
     public String toString(int indent) {
-        String ret = prefix(indent) + "SwerveAngleVelocityAction: " ;
+        String ret = prefix(indent) + "SwervePowerAngleAction: " ;
         for(int which = 0 ; which < getSubsystem().getModuleCount()  ; which++) 
         {
             if (which != 0)
