@@ -332,11 +332,11 @@
             "swerve_gamepad" : {
                 "index" : 0,
                 "angle" : {
-                    "maximum" : 561,
+                    "maximum" : 180,
                     "deadband" : 0.05
                 },
                 "position" : {
-                    "maximum" : 3.99,
+                    "maximum" : 4.5,
                     "deadband" : {
                         "x" : 0.1,
                         "y" : 0.1

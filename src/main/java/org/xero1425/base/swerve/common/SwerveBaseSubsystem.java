@@ -112,6 +112,7 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
 
     @Override
     public void computeMyState() throws Exception {
+        super.computeMyState();
         odometry_.update(getHeading(), getModuleState(FL), getModuleState(FR), getModuleState(BL), getModuleState(BR));
     }
 

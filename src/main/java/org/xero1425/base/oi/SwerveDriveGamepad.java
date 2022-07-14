@@ -7,6 +7,7 @@ import org.xero1425.base.swerve.common.SwerveDriveChassisSpeedAction;
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MissingParameterException;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -80,8 +81,11 @@ public class SwerveDriveGamepad extends Gamepad {
         // gamepad is pushed forward (negative value from the gamepad), the driver expects the robot to move along
         // the positive X axis of the field.
         //
-        
-        action_.update(new ChassisSpeeds(-lyscaled, -lxscaled, -rxscaled));
+        rxscaled *= 2.0 / Math.hypot(db_.getLength(), db_.getWidth());
+        Rotation2d heading = db_.getHeading() ;
+        // System.out.println("Gamepad " + -lyscaled + " " + -lxscaled +  " " + rxscaled + " " + heading.getDegrees()) ;
+        ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-lyscaled, -lxscaled, rxscaled, db_.getHeading()) ;
+        action_.update(speeds) ;
         
         if (db_.getAction() != action_)
             db_.setAction(action_) ;
