@@ -81,7 +81,7 @@ public class SwerveDriveGamepad extends Gamepad {
         // gamepad is pushed forward (negative value from the gamepad), the driver expects the robot to move along
         // the positive X axis of the field.
         //
-        rxscaled *= 2.0 / Math.hypot(db_.getLength(), db_.getWidth());
+        rxscaled *= 2.0 / Math.hypot(db_.getLength(), db_.getWidth()) / 39.37;  // 39.27 to convert meters -> inches. Original equation from SDS assumes inches.
         Rotation2d heading = db_.getHeading() ;
         // System.out.println("Gamepad " + -lyscaled + " " + -lxscaled +  " " + rxscaled + " " + heading.getDegrees()) ;
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-lyscaled, -lxscaled, rxscaled, db_.getHeading()) ;
