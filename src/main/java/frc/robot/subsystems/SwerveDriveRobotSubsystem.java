@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.subsystems;
 
 import org.xero1425.base.RobotSubsystem;
 import org.xero1425.base.XeroRobot;
@@ -9,6 +9,8 @@ import org.xero1425.base.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 import frc.robot.oi.Swerve2021OISubsystem;
 
 public class SwerveDriveRobotSubsystem extends RobotSubsystem {
+    private IntakeSubsystem intake_ ;
+
     public SwerveDriveRobotSubsystem(XeroRobot robot) throws Exception {
         super(robot, "SwerveRobotSubsystem") ;
 
@@ -29,5 +31,12 @@ public class SwerveDriveRobotSubsystem extends RobotSubsystem {
 
         Swerve2021OISubsystem oi = new Swerve2021OISubsystem(this, db) ;
         addChild(oi) ;
+
+        intake_ = new IntakeSubsystem(this) ;
+        addChild(intake_) ;
+    }
+
+    public IntakeSubsystem getIntake() {
+        return intake_ ;
     }
 }

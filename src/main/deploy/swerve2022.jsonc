@@ -344,6 +344,64 @@
                 },
                 "power" : 1.5
             }
+        },
+        "intake" : {
+            "hw" : {
+                "motors" : {
+                    "type" : "sparkmax_brushless",
+                    "canid" : 11
+                },
+                "encoder" : {
+                    "type" : "motor",
+                    "m" : 1.0,
+                    "b" : 0.0
+                },
+                "collector" : {
+                    "motor" : {
+                        "type" : "sparkmax_brushless",
+                        "canid" : 10
+                    }
+                }
+            },
+            "hold" : {
+                "kp" : 0.001,
+                "ki" : 0,
+                "kd" : 0,
+                "kf" : 0,
+                "min" : -0.1,
+                "max" : 0.1,
+                "imax" : 0
+            },
+            "goto" : {
+                "threshold" : 10,
+                "maxd" : -14000,
+                "maxa" : 14000,
+                "maxv" : 14000
+            },
+            "collect" : {
+                "onpos" : 1400,
+                "offpos" : 0
+            },
+            "collector" : {
+                "forpower" : 1.0,
+                "revpower" : -1.0
+            },
+            "follower" : {
+                "up" : {
+                    "kp" : 0.0005,
+                    "ka" : 0.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0,
+                    "kv" : 0.00012407
+                },
+                "down" : {
+                    "kp" : 0.001,
+                    "ka" : 0.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0,
+                    "kv" : 0.000035
+                }
+            }
         }
     },
     "testmode" : {
@@ -375,6 +433,9 @@
             "angle" :0.0,
             "power" : 0.1,
             "duration" : 1000.0
+        },
+        "10" : {
+            "duration" : 3
         }
     }
 }

@@ -1,7 +1,5 @@
 package frc.robot.automodes;
 
-import frc.robot.SwerveDriveRobotSubsystem;
-
 import org.xero1425.base.actions.DelayAction;
 import org.xero1425.base.actions.ParallelAction;
 import org.xero1425.base.controllers.TestAutoMode;
@@ -14,6 +12,11 @@ import org.xero1425.base.swerve.common.SwervePathFollowAction;
 import org.xero1425.base.swerve.common.SwervePowerAngleAction;
 import org.xero1425.base.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 
+import frc.robot.subsystems.CollectOffAction;
+import frc.robot.subsystems.CollectOnAction;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.SwerveDriveRobotSubsystem;
+
 public class SwerveTestAutoMode extends TestAutoMode {
 
     public SwerveTestAutoMode(SwerveDriveRobotAutoController ctrl) throws Exception {
@@ -24,6 +27,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
 
         SwerveDriveRobotSubsystem robotsys = (SwerveDriveRobotSubsystem) ctrl.getRobot().getRobotSubsystem();
         SwerveBaseSubsystem swerve = (SwerveBaseSubsystem) robotsys.getDB();
+        IntakeSubsystem intake = robotsys.getIntake() ;
 
         switch (getTestNumber()) {
             case 0:
@@ -68,7 +72,11 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 addSubActionPair(swerve, new SwervePowerAngleAction(swerve, angles, powers, getDouble("duration")), true) ;
                 break ;
 
-
+            case 10:
+                addSubActionPair(intake, new CollectOnAction(intake), false) ;
+                addAction(new DelayAction(ctrl.getRobot(), getDouble("duration"))) ;
+                addSubActionPair(intake, new CollectOffAction(intake), false) ;
+                break ;
         }
     }
 }

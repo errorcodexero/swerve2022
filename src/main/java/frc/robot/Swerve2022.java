@@ -5,6 +5,8 @@
 package frc.robot;
 
 import frc.robot.automodes.SwerveDriveRobotAutoController;
+import frc.robot.subsystems.SwerveDriveRobotSubsystem;
+
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.controllers.AutoController;
 import org.xero1425.misc.SimArgs;
