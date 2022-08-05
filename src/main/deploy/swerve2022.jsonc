@@ -348,8 +348,9 @@
         "intake" : {
             "hw" : {
                 "motors" : {
-                    "type" : "sparkmax_brushless",
-                    "canid" : 11
+                    "type" : "talon_fx",
+                    "canid" : 1,
+                    "neutral_mode" : "brake"
                 },
                 "encoder" : {
                     "type" : "motor",
@@ -359,12 +360,12 @@
                 "collector" : {
                     "motor" : {
                         "type" : "sparkmax_brushless",
-                        "canid" : 10
+                        "canid" : 2
                     }
                 }
             },
             "hold" : {
-                "kp" : 0.001,
+                "kp" : 0.0001,
                 "ki" : 0,
                 "kd" : 0,
                 "kf" : 0,
@@ -374,39 +375,39 @@
             },
             "goto" : {
                 "threshold" : 10,
-                "maxd" : -14000,
-                "maxa" : 14000,
-                "maxv" : 14000
+                "maxd" : -20000,
+                "maxa" : 20000,
+                "maxv" : 20000
             },
             "collect" : {
-                "onpos" : 1400,
+                "onpos" : 7500,
                 "offpos" : 0
             },
             "collector" : {
-                "forpower" : 1.0,
-                "revpower" : -1.0
+                "forpower" : -1.0,
+                "revpower" : 1.0
             },
             "follower" : {
                 "up" : {
-                    "kp" : 0.0005,
+                    "kp" : 0.0000,
                     "ka" : 0.0,
                     "ki" : 0.0,
                     "kd" : 0.0,
-                    "kv" : 0.00012407
+                    "kv" : 1.17647E-05
                 },
                 "down" : {
-                    "kp" : 0.001,
+                    "kp" : 0.000,
                     "ka" : 0.0,
                     "ki" : 0.0,
                     "kd" : 0.0,
-                    "kv" : 0.000035
+                    "kv" : 1.17647E-05
                 }
             }
         }
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 1,
+        "which" : 10,
         "0" : {
             "angle" : 0.0,
             "power" : 0.2
@@ -435,7 +436,14 @@
             "duration" : 1000.0
         },
         "10" : {
-            "duration" : 3
+            "duration" : 10
+        },
+        "11" : {
+            "power" : 0.2,
+            "duration" : 0.2
+        },
+        "12" : {
+
         }
     }
 }

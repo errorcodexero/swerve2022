@@ -32,4 +32,11 @@ public class IntakeSubsystem extends MotorEncoderSubsystem {
         } catch (MissingParameterException | BadParameterTypeException e) {
         }
     }
+
+    @Override
+    public void computeMyState() throws Exception {
+        super.computeMyState();
+
+        putDashboard("intake", DisplayType.Always, getPosition());
+    }
 }
