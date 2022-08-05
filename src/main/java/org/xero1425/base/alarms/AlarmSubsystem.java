@@ -2,9 +2,11 @@ package org.xero1425.base.alarms;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.xero1425.base.subsystems.Subsystem;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import java.util.* ;
-import org.xero1425.base.Subsystem;
 
 /// \file
 

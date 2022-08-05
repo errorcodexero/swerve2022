@@ -1,7 +1,8 @@
 package org.xero1425.base.actions;
 
 import java.util.List;
-import org.xero1425.base.Subsystem;
+
+import org.xero1425.base.subsystems.Subsystem;
 
 /// \file
 

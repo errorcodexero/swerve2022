@@ -2,7 +2,8 @@ package org.xero1425.base.actions;
 
 import java.util.List;
 import java.util.ArrayList;
-import org.xero1425.base.Subsystem;
+
+import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.misc.MessageLogger;
 
 /// \file

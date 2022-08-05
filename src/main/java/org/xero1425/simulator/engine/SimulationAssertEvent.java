@@ -1,6 +1,6 @@
 package org.xero1425.simulator.engine;
 
-import org.xero1425.base.Subsystem;
+import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;

@@ -3,7 +3,7 @@ package org.xero1425.base.controllers;
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.actions.InvalidActionRequest;
 import org.xero1425.base.actions.SequenceAction;
-import org.xero1425.base.oi.OISubsystem;
+import org.xero1425.base.subsystems.oi.OISubsystem;
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
 

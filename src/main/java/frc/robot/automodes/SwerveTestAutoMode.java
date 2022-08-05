@@ -3,20 +3,20 @@ package frc.robot.automodes;
 import org.xero1425.base.actions.DelayAction;
 import org.xero1425.base.actions.ParallelAction;
 import org.xero1425.base.controllers.TestAutoMode;
-import org.xero1425.base.motorsubsystem.MotorEncoderGotoAction;
-import org.xero1425.base.motorsubsystem.MotorEncoderPowerAction;
-import org.xero1425.base.swerve.common.SwerveSpeedAngleAction;
-import org.xero1425.base.swerve.sdsswerve.SDSSwerveDriveSubsystem;
-import org.xero1425.base.swerve.common.SwerveBaseSubsystem;
-import org.xero1425.base.swerve.common.SwerveDriveChassisSpeedAction;
-import org.xero1425.base.swerve.common.SwerveHolonomicPathFollower;
-import org.xero1425.base.swerve.common.SwervePathFollowAction;
-import org.xero1425.base.swerve.common.SwervePowerAngleAction;
-import org.xero1425.base.swerve.xeroswerve.XeroSwerveDriveSubsystem;
+import org.xero1425.base.subsystems.intake2motor.CollectOffAction;
+import org.xero1425.base.subsystems.intake2motor.CollectOnAction;
+import org.xero1425.base.subsystems.intake2motor.Intake2MotorSubsystem;
+import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderGotoAction;
+import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderPowerAction;
+import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
+import org.xero1425.base.subsystems.swerve.common.SwerveDriveChassisSpeedAction;
+import org.xero1425.base.subsystems.swerve.common.SwerveHolonomicPathFollower;
+import org.xero1425.base.subsystems.swerve.common.SwervePathFollowAction;
+import org.xero1425.base.subsystems.swerve.common.SwervePowerAngleAction;
+import org.xero1425.base.subsystems.swerve.common.SwerveSpeedAngleAction;
+import org.xero1425.base.subsystems.swerve.sdsswerve.SDSSwerveDriveSubsystem;
+import org.xero1425.base.subsystems.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 
-import frc.robot.subsystems.CollectOffAction;
-import frc.robot.subsystems.CollectOnAction;
-import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.SwerveDriveRobotSubsystem;
 
 public class SwerveTestAutoMode extends TestAutoMode {
@@ -29,7 +29,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
 
         SwerveDriveRobotSubsystem robotsys = (SwerveDriveRobotSubsystem) ctrl.getRobot().getRobotSubsystem();
         SwerveBaseSubsystem swerve = (SwerveBaseSubsystem) robotsys.getDB();
-        IntakeSubsystem intake = robotsys.getIntake() ;
+        Intake2MotorSubsystem intake = robotsys.getIntake() ;
 
         switch (getTestNumber()) {
             case 0:

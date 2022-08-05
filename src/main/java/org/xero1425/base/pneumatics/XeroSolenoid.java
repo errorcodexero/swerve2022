@@ -1,7 +1,7 @@
 package org.xero1425.base.pneumatics;
 
-import org.xero1425.base.Subsystem;
 import org.xero1425.base.XeroRobot;
+import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MissingParameterException;
 

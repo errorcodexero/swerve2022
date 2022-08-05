@@ -16,7 +16,7 @@ import java.util.HashMap ;
 /// the plot is ednabled.  A plot is defined by a name and a set of named columns.  Each named
 /// column has a value for each robot loop.
 /// This data can be processed by the xerotune toon located here <a href="https://www.mewserver.org/xeroprogs/" here </a>
-class PlotManager
+public class PlotManager
 {
     static private String CompleteEntry = "complete" ;
     static private String PointsEntry = "points" ;

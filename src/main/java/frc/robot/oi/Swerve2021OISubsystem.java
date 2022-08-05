@@ -1,8 +1,8 @@
 package frc.robot.oi ;
 
-import org.xero1425.base.DriveBaseSubsystem;
-import org.xero1425.base.Subsystem;
-import org.xero1425.base.oi.OISubsystem;
+import org.xero1425.base.subsystems.DriveBaseSubsystem;
+import org.xero1425.base.subsystems.Subsystem;
+import org.xero1425.base.subsystems.oi.OISubsystem;
 
 public class Swerve2021OISubsystem extends OISubsystem {
     public final static String SubsystemName = "swerveoi";

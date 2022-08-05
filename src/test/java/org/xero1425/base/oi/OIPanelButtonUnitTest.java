@@ -1,6 +1,7 @@
 package org.xero1425.base.oi ;
 
 import org.junit.*;
+import org.xero1425.base.subsystems.oi.OIPanelButton;
 
 public class OIPanelButtonUnitTest
 {

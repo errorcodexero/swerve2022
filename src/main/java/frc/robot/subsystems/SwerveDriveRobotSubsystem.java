@@ -1,15 +1,16 @@
 package frc.robot.subsystems;
 
-import org.xero1425.base.RobotSubsystem;
 import org.xero1425.base.XeroRobot;
-import org.xero1425.base.swerve.common.SwerveBaseSubsystem;
-import org.xero1425.base.swerve.sdsswerve.SDSSwerveDriveSubsystem;
-import org.xero1425.base.swerve.xeroswerve.XeroSwerveDriveSubsystem;
+import org.xero1425.base.subsystems.RobotSubsystem;
+import org.xero1425.base.subsystems.intake2motor.Intake2MotorSubsystem;
+import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
+import org.xero1425.base.subsystems.swerve.sdsswerve.SDSSwerveDriveSubsystem;
+import org.xero1425.base.subsystems.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 
 import frc.robot.oi.Swerve2021OISubsystem;
 
 public class SwerveDriveRobotSubsystem extends RobotSubsystem {
-    private IntakeSubsystem intake_ ;
+    private Intake2MotorSubsystem intake_ ;
 
     public SwerveDriveRobotSubsystem(XeroRobot robot) throws Exception {
         super(robot, "SwerveRobotSubsystem") ;
@@ -32,11 +33,11 @@ public class SwerveDriveRobotSubsystem extends RobotSubsystem {
         Swerve2021OISubsystem oi = new Swerve2021OISubsystem(this, db) ;
         addChild(oi) ;
 
-        intake_ = new IntakeSubsystem(this) ;
+        intake_ = new Intake2MotorSubsystem(this, "intake") ;
         addChild(intake_) ;
     }
 
-    public IntakeSubsystem getIntake() {
+    public Intake2MotorSubsystem getIntake() {
         return intake_ ;
     }
 }
