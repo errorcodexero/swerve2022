@@ -15,6 +15,13 @@ import org.xero1425.misc.SettingsValue;
 /// \brief The limelight subsystem supports the LimeLight camera.  It is expected that a class that is game
 /// specific will be derived from this class.
 public class LimeLightSubsystem extends Subsystem {
+    private double distance_ ;
+    private double yaw_ ;
+
+    private double camera_angle_ ;
+    private double camera_height_ ;
+    private double target_height_ ;
+
     // The camera mode (vision or driver)
     private CamMode cam_mode_ ;
 
@@ -96,6 +103,12 @@ public class LimeLightSubsystem extends Subsystem {
         setLedMode(LedMode.ForceOff);
         setCamMode(CamMode.VisionProcessing) ;
         setPipeline(0);
+
+        camera_angle_ = getSettingsValue("camera_angle").getDouble() ;
+        camera_height_ = getSettingsValue("camera_height").getDouble() ;
+        target_height_ = getSettingsValue("target_height").getDouble() ;
+        distance_ = 0 ;
+        yaw_ = 0 ;
     }
 
     /// \brief the mode for the camera
@@ -188,6 +201,15 @@ public class LimeLightSubsystem extends Subsystem {
         }
 
         putDashboard("ll-valid", DisplayType.Verbose, tv_);
+
+        if (isLimeLightConnected() && isTargetDetected())
+        {
+            distance_ = (target_height_ - camera_height_) / Math.tan(Math.toRadians(camera_angle_ + getTY())) ;
+            yaw_ = getTX() ;
+
+            putDashboard("ll-distance", DisplayType.Verbose, distance_);
+            putDashboard("ll-yaw", DisplayType.Verbose, yaw_) ;
+        }
     }
 
     /// \brief Returns true if the limelight is detected. Currently only set in vision processing mode.
@@ -308,5 +330,14 @@ public class LimeLightSubsystem extends Subsystem {
     @Override
     public String toString() {
         return "limelight" ;
+
+    }
+
+    public double getDistance() {
+        return distance_ ;
+    }
+
+    public double getYaw() {
+        return yaw_ ;
     }
 } ;
