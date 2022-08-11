@@ -10,7 +10,7 @@ public class CollectOnAction extends MotorEncoderGotoAction {
         super(sub, "collect:onpos", true) ;
 
         sub_ = sub ;
-        collect_power_ = sub.getSettingsValue("collector:forpower").getDouble() ;
+        collect_power_ = sub.getSettingsValue("collector:onpower").getDouble() ;
     }
 
     @Override

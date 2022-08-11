@@ -384,8 +384,9 @@
                 "offpos" : 0
             },
             "collector" : {
-                "forpower" : -1.0,
-                "revpower" : 1.0
+                "onpower" : -1.0,
+                "offpower" : 1.0,
+                "ejectpower": 1.0
             },
             "follower" : {
                 "up" : {
@@ -402,6 +403,17 @@
                     "kd" : 0.0,
                     "kv" : 1.17647E-05
                 }
+            }
+        }
+    },
+    "agitator": {
+        "ejectpower": -1,
+        "forwardpower":1,
+        "offpower":0,
+        "hw": {
+            "motors": {
+                "type": "talon_fx",
+                "canid": 3
             }
         }
     },

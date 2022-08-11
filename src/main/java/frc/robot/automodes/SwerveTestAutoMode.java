@@ -29,7 +29,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
 
         SwerveDriveRobotSubsystem robotsys = (SwerveDriveRobotSubsystem) ctrl.getRobot().getRobotSubsystem();
         SwerveBaseSubsystem swerve = (SwerveBaseSubsystem) robotsys.getDB();
-        Intake2MotorSubsystem intake = robotsys.getIntake() ;
+        Intake2MotorSubsystem intake = robotsys.getGPM().getIntake() ;
 
         switch (getTestNumber()) {
             case 0:

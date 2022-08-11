@@ -12,7 +12,7 @@ public class CollectOffAction extends MotorEncoderGotoAction {
         super(sub, "collect:offpos", true) ;
 
         sub_ = sub ;
-        collect_power_ = sub.getSettingsValue("collector:revpower").getDouble() ;
+        collect_power_ = sub.getSettingsValue("collector:offpower").getDouble() ;
     }
 
     @Override

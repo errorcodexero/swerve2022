@@ -8,9 +8,10 @@ import org.xero1425.base.subsystems.swerve.sdsswerve.SDSSwerveDriveSubsystem;
 import org.xero1425.base.subsystems.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 
 import frc.robot.oi.Swerve2021OISubsystem;
+import frc.robot.subsystems.gpm.GPMSubsystem;
 
 public class SwerveDriveRobotSubsystem extends RobotSubsystem {
-    private Intake2MotorSubsystem intake_ ;
+    private GPMSubsystem gpm_;
 
     public SwerveDriveRobotSubsystem(XeroRobot robot) throws Exception {
         super(robot, "SwerveRobotSubsystem") ;
@@ -33,11 +34,11 @@ public class SwerveDriveRobotSubsystem extends RobotSubsystem {
         Swerve2021OISubsystem oi = new Swerve2021OISubsystem(this, db) ;
         addChild(oi) ;
 
-        intake_ = new Intake2MotorSubsystem(this, "intake") ;
-        addChild(intake_) ;
+        gpm_ = new GPMSubsystem(this, "gpm") ;
+        addChild(gpm_) ;
     }
 
-    public Intake2MotorSubsystem getIntake() {
-        return intake_ ;
+    public GPMSubsystem getGPM() {
+        return gpm_;
     }
 }
