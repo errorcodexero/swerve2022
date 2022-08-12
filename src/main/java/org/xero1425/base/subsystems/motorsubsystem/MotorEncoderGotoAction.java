@@ -125,6 +125,11 @@ public class MotorEncoderGotoAction extends MotorAction {
         plot_id_ = sub.initPlot(sub.getName() + "-" + toString(0)) ;        
     }
 
+    public void setTarget(double target) throws BadParameterTypeException, MissingParameterException {
+        target_ = target ;
+        setTarget() ;
+    }
+
     /// \brief Start the action, computing the plan using the trapezoidal profile.  This method also
     /// initializes the PID controller based on whether or not the motion us "up" or "down".
     public void start() throws Exception {

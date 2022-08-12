@@ -42,7 +42,7 @@ public class SimulationAssertEvent extends SimulationEvent {
             MessageLogger logger = engine.getMessageLogger();
             logger.startMessage(MessageType.Error);
             logger.add("AssertFailed: ");
-            logger.add("subsystem", subsystem_);
+            logger.add("subsystem ", subsystem_);
             logger.add(" - does not exist in the robot");
             logger.endMessage();
             engine.addAssertError();
@@ -52,7 +52,7 @@ public class SimulationAssertEvent extends SimulationEvent {
             if (v == null) {
                 logger.startMessage(MessageType.Error);
                 logger.add("AssertFailed: ");
-                logger.add("subsystem", subsystem_);
+                logger.add("subsystem ", subsystem_);
                 logger.add(" property ", name_);
                 logger.add(" - subsystem did not contain the given property");
                 logger.endMessage();
@@ -76,7 +76,7 @@ public class SimulationAssertEvent extends SimulationEvent {
                 if (!pass) {
                     logger.startMessage(MessageType.Error);
                     logger.add("AssertFailed: ");
-                    logger.add("subsystem").addQuoted(subsystem_) ;
+                    logger.add("subsystem ").addQuoted(subsystem_) ;
                     logger.add(", property ").addQuoted(name_) ;
                     logger.add(", expected ").addQuoted(value.toString());
                     logger.add(", got ").addQuoted(v.toString());
