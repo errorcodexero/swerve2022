@@ -2,7 +2,6 @@ package org.xero1425.base.controllers;
 
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.actions.InvalidActionRequest;
-import org.xero1425.base.actions.SequenceAction;
 import org.xero1425.base.subsystems.oi.OISubsystem;
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
@@ -16,16 +15,11 @@ import org.xero1425.misc.MessageType;
 /// limited to the subsystems, see the Subsystem.init(LoopType) method.
 public class TeleopController extends BaseController
 {
-    // The sequence of actions to run based on the current robot loop
-    private SequenceAction sequence_ ;
-
     /// \brief Create a new telop controller
     /// \param robot the robot object
     /// \param name the name of the controller
     public TeleopController(XeroRobot robot, String name) {
         super(robot, name) ;
-
-        sequence_ = new SequenceAction(robot.getMessageLogger());
     }
 
     /// \brief Called to initialize the robot for teleop mode, does nothings
@@ -43,9 +37,8 @@ public class TeleopController extends BaseController
         
         try {
             // Generate a set of actions based on the OI
-            sequence_.clear() ;
             if (oi != null)
-                oi.generateActions(sequence_) ;
+                oi.generateActions() ;
         }
         catch(InvalidActionRequest ex) {
             MessageLogger logger = getRobot().getMessageLogger() ;
@@ -53,33 +46,6 @@ public class TeleopController extends BaseController
             logger.add("Error generating actions in teleop - ") ;
             logger.add(ex.getMessage()) ;
             logger.endMessage(); 
-        }
-
-        if (sequence_.size() > 0)
-        {
-            try {
-                // Execute the actions
-                sequence_.start() ;
-            }
-            catch(Exception ex) {
-                MessageLogger logger = getRobot().getMessageLogger() ;
-                logger.startMessage(MessageType.Error) ;
-                logger.add("Error starting actions in teleop sequence - ") ;
-                logger.add(ex.getMessage()) ;
-                logger.endMessage(); 
-            }
-
-            try {
-                if (!sequence_.isDone())
-                    sequence_.run() ;
-            }
-            catch(Exception ex) {
-                MessageLogger logger = getRobot().getMessageLogger() ;
-                logger.startMessage(MessageType.Error) ;
-                logger.add("Error running actions in teleop sequence - ") ;
-                logger.add(ex.getMessage()) ;
-                logger.endMessage(); 
-            }
         }
     }
 } ;

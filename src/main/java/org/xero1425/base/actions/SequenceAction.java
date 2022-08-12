@@ -33,6 +33,10 @@ public class SequenceAction extends ActionGroup
         running_ = false ;
     }
 
+    public Action get(int index) {
+        return actions_.get(index) ;
+    }
+
     /// \brief return all child actions of this action
     /// \param output the list to contains the child actions
     @Override

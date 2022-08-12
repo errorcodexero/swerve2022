@@ -10,17 +10,17 @@ import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MissingParameterException;
 
 public class Intake2MotorSubsystem extends MotorEncoderSubsystem {
-    private MotorController collector_;
+    private MotorController spinner_;
 
     public Intake2MotorSubsystem(Subsystem parent, String name) throws Exception {
         super(parent, name, false); // Motor 1, in the base class
 
         // Motor 2, explicitly create it
-        collector_ = getRobot().getMotorFactory().createMotor("intake-collector", "subsystems:intake:hw:collector:motor");
+        spinner_ = getRobot().getMotorFactory().createMotor("intake-collector", "subsystems:intake:hw:collector:motor");
     }
 
-    public void setCollectorPower(double p) throws BadMotorRequestException, MotorRequestFailedException {
-        collector_.set(p);
+    public void setSpinnerPower(double p) throws BadMotorRequestException, MotorRequestFailedException {
+        spinner_.set(p);
     }
 
     @Override
