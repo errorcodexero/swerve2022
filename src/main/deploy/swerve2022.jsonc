@@ -357,7 +357,7 @@
                     "m" : 1.0,
                     "b" : 0.0
                 },
-                "collector" : {
+                "spinner" : {
                     "motor" : {
                         "type" : "sparkmax_brushless",
                         "canid" : 2
@@ -404,19 +404,21 @@
                     "kv" : 1.17647E-05
                 }
             }
-        }
-    },
-    "agitator": {
-        "ejectpower": -1,
-        "forwardpower":1,
-        "offpower":0,
-        "hw": {
-            "motors": {
-                "type": "talon_fx",
-                "canid": 3
+        },
+        "agitator": {
+            "ejectpower": -1,
+            "forwardpower":1,
+            "offpower":0,
+            "hw": {
+                "motors": {
+                    "type": "talon_fx",
+                    "canid": 3
+                }
             }
-        }
+        },  
+    
     },
+    
     "testmode" : {
         "enabled" : true,
         "which" : 10,
