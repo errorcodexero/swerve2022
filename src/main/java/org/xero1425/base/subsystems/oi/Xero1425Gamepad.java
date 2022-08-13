@@ -140,7 +140,8 @@ public class Xero1425Gamepad extends Gamepad {
 
     /// \brief generate the actions for the drivebase for the current robot loop
     @Override
-    public void generateActions(SequenceAction seq) {
+    public void generateActions() {
+        SequenceAction seq = new SequenceAction(getSubsystem().getRobot().getMessageLogger()) ;
         if (db_ == null || !isEnabled())
             return ;
 
@@ -195,6 +196,9 @@ public class Xero1425Gamepad extends Gamepad {
             // This should never happen
             //
         }
+
+        if (seq.size() == 1)
+            db_.setAction(seq.get(0)) ;
     }
 
     private double scalePower(double axis, double boost, boolean slow) {

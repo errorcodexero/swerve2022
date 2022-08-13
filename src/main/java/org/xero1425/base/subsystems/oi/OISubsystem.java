@@ -128,11 +128,11 @@ public class OISubsystem extends Subsystem {
     }
 
     /// \brief Called each robot loop to generate actions to assign for each enable OI HID device.
-    public void generateActions(SequenceAction seq) throws InvalidActionRequest {
+    public void generateActions() throws InvalidActionRequest {
         for(HIDDevice dev : devices_)
         {
             if (dev.isEnabled())
-                dev.generateActions(seq) ;
+                dev.generateActions() ;
         }
     }
 

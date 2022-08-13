@@ -1,0 +1,173 @@
+{
+    "stimulus" :
+    [
+        {
+            "time" : 0.0,
+            "events" :
+            [
+                {
+                    "model" : "fms",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "automode must be set to the correct testmode in droid param file",
+                        "start" : 1.0,
+                        "autonomous" : 30.0,
+                        "between" : 0.0,
+                        "teleop" : 0.0,
+                        "fms" : false
+                    }
+                }       
+            ]
+        },
+        {
+            "time" : 3.0,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 0
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "setting" : "subsystems:conveyor:power:off"
+                },
+                {
+                    "subsystem" : "agitator",
+                    "property" : "power",
+                    "setting" : "subsystems:agitator:power:collect"
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:spinner:on"
+                }                 
+            ]            
+        },
+        {
+            "time" : 4.0,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "first ball blocks the intake sensor on the conveyor",
+                        "intake" : false,
+                        "shooter" : true
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 4.1,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 0
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "setting" : "subsystems:conveyor:power:on"
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:spinner:on"
+                }                
+            ]            
+        },
+        {
+            "time" : 4.5,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "first ball clears the intake sensor on the conveyor",
+                        "intake" : true,
+                        "shooter" : true
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 5.0,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 1
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "value" : 0.0
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:spinner:on"
+                }                    
+            ]            
+        },
+        {
+            "time" : 6.0,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "second ball blocks the intake sensor on the conveyor",
+                        "intake" : false,
+                        "shooter" : true
+                    }
+                }
+            ]
+        },  
+        {
+            "time" : 6.5,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "first ball blocks the shooter sensor on the conveyor",
+                        "intake" : false,
+                        "shooter" : false
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 7.0,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 2
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "value" : 0.0
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:spinner:off"
+                }                    
+            ]            
+        }       
+    ]
+}

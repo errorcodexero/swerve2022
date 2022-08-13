@@ -365,7 +365,7 @@ public abstract class XeroRobot extends TimedRobot {
             logger_.add("exception thrown in hardwareInit() - ").add(ex.getStackTrace().toString()) ;
             logger_.endMessage();
 
-            ex.printStackTrace();
+            logStackTrace(ex.getStackTrace());
 
             robot_subsystem_ = null;
         }
@@ -397,10 +397,11 @@ public abstract class XeroRobot extends TimedRobot {
         try {
             robot_subsystem_.postHWInit();
         } catch (Exception ex) {
-            ex.printStackTrace();
             logger_.startMessage(MessageType.Error);
             logger_.add("Exception caught in postHWInit() - ").add(ex.toString());
             logger_.endMessage();
+
+            logStackTrace(ex.getStackTrace());
         }
         logger_.startMessage(MessageType.Info).add("postHWInit time", getTime() - start).endMessage() ;
 
@@ -415,6 +416,8 @@ public abstract class XeroRobot extends TimedRobot {
             logger_.startMessage(MessageType.Error);
             logger_.add("Exception caught creating automode controller - ").add(ex.getMessage());
             logger_.endMessage();
+
+            logStackTrace(ex.getStackTrace());
         }
 
         // Create the teleop controller
@@ -425,6 +428,8 @@ public abstract class XeroRobot extends TimedRobot {
             logger_.startMessage(MessageType.Error);
             logger_.add("Exception caught creating teleop controller - ").add(ex.getMessage());
             logger_.endMessage();
+
+            logStackTrace(ex.getStackTrace());
         }
     }
 
@@ -768,6 +773,8 @@ public abstract class XeroRobot extends TimedRobot {
             logger_.add("exception caught in computeState() in robot loop -") ;
             logger_.add(ex.getMessage()) ;
             logger_.endMessage();
+
+            logStackTrace(ex.getStackTrace());
         }
 
         if (current_controller_ != null)
@@ -781,9 +788,20 @@ public abstract class XeroRobot extends TimedRobot {
             logger_.add("exception caught in run() in robot loop -") ;
             logger_.add(ex.getMessage()) ;
             logger_.endMessage();
+
+            logStackTrace(ex.getStackTrace());
         }
 
         last_time_ = initial_time ;
+    }
+
+    private void logStackTrace(StackTraceElement [] trace) {
+        for(int i = 0 ; i < trace.length ; i++) {
+            logger_.startMessage(MessageType.Error) ;
+            logger_.add("    ") ;
+            logger_.add(trace[i].toString()) ;
+            logger_.endMessage();
+        }
     }
 
     private void logAutoModeState() {
@@ -872,7 +890,8 @@ public abstract class XeroRobot extends TimedRobot {
             }
             catch(Exception ex)
             {
-                logger_.startMessage(MessageType.Error).add("Exception thrown in updateAutoMode - ").add(ex.getMessage()).endMessage(); ;
+                logger_.startMessage(MessageType.Error).add("Exception thrown in updateAutoMode - ").add(ex.getMessage()).endMessage();
+                logStackTrace(ex.getStackTrace());
             }
         }
     }

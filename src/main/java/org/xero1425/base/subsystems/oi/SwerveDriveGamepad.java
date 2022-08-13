@@ -57,7 +57,7 @@ public class SwerveDriveGamepad extends Gamepad {
     }
 
     @Override
-    public void generateActions(SequenceAction seq) {
+    public void generateActions() {
         if (db_ == null || !isEnabled())
             return ;
 

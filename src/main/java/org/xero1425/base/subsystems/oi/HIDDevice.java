@@ -66,7 +66,7 @@ public abstract class HIDDevice
     /// \brief Called each robot loop to generate actions
     /// \param seq the sequence where generated actions are added
     /// \throws InvalidActionRequest when an invalid action reqested
-    public void generateActions(SequenceAction seq) throws InvalidActionRequest {
+    public void generateActions() throws InvalidActionRequest {
     }
 
     /// \brief Create the set of static actions that will be reused each robot loop

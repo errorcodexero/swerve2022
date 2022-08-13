@@ -3,7 +3,6 @@ package org.xero1425.base.subsystems;
 import org.xero1425.base.gyro.NavxGyro;
 import org.xero1425.base.gyro.RomiGyro;
 import org.xero1425.base.gyro.XeroGyro;
-import org.xero1425.base.subsystems.Subsystem.DisplayType;
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
 import org.xero1425.misc.XeroPathSegment;
