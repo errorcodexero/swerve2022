@@ -175,7 +175,7 @@ public class TargetTrackerSubsystem extends Subsystem {
             else if (track_method_ != TrackMethod.VisionOnly) 
             {
                 // Use field position
-                Pose2d robot_pose = ((SwerveBaseSubsystem) getRobot().getRobotSubsystem().getDB()).getPose() ;
+                Pose2d robot_pose = getRobot().getRobotSubsystem().getDB().getPose() ;
                 double target_angle = field_target_tracker_.getRelativeTargetAngle(robot_pose) ;
                 double safe_target_angle = turret_.limitAngleToSafeRange(target_angle) ;
                 
