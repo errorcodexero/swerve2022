@@ -5,7 +5,7 @@
 package frc.robot;
 
 import frc.robot.automodes.SwerveDriveRobotAutoController;
-import frc.robot.subsystems.SwerveDriveRobotSubsystem;
+import frc.robot.subsystems.Swerve2022RobotSubsystem;
 
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.controllers.AutoController;
@@ -33,7 +33,7 @@ public class Swerve2022 extends XeroRobot {
         if (ret != null)
             return ret;
 
-        return "testmode";
+        return "init";
     }
 
     public AutoController createAutoController() {
@@ -49,7 +49,7 @@ public class Swerve2022 extends XeroRobot {
     }
 
     protected void hardwareInit() throws Exception {
-        SwerveDriveRobotSubsystem robot = new SwerveDriveRobotSubsystem(this);
+        Swerve2022RobotSubsystem robot = new Swerve2022RobotSubsystem(this);
         setRobotSubsystem(robot);
     }
 

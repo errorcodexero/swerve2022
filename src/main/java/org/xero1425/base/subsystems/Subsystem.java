@@ -411,6 +411,7 @@ public class Subsystem {
                 logger.add("action ").addQuoted(action_.toString()) ;
                 logger.add(" threw exception during start() - ").add(ex.getMessage()) ;
                 logger.endMessage();
+                getRobot().logStackTrace(ex.getStackTrace());
                 action_ = null ;
             }
         }
@@ -482,6 +483,7 @@ public class Subsystem {
             logger.add("action ").addQuoted(action_.toString()) ;
             logger.add(" threw exception during start() - ").add(ex.getMessage()) ;
             logger.endMessage();
+            getRobot().logStackTrace(ex.getStackTrace());
             action_ = null ;
         }
 
@@ -532,6 +534,7 @@ public class Subsystem {
                 logger.add("action ").addQuoted(action_.toString()) ;
                 logger.add(" threw exception during start() - ").add(ex.getMessage()) ;
                 logger.endMessage();
+                getRobot().logStackTrace(ex.getStackTrace());
             }
         }
     }
@@ -729,6 +732,7 @@ public class Subsystem {
                 logger.add("action ").addQuoted(action_.toString()) ;
                 logger.add(" threw exception during start() - ").add(ex.getMessage()) ;
                 logger.endMessage();
+                getRobot().logStackTrace(ex.getStackTrace());
             }
         }
         else

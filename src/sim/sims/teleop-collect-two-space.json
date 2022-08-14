@@ -1,0 +1,235 @@
+{
+    "stimulus" :
+    [
+        {
+            "time" : 0.0,
+            "events" :
+            [
+                {
+                    "model" : "fms",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "automode must be set to the correct testmode in droid param file",
+                        "start" : 1.0,
+                        "autonomous" : 0.0,
+                        "between" : 0.0,
+                        "teleop" : 15.0,
+                        "fms" : false
+                    }
+                },
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" :
+                    {
+                        "comment" : "Collect/shoot mode switch set to collect",                        
+                        "button6" : true,
+                        
+                        // The climb lock button is in the locked state
+                        "button4" : true                        
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 2.0,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "first ball blocks the intake sensor on the conveyor",
+                        "intake" : true,
+                        "shooter" : true,
+                        "staging" : true
+                    }
+                }                
+            ]
+        },
+        {
+            "time" : 3.0,
+            "events" :
+            [
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "Collect button pressed",
+                        "button3" : true
+                    }
+                }
+            ]
+        },        
+        {
+            "time" : 3.2,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 0
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "setting" : "subsystems:conveyor:power:off"
+                },
+                {
+                    "subsystem" : "agitator",
+                    "property" : "power",
+                    "setting" : "subsystems:agitator:power:collect"
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:spinner:on"
+                }                 
+            ]            
+        },
+        {
+            "time" : 4.0,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "first ball blocks the intake sensor on the conveyor",
+                        "intake" : false,
+                        "shooter" : true,
+                        "staging" : true
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 4.1,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 0
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "setting" : "subsystems:conveyor:power:on"
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:spinner:on"
+                }                
+            ]            
+        },
+        {
+            "time" : 4.5,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "first ball sets the staging sensor",
+                        "intake" : true,
+                        "staging" : false,
+                        "shooter" : true
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 5.0,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 1
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "value" : 0.0
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:spinner:on"
+                }                    
+            ]            
+        },
+        {
+            "time" : 6.0,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "second ball blocks the intake sensor on the conveyor",
+                        "intake" : false,
+                        "shooter" : true,
+                        "staging" : false
+                    }
+                }
+            ]
+        },  
+        {
+            "time" : 6.5,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "first ball hits shooter sensor",
+                        "intake" : false,
+                        "shooter" : false,
+                        "staging" : false
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 6.8,
+            "events" :
+            [
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "Collect button pressed",
+                        "button3" : false
+                    }
+                }
+            ]
+        },  
+        {
+            "time" : 7.4,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 2
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "value" : 0.0
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:spinner:off"
+                }                    
+            ]            
+        }       
+    ]
+}

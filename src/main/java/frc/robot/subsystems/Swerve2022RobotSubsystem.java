@@ -3,40 +3,26 @@ package frc.robot.subsystems;
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.limelight.LimeLightSubsystem;
 import org.xero1425.base.subsystems.RobotSubsystem;
-import org.xero1425.base.subsystems.intake2motor.Intake2MotorSubsystem;
+import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
 import org.xero1425.base.subsystems.swerve.sdsswerve.SDSSwerveDriveSubsystem;
-import org.xero1425.base.subsystems.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import frc.robot.oi.Swerve2021OISubsystem;
+import frc.robot.subsystems.oi.Swerve2022OISubsystem;
 import frc.robot.subsystems.gpm.GPMSubsystem;
 import frc.robot.subsystems.targettracker.TargetTrackerSubsystem;
 import frc.robot.subsystems.turret.TurretSubsystem;
 
-public class SwerveDriveRobotSubsystem extends RobotSubsystem {
+public class Swerve2022RobotSubsystem extends RobotSubsystem {
     private GPMSubsystem gpm_;
     private SwerveBaseSubsystem db_;
 
-    public SwerveDriveRobotSubsystem(XeroRobot robot) throws Exception {
+    public Swerve2022RobotSubsystem(XeroRobot robot) throws Exception {
         super(robot, "SwerveRobotSubsystem") ;
 
-        SwerveBaseSubsystem db = null ;
-        boolean usehwpid = true ;
-        boolean usesds = true ;
+        db_ = new SDSSwerveDriveSubsystem(this, "swervedrive") ;
+        addChild(db_) ;
 
-        if (XeroRobot.isSimulation())
-            usehwpid = false ;
-
-        if (usesds) {
-            db = new SDSSwerveDriveSubsystem(this, "swervedrive") ;
-        }
-        else {
-            db = new XeroSwerveDriveSubsystem(this, "xeroswervedrive", usehwpid) ;
-        }
-        addChild(db) ;
-
-        Swerve2021OISubsystem oi = new Swerve2021OISubsystem(this, db) ;
+        Swerve2022OISubsystem oi = new Swerve2022OISubsystem(this, db_) ;
         addChild(oi) ;
 
         gpm_ = new GPMSubsystem(this, "gpm") ;
@@ -57,4 +43,15 @@ public class SwerveDriveRobotSubsystem extends RobotSubsystem {
         return gpm_;
     }
 
+    public SwerveBaseSubsystem getDB() {
+        return db_ ;
+    }
+
+    public Subsystem getTurret() {
+        return null; 
+    }
+
+    public Subsystem getClimber() {
+        return null ;
+    }
 }
