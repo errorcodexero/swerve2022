@@ -11,7 +11,7 @@ public class GPMEjectAction extends Action{
     private IntakePositionPowerAction intake_;
     public GPMEjectAction(GPMSubsystem subsystem) throws Exception {
         super(subsystem.getRobot().getMessageLogger());
-        subsystem = subsystem_;
+        subsystem_ = subsystem;
 
         agitator_ = new MotorPowerAction(subsystem_.getAgitator(), subsystem_.getAgitator().getSettingsValue("ejectpower").getDouble());
         intake_ = new IntakePositionPowerAction(subsystem_.getIntake(), "collect:onpos", "collector:ejectpower", false, false);

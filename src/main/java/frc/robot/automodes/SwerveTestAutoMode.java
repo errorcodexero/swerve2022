@@ -81,9 +81,9 @@ public class SwerveTestAutoMode extends TestAutoMode {
             // Intake test modes
             //
             case 10:
-                addSubActionPair(intake, new IntakePositionPowerAction(intake,  "position:on", "spinner:on", false, false), false) ;
+                addSubActionPair(intake, new IntakePositionPowerAction(intake,  "collect:onpos", "collector:onpower", false, false), false) ;
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("duration"))) ;
-                addSubActionPair(intake, new IntakePositionPowerAction(intake, "position:off", "spinner:off", true, true), false) ;
+                addSubActionPair(intake, new IntakePositionPowerAction(intake, "collect:offpos", "collector:offpower", true, true), false) ;
                 break ;
 
             case 11:

@@ -290,9 +290,9 @@
                 "offpos" : 0
             },
             "collector" : {
-                "onpower" : -1.0,
-                "offpower" : 1.0,
-                "ejectpower": 1.0
+                "onpower" : 0.8,
+                "offpower" : -1.0,
+                "ejectpower": -1.0
             },
             "follower" : {
                 "up" : {
@@ -312,8 +312,8 @@
             }
         },
         "agitator": {
-            "ejectpower": -1,
-            "forwardpower":1,
+            "ejectpower": -1.0,
+            "forwardpower":0.8,
             "offpower":0,
             "hw": {
                 "motors": {
