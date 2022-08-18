@@ -493,6 +493,69 @@
                 }
             }
         },  
+        "shooter": {
+            "shooter-action": {
+                "wheel-velocity-threshold": 10,
+                "hood-position-threshold": 10
+            }
+        },
+        "shooter-wheel": {
+            "hw": {
+                "motors": {
+                    "1": {
+                        "type": "talon_fx",
+                        "canid": 9
+                    },
+                    "2": {
+                        "type": "talon_fx",
+                        "canid":10 
+                    }
+                },
+                "encoder": {
+                    "type": "motor",
+                    "m": 2.857,
+                    "b": 0.0
+                }
+            },
+            "w1": {
+                "kp": 0.00003,
+                "ki": 0.01,
+                "kd": 0.0,
+                "kf": 7.5770890869800108049702863317126e-5,
+                "max": 1.0,
+                "min": -1.0,
+                "imax": 0.0
+            }
+        },
+        "shooter-h": {
+            "hw": {
+                "motors": {
+                    "type": "sparkmax_brushless",
+                    "canid": 15
+                },
+                "encoder": {
+                    "type": "analog",
+                    "ainput": 0,
+                    "rmin": 0,
+                    "rmax": 25,
+                    "emin": 0.586,
+                    "emax": 3.643,
+                    "ec": 0.586,
+                    "rc": 0
+                }
+            },
+            "hood": {
+                "kp": 0.10,
+                "ki": 0.0,
+                "kd": 0.0,
+                "kf": 0.0,
+                "max": 0.4,
+                "min": -0.4,
+                "imax": 0.0
+            },
+            "maxpos" : 21.5,                       // 21.5
+            "minpos" : 1.5                      // 1.5
+        },
     
     },
     
