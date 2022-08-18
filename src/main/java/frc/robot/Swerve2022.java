@@ -30,6 +30,7 @@ public class Swerve2022 extends XeroRobot {
         ModelFactory factory = SimulationEngine.getInstance().getModelFactory();
         factory.registerModel("conveyor", "frc.models.ConveyorModel");
         factory.registerModel("swerve2022oi", "frc.models.Swerve2022OIModel") ;
+        factory.registerModel("turret", "frc.models.TurretModel");
     }    
 
     public String getName() {

@@ -4,6 +4,7 @@ import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.subsystems.intake2motor.Intake2MotorSubsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorSubsystem;
 
+import frc.robot.subsystems.bwgconveyor.ConveyorSubsystem;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 
 public class GPMSubsystem extends Subsystem {
@@ -11,6 +12,7 @@ public class GPMSubsystem extends Subsystem {
     private Intake2MotorSubsystem intake_;
     private MotorSubsystem agitator_;
     private ShooterSubsystem shooter_;
+    private ConveyorSubsystem conveyor_ ;
 
     public GPMSubsystem(Subsystem parent, String name) throws Exception {
         super(parent, name);
@@ -21,12 +23,22 @@ public class GPMSubsystem extends Subsystem {
         addChild(agitator_);
         shooter_ = new ShooterSubsystem(this);
         addChild(shooter_);
-        //TODO Auto-generated constructor stub
+        conveyor_ = new ConveyorSubsystem(this) ;
+        addChild(conveyor_) ;
+    }
+
+    public ConveyorSubsystem getConveyor() {
+        return conveyor_ ;
+    }
+
+    public ShooterSubsystem getShooter() {
+        return shooter_ ;
     }
 
     public Intake2MotorSubsystem getIntake() {
         return intake_;
     }
+
     public MotorSubsystem getAgitator() {
         return agitator_;
     }

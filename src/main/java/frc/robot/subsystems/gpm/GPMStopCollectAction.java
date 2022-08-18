@@ -15,9 +15,7 @@ public class GPMStopCollectAction extends Action {
         this.subsystem_ = subsystem;
         intake_stop_action_ = new IntakePositionPowerAction(subsystem.getIntake(), "collect:offpos", "collector:offpower", true, false);
         agitator_off_action_ =  new MotorPowerAction(subsystem_.getAgitator(), subsystem_.getAgitator().getSettingsValue("offpower").getDouble());
-
     }
-
 
     @Override
     public void start() throws Exception {
@@ -25,6 +23,19 @@ public class GPMStopCollectAction extends Action {
 
         subsystem_.getIntake().setAction(intake_stop_action_,true);
         subsystem_.getAgitator().setAction(agitator_off_action_, true);
+        subsystem_.getConveyor().stop() ;
+    }
+
+    @Override
+    public void run() throws Exception {
+        super.run() ;
+
+        if (subsystem_.getConveyor().isIdle() && intake_stop_action_.isDone()) {
+            //
+            // README: Hollister, the stop collect action is done when the intake is stowed and
+            //         the conveyor is back to its idle state
+            setDone() ;
+        }
     }
 
     @Override
@@ -33,17 +44,12 @@ public class GPMStopCollectAction extends Action {
 
         intake_stop_action_.cancel();
         agitator_off_action_.cancel();
-
     }
     
-
-    
-    
-
     @Override
     public String toString(int indent) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-    
+        // README: Hollister, need to fill in these toString methods.  This is how we get good
+        //         readable results in the log file
+        return spaces(indent) + "GPMStopCollectAction" ;
+    }    
 }

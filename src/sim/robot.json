@@ -48,6 +48,22 @@
                 "povs" : 1,
                 "create_early" : true                
             }
-        }     
+        },
+        {
+            "model" : "turret",
+            "instance" : "1",
+            "props" : {
+                "turret:motor:type": "sparkmax-brushless",
+                "turret:motor:index": 7,
+                "degrees_per_second_per_volt" : 180,
+                "encoder" : 1,
+                "rmax" : 180.0,
+                "rmin" : -180.0,
+                "emax" : 0.0,
+                "emin" : 5.0,
+                "ec" : 1.33,
+                "rc" : 0
+            }
+        }
     ]
 }

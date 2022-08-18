@@ -10,10 +10,10 @@ import frc.robot.subsystems.gpm.GPMEjectAction;
 import frc.robot.subsystems.gpm.GPMStartCollectAction;
 import frc.robot.subsystems.gpm.GPMStopCollectAction;
 import frc.robot.subsystems.gpm.GPMSubsystem;
+import frc.robot.subsystems.turret.TurretFollowTargetAction;
 
 import org.xero1425.base.actions.Action;
 import org.xero1425.base.actions.InvalidActionRequest;
-import org.xero1425.base.actions.SequenceAction;
 import org.xero1425.base.subsystems.oi.Gamepad;
 import org.xero1425.base.subsystems.oi.OILed;
 import org.xero1425.base.subsystems.oi.OIPanelButton;
@@ -34,9 +34,10 @@ public class Swerve2022OIDevice extends OIPanel {
     private OILed turret_ready_led_ ;
     private OILed distance_ok_led_ ;
 
+    private Action follow_action_ ;
     private Action gpm_eject_action_ ;
-    private Action gpm_start_collect_ ;
-    private Action gpm_stop_collect_ ;
+    private Action start_collect_action_ ;
+    private Action stop_collect_action_ ;
 
     public Swerve2022OIDevice(OISubsystem parent, String name, int index) throws BadParameterTypeException, MissingParameterException {
         super(parent, name, index) ;
@@ -64,8 +65,9 @@ public class Swerve2022OIDevice extends OIPanel {
         GPMSubsystem gpm = robot.getGPM() ;
 
         gpm_eject_action_ = new GPMEjectAction(gpm) ;
-        gpm_start_collect_ = new GPMStartCollectAction(gpm) ;
-        gpm_stop_collect_ = new GPMStopCollectAction(gpm) ;
+        start_collect_action_ = new GPMStartCollectAction(gpm) ;
+        stop_collect_action_ = new GPMStopCollectAction(gpm) ;
+        follow_action_ = new TurretFollowTargetAction(robot.getTurret(), robot.getTracker()) ;
     }
 
 
@@ -91,28 +93,28 @@ public class Swerve2022OIDevice extends OIPanel {
     }
 
     private void generateCargoActions() {
-        // Swerve2022RobotSubsystem robot = (Swerve2022RobotSubsystem)getSubsystem().getRobot().getRobotSubsystem();
-        // GPMSubsystem gpm = robot.getGPM() ;
+        Swerve2022RobotSubsystem robot = (Swerve2022RobotSubsystem)getSubsystem().getRobot().getRobotSubsystem();
+        GPMSubsystem gpm = robot.getGPM() ;
 
-        // if (robot.getTurret() != null) {
-        //     if (robot.getTurret().getAction() != follow_action_)
-        //         robot.getTurret().setAction(follow_action_) ;
-        // }
+        if (robot.getTurret() != null) {
+            if (robot.getTurret().getAction() != follow_action_)
+                robot.getTurret().setAction(follow_action_) ;
+        }
 
-        // if (getValue(collect_v_shoot_gadget_) == 1) {
-        //     if (isCollectButtonPressed()) {
-        //         if (!gpm.getConveyor().isFull() && gpm.getAction() != start_collect_action_) {
-        //             gpm.setAction(start_collect_action_) ;
-        //         }
-        //     }
-        //     else {
-        //         if (gpm.getAction() != null && gpm.getAction() != stop_collect_action_)
-        //             gpm.setAction(stop_collect_action_) ;
-        //     }
-        // }
-        // else {
-        //     // TODO: Shooting
-        // }
+        if (getValue(collect_v_shoot_gadget_) == 1) {
+            if (isCollectButtonPressed()) {
+                if (!gpm.getConveyor().isFull() && gpm.getAction() != start_collect_action_) {
+                    gpm.setAction(start_collect_action_) ;
+                }
+            }
+            else {
+                if (gpm.getAction() != null && gpm.getAction() != stop_collect_action_)
+                    gpm.setAction(stop_collect_action_) ;
+            }
+        }
+        else {
+            // TODO: Shooting
+        }
     }
 
     private void generateClimbActions() {
