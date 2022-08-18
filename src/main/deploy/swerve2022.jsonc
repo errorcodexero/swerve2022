@@ -173,70 +173,6 @@
                 }
             }
         },
-        "turret": {
-            "hw": {
-                "motors": {
-                    "type": "talon_fx",
-                    "canid": 11
-                },
-                "encoder": {
-                    "type": "analog",
-                    "ainput": 4,
-                    "rmin": -180.0,
-                    "rmax": 180.0,
-                    "emin": 0.0,
-                    "emax": 5.0,
-                    "ec": {
-                        "COMPETITION": 0.9009,
-                        "PRACTICE": 0.62133
-                    },
-                    "rc": 0.0
-                }
-            },
-            "goto": {
-                "threshold": 1.5,
-                "maxa": 250,
-                "maxd": -250,
-                "maxv": 250
-            },
-            "follower": {
-                "up": {
-                    "kp": 0.001,
-                    "ka": 0.0,
-                    "ki": 0.0,
-                    "kd": 0.0,
-                    "kv": 0.003211991
-                },
-                "down": {
-                    "kp": 0.001,
-                    "ka": 0.0,
-                    "ki": 0.0,
-                    "kd": 0.0,
-                    "kv": 0.003211991
-                }
-            },
-            "follow": {
-                "kp": 0.03,
-                "ki": 0,
-                "kd": 0,
-                "kf": 0,
-                "min": -1,
-                "max": 1,
-                "imax": 0.0
-            },
-            "hold": {
-                "kp": 0.01,
-                "ki": 0,
-                "kd": 0,
-                "kf": 0,
-                "min": -0.3,
-                "max": 0.3,
-                "imax": 0.0
-            },
-            "min": -60,
-            "max": 60,
-            "fire_threshold": 2.0
-        },
         "limelight": {
             "timeout": 8.0,
             "camera_latency": 0.011,
@@ -244,11 +180,6 @@
             "camera_angle": 28.83, // change this
             "camera_height": 51.0, // change this
             "target_height": 103
-        },
-        "targettracker": {
-            "camera_offset_angle": 0.0,
-            "lost_count": 10,
-            "track_method": "v"
         },
         "intake" : {
             "hw" : {
@@ -499,7 +430,71 @@
             "camera_offset_angle": 0.0,
             "lost_count": 10,
             "track_method": "v"
-        }        
+        },
+        "shooter": {
+            "shooter-action": {
+                "wheel-velocity-threshold": 10,
+                "hood-position-threshold": 10
+            }
+        },
+        "shooter-wheel": {
+            "hw": {
+                "motors": {
+                    "1": {
+                        "type": "talon_fx",
+                        "canid": 9
+                    },
+                    "2": {
+                        "type": "talon_fx",
+                        "canid":10 
+                    }
+                },
+                "encoder": {
+                    "type": "motor",
+                    "m": 2.857,
+                    "b": 0.0
+                }
+            },
+            "w1": {
+                "kp": 0.00003,
+                "ki": 0.01,
+                "kd": 0.0,
+                "kf": 7.5770890869800108049702863317126e-5,
+                "max": 1.0,
+                "min": -1.0,
+                "imax": 0.0
+            }
+        },
+        "shooter-h": {
+            "hw": {
+                "motors": {
+                    "type": "sparkmax_brushless",
+                    "canid": 15
+                },
+                "encoder": {
+                    "type": "analog",
+                    "ainput": 0,
+                    "rmin": 0,
+                    "rmax": 25,
+                    "emin": 0.586,
+                    "emax": 3.643,
+                    "ec": 0.586,
+                    "rc": 0
+                }
+            },
+            "hood": {
+                "kp": 0.10,
+                "ki": 0.0,
+                "kd": 0.0,
+                "kf": 0.0,
+                "max": 0.4,
+                "min": -0.4,
+                "imax": 0.0
+            },
+            "maxpos" : 21.5,                       // 21.5
+            "minpos" : 1.5                      // 1.5
+        },
+    
     },
     "testmode" : {
         "enabled" : true,
