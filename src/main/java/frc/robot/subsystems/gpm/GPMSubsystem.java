@@ -30,6 +30,11 @@ public class GPMSubsystem extends Subsystem {
     public MotorSubsystem getAgitator() {
         return agitator_;
     }
+
+    public ShooterSubsystem getShooter() {
+        return shooter_;
+
+    }
     
     
 }
