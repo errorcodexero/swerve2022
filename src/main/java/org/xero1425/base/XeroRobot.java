@@ -795,7 +795,7 @@ public abstract class XeroRobot extends TimedRobot {
         last_time_ = initial_time ;
     }
 
-    private void logStackTrace(StackTraceElement [] trace) {
+    public void logStackTrace(StackTraceElement [] trace) {
         for(int i = 0 ; i < trace.length ; i++) {
             logger_.startMessage(MessageType.Error) ;
             logger_.add("    ") ;

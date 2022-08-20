@@ -17,82 +17,53 @@
             }            
         },
         {
-            "model" : "drivergamepad",
+            "model" : "conveyor",
             "instance" : "1",
             "props" : {
-                "index" : 0,
-                "axes" : 6,
-                "buttons" : 10,
+                "intake-sensor" : 0,
+                "shooter-sensor" : 1,
+                "staging-sensor" : 2
+            }
+        },
+        {
+            "model": "drivergamepad",
+            "instance": "1",
+            "props": {
+                "index": 0,
+                "axes": 6,
+                "buttons": 10,
+                "povs": 1,
+                "create_early": true
+            }
+        },
+        {
+            "model" : "swerve2022oi",
+            "instance" : "1",
+            "props" : {
+                "index" : 2,
+                "xbox" : false,
+                "name" : "Error Code Xero Custom OI",
+                "axes" : 8,
+                "buttons" : 16,
                 "povs" : 1,
                 "create_early" : true                
             }
         },
         {
-            "model" : "swervedrive",
+            "model" : "turret",
             "instance" : "1",
-            "props" :
-            {
-                "navx:model" : "navx",
-                "navx:instance" : "1",
-
-                "width" : 23.0,
-                "length" : 23.0,
-                "meters-per-second-per-power" : 3.999029563,
-                "degrees-per-second-per-power" : 360.0,
-                "wheel-diameter" : 0.1016,
-                "ticks-per-meter" : 53274.802,
-
+            "props" : {
+                "turret:motor:type": "sparkmax-brushless",
+                "turret:motor:index": 7,
+                "degrees_per_second_per_volt" : 180,
+                "encoder" : 1,
                 "rmax" : 180.0,
                 "rmin" : -180.0,
                 "emax" : 0.0,
                 "emin" : 5.0,
-                "rc" : 0,
-
-                "fl-steer:motor:index" : 2,
-                "fl-steer:motor:type" : "sparkmax-brushless",
-                "fl-steer:degrees_per_second_per_volt" : 284,
-                "fl-steer:encoder" : 0,
-                "fl-steer:ec" : 2.29980,
-                "fl-drive:motor:index" : 1,
-                "fl-drive:motor:type" : "talonfx",
-                "fl-drive:kv" : 0.250932718,
-                "fl-drive:angle" : 0.0,
-                "fl-drive:maxchange" : 0.24,
-
-
-                "fr-steer:motor:index" : 4,
-                "fr-steer:motor:type" : "sparkmax-brushless",
-                "fr-steer:degrees_per_second_per_volt" : 284,
-                "fr-steer:encoder" : 1,
-                "fr-steer:ec" :  0.819092,
-                "fr-drive:motor:index" : 3,
-                "fr-drive:motor:type" : "talonfx",
-                "fr-drive:kv" : 0.250932718,
-                "fr-drive:angle" : 0.0,
-                "fr-drive:maxchange" : 0.24,
-
-                "bl-steer:motor:index" : 6,
-                "bl-steer:motor:type" : "sparkmax-brushless",
-                "bl-steer:degrees_per_second_per_volt" : 284,
-                "bl-steer:encoder" : 2,
-                "bl-steer:ec" :  3.29711,
-                "bl-drive:motor:index" : 5,
-                "bl-drive:motor:type" : "talonfx",
-                "bl-drive:kv" : 0.250932718,
-                "bl-drive:angle" : 0.0,                
-                "bl-drive:maxchange" : 0.24,                
-
-                "br-steer:motor:index" : 8,
-                "br-steer:motor:type" : "sparkmax-brushless",
-                "br-steer:degrees_per_second_per_volt" : 284,
-                "br-steer:encoder" : 3,
-                "br-steer:ec" : 0.4870605,
-                "br-drive:motor:index" : 7,
-                "br-drive:motor:type" : "talonfx",
-                "br-drive:kv" : 0.250932718,
-                "br-drive:angle" : 0.0,
-                "br-drive:maxchange" : 0.24
+                "ec" : 1.33,
+                "rc" : 0
             }
-        }        
+        }
     ]
 }

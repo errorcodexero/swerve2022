@@ -5,6 +5,11 @@
             "actions": true,
             "pathmanager": false,
             "xerorobot": false,
+            "simulator": false,
+
+            // Subsystem related messages
+            "conveyor" : true,
+            "gpm": true,
 
             // Tank drive related settings
             "pathfollowing": false,
@@ -126,209 +131,7 @@
                 "drive-current-limit" : 30.0
             }
         },   
-        "xeroswervedrive" : {        
-            //
-            // Calibration of the analog EC value is done with the bevel side of the wheels towards the
-            // right side of the robot
-            //
-            "hw" : {
-                "gyro" : {
-                    "type" : "navx",
-                    "start-time" : 3.0
-                },
-                "fl" : {
-                    "steer" : {
-                        "canid" : 2,
-                        "type" : "sparkmax_brushless"
-                    },
-                    "drive" : {
-                        "canid" : 1,
-                        "type" : "talon_fx"
-                    },
-                    "encoder" : {
-                        "type":  "analog",
-                        "ainput" : 0,
-                        "rmin" : -180.0,
-                        "rmax" : 180.0,
-                        "emin" : 5.0,
-                        "emax" : 0.0,
-                        "ec" : 2.352294,
-                        "rc" : 0.0
-                    }
-                },
-                "fr" : {
-                    "steer" : {
-                        "canid" : 4,
-                        "type" : "sparkmax_brushless"
-                    },
-                    "drive" : {
-                        "canid" : 3,
-                        "type" : "talon_fx"
-                    },
-                    "encoder" : {
-                        "type" : "analog",
-                        "ainput" : 1,
-                        "rmin" : -180.0,
-                        "rmax" : 180.0,
-                        "emin" : 5.0,
-                        "emax" : 0.0,
-                        "ec" : 0.841064,
-                        "rc" : 0.0
-                    }
-                },
-                "bl" : {
-                    "steer" : {
-                        "canid" : 6,
-                        "type" : "sparkmax_brushless"
-                    },
-                    "drive" : {
-                        "canid" : 5,
-                        "type" : "talon_fx"
-                    },
-                    "encoder" : {
-                        "type" : "analog",
-                        "ainput" : 2,
-                        "rmin" : -180.0,
-                        "rmax" : 180.0,
-                        "emin" : 5.0,
-                        "emax" : 0.0,
-                        "ec" : 3.387450825,
-                        "rc" : 0.0
-                    }
-                },
-                "br" : {
-                    "steer" : {
-                        "canid" : 8,
-                        "type" : "sparkmax_brushless"
-                    },
-                    "drive" : {
-                        "canid" : 7,
-                        "type" : "talon_fx"
-                    },
-                    "encoder" : {
-                        "type" : "analog",
-                        "ainput" : 3,
-                        "rmin" : -180.0,
-                        "rmax" : 180.0,
-                        "emin" : 5.0,
-                        "emax" : 0.0,
-                        "ec" : 0.495605418,
-                        "rc" : 0.0
-                    }
-                }
-            },
-            "pid" : {
-                "xctrl" : {
-                    "kp" : 2.0,
-                    "ki" : 0.0,
-                    "kd" : 0.0
-                },
-                "yctrl" : {
-                    "kp" : 2.0,
-                    "ki" : 0.0,
-                    "kd" : 0.0
-                },
-                "rotation" : {
-                    "kp" : 1.0,
-                    "ki" : 0.0,
-                    "kd" : 0.0
-                },
-                "fl" : {
-                    "drive" : {
-                        "kp" : 0.001,
-                        "ki" : 0.0,
-                        "kd" : 0.0,
-                        "kf" : 0.04701708,
-                        "min" : -1.0,
-                        "max" : 1.0,
-                        "imax" : 0.0
-                    },
-                    "steer" : {
-                        "kp" : 0.015,
-                        "ki" : 0.5,
-                        "kd" : 0.0002,
-                        "kf" : 0.0,
-                        "min" : -1.0,
-                        "max" : 1.0,
-                        "imax" : 0.01
-                    }
-                },
-                "fr" : {
-                    "drive" : {
-                        "kp" : 0.001,
-                        "ki" : 0.0,
-                        "kd" : 0.0,
-                        "kf" : 0.04701708,
-                        "min" : -1.0,
-                        "max" : 1.0,
-                        "imax" : 0.0
-                    },
-                    "steer" : {
-                        "kp" : 0.015,
-                        "ki" : 0.5,
-                        "kd" : 0.0002,
-                        "kf" : 0.0,
-                        "min" : -1.0,
-                        "max" : 1.0,
-                        "imax" : 0.01
-                    }
-                },
-                "bl" : {
-                    "drive" : {
-                        "kp" : 0.001,
-                        "ki" : 0.0,
-                        "kd" : 0.0,
-                        "kf" : 0.04701708,
-                        "min" : -1.0,
-                        "max" : 1.0,
-                        "imax" : 0.0
-                    },
-                    "steer" : {
-                        "kp" : 0.015,
-                        "ki" : 0.5,
-                        "kd" : 0.0002,
-                        "kf" : 0.0,
-                        "min" : -1.0,
-                        "max" : 1.0,
-                        "imax" : 0.01
-                    }
-                },
-                "br" : {
-                    "drive" : {
-                        "kp" : 0.001,
-                        "ki" : 0.0,
-                        "kd" : 0.0,
-                        "kf" : 0.04701708,
-                        "min" : -1.0,
-                        "max" : 1.0,
-                        "imax" : 0.0
-                    },
-                    "steer" : {
-                        "kp" : 0.015,
-                        "ki" : 0.5,
-                        "kd" : 0.0002,
-                        "kf" : 0.0,
-                        "min" : -1.0,
-                        "max" : 1.0,
-                        "imax" : 0.01
-                    }
-                }
-            },
-            "physical" : {
-                "width" : 0.5715,               // meters
-                "length" : 0.5842,              // meters
-                "maxspeed" : 3.999,             // meters per second
-                "maxaccel" : 3.999,             // meters per second per second
-                "max-angular-speed" : 6.28,     // 1 rotation per second
-                "max-angular-accel" : 3.14      // 0.5 rotations per second per second acceleration
-            },
-            "pid-in-controller" : true,         // If true, the speed PIDs for the modules runs in the motor controller
-            "samples" : {
-                "linear" : 2
-            },
-            "ticks_per_meter" : 53274.80208
-        },
-        "swerveoi" : {
+        "swerve2022oi" : {
             "swerve_gamepad" : {
                 "index" : 0,
                 "angle" : {
@@ -343,71 +146,32 @@
                     }
                 },
                 "power" : 1.5
+            },
+            "panel" : {
+                "index" : 2,
+                "gadgets": {
+                    "automode": 0,
+                    "shoot_collect_mode": 6,
+                    "collect_onoff": 3,
+                    "climb_lock": 4,
+                    "climb": 9,
+                    "deploy_climber" : 7,
+                    "force_shoot" : 1,
+                    "eject" : 2,
+                    "shoot_manual_mode" : 5,
+                    "throughput" : 8
+                },
+                "outputs" : {
+                    "ball1" : 1,
+                    "ball2" : 2,
+                    "shooting" : {
+                        "limelight": 3,
+                        "turret" : 4,
+                        "shooter" : 5,
+                        "distance" : 6
+                    }
+                }
             }
-        },
-        "turret": {
-            "hw": {
-                "motors": {
-                    "type": "talon_fx",
-                    "canid": 11
-                },
-                "encoder": {
-                    "type": "analog",
-                    "ainput": 4,
-                    "rmin": -180.0,
-                    "rmax": 180.0,
-                    "emin": 0.0,
-                    "emax": 5.0,
-                    "ec": {
-                        "COMPETITION": 0.9009,
-                        "PRACTICE": 0.62133
-                    },
-                    "rc": 0.0
-                }
-            },
-            "goto": {
-                "threshold": 1.5,
-                "maxa": 250,
-                "maxd": -250,
-                "maxv": 250
-            },
-            "follower": {
-                "up": {
-                    "kp": 0.001,
-                    "ka": 0.0,
-                    "ki": 0.0,
-                    "kd": 0.0,
-                    "kv": 0.003211991
-                },
-                "down": {
-                    "kp": 0.001,
-                    "ka": 0.0,
-                    "ki": 0.0,
-                    "kd": 0.0,
-                    "kv": 0.003211991
-                }
-            },
-            "follow": {
-                "kp": 0.03,
-                "ki": 0,
-                "kd": 0,
-                "kf": 0,
-                "min": -1,
-                "max": 1,
-                "imax": 0.0
-            },
-            "hold": {
-                "kp": 0.01,
-                "ki": 0,
-                "kd": 0,
-                "kf": 0,
-                "min": -0.3,
-                "max": 0.3,
-                "imax": 0.0
-            },
-            "min": -60,
-            "max": 60,
-            "fire_threshold": 2.0
         },
         "limelight": {
             "timeout": 8.0,
@@ -416,11 +180,6 @@
             "camera_angle": 28.83, // change this
             "camera_height": 51.0, // change this
             "target_height": 103
-        },
-        "targettracker": {
-            "camera_offset_angle": 0.0,
-            "lost_count": 10,
-            "track_method": "v"
         },
         "intake" : {
             "hw" : {
@@ -437,7 +196,8 @@
                 "spinner" : {
                     "motor" : {
                         "type" : "sparkmax_brushless",
-                        "canid" : 2
+                        "canid" : 2,
+                        "inverted" : true
                     }
                 }
             },
@@ -461,9 +221,9 @@
                 "offpos" : 0
             },
             "collector" : {
-                "onpower" : -1.0,
-                "offpower" : 1.0,
-                "ejectpower": 1.0
+                "onpower" : 0.8,
+                "offpower" : -1.0,
+                "ejectpower": -1.0
             },
             "follower" : {
                 "up" : {
@@ -483,16 +243,194 @@
             }
         },
         "agitator": {
-            "ejectpower": -1,
-            "forwardpower":1,
+            "ejectpower": -1.0,
+            "forwardpower":0.8,
             "offpower":0,
             "hw": {
                 "motors": {
                     "type": "talon_fx",
-                    "canid": 3
+                    "canid": 4
                 }
             }
         },  
+        "conveyor" : {
+            "hw" : {
+                "motors" : {
+                    "type" : "talon_fx",
+                    "canid" : 3,
+                    "neutral_mode" : "brake",
+                    "inverted" : true
+                }
+            },
+            "sensors" : {
+                "intake" : 0,
+                "shooter" : 1,
+                "staging" : 2
+            },
+            "power" : {
+                "on" : 0.2,
+                "off" : 0.0,
+                "eject" : -1.0
+            },
+            "delays" : {
+                "first-ball" : 0,
+                "eject" : 4000
+            }
+        },
+        "shooter_wheels" : {
+            "hw" : {
+                "motors" : {
+                    "type" : "talon_fx",
+                    "canid" : 5,
+                    "neutral_mode" : "brake",
+                    "inverted": true
+                },
+                "encoder" : {
+                    "type" : "motor",
+                    "m" : 1.0,
+                    "b" : 0.0
+                },
+            },
+            "hold" : {
+                "kp" : 0.0001,
+                "ki" : 0,
+                "kd" : 0,
+                "kf" : 0,
+                "min" : -0.1,
+                "max" : 0.1,
+                "imax" : 0
+            },
+            "goto" : {
+                "threshold" : 10,
+                "maxd" : -20000,
+                "maxa" : 20000,
+                "maxv" : 20000
+            },
+            "follower" : {
+                "up" : {
+                    "kp" : 0.0000,
+                    "ka" : 0.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0,
+                    "kv" : 1.17647E-05
+                },
+                "down" : {
+                    "kp" : 0.000,
+                    "ka" : 0.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0,
+                    "kv" : 1.17647E-05
+                }
+            }
+        },
+        "shooter_hood" : {
+            "hw" : {
+                "motors" : {
+                    "type" : "talon_fx",
+                    "canid" : 6,
+                    "neutral_mode" : "brake",
+                    "inverted": true
+                },
+                "encoder" : {
+                    "type" : "motor",
+                    "m" : 1.0,
+                    "b" : 0.0
+                },
+            },
+            "hold" : {
+                "kp" : 0.0001,
+                "ki" : 0,
+                "kd" : 0,
+                "kf" : 0,
+                "min" : -0.1,
+                "max" : 0.1,
+                "imax" : 0
+            },
+            "goto" : {
+                "threshold" : 10,
+                "maxd" : -20000,
+                "maxa" : 20000,
+                "maxv" : 20000
+            },
+            "follower" : {
+                "up" : {
+                    "kp" : 0.0000,
+                    "ka" : 0.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0,
+                    "kv" : 1.17647E-05
+                },
+                "down" : {
+                    "kp" : 0.000,
+                    "ka" : 0.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0,
+                    "kv" : 1.17647E-05
+                }
+            }
+        },
+        "turret" : {
+            "hw" : {
+                "motors" : {
+                    "type" : "talon_fx",
+                    "canid" : 7,
+                    "neutral_mode" : "brake",
+                    "inverted": true
+                },
+                "encoder" : {
+                    "type" : "motor",
+                    "m" : 1.0,
+                    "b" : 0.0
+                }
+            },
+            "hold" : {
+                "kp" : 0.0001,
+                "ki" : 0,
+                "kd" : 0,
+                "kf" : 0,
+                "min" : -0.1,
+                "max" : 0.1,
+                "imax" : 0
+            },
+            "goto" : {
+                "threshold" : 10,
+                "maxd" : -20000,
+                "maxa" : 20000,
+                "maxv" : 20000
+            },
+            "follower" : {
+                "up" : {
+                    "kp" : 0.0000,
+                    "ka" : 0.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0,
+                    "kv" : 1.17647E-05
+                },
+                "down" : {
+                    "kp" : 0.000,
+                    "ka" : 0.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0,
+                    "kv" : 1.17647E-05
+                }
+            },
+            "min": -60,
+            "max": 60,
+            "fire_threshold": 2.0            
+        },
+        "zeke_limelight": {
+            "timeout": 8.0,
+            "camera_latency": 0.011,
+            "network_latency": 0.010,
+            "camera_angle": 28.83,
+            "camera_height": 51.0,
+            "target_height": 103
+        },
+        "targettracker": {
+            "camera_offset_angle": 0.0,
+            "lost_count": 10,
+            "track_method": "v"
+        },
         "shooter": {
             "shooter-action": {
                 "wheel-velocity-threshold": 10,
@@ -558,7 +496,6 @@
         },
     
     },
-    
     "testmode" : {
         "enabled" : true,
         "which" : 10,
@@ -597,7 +534,20 @@
             "duration" : 0.2
         },
         "12" : {
-
+        },
+        "20" : {
+            "power" : 0.5,
+            "duration" : 2.0
+        },
+        "30" : {
+            "power" : 0.2,
+            "duration" : 1.0
+        },
+        "50" : {
+            "delay" : 10
+        },
+        "52" : {
+            "delay": 3
         }
     }
 }

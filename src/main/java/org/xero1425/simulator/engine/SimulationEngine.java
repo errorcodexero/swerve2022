@@ -15,8 +15,7 @@ import org.xero1425.misc.MessageType;
 public class SimulationEngine {
     public static final String LoggerName = "simulator" ;
     public static final String NetworkTableName = "XeroSim" ;
-
-
+    
     private static SimulationEngine the_one_ = null ;
     
     private DriverStationDataJNI dssim_ = null ;

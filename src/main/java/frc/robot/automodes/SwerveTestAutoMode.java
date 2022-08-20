@@ -1,22 +1,23 @@
 package frc.robot.automodes;
 
 import org.xero1425.base.actions.DelayAction;
-import org.xero1425.base.actions.ParallelAction;
 import org.xero1425.base.controllers.TestAutoMode;
 import org.xero1425.base.subsystems.intake2motor.IntakePositionPowerAction;
 import org.xero1425.base.subsystems.intake2motor.Intake2MotorSubsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderGotoAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderPowerAction;
+import org.xero1425.base.subsystems.motorsubsystem.MotorPowerAction;
+import org.xero1425.base.subsystems.motorsubsystem.MotorSubsystem;
 import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
-import org.xero1425.base.subsystems.swerve.common.SwerveDriveChassisSpeedAction;
 import org.xero1425.base.subsystems.swerve.common.SwerveHolonomicPathFollower;
-import org.xero1425.base.subsystems.swerve.common.SwervePathFollowAction;
 import org.xero1425.base.subsystems.swerve.common.SwervePowerAngleAction;
 import org.xero1425.base.subsystems.swerve.common.SwerveSpeedAngleAction;
-import org.xero1425.base.subsystems.swerve.sdsswerve.SDSSwerveDriveSubsystem;
-import org.xero1425.base.subsystems.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 
-import frc.robot.subsystems.SwerveDriveRobotSubsystem;
+import frc.robot.subsystems.Swerve2022RobotSubsystem;
+import frc.robot.subsystems.gpm.GPMEjectAction;
+import frc.robot.subsystems.gpm.GPMStartCollectAction;
+import frc.robot.subsystems.gpm.GPMStopCollectAction;
+import frc.robot.subsystems.gpm.GPMSubsystem;
 
 public class SwerveTestAutoMode extends TestAutoMode {
 
@@ -26,9 +27,12 @@ public class SwerveTestAutoMode extends TestAutoMode {
         double[] angles = new double[4];
         double[] powers = new double[4];
 
-        SwerveDriveRobotSubsystem robotsys = (SwerveDriveRobotSubsystem) ctrl.getRobot().getRobotSubsystem();
+        Swerve2022RobotSubsystem robotsys = (Swerve2022RobotSubsystem) ctrl.getRobot().getRobotSubsystem();
         SwerveBaseSubsystem swerve = (SwerveBaseSubsystem) robotsys.getDB();
-        Intake2MotorSubsystem intake = robotsys.getGPM().getIntake() ;
+        GPMSubsystem gpm = robotsys.getGPM() ;
+        Intake2MotorSubsystem intake = gpm.getIntake() ;
+        MotorSubsystem agitator = gpm.getAgitator() ;
+
 
         switch (getTestNumber()) {
             case 0:
@@ -73,10 +77,13 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 addSubActionPair(swerve, new SwervePowerAngleAction(swerve, angles, powers, getDouble("duration")), true) ;
                 break ;
 
+            //
+            // Intake test modes
+            //
             case 10:
-                addSubActionPair(intake, new IntakePositionPowerAction(intake,  "position:on", "spinner:on", false, false), false) ;
+                addSubActionPair(intake, new IntakePositionPowerAction(intake,  "collect:onpos", "collector:onpower", false, false), false) ;
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("duration"))) ;
-                addSubActionPair(intake, new IntakePositionPowerAction(intake, "position:off", "spinner:off", true, true), false) ;
+                addSubActionPair(intake, new IntakePositionPowerAction(intake, "collect:offpos", "collector:offpower", true, true), false) ;
                 break ;
 
             case 11:
@@ -86,6 +93,44 @@ public class SwerveTestAutoMode extends TestAutoMode {
             case 12:
                 addSubActionPair(intake, new MotorEncoderGotoAction(intake, 6000, false), true);
                 break ;
+            //
+            // Agitator test modes
+            //
+            case 20:
+                addSubActionPair(agitator, new MotorPowerAction(agitator, getDouble("power"), getDouble("duration")), true) ;
+                break ;
+
+            //
+            // Conveyor test modes
+            //
+            case 30:
+                // addSubActionPair(conveyor, new MotorPowerAction(conveyor, getDouble("power"), getDouble("duration")), true) ;
+                break ;            
+
+            //
+            // Shooter test modes
+            //
+            case 40:
+                break ;
+
+            //
+            // GPM test modes
+            //
+            case 50:
+                addSubActionPair(gpm, new GPMStartCollectAction(gpm), false);
+                addAction(new DelayAction(ctrl.getRobot(), getDouble("delay")));
+                addSubActionPair(gpm, new GPMStopCollectAction(gpm), false);                
+                break ;
+
+            case 51:
+                addSubActionPair(gpm, new GPMEjectAction(gpm), false);
+                break;     
+                
+            case 52:
+                addSubActionPair(gpm, new GPMStartCollectAction(gpm), true); 
+                addAction(new DelayAction(ctrl.getRobot(), getDouble("delay")));           
+                addSubActionPair(gpm, new GPMEjectAction(gpm), true);
+                break; 
         }
     }
 }

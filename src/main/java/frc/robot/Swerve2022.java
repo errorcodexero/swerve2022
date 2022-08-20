@@ -5,12 +5,14 @@
 package frc.robot;
 
 import frc.robot.automodes.SwerveDriveRobotAutoController;
-import frc.robot.subsystems.SwerveDriveRobotSubsystem;
+import frc.robot.subsystems.Swerve2022RobotSubsystem;
 
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.controllers.AutoController;
 import org.xero1425.misc.SimArgs;
 import org.xero1425.misc.XeroPathType;
+import org.xero1425.simulator.engine.ModelFactory;
+import org.xero1425.simulator.engine.SimulationEngine;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -24,6 +26,13 @@ public class Swerve2022 extends XeroRobot {
         super(0.02);
     }
 
+    protected void addRobotSimulationModels() {
+        ModelFactory factory = SimulationEngine.getInstance().getModelFactory();
+        factory.registerModel("conveyor", "frc.models.ConveyorModel");
+        factory.registerModel("swerve2022oi", "frc.models.Swerve2022OIModel") ;
+        factory.registerModel("turret", "frc.models.TurretModel");
+    }    
+
     public String getName() {
         return "swerve2022";
     }
@@ -33,7 +42,7 @@ public class Swerve2022 extends XeroRobot {
         if (ret != null)
             return ret;
 
-        return "testmode";
+        return "init";
     }
 
     public AutoController createAutoController() {
@@ -49,7 +58,7 @@ public class Swerve2022 extends XeroRobot {
     }
 
     protected void hardwareInit() throws Exception {
-        SwerveDriveRobotSubsystem robot = new SwerveDriveRobotSubsystem(this);
+        Swerve2022RobotSubsystem robot = new Swerve2022RobotSubsystem(this);
         setRobotSubsystem(robot);
     }
 
