@@ -13,7 +13,7 @@ public class GPMStopCollectAction extends Action {
         super(subsystem.getRobot().getMessageLogger());
 
         this.subsystem_ = subsystem;
-        intake_stop_action_ = new IntakePositionPowerAction(subsystem.getIntake(), "collect:offpos", "collector:offpower", true, false);
+        intake_stop_action_ = new IntakePositionPowerAction(subsystem.getIntake(), "collect:offpos", "collector:offpower", true, true);
         agitator_off_action_ =  new MotorPowerAction(subsystem_.getAgitator(), subsystem_.getAgitator().getSettingsValue("offpower").getDouble());
     }
 

@@ -14,6 +14,7 @@ import org.xero1425.base.subsystems.swerve.common.SwervePowerAngleAction;
 import org.xero1425.base.subsystems.swerve.common.SwerveSpeedAngleAction;
 
 import frc.robot.subsystems.Swerve2022RobotSubsystem;
+import frc.robot.subsystems.bwgconveyor.ConveyorSubsystem;
 import frc.robot.subsystems.gpm.GPMEjectAction;
 import frc.robot.subsystems.gpm.GPMStartCollectAction;
 import frc.robot.subsystems.gpm.GPMStopCollectAction;
@@ -32,6 +33,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
         GPMSubsystem gpm = robotsys.getGPM() ;
         Intake2MotorSubsystem intake = gpm.getIntake() ;
         MotorSubsystem agitator = gpm.getAgitator() ;
+        ConveyorSubsystem conveyor = gpm.getConveyor(); 
 
 
         switch (getTestNumber()) {
@@ -104,7 +106,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
             // Conveyor test modes
             //
             case 30:
-                // addSubActionPair(conveyor, new MotorPowerAction(conveyor, getDouble("power"), getDouble("duration")), true) ;
+                addSubActionPair(conveyor, new MotorPowerAction(conveyor, getDouble("power"), getDouble("duration")), true) ;
                 break ;            
 
             //
