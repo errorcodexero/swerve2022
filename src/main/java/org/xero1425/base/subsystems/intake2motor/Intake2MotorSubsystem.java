@@ -27,14 +27,6 @@ public class Intake2MotorSubsystem extends MotorEncoderSubsystem {
     }
 
     @Override
-    public void postHWInit() {
-        try {
-            setDefaultAction(new MotorEncoderHoldAction(this));
-        } catch (MissingParameterException | BadParameterTypeException e) {
-        }
-    }
-
-    @Override
     public SettingsValue getProperty(String name) {
         SettingsValue v = null ;
 

@@ -205,6 +205,8 @@ public class MotorEncoderGotoAction extends MotorAction {
         // is complete to a hold action to hold the end position
         if (addhold_)
             sub.setDefaultAction(new MotorEncoderHoldAction(sub, target_)) ;
+        else
+            sub.setDefaultAction(null) ;
 
         // Check the current position to see if we are done
         double dist = normalizePosition(sub, target_ - sub.getPosition()) ;
