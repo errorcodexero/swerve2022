@@ -403,6 +403,16 @@
                     "kv" : 1.17647E-05
                 }
             }
+        },
+        "conveyor" : {
+            "hw" : {
+
+            },
+            "power" : {
+                "collect" : 1.0,
+                "eject" : -1.0,
+                "off" : 0.0
+            }
         }
     },
     "testmode" : {
