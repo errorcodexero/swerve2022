@@ -67,7 +67,7 @@ public class Swerve2022OIDevice extends OIPanel {
         gpm_eject_action_ = new GPMEjectAction(gpm) ;
         start_collect_action_ = new GPMStartCollectAction(gpm) ;
         stop_collect_action_ = new GPMStopCollectAction(gpm) ;
-        follow_action_ = new TurretFollowTargetAction(robot.getTurret(), robot.getTracker()) ;
+        // follow_action_ = new TurretFollowTargetAction(robot.getTurret(), robot.getTracker()) ;
     }
 
 

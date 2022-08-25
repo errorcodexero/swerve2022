@@ -9,6 +9,7 @@ import frc.robot.subsystems.bwgconveyor.ConveyorCollectAction;
 public class GPMStartCollectAction extends Action {
     private GPMSubsystem subsystem_;
     private IntakePositionPowerAction intake_on_action_;
+    private IntakePositionPowerAction intake_stop_action_;
     private MotorPowerAction agitator_on_action_;
     private ConveyorCollectAction conveyor_on_action_ ;
 
@@ -16,18 +17,19 @@ public class GPMStartCollectAction extends Action {
         super(subsystem.getRobot().getMessageLogger());
         this.subsystem_ = subsystem;
 
-        intake_on_action_ = new IntakePositionPowerAction(subsystem_.getIntake(), "collect:onpos", "collect:offpos", false, false);
-        agitator_on_action_ = new MotorPowerAction(subsystem_.getAgitator(), subsystem_.getAgitator().getSettingsValue("forwardpower").getDouble()); // maybe put power in params file
+        intake_on_action_ = new IntakePositionPowerAction(subsystem_.getIntake(), "collect:onpos", "collector:onpower", false, false);
+        agitator_on_action_ = new MotorPowerAction(subsystem_.getAgitator(), subsystem_.getAgitator().getSettingsValue("forwardpower").getDouble());
         conveyor_on_action_ = new ConveyorCollectAction(subsystem_.getConveyor()) ;
+        intake_stop_action_ = new IntakePositionPowerAction(subsystem.getIntake(), "collect:offpos", "collector:offpower", true, true);
     }
 
     @Override
     public void start() throws Exception {
         super.start();
 
-        subsystem_.getIntake().setAction(intake_on_action_);
-        subsystem_.getAgitator().setAction(agitator_on_action_);
-        subsystem_.getConveyor().setAction(conveyor_on_action_) ;
+        subsystem_.getIntake().setAction(intake_on_action_, true);
+        subsystem_.getAgitator().setAction(agitator_on_action_, true);
+        subsystem_.getConveyor().setAction(conveyor_on_action_, true) ;
     }
 
     @Override
@@ -35,8 +37,11 @@ public class GPMStartCollectAction extends Action {
         super.run();
 
         // README: Hollister - note the GPM start collection is done, when the conveyor collect action is done
-        if (conveyor_on_action_.isDone())
+        if (conveyor_on_action_.isDone()) {
+            subsystem_.getIntake().setAction(intake_stop_action_, true);
+            agitator_on_action_.cancel();
             setDone() ;
+        }
     }
 
     @Override

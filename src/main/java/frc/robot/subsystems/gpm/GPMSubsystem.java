@@ -21,18 +21,14 @@ public class GPMSubsystem extends Subsystem {
         addChild(intake_);
         agitator_ = new MotorSubsystem(this, "agitator");
         addChild(agitator_);
-        shooter_ = new ShooterSubsystem(this);
-        addChild(shooter_);
+        // shooter_ = new ShooterSubsystem(this);
+        // addChild(shooter_);
         conveyor_ = new ConveyorSubsystem(this) ;
         addChild(conveyor_) ;
     }
 
     public ConveyorSubsystem getConveyor() {
         return conveyor_ ;
-    }
-
-    public ShooterSubsystem getShooter() {
-        return shooter_ ;
     }
 
     public Intake2MotorSubsystem getIntake() {

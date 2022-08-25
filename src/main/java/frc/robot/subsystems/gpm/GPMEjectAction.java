@@ -37,6 +37,6 @@ public class GPMEjectAction extends Action{
 
     @Override
     public String toString(int indent) {
-        return null;
+        return spaces(indent) + "GPMEjectAction";
     }
 }

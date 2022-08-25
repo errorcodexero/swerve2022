@@ -222,8 +222,8 @@
             },
             "collector" : {
                 "onpower" : 0.8,
-                "offpower" : -1.0,
-                "ejectpower": -1.0
+                "offpower" : 0,
+                "ejectpower": -0.8
             },
             "follower" : {
                 "up" : {
@@ -498,7 +498,7 @@
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 10,
+        "which" : 50,
         "0" : {
             "angle" : 0.0,
             "power" : 0.2
@@ -527,7 +527,7 @@
             "duration" : 1000.0
         },
         "10" : {
-            "duration" : 10
+            "duration" : 4
         },
         "11" : {
             "power" : 0.2,
@@ -541,10 +541,10 @@
         },
         "30" : {
             "power" : 0.2,
-            "duration" : 1.0
+            "duration" : 5.0
         },
         "50" : {
-            "delay" : 10
+            "delay" : 20
         },
         "52" : {
             "delay": 3
