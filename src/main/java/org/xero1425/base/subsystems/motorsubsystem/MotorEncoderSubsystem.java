@@ -148,7 +148,6 @@ public class MotorEncoderSubsystem extends MotorSubsystem
     public void computeMyState() throws Exception {
         super.computeMyState();
 
-
         double pos = encoder_.getPosition() ;
         speedometer_.update(getRobot().getDeltaTime(), pos) ;
 
@@ -161,5 +160,7 @@ public class MotorEncoderSubsystem extends MotorSubsystem
         logger.add("accel", speedometer_.getAcceleration()) ;
         logger.add("ticks", getEncoderRawCount()) ;
         logger.endMessage();
+
+        putDashboard(getName() + "-position", DisplayType.Verbose, pos);
     }
 }

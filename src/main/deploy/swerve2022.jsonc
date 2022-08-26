@@ -17,7 +17,8 @@
             "swerveoi": true
         },
         "verbose" : {
-            "swervedrive": true
+            "swervedrive": true,
+            "intake": true
         },
         "plotting" : true,
         "pneumatics": {
@@ -186,7 +187,7 @@
                 "motors" : {
                     "type" : "talon_fx",
                     "canid" : 1,
-                    "neutral_mode" : "brake"
+                    "neutral_mode" : "coast"
                 },
                 "encoder" : {
                     "type" : "motor",
@@ -212,9 +213,9 @@
             },
             "goto" : {
                 "threshold" : 10,
-                "maxd" : -20000,
-                "maxa" : 20000,
-                "maxv" : 20000
+                "maxd" : -40000,
+                "maxa" : 40000,
+                "maxv" : 40000
             },
             "collect" : {
                 "onpos" : 7500,
@@ -231,14 +232,14 @@
                     "ka" : 0.0,
                     "ki" : 0.0,
                     "kd" : 0.0,
-                    "kv" : 1.17647E-05
+                    "kv" : 0.0000117647
                 },
                 "down" : {
-                    "kp" : 0.000,
+                    "kp" : 0.0000,
                     "ka" : 0.0,
                     "ki" : 0.0,
                     "kd" : 0.0,
-                    "kv" : 1.17647E-05
+                    "kv" : 0.0000235294
                 }
             }
         },
