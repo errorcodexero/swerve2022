@@ -17,6 +17,7 @@ public class Swerve2022RobotSubsystem extends RobotSubsystem {
     private SwerveBaseSubsystem db_;
     private TurretSubsystem turret_ ;
     private TargetTrackerSubsystem tracker_ ;
+    private LimeLightSubsystem limelight_ ;
 
     public Swerve2022RobotSubsystem(XeroRobot robot) throws Exception {
         super(robot, "SwerveRobotSubsystem") ;
@@ -30,14 +31,17 @@ public class Swerve2022RobotSubsystem extends RobotSubsystem {
         gpm_ = new GPMSubsystem(this, "gpm") ;
         addChild(gpm_) ;
 
-        // LimeLightSubsystem limelight_ = new LimeLightSubsystem(this, "limelight");
-        // addChild(limelight_);
+        if (XeroRobot.isSimulation())
+        {
+            limelight_ = new LimeLightSubsystem(this, "limelight");
+            addChild(limelight_);
 
-        // turret_ = new TurretSubsystem(this);
-        // addChild(turret_);
+            turret_ = new TurretSubsystem(this);
+            addChild(turret_);
 
-        // tracker_ = new TargetTrackerSubsystem(this, limelight_, turret_);
-        // addChild(tracker_);
+            tracker_ = new TargetTrackerSubsystem(this, limelight_, turret_);
+            addChild(tracker_);
+        }
     }
 
     public GPMSubsystem getGPM() {

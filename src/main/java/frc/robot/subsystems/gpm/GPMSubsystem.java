@@ -1,5 +1,6 @@
 package frc.robot.subsystems.gpm;
 
+import org.xero1425.base.XeroRobot;
 import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.subsystems.intake2motor.Intake2MotorSubsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorSubsystem;
@@ -19,12 +20,18 @@ public class GPMSubsystem extends Subsystem {
 
         intake_ = new Intake2MotorSubsystem(this, "intake");
         addChild(intake_);
+
         agitator_ = new MotorSubsystem(this, "agitator");
         addChild(agitator_);
-        // shooter_ = new ShooterSubsystem(this);
-        // addChild(shooter_);
+
         conveyor_ = new ConveyorSubsystem(this) ;
         addChild(conveyor_) ;
+
+        if (XeroRobot.isSimulation())
+        {
+            shooter_ = new ShooterSubsystem(this);
+            addChild(shooter_);
+        }
     }
 
     public ConveyorSubsystem getConveyor() {
