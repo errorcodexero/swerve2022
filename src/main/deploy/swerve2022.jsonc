@@ -278,98 +278,6 @@
                 "eject" : 4000
             }
         },
-        "shooter_wheels" : {
-            "hw" : {
-                "motors" : {
-                    "type" : "talon_fx",
-                    "canid" : 5,
-                    "neutral_mode" : "brake",
-                    "inverted": true
-                },
-                "encoder" : {
-                    "type" : "motor",
-                    "m" : 1.0,
-                    "b" : 0.0
-                },
-            },
-            "hold" : {
-                "kp" : 0.0001,
-                "ki" : 0,
-                "kd" : 0,
-                "kf" : 0,
-                "min" : -0.1,
-                "max" : 0.1,
-                "imax" : 0
-            },
-            "goto" : {
-                "threshold" : 10,
-                "maxd" : -20000,
-                "maxa" : 20000,
-                "maxv" : 20000
-            },
-            "follower" : {
-                "up" : {
-                    "kp" : 0.0000,
-                    "ka" : 0.0,
-                    "ki" : 0.0,
-                    "kd" : 0.0,
-                    "kv" : 1.17647E-05
-                },
-                "down" : {
-                    "kp" : 0.000,
-                    "ka" : 0.0,
-                    "ki" : 0.0,
-                    "kd" : 0.0,
-                    "kv" : 1.17647E-05
-                }
-            }
-        },
-        "shooter_hood" : {
-            "hw" : {
-                "motors" : {
-                    "type" : "talon_fx",
-                    "canid" : 6,
-                    "neutral_mode" : "brake",
-                    "inverted": true
-                },
-                "encoder" : {
-                    "type" : "motor",
-                    "m" : 1.0,
-                    "b" : 0.0
-                },
-            },
-            "hold" : {
-                "kp" : 0.0001,
-                "ki" : 0,
-                "kd" : 0,
-                "kf" : 0,
-                "min" : -0.1,
-                "max" : 0.1,
-                "imax" : 0
-            },
-            "goto" : {
-                "threshold" : 10,
-                "maxd" : -20000,
-                "maxa" : 20000,
-                "maxv" : 20000
-            },
-            "follower" : {
-                "up" : {
-                    "kp" : 0.0000,
-                    "ka" : 0.0,
-                    "ki" : 0.0,
-                    "kd" : 0.0,
-                    "kv" : 1.17647E-05
-                },
-                "down" : {
-                    "kp" : 0.000,
-                    "ka" : 0.0,
-                    "ki" : 0.0,
-                    "kd" : 0.0,
-                    "kv" : 1.17647E-05
-                }
-            }
-        },
         "turret" : {
             "hw" : {
                 "motors" : {
@@ -494,8 +402,7 @@
             },
             "maxpos" : 21.5,                       // 21.5
             "minpos" : 1.5                      // 1.5
-        },
-    
+        }    
     },
     "testmode" : {
         "enabled" : true,
