@@ -143,9 +143,8 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
                 break ;
                 
             case BR:
-                st = new SwerveModuleState(br_.getDriveVelocity(), new Rotation2d
-                (br_.getSteerAngle())) ;
-                break ;                
+                st = new SwerveModuleState(br_.getDriveVelocity(), new Rotation2d(br_.getSteerAngle())) ;
+                break ;
         }
 
         return st ;

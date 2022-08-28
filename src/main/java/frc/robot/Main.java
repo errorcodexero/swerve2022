@@ -5,7 +5,6 @@
 package frc.robot;
 
 import org.xero1425.misc.SimArgs;
-
 import edu.wpi.first.wpilibj.RobotBase;
 
 /**

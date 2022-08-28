@@ -2,7 +2,6 @@ package org.xero1425.base.subsystems.oi;
 
 import org.xero1425.base.LoopType;
 import org.xero1425.base.actions.InvalidActionRequest;
-import org.xero1425.base.actions.SequenceAction;
 
 import edu.wpi.first.wpilibj.GenericHID;
 

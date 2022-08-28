@@ -4,10 +4,7 @@ import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorController;
 import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.base.subsystems.Subsystem;
-import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderHoldAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderSubsystem;
-import org.xero1425.misc.BadParameterTypeException;
-import org.xero1425.misc.MissingParameterException;
 import org.xero1425.misc.SettingsValue;
 
 public class Intake2MotorSubsystem extends MotorEncoderSubsystem {

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import org.xero1425.base.LoopType;
 import org.xero1425.base.actions.InvalidActionRequest;
-import org.xero1425.base.actions.SequenceAction;
 import org.xero1425.base.subsystems.DriveBaseSubsystem;
 import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;

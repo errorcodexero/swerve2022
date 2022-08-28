@@ -1,13 +1,11 @@
 package org.xero1425.base.subsystems.oi;
 
 import org.xero1425.base.LoopType;
-import org.xero1425.base.actions.SequenceAction;
 import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
 import org.xero1425.base.subsystems.swerve.common.SwerveDriveChassisSpeedAction;
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MissingParameterException;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
 
@@ -82,8 +80,6 @@ public class SwerveDriveGamepad extends Gamepad {
         // the positive X axis of the field.
         //
         rxscaled *= 2.0 / Math.hypot(db_.getLength(), db_.getWidth()) / 39.37;  // 39.27 to convert meters -> inches. Original equation from SDS assumes inches.
-        Rotation2d heading = db_.getHeading() ;
-        // System.out.println("Gamepad " + -lyscaled + " " + -lxscaled +  " " + rxscaled + " " + heading.getDegrees()) ;
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-lyscaled, -lxscaled, rxscaled, db_.getHeading()) ;
         action_.update(speeds) ;
         
