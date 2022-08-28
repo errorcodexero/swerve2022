@@ -8,7 +8,7 @@ public class HoodMotorSubsystem extends MotorEncoderSubsystem {
     private double min_value_ ;
 
     public HoodMotorSubsystem(Subsystem parent) throws Exception {
-        super(parent, "shooter-h", false) ;
+        super(parent, "shooter-hood", false) ;
 
         max_value_ = 25.0 ;
         min_value_ = 1.0 ;
