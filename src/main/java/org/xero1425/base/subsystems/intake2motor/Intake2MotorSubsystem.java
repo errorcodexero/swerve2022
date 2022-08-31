@@ -15,7 +15,8 @@ public class Intake2MotorSubsystem extends MotorEncoderSubsystem {
         super(parent, name, false); // Motor 1, in the base class
 
         // Motor 2, explicitly create it
-        spinner_ = getRobot().getMotorFactory().createMotor("intake-spinner", "subsystems:intake:hw:spinner:motor");
+        String motorname = "subsystems:" + name + ":hw:spinner:motor" ;
+        spinner_ = getRobot().getMotorFactory().createMotor("intake-spinner", motorname);
     }
 
     public void setSpinnerPower(double p) throws BadMotorRequestException, MotorRequestFailedException {
