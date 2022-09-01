@@ -308,6 +308,15 @@
                 "maxa" : 20000,
                 "maxv" : 20000
             },
+            "follow" : {
+                "kp" : 0.0000,
+                "kf" : 0.0,
+                "ki" : 0.0,
+                "kd" : 0.0,
+                "min" : -1.0,
+                "max" : 1.0,
+                "imax" : 0.5
+            },
             "follower" : {
                 "up" : {
                     "kp" : 0.0000,
@@ -375,7 +384,7 @@
                 "imax": 0.0
             }
         },
-        "shooter-h": {
+        "shooter-hood": {
             "hw": {
                 "motors": {
                     "type": "sparkmax_brushless",
