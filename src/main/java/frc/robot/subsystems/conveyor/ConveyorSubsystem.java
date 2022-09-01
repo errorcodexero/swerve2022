@@ -1,5 +1,6 @@
-package frc.robot.subsystems;
+package frc.robot.subsystems.conveyor;
 
+import org.xero1425.base.misc.XeroTimer;
 import org.xero1425.base.motors.MotorController;
 import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorSubsystem;
@@ -10,11 +11,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 //
 // Code Review Notes (from Butch)
-// - You need to add the "hw" section of the swerve2022.json file for the
-//   conveyor motor.  I would do this immediately as it then allows you to run the
-//   simulator as you develop code.  Just copy the motor section from some other subsystem
-//   (like the intake), but don't copy the encoder part.
-//
+// 
 // - We need to keep up with a ball count.  When shooting and other operations, like
 //   lighting LEDs on the OI we need to know how many balls we are holding.  Put a ball_count_
 //   variable in the class and provide a method to return it.  Then think about where in the
@@ -23,13 +20,6 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 public class ConveyorSubsystem extends MotorSubsystem {
 
-    //
-    // Code Review Notes (from Butch)
-    // 1. I moved these next lines from later in the file. We generally use a
-    // pattern of member variables, followed by
-    // public methods, followed by private methods. This is a real common pattern in
-    // Java in general.
-    //
     private enum State {
         Idle,
         WaitForIntake,
@@ -55,14 +45,10 @@ public class ConveyorSubsystem extends MotorSubsystem {
 
     private int ball_count_;
 
+    private XeroTimer eject_timer_;
 
-    //
-    // Code Review Notes (from Butch)
-    // You don't need to create this MotorController.  Since you are derived from the MotorSubsystem,
-    // the base class will create the motor.  You can control its motor power with setPower() like you 
-    // do already below.
-    // private MotorController conveyor_motor_;     <<<----- not going to be needed
-    //
+    private boolean isStop; 
+
 
     public ConveyorSubsystem(Subsystem parent) throws BadParameterTypeException, MissingParameterException {
         super(parent, "conveyor");
@@ -86,18 +72,12 @@ public class ConveyorSubsystem extends MotorSubsystem {
         int channel2 = getSettingsValue("sensors:shooter").getInteger() ;
         shooter_sensor_ = new DigitalInput(channel2) ;
 
+        eject_timer_ = new XeroTimer(getRobot(), "Eject", getSettingsValue("eject_duration").getDouble());
+
+        isStop = false; 
+
     }
 
-    //
-    // Code Review Notes (from Butch)
-    // 1. The name of this method is computeMyState(), I changed the upper case 'C'
-    // to lower case
-    // 2. If you add the @Override before the method, Java will ensure you are
-    // overridding a method that exists in the base class
-    // 3. I added the call super.computeMyState() which calls the base class to let
-    // it do any work it needs to do
-    // 4. I added throws Exception since the base class may throw exceptions
-    //
     @Override
     public void computeMyState() throws Exception {
         super.computeMyState();
@@ -108,7 +88,9 @@ public class ConveyorSubsystem extends MotorSubsystem {
     }
 
     public void collect() {
-        
+        if (state_ == State.Idle) {
+            state_ = State.WaitForIntake; 
+        }
         
     }
 
@@ -117,11 +99,17 @@ public class ConveyorSubsystem extends MotorSubsystem {
     }
 
     public void stop() {
-
+        isStop = true;
     }
 
     public void eject() {
+        setPower(eject_power_);
+        eject_timer_.start();
+        state_ = State.Eject; 
+    }
 
+    public boolean isIdle() {
+        return state_ == State.Idle; 
     }
 
     //
@@ -133,13 +121,10 @@ public class ConveyorSubsystem extends MotorSubsystem {
     //   public void eject() - starts an eject operation (moves you from Idle state to a new Eject state you need to add)
     //
 
-    //
-    // Code Review Notes (from Butch)
-    // 1. Fixed the indenting, should be consistant
-    //
     public void run() {
         switch (state_) {
             case Idle:
+                IdleProc();
                 break;
 
             case WaitForIntake:
@@ -159,19 +144,21 @@ public class ConveyorSubsystem extends MotorSubsystem {
                 break;
 
             case Eject:
+               EjectProc(); 
+               break;
         }
     }
 
     private void WaitForIntakeProc() {
         //
-        // Code Review Notes (from Butch)
-        //   I would add comments at the start of each state method detailing what is
-        //   going on.  For instance ...
-        //
         // In this method, we have started a collect operation but currently have no balls.
         // We are waiting for a ball to break the intake sensor at which point we will start
         // the conveyor motor to move the ball into the conveyor. 
         //
+        if(isStop) {
+            setPower(off_power_);
+            state_ = State.Idle; 
+        }
         if (intake_value_ == true) {
             setPower(collect_power_);
             state_ = State.WaitForMiddle;
@@ -187,9 +174,11 @@ public class ConveyorSubsystem extends MotorSubsystem {
         //
         if (intake_value_ == true && middle_value_ == true) {
             setPower(collect_power_);
+            ball_count_ = 2;
             state_ = State.WaitForShooter;
         } else if (middle_value_ == true) {
             setPower(off_power_);
+            ball_count_ = 1;
             state_ = State.WaitForIntake2;
         }
     }
@@ -202,24 +191,39 @@ public class ConveyorSubsystem extends MotorSubsystem {
         //
         if (shooter_value_ == true) {
             setPower(off_power_);
-            state_ = State.WaitForIntake;
+            ball_count_ = 2;
+            state_ = State.Idle;
         }
     }
 
     private void WaitForIntake2Proc() {
         //
-        // Code Review Notes (from Butch)
-        //   I am not sure about the logic here.  The WaitForIntake2 state is when you are waiting on 
-        //   the second ball to break the intake sensor.  You always already have one ball when you are
-        //   in this state.
-        //
-        // (I changed the logic to something that I think makes sense)
         // In this case, we have one ball stationed at the middle sensor. We are waiting for a second ball
         // to break the intake sensor so that we can turn on the motor power and move the balls towards the shooter.
         //
+        if(isStop) {
+            setPower(off_power_);
+            state_ = State.Idle;
+        }
         if (intake_value_ == true && middle_value_ == true) {
             setPower(collect_power_);
+            ball_count_ = 1; 
             state_ = State.WaitForShooter;
         }
+    }
+     
+    private void EjectProc() {
+        if(eject_timer_.isExpired()) {
+            ball_count_ = 0; 
+            setPower(off_power_); 
+            state_ = State.Idle; 
+        }
+    }
+
+    private void IdleProc() {
+        if(isStop){
+            isStop = false; 
+        }
+        //if 2+ ball count, we're already in idle state, so we don't switch state!
     }
 }
