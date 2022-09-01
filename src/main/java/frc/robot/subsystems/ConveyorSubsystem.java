@@ -35,7 +35,8 @@ public class ConveyorSubsystem extends MotorSubsystem {
         WaitForIntake,
         WaitForMiddle,
         WaitForShooter,
-        WaitForIntake2
+        WaitForIntake2,
+        Eject
     }
 
     private State state_;
@@ -51,6 +52,8 @@ public class ConveyorSubsystem extends MotorSubsystem {
     private double collect_power_;
     private double off_power_;
     private double eject_power_;
+
+    private int ball_count_;
 
 
     //
@@ -77,6 +80,12 @@ public class ConveyorSubsystem extends MotorSubsystem {
         int channel = getSettingsValue("sensors:intake").getInteger() ;
         intake_sensor_ = new DigitalInput(channel) ;
 
+        int channel1 = getSettingsValue("sensors:middle").getInteger() ;
+        middle_sensor_ = new DigitalInput(channel1) ;
+
+        int channel2 = getSettingsValue("sensors:shooter").getInteger() ;
+        shooter_sensor_ = new DigitalInput(channel2) ;
+
     }
 
     //
@@ -96,6 +105,23 @@ public class ConveyorSubsystem extends MotorSubsystem {
         intake_value_ = !intake_sensor_.get();
         shooter_value_ = !shooter_sensor_.get();
         middle_value_ = !middle_sensor_.get();
+    }
+
+    public void collect() {
+        
+        
+    }
+
+    public void shoot() {
+
+    }
+
+    public void stop() {
+
+    }
+
+    public void eject() {
+
     }
 
     //
@@ -131,6 +157,8 @@ public class ConveyorSubsystem extends MotorSubsystem {
             case WaitForIntake2:
                 WaitForIntake2Proc();
                 break;
+
+            case Eject:
         }
     }
 
@@ -151,7 +179,12 @@ public class ConveyorSubsystem extends MotorSubsystem {
     }
 
     private void WaitForMiddleProc() {
-
+        //
+        // After the intake sensor is broken and the motor is turned on, we check to see
+        // if there is a second ball at the intake sensor. If there is, we keep the motor running 
+        // and wait for the shooter sensor to be broken. If the middle sensor is broken
+        // and there isn't another ball behind it, we turn off the motor to park the ball in the middle. 
+        //
         if (intake_value_ == true && middle_value_ == true) {
             setPower(collect_power_);
             state_ = State.WaitForShooter;
@@ -162,6 +195,11 @@ public class ConveyorSubsystem extends MotorSubsystem {
     }
 
     private void WaitForShooterProc() {
+        //
+        // In this case, we will always have two balls in the conveyor. Here, we are waiting for the
+        // shooter sensor to be broken so that we can park the balls there. After we stop the motors, we set
+        // the state to WaitForIntake. (should it be set to idle??)
+        //
         if (shooter_value_ == true) {
             setPower(off_power_);
             state_ = State.WaitForIntake;
@@ -175,10 +213,13 @@ public class ConveyorSubsystem extends MotorSubsystem {
         //   the second ball to break the intake sensor.  You always already have one ball when you are
         //   in this state.
         //
+        // (I changed the logic to something that I think makes sense)
+        // In this case, we have one ball stationed at the middle sensor. We are waiting for a second ball
+        // to break the intake sensor so that we can turn on the motor power and move the balls towards the shooter.
+        //
         if (intake_value_ == true && middle_value_ == true) {
-            state_ = State.WaitForMiddle;
-        } else if (middle_value_ == true) {
-            state_ = State.WaitForIntake;
+            setPower(collect_power_);
+            state_ = State.WaitForShooter;
         }
     }
 }

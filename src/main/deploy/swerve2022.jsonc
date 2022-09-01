@@ -406,6 +406,10 @@
         },
         "conveyor" : {
             "hw" : {
+                "motors" : {
+                    "type" : "talon_fx",
+                    "canid" : 3
+                }
             },
             "power" : {
                 "collect" : 1.0,
@@ -413,7 +417,9 @@
                 "off" : 0.0
             },
             "sensors" : {
-                "intake" : 0
+                "intake" : 0,
+                "middle" : 1,
+                "shooter" : 2
             }
         }
     },
