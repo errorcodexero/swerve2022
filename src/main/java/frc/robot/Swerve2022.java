@@ -42,7 +42,7 @@ public class Swerve2022 extends XeroRobot {
         if (ret != null)
             return ret;
 
-        return "init";
+        return "teleop-collect-one-one";
     }
 
     public AutoController createAutoController() {

@@ -362,7 +362,7 @@ public abstract class XeroRobot extends TimedRobot {
             }
         } catch (Exception ex) {
             logger_.startMessage(MessageType.Error);
-            logger_.add("exception thrown in hardwareInit() - ").add(ex.getStackTrace().toString()) ;
+            logger_.add("exception thrown in hardwareInit() - ").add(ex.getMessage()).add("\n").add(ex.getStackTrace().toString()) ;
             logger_.endMessage();
 
             logStackTrace(ex.getStackTrace());

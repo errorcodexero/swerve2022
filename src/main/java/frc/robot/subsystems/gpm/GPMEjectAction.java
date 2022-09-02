@@ -3,7 +3,7 @@ package frc.robot.subsystems.gpm;
 import org.xero1425.base.actions.Action;
 import org.xero1425.base.subsystems.intake2motor.IntakePositionPowerAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorPowerAction;
-import frc.robot.subsystems.bwgconveyor.ConveyorEjectAction;
+import frc.robot.subsystems.conveyor.ConveyorEjectAction;
 
 public class GPMEjectAction extends Action{
 

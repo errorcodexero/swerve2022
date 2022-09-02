@@ -22,7 +22,7 @@
             "props" : {
                 "intake-sensor" : 0,
                 "shooter-sensor" : 1,
-                "staging-sensor" : 2
+                "middle-sensor" : 2
             }
         },
         {

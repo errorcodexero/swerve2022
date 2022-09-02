@@ -5,7 +5,7 @@ import org.xero1425.base.subsystems.intake2motor.IntakePositionPowerAction;
 import org.xero1425.base.subsystems.intake2motor.IntakePowerPowerAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorPowerAction;
 
-import frc.robot.subsystems.bwgconveyor.ConveyorCollectAction;
+import frc.robot.subsystems.conveyor.ConveyorCollectAction;
 
 public class GPMStartCollectAction extends Action {
     private GPMSubsystem subsystem_;
@@ -14,6 +14,7 @@ public class GPMStartCollectAction extends Action {
     private IntakePowerPowerAction intake_stay_on_action_ ;
     private MotorPowerAction agitator_on_action_;
     private ConveyorCollectAction conveyor_on_action_ ;
+    private boolean stay_action_applied_ ;
 
     public GPMStartCollectAction(GPMSubsystem subsystem) throws Exception {
         super(subsystem.getRobot().getMessageLogger());
@@ -33,15 +34,17 @@ public class GPMStartCollectAction extends Action {
         subsystem_.getIntake().setAction(intake_on_action_, true);
         subsystem_.getAgitator().setAction(agitator_on_action_, true);
         subsystem_.getConveyor().setAction(conveyor_on_action_, true) ;
+        stay_action_applied_ = false ;
     }
 
     @Override
     public void run() throws Exception {
         super.run();
 
-        if (intake_on_action_.isDone())
+        if (intake_on_action_.isDone() && !stay_action_applied_)
         {
             subsystem_.getIntake().setDefaultAction(intake_stay_on_action_);
+            stay_action_applied_ = true ;
         }
 
         // README: Hollister - note the GPM start collection is done, when the conveyor collect action is done

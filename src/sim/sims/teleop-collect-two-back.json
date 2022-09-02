@@ -64,12 +64,12 @@
                 {
                     "subsystem" : "agitator",
                     "property" : "power",
-                    "setting" : "subsystems:agitator:power:collect"
+                    "setting" : "subsystems:agitator:forwardpower"
                 },
                 {
                     "subsystem" : "intake",
                     "property" : "spinner-power",
-                    "setting" : "subsystems:intake:spinner:on"
+                    "setting" : "subsystems:intake:collector:onpower"
                 }                 
             ]            
         },
@@ -84,7 +84,7 @@
                         "comment" : "first ball blocks the intake sensor on the conveyor",
                         "intake" : false,
                         "shooter" : true,
-                        "staging" : true
+                        "middle" : true
                     }
                 }
             ]
@@ -101,12 +101,12 @@
                 {
                     "subsystem" : "conveyor",
                     "property" : "power",
-                    "setting" : "subsystems:conveyor:power:on"
+                    "setting" : "subsystems:conveyor:power:collect"
                 },
                 {
                     "subsystem" : "intake",
                     "property" : "spinner-power",
-                    "setting" : "subsystems:intake:spinner:on"
+                    "setting" : "subsystems:intake:collector:onpower"
                 }                
             ]            
         },
@@ -118,9 +118,9 @@
                     "model" : "conveyor",
                     "instance" : "1",
                     "values" : {
-                        "comment" : "first ball sets the staging sensor",
-                        "intake" : true,
-                        "staging" : false,
+                        "comment" : "first ball sets the middle sensor and the second ball sets the intake sensor",
+                        "intake" : false,
+                        "middle" : false,
                         "shooter" : true
                     }
                 }
@@ -133,17 +133,17 @@
                 {
                     "subsystem" : "conveyor",
                     "property" : "ball-count",
-                    "value" : 1
+                    "value" : 2
                 },
                 {
                     "subsystem" : "conveyor",
                     "property" : "power",
-                    "value" : 0.0
+                    "setting" : "subsystems:conveyor:power:collect"
                 },
                 {
                     "subsystem" : "intake",
                     "property" : "spinner-power",
-                    "setting" : "subsystems:intake:spinner:on"
+                    "setting" : "subsystems:intake:collector:onpower"
                 }                    
             ]            
         },
@@ -155,30 +155,14 @@
                     "model" : "conveyor",
                     "instance" : "1",
                     "values" : {
-                        "comment" : "second ball blocks the intake sensor on the conveyor",
+                        "comment" : "second ball blocks the shooter sensor on the conveyor",
                         "intake" : false,
-                        "shooter" : true,
-                        "staging" : false
+                        "shooter" : false,
+                        "middle" : false
                     }
                 }
             ]
         },  
-        {
-            "time" : 6.5,
-            "events" : 
-            [
-                {
-                    "model" : "conveyor",
-                    "instance" : "1",
-                    "values" : {
-                        "comment" : "first ball hits shooter sensor",
-                        "intake" : false,
-                        "shooter" : false,
-                        "staging" : false
-                    }
-                }
-            ]
-        },
         {
             "time" : 6.8,
             "events" :
@@ -188,7 +172,7 @@
                     "instance" : "1",
                     "values" : 
                     {
-                        "comment" : "Collect button pressed",
+                        "comment" : "Collect button released",
                         "button3" : false
                     }
                 }
@@ -211,7 +195,7 @@
                 {
                     "subsystem" : "intake",
                     "property" : "spinner-power",
-                    "setting" : "subsystems:intake:spinner:off"
+                    "setting" : "subsystems:intake:collector:offpower"
                 }                    
             ]            
         }       

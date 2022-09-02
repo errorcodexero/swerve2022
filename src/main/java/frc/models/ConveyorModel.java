@@ -30,7 +30,7 @@ public class ConveyorModel extends SimulationModel {
             DIODataJNI.setIsInput(shooter_sensor_io_, true) ;
             DIODataJNI.setValue(shooter_sensor_io_, true) ;
 
-            staging_sensor_io_ = getProperty("staging-sensor").getInteger() ;
+            staging_sensor_io_ = getProperty("middle-sensor").getInteger() ;
             DIODataJNI.setIsInput(staging_sensor_io_, true) ;
             DIODataJNI.setValue(staging_sensor_io_, true) ;
         }
@@ -54,7 +54,7 @@ public class ConveyorModel extends SimulationModel {
                     DIODataJNI.setValue(shooter_sensor_io_, value.getBoolean()) ;
                 }
             }    
-            else if (name.equals("staging")) {
+            else if (name.equals("middle")) {
                 if (value.isBoolean()) {
                     DIODataJNI.setValue(staging_sensor_io_, value.getBoolean()) ;
                 }

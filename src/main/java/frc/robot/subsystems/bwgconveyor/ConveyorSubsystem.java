@@ -40,7 +40,7 @@ public class ConveyorSubsystem extends MotorSubsystem {
     private boolean stop_requested_ ;
     
     public ConveyorSubsystem(Subsystem subsystem) throws BadParameterTypeException, MissingParameterException {
-        super(subsystem, "conveyor") ;
+        super(subsystem, "bwgconveyor") ;
 
         sensor_intake_ = new DigitalInput(getSettingsValue("sensors:intake").getInteger()) ;
         sensor_shooter_ = new DigitalInput(getSettingsValue("sensors:shooter").getInteger()) ;

@@ -14,7 +14,9 @@ import org.xero1425.base.subsystems.swerve.common.SwervePowerAngleAction;
 import org.xero1425.base.subsystems.swerve.common.SwerveSpeedAngleAction;
 
 import frc.robot.subsystems.Swerve2022RobotSubsystem;
-import frc.robot.subsystems.bwgconveyor.ConveyorSubsystem;
+// TODO: swap the two lines below to change conveyors
+// import frc.robot.subsystems.bwgconveyor.ConveyorSubsystem;
+import frc.robot.subsystems.conveyor.ConveyorSubsystem;
 import frc.robot.subsystems.gpm.GPMEjectAction;
 import frc.robot.subsystems.gpm.GPMStartCollectAction;
 import frc.robot.subsystems.gpm.GPMStopCollectAction;

@@ -3,6 +3,7 @@ package org.xero1425.base.limelight;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+import org.xero1425.base.XeroRobot;
 import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MessageLogger;
@@ -184,7 +185,7 @@ public class LimeLightSubsystem extends Subsystem {
                 connected_ = false ;
                 if ((getRobot().getTime() - last_connection_time_) > limelight_timeout_)
                 {
-                    if (!limelight_not_found_)
+                    if (!limelight_not_found_ && !XeroRobot.isSimulation())
                     {
                         MessageLogger logger = getRobot().getMessageLogger() ;
                         logger.startMessage(MessageType.Error) ;

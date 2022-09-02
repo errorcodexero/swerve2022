@@ -61,6 +61,15 @@ public class SimulationAssertEvent extends SimulationEvent {
                 boolean pass = false;
 
                 SettingsValue value = getValue(engine) ;
+                if (value == null) {
+                    logger.startMessage(MessageType.Error);
+                    logger.add("AssertFailed: ");
+                    logger.add("subsystem ", subsystem_);
+                    logger.add(" property ", name_);
+                    logger.add(" - the params file did not contain the property").addQuoted(setting_) ;
+                    logger.endMessage();
+                    engine.addAssertError();
+                }
 
                 if (v.isDouble()) {
                     try {
