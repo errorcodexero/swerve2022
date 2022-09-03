@@ -80,6 +80,8 @@ public class Swerve2022OIDevice extends OIPanel {
         Swerve2022RobotSubsystem robot = (Swerve2022RobotSubsystem)getSubsystem().getRobot().getRobotSubsystem();
         GPMSubsystem gpm = robot.getGPM() ;
 
+
+
         // First set the LEDs
         setLEDs() ;
 
@@ -95,6 +97,7 @@ public class Swerve2022OIDevice extends OIPanel {
         else if (getValue(climb_lock_gadget_) == 1) {
             generateCargoActions() ;
         }
+        
         else if (robot.getClimber() != null) {
             generateClimbActions() ;
         }
