@@ -2,10 +2,12 @@ package frc.robot.subsystems.oi;
 
 import org.xero1425.base.subsystems.oi.OIPanel;
 import org.xero1425.base.subsystems.oi.OISubsystem;
+import org.xero1425.base.subsystems.oi.OILed.State;
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MissingParameterException;
 
 import frc.robot.subsystems.Swerve2022RobotSubsystem;
+import frc.robot.subsystems.conveyor.ConveyorSubsystem;
 import frc.robot.subsystems.gpm.GPMEjectAction;
 import frc.robot.subsystems.gpm.GPMStartCollectAction;
 import frc.robot.subsystems.gpm.GPMStopCollectAction;
@@ -80,8 +82,6 @@ public class Swerve2022OIDevice extends OIPanel {
         Swerve2022RobotSubsystem robot = (Swerve2022RobotSubsystem)getSubsystem().getRobot().getRobotSubsystem();
         GPMSubsystem gpm = robot.getGPM() ;
 
-
-
         // First set the LEDs
         setLEDs() ;
 
@@ -134,6 +134,31 @@ public class Swerve2022OIDevice extends OIPanel {
 
     private void setLEDs()
     {
+        Swerve2022RobotSubsystem robot = (Swerve2022RobotSubsystem)getSubsystem().getRobot().getRobotSubsystem();
+        ConveyorSubsystem sub = robot.getGPM().getConveyor() ;
+        
+        switch(sub.getBallCount())
+        {
+            case 0:
+                ball1_output_.setState(State.OFF);
+                ball2_output_.setState(State.OFF);
+                break ;
+
+            case 1:
+                ball1_output_.setState(State.ON);
+                ball2_output_.setState(State.OFF);
+                break ;   
+                
+            case 2:
+                ball1_output_.setState(State.ON);
+                ball2_output_.setState(State.ON);
+                break ;     
+                
+            default:
+                ball1_output_.setState(State.BLINK_FAST);
+                ball2_output_.setState(State.BLINK_FAST);
+            break ;                 
+        }
     }
 
     private boolean isCollectButtonPressed() {
