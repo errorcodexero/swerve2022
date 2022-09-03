@@ -1,0 +1,170 @@
+{
+    "stimulus" :
+    [
+        {
+            "time" : 0.0,
+            "events" :
+            [
+                {
+                    "model" : "fms",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "automode must be set to the correct testmode in droid param file",
+                        "start" : 1.0,
+                        "autonomous" : 0.0,
+                        "between" : 0.0,
+                        "teleop" : 13.0,
+                        "fms" : false
+                    }
+                },
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" :
+                    {
+                        "comment" : "Collect/shoot mode switch set to collect",                        
+                        "button6" : true,
+                        
+                        // The climb lock button is in the locked state
+                        "button4" : true                        
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 3.0,
+            "events" :
+            [
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "Eject button pressed",
+                        "button2" : true
+                    }
+                }
+            ]
+        },        
+        {
+            "time" : 3.2,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 0
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "setting" : "subsystems:conveyor:power:off"
+                },
+                {
+                    "subsystem" : "agitator",
+                    "property" : "power",
+                    "setting" : "subsystems:agitator:offpower"
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:collector:ejectpower"
+                }                 
+            ]            
+        },
+        {
+            "time" : 3.4,
+            "events" :
+            [
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "Eject button released",
+                        "button2" : false
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 4.0,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 0
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "setting" : "subsystems:conveyor:power:eject"
+                },
+                {
+                    "subsystem" : "agitator",
+                    "property" : "power",
+                    "setting" : "subsystems:agitator:ejectpower"
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:collector:ejectpower"
+                }                 
+            ]            
+        },        
+        {
+            "time" : 4.4,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 0
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "setting" : "subsystems:conveyor:power:eject"
+                },
+                {
+                    "subsystem" : "agitator",
+                    "property" : "power",
+                    "setting" : "subsystems:agitator:ejectpower"
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:collector:ejectpower"
+                }                 
+            ]            
+        },
+        {
+            "time" : 8.0,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 0
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "setting" : "subsystems:conveyor:power:off"
+                },
+                {
+                    "subsystem" : "agitator",
+                    "property" : "power",
+                    "setting" : "subsystems:agitator:offpower"
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:collector:offpower"
+                }                 
+            ]            
+        },         
+    ]
+}

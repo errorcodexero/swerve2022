@@ -87,6 +87,11 @@ public class Swerve2022OIDevice extends OIPanel {
             if (gpm.getAction() != gpm_eject_action_)
                 gpm.setAction(gpm_eject_action_);
         }
+        else if (gpm.getAction() == gpm_eject_action_) {
+            //
+            // We do nothing and wait for the eject action to complete
+            //
+        }
         else if (getValue(climb_lock_gadget_) == 1) {
             generateCargoActions() ;
         }

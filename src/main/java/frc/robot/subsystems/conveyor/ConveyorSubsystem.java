@@ -151,7 +151,9 @@ public class ConveyorSubsystem extends MotorSubsystem {
         return state_ == State.Idle; 
     }
 
-    public void run() {
+    public void run() throws Exception {
+        super.run() ;
+
         State prev = state_ ;
 
         switch (state_) {
