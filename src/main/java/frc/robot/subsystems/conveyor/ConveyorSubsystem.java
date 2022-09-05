@@ -19,7 +19,9 @@ public class ConveyorSubsystem extends MotorSubsystem {
         WaitForMiddle,
         WaitForShooter,
         WaitForIntake2,
-        Eject
+        Eject,
+        StartTestShoot,
+        TestShoot,
     }
 
     private State state_;
@@ -41,7 +43,6 @@ public class ConveyorSubsystem extends MotorSubsystem {
     private XeroTimer eject_timer_;
 
     private boolean isStop; 
-
 
     public ConveyorSubsystem(Subsystem parent) throws BadParameterTypeException, MissingParameterException {
         super(parent, "conveyor");
@@ -130,7 +131,12 @@ public class ConveyorSubsystem extends MotorSubsystem {
         if (state_ == State.Idle) {
             state_ = State.WaitForIntake; 
         }
-        
+    }
+
+    public void testShoot() {
+        if (state_ == State.Idle) {
+            state_ = State.StartTestShoot ;
+        }
     }
 
     public void shoot() {
@@ -180,6 +186,14 @@ public class ConveyorSubsystem extends MotorSubsystem {
             case Eject:
                EjectProc(); 
                break;
+
+            case StartTestShoot:
+                StartTestShootProc() ;
+                break ;
+
+            case TestShoot:
+                TestShootProc() ;
+                break ;
         }
 
         //
@@ -269,5 +283,23 @@ public class ConveyorSubsystem extends MotorSubsystem {
             isStop = false; 
         }
         //if 2+ ball count, we're already in idle state, so we don't switch state!
+    }
+
+    private void StartTestShootProc() {
+        if (isStop) {
+            setPower(off_power_) ;
+            state_ = State.Idle ;
+        }
+        else {
+            setPower(collect_power_) ;
+            state_ = State.TestShoot ;
+        }
+    }
+
+    private void TestShootProc() {
+        if (isStop) {
+            setPower(off_power_) ;
+            state_ = State.Idle ;
+        }        
     }
 }
