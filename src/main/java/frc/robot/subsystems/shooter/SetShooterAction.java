@@ -6,6 +6,8 @@ import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderTrackPositionAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderVelocityAction;
+import org.xero1425.misc.MessageLogger;
+import org.xero1425.misc.MessageType;
 
 public class SetShooterAction extends Action {
     private ShooterSubsystem sub_;
@@ -17,6 +19,9 @@ public class SetShooterAction extends Action {
     private int plot_id_ ;
     private double plot_start_ ;
     private Double [] plot_data_ ;
+
+    private double wheel_ ;
+    private double hood_ ;
 
     // The columns to plot
     private static String [] columns_ = { "time", "ltarget(rpm)", "lactual(rpm)", "htarget(degrees)", "hactual(degrees)" } ;
@@ -30,11 +35,35 @@ public class SetShooterAction extends Action {
 
         plot_id_ = -1 ;
         plot_data_ = new Double[7] ;
+
+        wheel_ = Double.NaN ;
+        hood_ = Double.NaN ;
     }
 
-    public void update(double wheel, double hood) throws BadMotorRequestException, MotorRequestFailedException{
-        wheel_action_.setTarget(wheel);
-        hood_action_.setTarget(hood);
+    public void update(double wheel, double hood) throws BadMotorRequestException, MotorRequestFailedException {
+
+        String change ="" ;
+
+        if (wheel_ == Double.NaN || wheel_ != wheel) {
+            wheel_action_.setTarget(wheel);
+            change += "wheel: " + Double.toString(wheel_) + " --> " + Double.toString(wheel) ;
+            wheel_ = wheel ;
+        }
+
+        if (hood_ == Double.NaN || hood != hood_) {
+            hood_action_.setTarget(hood);
+            if (change.length() > 0) {
+                change += "  " ;
+            }
+            change += "hood: " + Double.toString(hood_) + " --> " + Double.toString(hood) ;
+            hood_ = hood ;
+        }
+
+        if (change.length() > 0) {
+            MessageLogger logger = sub_.getRobot().getMessageLogger();
+            logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
+            logger.add("SetShooterAction: update: ").add(change).endMessage();
+        }
     }
 
     public void startPlot() {

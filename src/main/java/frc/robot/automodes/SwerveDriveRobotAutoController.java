@@ -4,6 +4,7 @@ import org.xero1425.base.XeroRobot;
 import org.xero1425.base.actions.InvalidActionRequest;
 import org.xero1425.base.controllers.AutoController;
 import org.xero1425.misc.BadParameterTypeException;
+import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
 import org.xero1425.misc.MissingParameterException;
 
@@ -19,7 +20,9 @@ public class SwerveDriveRobotAutoController extends AutoController {
             test_mode_ = new SwerveTestAutoMode(this) ;
         }
         catch(Exception ex) {
-            robot.getMessageLogger().startMessage(MessageType.Error).add("Exception thrown creating test mode actions").endMessage();
+            MessageLogger logger = robot.getMessageLogger() ;
+            logger.startMessage(MessageType.Error).add("Exception thrown creating test mode actions - ") ;
+            logger.add(ex.getMessage()).endMessage();
             robot.logStackTrace(ex.getStackTrace());
 
             test_mode_ = null ;

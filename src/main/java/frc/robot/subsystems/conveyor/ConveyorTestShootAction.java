@@ -20,7 +20,11 @@ public class ConveyorTestShootAction extends Action {
 
     @Override
     public void run() throws Exception{
-        super.start() ;
+        super.run() ;
+
+        if (sub_.isIdle()) {
+            setDone() ;
+        }
     }
 
     @Override

@@ -14,13 +14,12 @@ import org.xero1425.base.subsystems.swerve.common.SwervePowerAngleAction;
 import org.xero1425.base.subsystems.swerve.common.SwerveSpeedAngleAction;
 
 import frc.robot.subsystems.Swerve2022RobotSubsystem;
-// TODO: swap the two lines below to change conveyors
-// import frc.robot.subsystems.bwgconveyor.ConveyorSubsystem;
 import frc.robot.subsystems.conveyor.ConveyorSubsystem;
 import frc.robot.subsystems.gpm.GPMEjectAction;
 import frc.robot.subsystems.gpm.GPMStartCollectAction;
 import frc.robot.subsystems.gpm.GPMStopCollectAction;
 import frc.robot.subsystems.gpm.GPMSubsystem;
+import frc.robot.subsystems.gpm.GPMTestShooterAction;
 
 public class SwerveTestAutoMode extends TestAutoMode {
 
@@ -135,6 +134,13 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("delay")));           
                 addSubActionPair(gpm, new GPMEjectAction(gpm), true);
                 break; 
+
+            //
+            // Firing auto test modes
+            //
+            case 60:
+                addSubActionPair(gpm, new GPMTestShooterAction(gpm), true) ;
+                break ;
         }
     }
 }

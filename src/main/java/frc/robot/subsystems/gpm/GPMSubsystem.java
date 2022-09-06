@@ -4,9 +4,6 @@ import org.xero1425.base.XeroRobot;
 import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.subsystems.intake2motor.Intake2MotorSubsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorSubsystem;
-
-// TODO: swap the two lines below to change conveyors
-// import frc.robot.subsystems.bwgconveyor.ConveyorSubsystem;
 import frc.robot.subsystems.conveyor.ConveyorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.ShooterSubsystem;

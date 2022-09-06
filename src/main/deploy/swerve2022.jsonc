@@ -9,7 +9,9 @@
 
             // Subsystem related messages
             "conveyor" : true,
-            "gpm": false,
+            "gpm": true,
+            "shooter": true,
+            "intake" : false,
 
             // Tank drive related settings
             "pathfollowing": false,
@@ -255,30 +257,6 @@
                 }
             }
         },  
-        "bwgconveyor" : {
-            "hw" : {
-                "motors" : {
-                    "type" : "talon_fx",
-                    "canid" : 3,
-                    "neutral_mode" : "brake",
-                    "inverted" : true
-                }
-            },
-            "sensors" : {
-                "intake" : 0,
-                "shooter" : 1,
-                "staging" : 2
-            },
-            "power" : {
-                "on" : 0.2,
-                "off" : 0.0,
-                "eject" : -1.0
-            },
-            "delays" : {
-                "first-ball" : 0,
-                "eject" : 4000
-            }
-        },
         "conveyor" : {
             "hw" : {
                 "motors" : {
@@ -395,7 +373,7 @@
                     "b": 0.0
                 }
             },
-            "w1": {
+            "wheels": {
                 "kp": 0.00003,
                 "ki": 0.01,
                 "kd": 0.0,
@@ -431,13 +409,13 @@
                 "min": -0.4,
                 "imax": 0.0
             },
-            "maxpos" : 21.5,                       // 21.5
-            "minpos" : 1.5                      // 1.5
+            "maxpos" : 21.5,
+            "minpos" : 1.5
         }    
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 3,
+        "which" : 60,
         "0" : {
             "angle" : 0.0,
             "power" : 0.2
