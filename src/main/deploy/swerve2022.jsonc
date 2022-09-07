@@ -287,9 +287,17 @@
                     "inverted": true
                 },
                 "encoder" : {
-                    "type" : "motor",
-                    "m" : 1.0,
-                    "b" : 0.0
+                    "type": "analog",
+                    "ainput": 1,
+                    "rmin": -180.0,
+                    "rmax": 180.0,
+                    "emin": 0.0,
+                    "emax": 5.0,
+                    "ec": {
+                        "COMPETITION": 0.9009,
+                        "PRACTICE": 0.62133
+                    },
+                    "rc": 0.0
                 }
             },
             "hold" : {
@@ -390,14 +398,9 @@
                     "canid": 15
                 },
                 "encoder": {
-                    "type": "analog",
-                    "ainput": 0,
-                    "rmin": 0,
-                    "rmax": 25,
-                    "emin": 0.586,
-                    "emax": 3.643,
-                    "ec": 0.586,
-                    "rc": 0
+                    "type" : "motor",
+                    "m" : 1.0,
+                    "b" : 0.0
                 }
             },
             "hood": {

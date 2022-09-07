@@ -48,6 +48,10 @@ public class SwerveDriveModel extends SimulationModel {
         drive_ = new WheelSubModel[4];
     }
 
+    public Pose2d getPose() {
+        return pose_ ;
+    }
+
     public boolean create() {
         int encoder ;
         SimMotorController motor ;
