@@ -27,11 +27,8 @@ public class GPMSubsystem extends Subsystem {
         conveyor_ = new ConveyorSubsystem(this) ;
         addChild(conveyor_) ;
 
-        if (XeroRobot.isSimulation())
-        {
-            shooter_ = new ShooterSubsystem(this);
-            addChild(shooter_);
-        }
+        shooter_ = new ShooterSubsystem(this);
+        addChild(shooter_);
     }
 
     public ConveyorSubsystem getConveyor() {

@@ -1,9 +1,10 @@
 package frc.robot.subsystems.shooter;
 
-
+import org.xero1425.base.motors.MotorController;
 import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderSubsystem;
 import org.xero1425.misc.SettingsValue;
+import org.xero1425.base.motors.MotorGroupController;
 
 public class ShooterSubsystem extends Subsystem{
     private MotorEncoderSubsystem wheelMotor_;
@@ -26,11 +27,11 @@ public class ShooterSubsystem extends Subsystem{
         addChild(hoodMotor_) ;
     }
 
-    public MotorEncoderSubsystem getWheelMotor(){
+    public MotorEncoderSubsystem getWheelSubsystem(){
         return wheelMotor_;
     }
 
-    public MotorEncoderSubsystem getHoodMotor() {
+    public MotorEncoderSubsystem getHoodSubsystem() {
         return hoodMotor_;
     }
 

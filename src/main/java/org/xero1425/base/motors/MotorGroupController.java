@@ -20,6 +20,10 @@ public class MotorGroupController extends MotorController
         motors_ = new ArrayList<MotorController>() ;
     }
 
+    public MotorController getMotor(int index) {
+        return motors_.get(index) ;
+    }
+
     /// \brief Add a new motor to the group
     /// \param ctrl the motor to add to the group
     /// \param inverted if true, the new motor is inverted with respect to the first motor

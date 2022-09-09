@@ -6,6 +6,7 @@ import org.xero1425.base.subsystems.intake2motor.IntakePositionPowerAction;
 import org.xero1425.base.subsystems.intake2motor.Intake2MotorSubsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderGotoAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderPowerAction;
+import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderSubsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorPowerAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorSubsystem;
 import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
@@ -20,6 +21,7 @@ import frc.robot.subsystems.gpm.GPMStartCollectAction;
 import frc.robot.subsystems.gpm.GPMStopCollectAction;
 import frc.robot.subsystems.gpm.GPMSubsystem;
 import frc.robot.subsystems.gpm.GPMTestShooterAction;
+import frc.robot.subsystems.shooter.ShooterSubsystem;
 
 public class SwerveTestAutoMode extends TestAutoMode {
 
@@ -32,6 +34,8 @@ public class SwerveTestAutoMode extends TestAutoMode {
         Swerve2022RobotSubsystem robotsys = (Swerve2022RobotSubsystem) ctrl.getRobot().getRobotSubsystem();
         SwerveBaseSubsystem swerve = (SwerveBaseSubsystem) robotsys.getDB();
         GPMSubsystem gpm = robotsys.getGPM() ;
+        MotorEncoderSubsystem wheels = gpm.getShooter().getWheelSubsystem() ;
+        MotorEncoderSubsystem hood = gpm.getShooter().getHoodSubsystem() ;
         Intake2MotorSubsystem intake = gpm.getIntake() ;
         MotorSubsystem agitator = gpm.getAgitator() ;
         ConveyorSubsystem conveyor = gpm.getConveyor(); 
@@ -114,6 +118,8 @@ public class SwerveTestAutoMode extends TestAutoMode {
             // Shooter test modes
             //
             case 40:
+                addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, getDouble("power")), false) ;
+                addAction(new DelayAction(ctrl.getRobot(), getDouble("duration"))) ;
                 break ;
 
             //

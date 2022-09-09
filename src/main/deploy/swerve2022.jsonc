@@ -368,16 +368,16 @@
                 "motors": {
                     "1": {
                         "type": "talon_fx",
-                        "canid": 9
+                        "canid": 26
                     },
                     "2": {
                         "type": "talon_fx",
-                        "canid":10 
+                        "canid": 27
                     }
                 },
                 "encoder": {
                     "type": "motor",
-                    "m": 2.857,
+                    "m": 1.25,
                     "b": 0.0
                 }
             },
@@ -395,7 +395,7 @@
             "hw": {
                 "motors": {
                     "type": "sparkmax_brushless",
-                    "canid": 15
+                    "canid": 6
                 },
                 "encoder": {
                     "type" : "motor",
@@ -418,7 +418,7 @@
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 60,
+        "which" : 40,
         "0" : {
             "angle" : 0.0,
             "power" : 0.2
@@ -462,6 +462,10 @@
         "30" : {
             "power" : 0.2,
             "duration" : 5.0
+        },
+        "40" : {
+            "power" : 0.2,
+            "duration" : 2
         },
         "50" : {
             "delay" : 20
