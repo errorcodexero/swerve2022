@@ -1,14 +1,12 @@
 package frc.robot.subsystems.shooter;
 
-import org.xero1425.base.motors.MotorController;
 import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderSubsystem;
 import org.xero1425.misc.SettingsValue;
-import org.xero1425.base.motors.MotorGroupController;
 
 public class ShooterSubsystem extends Subsystem{
-    private MotorEncoderSubsystem wheelMotor_;
-    private MotorEncoderSubsystem hoodMotor_;
+    private MotorEncoderSubsystem wheelSubsystem_;
+    private MotorEncoderSubsystem hoodSubsystem_;
     public static final String SubsystemName = "shooter";
 
     public ShooterSubsystem(Subsystem parent) throws Exception {
@@ -16,28 +14,28 @@ public class ShooterSubsystem extends Subsystem{
 
         double ticks_per_rev = 42 ;
         double seconds_per_minute = 60 ;
-        double motor_to_shooter_gear_ratio  = 2 / 1 ;
+        double motor_to_shooter_gear_ratio  = 1.25 ;
         double factor =  seconds_per_minute / ticks_per_rev * motor_to_shooter_gear_ratio ;
 
-        wheelMotor_ = new MotorEncoderSubsystem(this, SubsystemName + "-wheel", false, 8);
-        addChild(wheelMotor_) ;
-        wheelMotor_.setVelocityConversion(factor);
+        wheelSubsystem_ = new MotorEncoderSubsystem(this, SubsystemName + "-wheel", false, 8);
+        addChild(wheelSubsystem_) ;
+        wheelSubsystem_.setVelocityConversion(factor);
 
-        hoodMotor_ = new HoodMotorSubsystem(this) ;
-        addChild(hoodMotor_) ;
+        hoodSubsystem_ = new HoodMotorSubsystem(this) ;
+        addChild(hoodSubsystem_) ;
     }
 
     public MotorEncoderSubsystem getWheelSubsystem(){
-        return wheelMotor_;
+        return wheelSubsystem_;
     }
 
     public MotorEncoderSubsystem getHoodSubsystem() {
-        return hoodMotor_;
+        return hoodSubsystem_;
     }
 
     public void stop() {
-        wheelMotor_.cancelAction();
-        wheelMotor_.setPower(0.0) ;
+        wheelSubsystem_.cancelAction();
+        wheelSubsystem_.setPower(0.0) ;
     }
 
     @Override
@@ -45,7 +43,7 @@ public class ShooterSubsystem extends Subsystem{
         SettingsValue v = null ;
 
         if (name.equals("wheel-velocity")) {
-            v = new SettingsValue(wheelMotor_.getVelocity()) ;
+            v = new SettingsValue(wheelSubsystem_.getVelocity()) ;
         }
 
         return v ;
