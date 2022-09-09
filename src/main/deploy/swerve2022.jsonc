@@ -372,7 +372,8 @@
                     },
                     "2": {
                         "type": "talon_fx",
-                        "canid": 27
+                        "canid": 27,
+                        "inverted" : true
                     }
                 },
                 "encoder": {
