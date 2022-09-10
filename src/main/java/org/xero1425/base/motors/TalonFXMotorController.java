@@ -9,6 +9,7 @@ import com.ctre.phoenix.ErrorCode;
 ///
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
@@ -269,6 +270,11 @@ public class TalonFXMotorController extends MotorController
             try {
                 TalonFXMotorController other = (TalonFXMotorController)ctrl ;
                 controller_.follow(other.controller_) ;
+
+                if (invert)
+                    controller_.setInverted(InvertType.OpposeMaster);
+                else
+                    controller_.setInverted(InvertType.FollowMaster);
             }
             catch(ClassCastException ex)
             {
