@@ -86,8 +86,24 @@ public class SparkMaxMotorController extends MotorController
 
             controller_.restoreFactoryDefaults() ;
             code = controller_.enableVoltageCompensation(11.0) ;
-            if (code != REVLibError.kOk)
+            if (code != REVLibError.kOk) {
                 throw new MotorRequestFailedException(this, "enableVoltageCompensation() failed during initialization", code) ;
+            }
+
+            code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 100) ;
+            if (code != REVLibError.kOk) {
+                throw new MotorRequestFailedException(this, "Failed to set periodic status frame 0 rate", code) ;
+            }
+
+            code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20) ;
+            if (code != REVLibError.kOk) {
+                throw new MotorRequestFailedException(this, "Failed to set periodic status frame 1 rate", code) ;
+            }
+            
+            code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 20) ;
+            if (code != REVLibError.kOk) {
+                throw new MotorRequestFailedException(this, "Failed to set periodic status frame 2 rate", code) ;
+            }
 
             encoder_ = controller_.getEncoder() ;
         }

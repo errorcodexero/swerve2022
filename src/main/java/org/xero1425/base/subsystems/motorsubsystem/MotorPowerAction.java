@@ -94,6 +94,7 @@ public class MotorPowerAction extends MotorAction {
         super.start() ;
 
         try {
+            System.out.println("Power " + power_) ;
             getSubsystem().setPower(power_) ;
             if (timed_)
                 start_ = getSubsystem().getRobot().getTime() ;

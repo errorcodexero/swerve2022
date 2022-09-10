@@ -27,6 +27,7 @@ public class TalonFXMotorController extends MotorController
     private TalonFX controller_ ;
     private boolean inverted_ ;
     private PidType type_ ;
+    private int index_;
 
     private SimDevice sim_ ;
     private SimDouble sim_power_ ;
@@ -47,6 +48,7 @@ public class TalonFXMotorController extends MotorController
 
         inverted_ = false ;
         type_ = PidType.None ;
+        index_ = index ;
 
         if (RobotBase.isSimulation()) {
             sim_ = SimDevice.create(SimDeviceName, index) ;
@@ -68,8 +70,10 @@ public class TalonFXMotorController extends MotorController
             controller_ = new TalonFX(index) ;
             controller_.configFactoryDefault() ;
             
-            // controller_.configVoltageCompSaturation(12.0, ControllerTimeout) ;
-            // controller_.enableVoltageCompensation(true);
+            controller_.configVoltageCompSaturation(11.0, ControllerTimeout) ;
+            controller_.enableVoltageCompensation(true);
+
+            controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 250, 250) ;
         }
     }
 
@@ -198,6 +202,9 @@ public class TalonFXMotorController extends MotorController
             sim_motor_inverted_.set(true) ;
         }
         else {
+            if (inverted && index_ == 27) {
+                System.out.println("Inverting CANID " + index_) ;
+            }
             controller_.setInverted(inverted);
         }
         inverted_ = inverted ;
@@ -256,8 +263,8 @@ public class TalonFXMotorController extends MotorController
     /// \throws MotorRequestFailedException if the motors are not compatible for following.
     public void follow(MotorController ctrl, boolean invert) throws BadMotorRequestException {
         if (sim_ == null) {
-            if (invert)
-                throw new BadMotorRequestException(this, "cannot follow another controller inverted") ;
+            // if (invert)
+                // throw new BadMotorRequestException(this, "cannot follow another controller inverted") ;
 
             try {
                 TalonFXMotorController other = (TalonFXMotorController)ctrl ;

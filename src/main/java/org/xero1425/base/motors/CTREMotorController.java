@@ -195,6 +195,7 @@ public class CTREMotorController extends MotorController
             sim_motor_inverted_.set(true) ;
         }
         else {
+
             controller_.setInverted(inverted);
         }
         inverted_ = inverted ;

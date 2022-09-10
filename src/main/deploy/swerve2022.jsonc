@@ -288,7 +288,7 @@
                 },
                 "encoder" : {
                     "type": "analog",
-                    "ainput": 1,
+                    "ainput": 0,
                     "rmin": -180.0,
                     "rmax": 180.0,
                     "emin": 0.0,
@@ -361,19 +361,39 @@
             "shooter-action": {
                 "wheel-velocity-threshold": 10,
                 "hood-position-threshold": 10
-            }
+            },
+            "ramprate" : 10
         },
-        "shooter-wheel": {
+        "shooter-wheel-1": {
             "hw": {
                 "motors": {
                     "1": {
                         "type": "talon_fx",
                         "canid": 26
-                    },
-                    "2": {
+                    }
+                },
+                "encoder": {
+                    "type": "motor",
+                    "m": 1.25,
+                    "b": 0.0
+                }
+            },
+            "wheels": {
+                "kp": 0.00003,
+                "ki": 0.01,
+                "kd": 0.0,
+                "kf": 7.5770890869800108049702863317126e-5,
+                "max": 1.0,
+                "min": -1.0,
+                "imax": 0.0
+            }
+        },
+        "shooter-wheel-2": {
+            "hw": {
+                "motors": {
+                    "1": {
                         "type": "talon_fx",
-                        "canid": 27,
-                        "inverted" : true
+                        "canid": 27
                     }
                 },
                 "encoder": {
@@ -398,10 +418,18 @@
                     "type": "sparkmax_brushless",
                     "canid": 6
                 },
-                "encoder": {
-                    "type" : "motor",
-                    "m" : 1.0,
-                    "b" : 0.0
+                "encoder" : {
+                    "type": "analog",
+                    "ainput": 1,
+                    "rmin": -180.0,
+                    "rmax": 180.0,
+                    "emin": 0.0,
+                    "emax": 5.0,
+                    "ec": {
+                        "COMPETITION": 0.9009,
+                        "PRACTICE": 0.62133
+                    },
+                    "rc": 0.0
                 }
             },
             "hood": {
@@ -465,13 +493,23 @@
             "duration" : 5.0
         },
         "40" : {
-            "power" : 0.2,
-            "duration" : 2
+            "power" : 1.0,
+            "duration" : 240
         },
         "50" : {
+            // Hood move motor test mode
+            "power" : 0.2,
+            "duration" : 0.5
+        },
+        "60" : {
+            // Turret move motor test mode
+            "power" : 0.2,
+            "duration" : 1.0
+        },
+        "80" : {
             "delay" : 20
         },
-        "52" : {
+        "82" : {
             "delay": 3
         }
     }

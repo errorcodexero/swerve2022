@@ -1,6 +1,8 @@
 package frc.robot.subsystems.conveyor;
 
 import org.xero1425.base.misc.XeroTimer;
+import org.xero1425.base.motors.BadMotorRequestException;
+import org.xero1425.base.motors.MotorController.EncoderUpdateFrequency;
 import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorSubsystem;
 import org.xero1425.misc.BadParameterTypeException;
@@ -44,7 +46,7 @@ public class ConveyorSubsystem extends MotorSubsystem {
 
     private boolean isStop; 
 
-    public ConveyorSubsystem(Subsystem parent) throws BadParameterTypeException, MissingParameterException {
+    public ConveyorSubsystem(Subsystem parent) throws BadParameterTypeException, MissingParameterException, BadMotorRequestException {
         super(parent, "conveyor");
 
         collect_power_ = getSettingsValue("power:collect").getDouble();
@@ -66,7 +68,6 @@ public class ConveyorSubsystem extends MotorSubsystem {
 
         // From Butch: need to initialize the state at the beginning to idle
         state_ = State.Idle ;
-
     }
 
     //

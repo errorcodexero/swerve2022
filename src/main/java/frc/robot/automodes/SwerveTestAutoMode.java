@@ -21,7 +21,7 @@ import frc.robot.subsystems.gpm.GPMStartCollectAction;
 import frc.robot.subsystems.gpm.GPMStopCollectAction;
 import frc.robot.subsystems.gpm.GPMSubsystem;
 import frc.robot.subsystems.gpm.GPMTestShooterAction;
-import frc.robot.subsystems.shooter.ShooterSubsystem;
+import frc.robot.subsystems.turret.TurretSubsystem;
 
 public class SwerveTestAutoMode extends TestAutoMode {
 
@@ -34,12 +34,13 @@ public class SwerveTestAutoMode extends TestAutoMode {
         Swerve2022RobotSubsystem robotsys = (Swerve2022RobotSubsystem) ctrl.getRobot().getRobotSubsystem();
         SwerveBaseSubsystem swerve = (SwerveBaseSubsystem) robotsys.getDB();
         GPMSubsystem gpm = robotsys.getGPM() ;
-        MotorEncoderSubsystem wheels = gpm.getShooter().getWheelSubsystem() ;
+        MotorEncoderSubsystem wheels1 = gpm.getShooter().getWheel1Subsystem() ;
+        MotorEncoderSubsystem wheels2 = gpm.getShooter().getWheel2Subsystem() ;
         MotorEncoderSubsystem hood = gpm.getShooter().getHoodSubsystem() ;
         Intake2MotorSubsystem intake = gpm.getIntake() ;
         MotorSubsystem agitator = gpm.getAgitator() ;
         ConveyorSubsystem conveyor = gpm.getConveyor(); 
-
+        TurretSubsystem turret = robotsys.getTurret() ;
 
         switch (getTestNumber()) {
             case 0:
@@ -118,33 +119,68 @@ public class SwerveTestAutoMode extends TestAutoMode {
             // Shooter test modes
             //
             case 40:
-                addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, getDouble("power")), false) ;
+                addSubActionPair(conveyor, new MotorPowerAction(conveyor, 0.8), true) ;
+                addSubActionPair(wheels1, new MotorEncoderPowerAction(wheels1, getDouble("power")), false) ;
+                addSubActionPair(wheels2, new MotorEncoderPowerAction(wheels2, getDouble("power")), false) ;
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("duration"))) ;
                 break ;
 
+            case 41:
+                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.1), false) ;
+                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
+                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.2), false) ;
+                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
+                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.3), false) ;
+                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
+                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.4), false) ;
+                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
+                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.5), false) ;
+                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
+                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.6), false) ;
+                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
+                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.7), false) ;
+                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
+                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.8), false) ;
+                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
+                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.9), false) ;
+                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
+                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 1.0), false) ;
+                // addAction(new DelayAction(ctrl.getRobot(), 111.0)) ;
+                break ;
+            
+            //
+            // Hood test modes
+            //
+            case 50:
+                addSubActionPair(hood, new MotorEncoderPowerAction(hood, getDouble("power"), getDouble("duration")), true) ;
+                break ;
+
+            //
+            // Turret test modes
+            //
+            case 60:
+                addSubActionPair(turret, new MotorEncoderPowerAction(turret, getDouble("power"), getDouble("duration")), true) ;
+                break ;
             //
             // GPM test modes
             //
-            case 50:
+            case 80:
                 addSubActionPair(gpm, new GPMStartCollectAction(gpm), false);
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("delay")));
                 addSubActionPair(gpm, new GPMStopCollectAction(gpm), false);                
                 break ;
 
-            case 51:
+            case 81:
                 addSubActionPair(gpm, new GPMEjectAction(gpm), false);
                 break;     
                 
-            case 52:
+            case 82:
                 addSubActionPair(gpm, new GPMStartCollectAction(gpm), true); 
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("delay")));           
                 addSubActionPair(gpm, new GPMEjectAction(gpm), true);
                 break; 
 
-            //
-            // Firing auto test modes
-            //
-            case 60:
+            case 83:
                 addSubActionPair(gpm, new GPMTestShooterAction(gpm), true) ;
                 break ;
         }

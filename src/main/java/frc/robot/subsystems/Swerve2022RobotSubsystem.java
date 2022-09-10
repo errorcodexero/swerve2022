@@ -36,12 +36,12 @@ public class Swerve2022RobotSubsystem extends RobotSubsystem {
             limelight_ = new LimeLightSubsystem(this, "limelight");
             addChild(limelight_);
 
-            turret_ = new TurretSubsystem(this);
-            addChild(turret_);
-
             tracker_ = new TargetTrackerSubsystem(this, limelight_, turret_);
             addChild(tracker_);
         }
+
+        turret_ = new TurretSubsystem(this);
+        addChild(turret_);
     }
 
     public GPMSubsystem getGPM() {
