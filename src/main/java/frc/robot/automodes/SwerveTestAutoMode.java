@@ -119,6 +119,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
             // Shooter test modes
             //
             case 40:
+                //
                 addSubActionPair(conveyor, new MotorPowerAction(conveyor, 0.8), true) ;
                 addSubActionPair(wheels1, new MotorEncoderPowerAction(wheels1, getDouble("power")), false) ;
                 addSubActionPair(wheels2, new MotorEncoderPowerAction(wheels2, getDouble("power")), false) ;
