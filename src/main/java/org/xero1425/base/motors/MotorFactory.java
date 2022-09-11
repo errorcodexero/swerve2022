@@ -51,16 +51,20 @@ public class MotorFactory {
                 return ret;
 
             MotorController.NeutralMode groupmode = getNeutralMode(id);
-            boolean groupinverted = isInverted(id);
-            boolean leaderinverted = false;
             int currentIndex = 1;
             MotorGroupController group = new MotorGroupController(name);
             ret = group;
 
             while (true) {
                 String motorid = id + ":" + Integer.toString(currentIndex);
+                boolean leaderInverted = false ;
                 MotorController single = createSingleMotor(name + ":" + Integer.toString(currentIndex), motorid);
                 if (single != null) {
+                    
+                    if (groupmode != null) {
+                        single.setNeutralMode(groupmode);
+                    }
+
                     //
                     // See if there is an inverted settings for this motor
                     //
@@ -68,44 +72,16 @@ public class MotorFactory {
 
                     if (currentIndex == 1) {
                         //
-                        // This is the first motor in the group. It is the leader. All of the other
-                        // motors will follow this motor.
-                        //
-                        leaderinverted = v;
-
-                        //
-                        // If the group is inverted, invert the motor from its default setting
-                        //
-                        if (groupinverted)
-                            v = !v;
-
-                        //
                         // Set the motor to its proper inverted state
                         //
                         single.setInverted(v);
-
+                        leaderInverted = v ;
                     } else {
                         //
-                        // If the leader is inverted, invert this motor relative to the
-                        // inverter
+                        // Add a motor to the group
                         //
-                        if (leaderinverted)
-                            v = !v;
-
-                        if (groupinverted)
-                            v = !v;
-
-                        single.setInverted(v);
-
-                        if (!leaderinverted && groupinverted)
-                            v = !v;
+                        group.addMotor(single, leaderInverted, v);
                     }
-
-                    if (groupmode != null) {
-                        single.setNeutralMode(groupmode);
-                    }
-
-                    group.addMotor(single, v);
 
                     currentIndex++;
                 } else {

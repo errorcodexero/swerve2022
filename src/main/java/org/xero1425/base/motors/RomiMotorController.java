@@ -49,9 +49,9 @@ public class RomiMotorController extends MotorController {
     /// \brief Reapplies the inverted status of the motor.  When setInverted() is called, the inverted state of the motor
     /// is stored and this method reapplies that stored state to the motor controller.  This was put into place because some
     /// motors setup to follow other motors lost their inverted state when the robot was disabled and re-enabled.      
-    public void reapplyInverted() throws BadMotorRequestException {
-        motor_.setInverted(inverted_);
-    }
+    // public void reapplyInverted() throws BadMotorRequestException {
+    //     motor_.setInverted(inverted_);
+    // }
 
     /// \brief Set the neutral mode for the motor
     /// \param mode the neutral mode for the motor 
@@ -112,9 +112,10 @@ public class RomiMotorController extends MotorController {
 
     /// \brief Set the current motor to follow another motor.  Note the motors must be compatible with each other for following.
     /// \param ctrl the other motor to follow
+    /// \param leader if true, the leader is inverted
     /// \param invert if true, follow the other motor but with the power inverted.
     /// \throws BadMotorRequestException since the Romi motor controller does not support following
-    public void follow(MotorController ctrl, boolean invert) throws BadMotorRequestException {
+    public void follow(MotorController ctrl, boolean leader, boolean invert) throws BadMotorRequestException {
         throw new BadMotorRequestException(this, "the 'Romi' motor does not support the follow() capability") ;
     }
 

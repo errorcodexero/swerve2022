@@ -26,15 +26,16 @@ public class MotorGroupController extends MotorController
 
     /// \brief Add a new motor to the group
     /// \param ctrl the motor to add to the group
+    /// \param leader if true, the leader is inverted
     /// \param inverted if true, the new motor is inverted with respect to the first motor
-    public void addMotor(MotorController ctrl, boolean inverted) throws BadMotorRequestException, MotorRequestFailedException {
+    public void addMotor(MotorController ctrl, boolean leader, boolean inverted) throws BadMotorRequestException, MotorRequestFailedException {
         if (motors_.size() > 0 && !motors_.get(0).getType().equals(ctrl.getType()))
             throw new BadMotorRequestException(this, "cannot add motor to group with existing motors unless the are the same type") ;
 
         motors_.add(ctrl) ;
 
         if (motors_.size() > 1)
-            ctrl.follow(motors_.get(0), inverted) ;
+            ctrl.follow(motors_.get(0), leader, inverted) ;
     }
 
     public double getVelocity() throws BadMotorRequestException, MotorRequestFailedException {
@@ -150,12 +151,12 @@ public class MotorGroupController extends MotorController
     /// \brief Reapplies the inverted status of the motor.  When setInverted() is called, the inverted state of the motor
     /// is stored and this method reapplies that stored state to the motor controller.  This was put into place because some
     /// motors setup to follow other motors lost their inverted state when the robot was disabled and re-enabled.    
-    public void reapplyInverted()  throws BadMotorRequestException, MotorRequestFailedException {
-        if (motors_.size() == 0)
-            throw new BadMotorRequestException(this, "request made to empty MotorGroupController") ;
+    // public void reapplyInverted()  throws BadMotorRequestException, MotorRequestFailedException {
+    //     if (motors_.size() == 0)
+    //         throw new BadMotorRequestException(this, "request made to empty MotorGroupController") ;
             
-        motors_.get(0).reapplyInverted();        
-    }
+    //     motors_.get(0).reapplyInverted();        
+    // }
 
     /// \brief Set the neutral mode for the motor
     /// \param mode the neutral mode for the motor      
@@ -167,11 +168,12 @@ public class MotorGroupController extends MotorController
             ctrl.setNeutralMode(mode);
     }
 
-    /// \brief Set the current motor to follow another motor.  Note the motors must be compatible with each other for following.
+    /// \brief Set the current motor to follow another motor.  Note a MotorGroupController cannot follow anything else.
     /// \param ctrl the other motor to follow
+    /// \param leader if true, the leader is inverted
     /// \param invert if true, follow the other motor but with the power inverted.
     /// \throws MotorRequestFailedException if the motors are not compatible for following.      
-    public void follow(MotorController ctrl, boolean invert) throws BadMotorRequestException, MotorRequestFailedException {
+    public void follow(MotorController ctrl, boolean leader, boolean invert) throws BadMotorRequestException, MotorRequestFailedException {
         throw new BadMotorRequestException(this, "a motor group cannot follow other motors") ;
     }
 

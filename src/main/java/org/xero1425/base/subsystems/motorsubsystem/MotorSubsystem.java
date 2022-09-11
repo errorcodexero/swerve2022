@@ -58,14 +58,14 @@ public class MotorSubsystem extends Subsystem
     @Override
     public void init(LoopType ltype) {
         super.init(ltype) ;
-        try {
-            controller_.reapplyInverted();
-        }
-        catch(BadMotorRequestException | MotorRequestFailedException ex) {
-            MessageLogger logger = getRobot().getMessageLogger() ;
-            logger.startMessage(MessageType.Error) ;
-            logger.add("subsystem ").addQuoted(getName()).add(": cannot reapply inverted state -").add(ex.getMessage()).endMessage();
-        }
+        // try {
+        //     controller_.reapplyInverted();
+        // }
+        // catch(BadMotorRequestException | MotorRequestFailedException ex) {
+        //     MessageLogger logger = getRobot().getMessageLogger() ;
+        //     logger.startMessage(MessageType.Error) ;
+        //     logger.add("subsystem ").addQuoted(getName()).add(": cannot reapply inverted state -").add(ex.getMessage()).endMessage();
+        // }
     }
 
     /// \brief Set the motor power to 0 to ensure the motor does not start when the robot is enabled.

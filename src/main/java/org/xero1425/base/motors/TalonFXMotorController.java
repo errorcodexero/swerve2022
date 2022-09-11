@@ -220,14 +220,14 @@ public class TalonFXMotorController extends MotorController
     /// \brief Reapplies the inverted status of the motor.  When setInverted() is called, the inverted state of the motor
     /// is stored and this method reapplies that stored state to the motor controller.  This was put into place because some
     /// motors setup to follow other motors lost their inverted state when the robot was disabled and re-enabled.
-    public void reapplyInverted() {
-        if (sim_ != null) {
-            sim_motor_inverted_.set(inverted_) ;
-        }
-        else {
-            controller_.setInverted(inverted_);
-        }
-    }
+    // public void reapplyInverted() {
+    //     if (sim_ != null) {
+    //         sim_motor_inverted_.set(inverted_) ;
+    //     }
+    //     else {
+    //         controller_.setInverted(inverted_);
+    //     }
+    // }
 
     /// \brief Set the neutral mode for the motor
     /// \param mode the neutral mode for the motor
@@ -260,9 +260,10 @@ public class TalonFXMotorController extends MotorController
 
     /// \brief Set the current motor to follow another motor.  Note the motors must be compatible with each other for following.
     /// \param ctrl the other motor to follow
+    /// \param leader if true, the leader if inverted
     /// \param invert if true, follow the other motor but with the power inverted.
     /// \throws MotorRequestFailedException if the motors are not compatible for following.
-    public void follow(MotorController ctrl, boolean invert) throws BadMotorRequestException {
+    public void follow(MotorController ctrl, boolean leader, boolean invert) throws BadMotorRequestException {
         if (sim_ == null) {
             // if (invert)
                 // throw new BadMotorRequestException(this, "cannot follow another controller inverted") ;
@@ -271,8 +272,8 @@ public class TalonFXMotorController extends MotorController
                 TalonFXMotorController other = (TalonFXMotorController)ctrl ;
                 controller_.follow(other.controller_) ;
 
-                if (invert)
-                    controller_.setInverted(InvertType.OpposeMaster);
+                if (leader != invert)
+                    controller_.setInverted(InvertType.OpposeMaster) ;
                 else
                     controller_.setInverted(InvertType.FollowMaster);
             }
