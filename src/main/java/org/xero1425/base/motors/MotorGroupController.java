@@ -20,6 +20,9 @@ public class MotorGroupController extends MotorController
         motors_ = new ArrayList<MotorController>() ;
     }
 
+    /// \brief Return a specific motor from the group.  This is used for debugging issues.
+    /// \param index the index of the motor to retreive
+    /// \returns a specific motor controller from the group
     public MotorController getMotor(int index) {
         return motors_.get(index) ;
     }
@@ -38,6 +41,8 @@ public class MotorGroupController extends MotorController
             ctrl.follow(motors_.get(0), leader, inverted) ;
     }
 
+    /// \brief Return the velocity of the motor when the PID loops is being run in the controller
+    /// \retruns the velocity of the motor group.
     public double getVelocity() throws BadMotorRequestException, MotorRequestFailedException {
         if (motors_.size() == 0)
             throw new BadMotorRequestException(this, "request made to empty MotorGroupController") ;
@@ -153,8 +158,7 @@ public class MotorGroupController extends MotorController
     /// motors setup to follow other motors lost their inverted state when the robot was disabled and re-enabled.    
     // public void reapplyInverted()  throws BadMotorRequestException, MotorRequestFailedException {
     //     if (motors_.size() == 0)
-    //         throw new BadMotorRequestException(this, "request made to empty MotorGroupController") ;
-            
+    //         throw new BadMotorRequestException(this, "request made to empty MotorGroupController") ;    
     //     motors_.get(0).reapplyInverted();        
     // }
 

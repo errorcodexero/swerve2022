@@ -4,7 +4,7 @@ import java.lang.Exception ;
 
 /// \file
 /// This file contains the implementation of the BadMotorRequestException.  This
-/// exception is thrown when some is requested of the motor class that cannot be
+/// exception is thrown when something is requested of the motor class that cannot be
 /// completed.
 ///
 

@@ -45,7 +45,8 @@ public class SparkMaxMotorController extends MotorController
     /// \param name the name of this motor
     /// \param index the CAN address of this motor controller    
     /// \param brushless if true, the motor is a brushless motgor
-    public SparkMaxMotorController(String name, int index, boolean brushless) throws MotorRequestFailedException {
+    /// \param if true, this device has followers
+    public SparkMaxMotorController(String name, int index, boolean brushless, boolean leader) throws MotorRequestFailedException {
         super(name) ;
 
         inverted_ = false ;
@@ -90,19 +91,15 @@ public class SparkMaxMotorController extends MotorController
                 throw new MotorRequestFailedException(this, "enableVoltageCompensation() failed during initialization", code) ;
             }
 
-            code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 100) ;
-            if (code != REVLibError.kOk) {
-                throw new MotorRequestFailedException(this, "Failed to set periodic status frame 0 rate", code) ;
+            if (leader) {
+                code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 100) ;
             }
-
-            code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, 20) ;
-            if (code != REVLibError.kOk) {
-                throw new MotorRequestFailedException(this, "Failed to set periodic status frame 1 rate", code) ;
+            else {
+                code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 20) ;                
             }
             
-            code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, 20) ;
             if (code != REVLibError.kOk) {
-                throw new MotorRequestFailedException(this, "Failed to set periodic status frame 2 rate", code) ;
+                throw new MotorRequestFailedException(this, "Failed to set periodic status frame 0 rate", code) ;
             }
 
             encoder_ = controller_.getEncoder() ;
@@ -387,7 +384,6 @@ public class SparkMaxMotorController extends MotorController
     /// the software running on the RoboRio.
     /// \param freq the frequency to update the encoder values     
     public void setEncoderUpdateFrequncy(EncoderUpdateFrequency pos, EncoderUpdateFrequency vel) throws BadMotorRequestException {
-        int p0 = 100 ;
         int p1 = 100 ;
         int p2 = 100 ;
 
@@ -395,17 +391,16 @@ public class SparkMaxMotorController extends MotorController
             p2 = 20 ;
         }
         else if (pos == EncoderUpdateFrequency.Frequent) {
-            p2 = 5 ;
+            p2 = 10 ;
         }
 
         if (vel == EncoderUpdateFrequency.Default) {
             p1 = 20 ;
         }
         else if (vel == EncoderUpdateFrequency.Frequent) {
-            p1 = 5 ;
+            p1 = 10 ;
         }
         
-        controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, p0) ;
         controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus1, p1) ;
         controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus2, p2) ;    
     }    

@@ -2,8 +2,8 @@ package org.xero1425.base.motors;
 
 /// \file
 /// This file conatins the implementation of the CTREMotorController class.  This class
-/// is derived from the MotorController class and supports the CTRE devices including the TalonFX,
-/// the TalonSRX, and the VictorSPX.
+/// is derived from the MotorController class and supports the CTRE devices including the TalonSRX, 
+/// and the VictorSPX.
 ///
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -23,19 +23,21 @@ import edu.wpi.first.wpilibj.RobotBase;
 /// \brief This class is MotorController class that supports the TalonSRX, and the VictorSPX motors.
 public class CTREMotorController extends MotorController
 {  
-    private BaseMotorController controller_ ;
-    private boolean inverted_ ;
-    private MotorType type_ ;
+    private BaseMotorController controller_ ;           // The motor controller class from the CTRE library
+    private boolean inverted_ ;                         // True if the direction of the motor is inverted
+    private MotorType type_ ;                           // The actual motor type, either a TalonSRX or a VictorSPX
 
-    private SimDevice sim_ ;
-    private SimDouble sim_power_ ;
-    private SimBoolean sim_motor_inverted_ ;
-    private SimBoolean sim_neutral_mode_ ;
+
+    private SimDevice sim_ ;                            // The device when simulating
+    private SimDouble sim_power_ ;                      // The current power for the simulated motor
+    private SimBoolean sim_motor_inverted_ ;            // The inverted status of the motor when simulating
+    private SimBoolean sim_neutral_mode_ ;              // The neutral mode for the motor when simulating
 
     /// \brief The name of the device when simulating
     public final static String SimDeviceName = "CTREMotorController" ;
 
-    private final int ControllerTimeout = 100 ;
+    /// \brief the timeout when making motor controller calls where a response is required
+    private final int ControllerTimeout = 250 ;
 
     /// \brief The type of the physical motor controller
     public enum MotorType
@@ -55,6 +57,9 @@ public class CTREMotorController extends MotorController
         type_ = type ;
 
         if (RobotBase.isSimulation()) {
+            //
+            // If we are simulating, create the simulation device and values
+            //
             sim_ = SimDevice.create(SimDeviceName, index) ;
 
             sim_power_ = sim_.createDouble(MotorController.SimPowerParamName, SimDevice.Direction.kBidir, 0.0) ;
@@ -64,6 +69,9 @@ public class CTREMotorController extends MotorController
 
         }
         else {
+            //
+            // Now simulating, create a real motor
+            //
             ErrorCode code ;
 
             sim_ = null ;
@@ -80,45 +88,28 @@ public class CTREMotorController extends MotorController
                     break ;
             }
 
+            //
+            // Restore everything to the factor default
+            //
             code = controller_.configFactoryDefault(ControllerTimeout) ;
             if (code != ErrorCode.OK)
                 throw new MotorRequestFailedException(this, "CTRE configFactoryDefault() call failed during initialization", code) ;
-                
+
+            //
+            // All motors have voltage compensation set at 11.0 volts
+            //
             code = controller_.configVoltageCompSaturation(11.0, ControllerTimeout) ;
             if (code != ErrorCode.OK)
                 throw new MotorRequestFailedException(this, "CTRE configVoltageCompSaturation() call failed during initialization", code) ;
-
             controller_.enableVoltageCompensation(true);
-
-            code = controller_.setSelectedSensorPosition(0, 0, ControllerTimeout) ;
-            if (code != ErrorCode.OK)
-                throw new MotorRequestFailedException(this, "CTRE setSelectedSensorPosition() call failed during initialization", code) ;
-
-            code = controller_.configNeutralDeadband(0.001, ControllerTimeout);
-            if (code != ErrorCode.OK)
-                throw new MotorRequestFailedException(this, "CTRE configNeutralDeadband() call failed during initialization", code) ;
-
-            code = controller_.configNominalOutputForward(0, ControllerTimeout) ;
-            if (code != ErrorCode.OK)
-                throw new MotorRequestFailedException(this, "CTRE configNominalOutputForward() call failed during initialization", code) ;
-
-            code = controller_.configNominalOutputReverse(0, ControllerTimeout) ;
-            if (code != ErrorCode.OK)
-                throw new MotorRequestFailedException(this, "CTRE configNominalOutputReverse() call failed during initialization", code) ;
-
-            code = controller_.configPeakOutputForward(1, ControllerTimeout) ;
-            if (code != ErrorCode.OK)
-                throw new MotorRequestFailedException(this, "CTRE configPeakOutputForward() call failed during initialization", code) ;
-
-            code = controller_.configPeakOutputReverse(-1, ControllerTimeout) ;
-            if (code != ErrorCode.OK)
-                throw new MotorRequestFailedException(this, "CTRE configPeakOutputReverse() call failed during initialization", code) ;
-                
         }
     }
 
+    /// \brief should return the velocity if the motor controller can be configured with the PID loop in the controller.  This is
+    /// not supports for the TalonSRX or VictorSPX so this method throws an exception
+    /// \throws BadMotorRequestException always
     public double getVelocity() throws BadMotorRequestException, MotorRequestFailedException {
-        return 0.0 ;
+        throw new BadMotorRequestException(this, "PID control not implemented") ;
     }
 
     /// \brief Return the current input voltage to the motor controller

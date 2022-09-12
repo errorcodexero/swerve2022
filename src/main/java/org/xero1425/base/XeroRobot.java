@@ -796,12 +796,7 @@ public abstract class XeroRobot extends TimedRobot {
     }
 
     public void logStackTrace(StackTraceElement [] trace) {
-        for(int i = 0 ; i < trace.length ; i++) {
-            logger_.startMessage(MessageType.Error) ;
-            logger_.add("    ") ;
-            logger_.add(trace[i].toString()) ;
-            logger_.endMessage();
-        }
+        logger_.logStackTrace(trace) ;
     }
 
     private void logAutoModeState() {

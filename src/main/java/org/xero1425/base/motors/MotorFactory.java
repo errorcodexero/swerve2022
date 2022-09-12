@@ -21,12 +21,19 @@ import org.xero1425.misc.SettingsValue.SettingsType;
 /// returned motors are high level motor classes (MotorController) that hides the
 /// actual type of motor being used.  Groups of motors that operate in parallel, 
 /// like multiple motors on a single side of the drivebase, are returned as a single
-/// MotorController object that manages the motors as a group.
+/// MotorController object that manages the motors as a group.  For FRC motor controllers
+/// each type of motor (CTRE vs SparkMax) can have its own set of CAN IDs since the vendor
+/// ID is part of the overall device identification.  However, our motor factor requires
+/// that all motors have their own independent CAN ID that is unique across all types of
+/// motor controllers
 ///
 public class MotorFactory {
-    private MessageLogger logger_;
-    private ISettingsSupplier settings_;
-    private Map<Integer, MotorController> motors_;
+    private MessageLogger logger_;                              // The system wide message logger
+    private ISettingsSupplier settings_;                        // The system wide settings file
+    private Map<Integer, MotorController> motors_;              // The map of motors
+
+    private static final String BrakeMode = "brake" ;
+    private static final String CoastMode = "coast" ;
 
     /// \brief This method creates a new motor factory.
     /// \param logger the message logger for the robot
@@ -37,8 +44,7 @@ public class MotorFactory {
         motors_ = new HashMap<Integer, MotorController>();
     }
 
-    /// \brief This method creates a new motor based on the settings in the settings
-    /// file.
+    /// \brief This method creates a new motor based on the settings in the settings file.
     ///
     /// \param name the base name of the motor
     /// \param id the ID of the motor in the settings file
@@ -46,59 +52,102 @@ public class MotorFactory {
         MotorController ret = null;
 
         try {
-            ret = createSingleMotor(name, id);
-            if (ret != null)
-                return ret;
+            //
+            // If a single motor can be created with the given name, then
+            // we just return it.
+            //
+            ret = createSingleMotor(name, id, false);
+            if (ret != null) {
+                //
+                // We never set the inversion property of a motor when it is created
+                // because how we set this varied depending on whether or not a motor is a single,
+                // a leader in a group, or a follower in a group.
+                //
+                ret.setInverted(isInverted(id));
+            }
+            else {
+                //
+                // If we get here, we are processing a set of motors that are controlled together.
+                // These motors will be returned as a single motor controller object (MotorGroupController).
+                // The first motor in this group (id = '1') will be the leader, and the remaining motors in the group
+                // will follow the leader.
+                //
+                MotorController.NeutralMode groupmode = getNeutralMode(id);
+                int currentIndex = 1;
+                MotorGroupController group = new MotorGroupController(name);
+                ret = group;
 
-            MotorController.NeutralMode groupmode = getNeutralMode(id);
-            int currentIndex = 1;
-            MotorGroupController group = new MotorGroupController(name);
-            ret = group;
-
-            while (true) {
-                String motorid = id + ":" + Integer.toString(currentIndex);
-                boolean leaderInverted = false ;
-                MotorController single = createSingleMotor(name + ":" + Integer.toString(currentIndex), motorid);
-                if (single != null) {
-                    
-                    if (groupmode != null) {
-                        single.setNeutralMode(groupmode);
-                    }
+                while (true) {
+                    String motorid = id + ":" + Integer.toString(currentIndex);
+                    boolean leaderInverted = false ;
 
                     //
-                    // See if there is an inverted settings for this motor
+                    // Create a new motor with the index given by currentIndex.  This means under the motors information
+                    // with the name given by 'name' there will be a set of child nodes numbered from 1 - N if there are
+                    // N motors in the group.  This creates the Nth motor given by currentIndex.
                     //
-                    boolean v = single.isInverted();
+                    MotorController single = createSingleMotor(name + ":" + Integer.toString(currentIndex), motorid, (currentIndex == 1));
+                    if (single != null) {                    
+                        if (groupmode != null) {
+                            // 
+                            // If there is a neutral mode at the group level, assign it to
+                            // each of the created motors.  This will override any group mode that is given
+                            // as part of the individual motor configuration.
+                            //
+                            single.setNeutralMode(groupmode);
+                        }
 
-                    if (currentIndex == 1) {
                         //
-                        // Set the motor to its proper inverted state
+                        // See if there is an inverted settings for this motor
                         //
-                        single.setInverted(v);
-                        leaderInverted = v ;
+                        boolean v = single.isInverted();
+
+                        if (currentIndex == 1) {
+                            //
+                            // Set the motor to its proper inverted state
+                            //
+                            single.setInverted(v);
+                            leaderInverted = v ;
+                        } else {
+                            //
+                            // Add a motor to the group
+                            //
+                            group.addMotor(single, leaderInverted, v);
+                        }
+
+                        currentIndex++;
                     } else {
-                        //
-                        // Add a motor to the group
-                        //
-                        group.addMotor(single, leaderInverted, v);
+                        if (currentIndex == 1) {
+                            //
+                            // There were no motors in the group.  Display an error in the logfile and
+                            // return null indicating no motor was created.
+                            //
+                            errorMessage(id, "no motors found that match this id");
+                            return null;
+                        }
+                        break;
                     }
-
-                    currentIndex++;
-                } else {
-                    if (currentIndex == 1) {
-                        errorMessage(id, "no motors found that match this id");
-                        return null;
-                    }
-                    break;
                 }
             }
         } catch (Exception ex) {
+            //
+            // Something threw an exception while creating a motor, print an error and put the
+            // stack trace in the log file
+            //
+            logger_.startMessage(MessageType.Error) ;
+            logger_.add("an exception was caught while creating a motor - ");
+            logger_.add(ex.getMessage()) ;
+            logger_.endMessage();
+            logger_.logStackTrace(ex.getStackTrace());
             ret = null;
         }
 
         return ret;
     }
 
+    //
+    // Print an error message with the motor ID given
+    //
     private void errorMessage(String id, String msg) {
         logger_.startMessage(MessageType.Error);
         logger_.add("error creating motor '");
@@ -107,55 +156,72 @@ public class MotorFactory {
         logger_.endMessage();
     }
 
-    private MotorController createSingleMotor(String name, String id)
-            throws BadParameterTypeException, BadMotorRequestException, MotorRequestFailedException {
-        String idparam = id + ":type";
-        String canparam = id + ":canid";
+    //
+    // Create a single motor from the settings in the settings file
+    //
+    private MotorController createSingleMotor(String name, String id, boolean leader) throws BadParameterTypeException, BadMotorRequestException, MotorRequestFailedException {
+            
+        String idparam = id + ":type";                  // This parameter holds the type of the motor
+        String canparam = id + ":canid";                // This parameter holds the CAN id of the motor
 
+        // Test to see if the motor has a CAN id
         boolean hasid = settings_.isDefined(canparam) && settings_.getOrNull(canparam).isInteger();
+
+        // Test to see if the motor has a type
         boolean hastype = settings_.isDefined(idparam) && settings_.getOrNull(idparam).isString();
 
-        if (hastype && !hasid) {
+        if (!hasid) {
             errorMessage(id, "missing motor id, cannot create motor");
             return null;
         }
 
-        if (hasid && !hastype) {
+        if (!hastype) {
             errorMessage(id, "missing motor type, cannot create motor");
             return null;
         }
 
-        if (!hasid || !hastype)
-            return null;
-
+        //
+        // Get the CAN id from the settings file
+        //
         int canid = settings_.getOrNull(canparam).getInteger();
         if (motors_.containsKey(canid)) {
+            //
+            // There is already a motor with this CAN id.  Signal an error.
+            //
             MotorController dup = motors_.get(canid);
             errorMessage(id, "cannot create motor, can id is already in use '" + dup.getName() + "'");
             return null;
         }
 
+        //
+        // Get the motor type from the settings file
+        //
         String type = settings_.getOrNull(idparam).getString();
         MotorController ctrl = null;
 
+        //
+        // Create the motor controller object based on its type
+        //
         if (type.equals("romi")) {
             ctrl = new RomiMotorController(name, canid);
         } else if (type.equals("talon_srx")) {
             ctrl = new CTREMotorController(name, canid, CTREMotorController.MotorType.TalonSRX);
         } else if (type.equals("talon_fx")) {
-            ctrl = new TalonFXMotorController(name, canid);
+            ctrl = new TalonFXMotorController(name, canid, leader);
         } else if (type.equals("victor_spx")) {
             ctrl = new CTREMotorController(name, canid, CTREMotorController.MotorType.VictorSPX);
         } else if (type.equals("sparkmax_brushless")) {
-            ctrl = new SparkMaxMotorController(name, canid, true);
+            ctrl = new SparkMaxMotorController(name, canid, true, leader);
         } else if (type.equals("sparmmax_brushed")) {
-            ctrl = new SparkMaxMotorController(name, canid, false);
+            ctrl = new SparkMaxMotorController(name, canid, false, leader);
         } else {
             errorMessage(id, "motor type '" + type + "' is not a valid motor type");
             return null;
         }
 
-        ctrl.setInverted(isInverted(id));
+        //
+        // Set the motor neutral type
+        //
         MotorController.NeutralMode nm = getNeutralMode(id);
         if (nm != null)
             ctrl.setNeutralMode(nm);
@@ -163,6 +229,9 @@ public class MotorFactory {
         return ctrl ;
     }
 
+    //
+    // Get the neutral mode from the JSON object that describes the motor (or motor group)
+    //
     private MotorController.NeutralMode getNeutralMode(String id) throws BadParameterTypeException {
         SettingsValue v ;
         String pname = id + ":neutral_mode" ;
@@ -173,29 +242,32 @@ public class MotorFactory {
 
         if (!v.isString()) {
             logger_.startMessage(MessageType.Error).add("parameter '").add(pname).add("'") ;
-            logger_.add(" - does not have boolean type") ;
+            logger_.add(" - does not have string type") ;
             throw new BadParameterTypeException(SettingsType.String, v.getType()) ;
         }
 
         MotorController.NeutralMode mode ;
-        if (v.getString().equals("brake"))
+        if (v.getString().equals(BrakeMode))
         {
             mode = MotorController.NeutralMode.Brake ;
         }
-        else if (v.getString().equals("coast"))
+        else if (v.getString().equals(CoastMode))
         {
             mode = MotorController.NeutralMode.Coast ;
         }
         else 
         {
             logger_.startMessage(MessageType.Warning).add("parameter '").add(pname).add("'") ;
-            logger_.add(" - is string but is not 'brake' or 'coast'") ;
+            logger_.add(" - is a string but is not " + BrakeMode + "'' or '" + CoastMode + "'") ;
             mode = null ;
         }
 
         return mode ;
     }
 
+    //
+    // Get the inverted mode from the JSON object that describes the motor (or motor group)
+    //
     private boolean isInverted(String id) throws BadParameterTypeException {
         SettingsValue v ;
         String pname = id + ":inverted" ;

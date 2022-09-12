@@ -15,6 +15,8 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import org.junit.rules.Timeout;
+
 import edu.wpi.first.hal.SimBoolean;
 import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDouble;
@@ -25,34 +27,33 @@ import edu.wpi.first.wpilibj.RobotBase;
 /// MotorController base class.
 public class TalonFXMotorController extends MotorController
 {
-    private TalonFX controller_ ;
-    private boolean inverted_ ;
-    private PidType type_ ;
-    private int index_;
+    private TalonFX controller_ ;                       // The base motor controller object
+    private boolean inverted_ ;                         // If true, the motor is inverted
+    private PidType type_ ;                             // For a PID in the controller, the type of PID (position vs velocity)
 
-    private SimDevice sim_ ;
-    private SimDouble sim_power_ ;
-    private SimDouble sim_encoder_ ;
-    private SimBoolean sim_motor_inverted_ ;
-    private SimBoolean sim_neutral_mode_ ;
+    private SimDevice sim_ ;                            // The simulated device during simulation
+    private SimDouble sim_power_ ;                      // The power during a simulation, picked up by the models
+    private SimDouble sim_encoder_ ;                    // The encoder value during a simulation, set by the models
+    private SimBoolean sim_motor_inverted_ ;            // If true, the simulated motor is inverted
+    private SimBoolean sim_neutral_mode_ ;              // THe neutral mode for the simulated motor
 
     /// \brief the name of the device when simulating
     public final static String SimDeviceName = "CTREMotorController" ;
 
+    /// \brief the timeout for requests to the
     private final int ControllerTimeout = 250 ;
 
     /// \brief Create a new TalonFX Motor Controller.
     /// \param name the name of this motor
     /// \param index the CAN address of this motor controller
-    public TalonFXMotorController(String name, int index) throws MotorRequestFailedException {
+    public TalonFXMotorController(String name, int canid, boolean leader) throws MotorRequestFailedException {
         super(name) ;
 
         inverted_ = false ;
         type_ = PidType.None ;
-        index_ = index ;
 
         if (RobotBase.isSimulation()) {
-            sim_ = SimDevice.create(SimDeviceName, index) ;
+            sim_ = SimDevice.create(SimDeviceName, canid) ;
 
             //
             // Create a simulated motor that can be accessed by simulation models
@@ -68,16 +69,34 @@ public class TalonFXMotorController extends MotorController
             sim_power_ = null ;
             sim_encoder_ = null ;
 
-            controller_ = new TalonFX(index) ;
+            controller_ = new TalonFX(canid) ;
             controller_.configFactoryDefault() ;
             
             controller_.configVoltageCompSaturation(11.0, ControllerTimeout) ;
             controller_.enableVoltageCompensation(true);
 
-            controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 250, 250) ;
+            //
+            // Status frame 1 is default 10ms.  It reports motor output voltage, fault information,
+            // and limit switch information.  This can be slowed way down
+            //
+            if (leader) {
+                controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 20, ControllerTimeout) ;
+            }
+            else {
+                controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 255, ControllerTimeout) ;
+            }
+
+            //
+            // Status frame 2 is the frame that carries position and velocity values for the default PID 0
+            // input.  However, for the TalonFX we rely on getting values back from the integraged sensors
+            // and not the external sensors, so this can be slowed down as well.
+            //
+            controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 255, ControllerTimeout) ;
         }
     }
 
+    /// \brief Return the velocity of the motor from the PID loop running in the controller
+    /// \returns the velocity of the motor from the PID loop running in the controller
     public double getVelocity() throws BadMotorRequestException, MotorRequestFailedException {
         return controller_.getSensorCollection().getIntegratedSensorVelocity() ;
     }
@@ -203,9 +222,6 @@ public class TalonFXMotorController extends MotorController
             sim_motor_inverted_.set(true) ;
         }
         else {
-            if (inverted && index_ == 27) {
-                System.out.println("Inverting CANID " + index_) ;
-            }
             controller_.setInverted(inverted);
         }
         inverted_ = inverted ;
@@ -356,23 +372,17 @@ public class TalonFXMotorController extends MotorController
     /// the software running on the RoboRio.
     /// \param freq the frequency to update the encoder values
     public void setEncoderUpdateFrequncy(EncoderUpdateFrequency pos, EncoderUpdateFrequency vel) throws BadMotorRequestException {
-
-        int p1 = 255 ;
-        int p2 = 255 ;
+        int interval = 255 ;
 
         if (pos == EncoderUpdateFrequency.Frequent || vel == EncoderUpdateFrequency.Frequent) {
-            p1 = 20 ;
-            p2 = 5 ;
+            interval = 5 ;
         }
         else if (pos == EncoderUpdateFrequency.Default || vel == EncoderUpdateFrequency.Default) {
-            p1 = 20 ;
-            p2 = 20 ;
+            interval = 20 ;
         }
 
         if (controller_ != null) {
-            controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, p1) ;
-            controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, p2) ;
-            controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_21_FeedbackIntegrated, p2) ;
+            controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_21_FeedbackIntegrated, interval) ;
         }
     }
 } ;

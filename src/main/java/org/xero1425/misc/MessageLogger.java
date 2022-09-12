@@ -90,6 +90,15 @@ public final class MessageLogger
         error_count_ = 0 ;
     }
 
+    public void logStackTrace(StackTraceElement [] trace) {
+        for(int i = 0 ; i < trace.length ; i++) {
+            startMessage(MessageType.Error) ;
+            add("    ") ;
+            add(trace[i].toString()) ;
+            endMessage();
+        }
+    }
+
     /// \brief returns the total error count
     /// \returns the total error count
     public int getErrorMessageCount() {

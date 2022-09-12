@@ -3,7 +3,7 @@ package org.xero1425.base.motors ;
 /// \file
 
 /// \brief This class is an abstract base class that defines a contract that all supported motors
-/// must meet.  There are specific derived classes for Talon SRX, Victor SPX, Talon Fx, and SparkMax
+/// must meet.  There are specific derived classes for Talon SRX, Victor SPX, Talon Fx, SparkMax, and Romi
 /// motor controller.  There are also derived classes where a group of mechanically connected motors
 /// are represented by a single MotorController derived object (MotorGroupController).
 public abstract class MotorController
@@ -58,6 +58,7 @@ public abstract class MotorController
         Velocity,                   ///< Velocity PID control
     }
 
+    /// \brief Return the velocity of the motor if there is PID control in the motor controller
     public abstract double getVelocity()  throws BadMotorRequestException, MotorRequestFailedException ;
 
     /// \brief Set the motor power
