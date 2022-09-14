@@ -32,11 +32,9 @@ public class ShooterSubsystem extends Subsystem{
             MessageLogger logger = getRobot().getMessageLogger() ;
             logger.startMessage(MessageType.Debug, getLoggerID()).add("Settings shooter ramp rate") ;
             logger.add("rate", rate).endMessage();
-
-            System.out.println("RAME RATE IS SET") ;
         }
-        hoodSubsystem_ = new HoodMotorSubsystem(this) ;
-        addChild(hoodSubsystem_) ;
+        //hoodSubsystem_ = new HoodMotorSubsystem(this) ;
+        //addChild(hoodSubsystem_) ;
     }
 
     public MotorEncoderSubsystem getWheelSubsystem(){

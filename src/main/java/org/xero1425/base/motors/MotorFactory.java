@@ -50,7 +50,6 @@ public class MotorFactory {
     /// \param id the ID of the motor in the settings file
     public MotorController createMotor(String name, String id) {
         MotorController ret = null;
-
         try {
             //
             // If a single motor can be created with the given name, then
@@ -73,13 +72,13 @@ public class MotorFactory {
                 // will follow the leader.
                 //
                 MotorController.NeutralMode groupmode = getNeutralMode(id);
+                boolean leaderInverted = false ;
                 int currentIndex = 1;
                 MotorGroupController group = new MotorGroupController(name);
                 ret = group;
 
                 while (true) {
                     String motorid = id + ":" + Integer.toString(currentIndex);
-                    boolean leaderInverted = false ;
 
                     //
                     // Create a new motor with the index given by currentIndex.  This means under the motors information
@@ -100,7 +99,7 @@ public class MotorFactory {
                         //
                         // See if there is an inverted settings for this motor
                         //
-                        boolean v = single.isInverted();
+                        boolean v = isInverted(motorid) ;
 
                         if (currentIndex == 1) {
                             //
@@ -108,11 +107,12 @@ public class MotorFactory {
                             //
                             single.setInverted(v);
                             leaderInverted = v ;
+                            group.addLeaderMotor(single) ;
                         } else {
                             //
                             // Add a motor to the group
                             //
-                            group.addMotor(single, leaderInverted, v);
+                            group.addFollowerMotor(single, leaderInverted, v);
                         }
 
                         currentIndex++;

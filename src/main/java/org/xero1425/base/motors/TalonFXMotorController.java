@@ -15,8 +15,6 @@ import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
-import org.junit.rules.Timeout;
-
 import edu.wpi.first.hal.SimBoolean;
 import edu.wpi.first.hal.SimDevice;
 import edu.wpi.first.hal.SimDouble;
@@ -91,7 +89,7 @@ public class TalonFXMotorController extends MotorController
             // input.  However, for the TalonFX we rely on getting values back from the integraged sensors
             // and not the external sensors, so this can be slowed down as well.
             //
-            controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 255, ControllerTimeout) ;
+            controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 20, ControllerTimeout) ;
         }
     }
 

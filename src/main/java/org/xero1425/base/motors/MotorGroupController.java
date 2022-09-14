@@ -31,7 +31,7 @@ public class MotorGroupController extends MotorController
     /// \param ctrl the motor to add to the group
     /// \param leader if true, the leader is inverted
     /// \param inverted if true, the new motor is inverted with respect to the first motor
-    public void addMotor(MotorController ctrl, boolean leader, boolean inverted) throws BadMotorRequestException, MotorRequestFailedException {
+    public void addFollowerMotor(MotorController ctrl, boolean leader, boolean inverted) throws BadMotorRequestException, MotorRequestFailedException {
         if (motors_.size() > 0 && !motors_.get(0).getType().equals(ctrl.getType()))
             throw new BadMotorRequestException(this, "cannot add motor to group with existing motors unless the are the same type") ;
 
@@ -40,6 +40,13 @@ public class MotorGroupController extends MotorController
         if (motors_.size() > 1)
             ctrl.follow(motors_.get(0), leader, inverted) ;
     }
+
+    public void addLeaderMotor(MotorController ctrl) throws BadMotorRequestException, MotorRequestFailedException {
+        if (motors_.size() > 0 && !motors_.get(0).getType().equals(ctrl.getType()))
+            throw new BadMotorRequestException(this, "cannot add motor to group with existing motors unless the are the same type") ;
+
+        motors_.add(ctrl) ;
+    }    
 
     /// \brief Return the velocity of the motor when the PID loops is being run in the controller
     /// \retruns the velocity of the motor group.
