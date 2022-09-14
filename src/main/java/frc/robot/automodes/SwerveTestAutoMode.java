@@ -34,8 +34,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
         Swerve2022RobotSubsystem robotsys = (Swerve2022RobotSubsystem) ctrl.getRobot().getRobotSubsystem();
         SwerveBaseSubsystem swerve = (SwerveBaseSubsystem) robotsys.getDB();
         GPMSubsystem gpm = robotsys.getGPM() ;
-        MotorEncoderSubsystem wheels1 = gpm.getShooter().getWheel1Subsystem() ;
-        MotorEncoderSubsystem wheels2 = gpm.getShooter().getWheel2Subsystem() ;
+        MotorEncoderSubsystem wheels = gpm.getShooter().getWheelSubsystem() ;
         MotorEncoderSubsystem hood = gpm.getShooter().getHoodSubsystem() ;
         Intake2MotorSubsystem intake = gpm.getIntake() ;
         MotorSubsystem agitator = gpm.getAgitator() ;
@@ -121,8 +120,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
             case 40:
                 //
                 addSubActionPair(conveyor, new MotorPowerAction(conveyor, 0.8), true) ;
-                addSubActionPair(wheels1, new MotorEncoderPowerAction(wheels1, getDouble("power")), false) ;
-                addSubActionPair(wheels2, new MotorEncoderPowerAction(wheels2, getDouble("power")), false) ;
+                addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, getDouble("power")), false) ;
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("duration"))) ;
                 break ;
 

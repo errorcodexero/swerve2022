@@ -11,8 +11,7 @@ import org.xero1425.misc.MessageType;
 
 public class SetShooterAction extends Action {
     private ShooterSubsystem sub_;
-    private MotorEncoderVelocityAction wheel1_action_;
-    private MotorEncoderVelocityAction wheel2_action_;
+    private MotorEncoderVelocityAction wheel_action_;
     private MotorEncoderTrackPositionAction hood_action_;
 
     private static int plot_number_ = 0 ;
@@ -31,8 +30,7 @@ public class SetShooterAction extends Action {
     {
         super(sub.getRobot().getMessageLogger());
         sub_ = sub;
-        wheel1_action_ = new MotorEncoderVelocityAction(sub.getWheel1Subsystem(), "wheels", wheels);
-        wheel2_action_ = new MotorEncoderVelocityAction(sub.getWheel2Subsystem(), "wheels", wheels);
+        wheel_action_ = new MotorEncoderVelocityAction(sub.getWheelSubsystem(), "wheels", wheels);
         hood_action_ = new MotorEncoderTrackPositionAction(sub.getHoodSubsystem(), "hood", hood);
 
         plot_id_ = -1 ;
@@ -82,8 +80,7 @@ public class SetShooterAction extends Action {
     @Override
     public void start() throws Exception{
         super.start();
-        sub_.getWheel1Subsystem().setAction(wheel1_action_, true);
-        sub_.getWheel2Subsystem().setAction(wheel2_action_, true);
+        sub_.getWheelSubsystem().setAction(wheel_action_, true);
         sub_.getHoodSubsystem().setAction(hood_action_, true);
     }
 
@@ -92,24 +89,22 @@ public class SetShooterAction extends Action {
         super.run();
 
         plot_data_[0] = sub_.getRobot().getTime() - plot_start_ ;
-        plot_data_[1] = wheel1_action_.getTarget() ;
-        plot_data_[2] = sub_.getWheel1Subsystem().getVelocity() ;
-        plot_data_[3] = sub_.getWheel2Subsystem().getVelocity() ;
-        plot_data_[4] = hood_action_.getTarget() ;
-        plot_data_[5] = sub_.getHoodSubsystem().getPosition() ;
+        plot_data_[1] = wheel_action_.getTarget() ;
+        plot_data_[2] = sub_.getWheelSubsystem().getVelocity() ;
+        plot_data_[3] = hood_action_.getTarget() ;
+        plot_data_[4] = sub_.getHoodSubsystem().getPosition() ;
         sub_.addPlotData(plot_id_, plot_data_) ;
     }
 
     @Override
     public String toString(int indent) {
-        return spaces(indent) + "SetShooterAction vel " + wheel1_action_.getTarget() + " " +  hood_action_.getTarget() ; 
+        return spaces(indent) + "SetShooterAction vel " + wheel_action_.getTarget() + " " +  hood_action_.getTarget() ; 
     }
 
     @Override
     public void cancel() {
         super.cancel() ;
-        sub_.getWheel1Subsystem().cancelAction();
-        sub_.getWheel2Subsystem().cancelAction();
+        sub_.getWheelSubsystem().cancelAction();
         sub_.getHoodSubsystem().cancelAction() ;
     }
 }
