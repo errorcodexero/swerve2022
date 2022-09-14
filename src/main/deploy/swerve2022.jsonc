@@ -373,7 +373,8 @@
                     },
                     "2": {
                         "type": "talon_fx",
-                        "canid": 27
+                        "canid": 27,
+                        "inverted": true
                     }
                 },
                 "encoder": {
@@ -473,8 +474,8 @@
             "duration" : 5.0
         },
         "40" : {
-            "power" : 1.0,
-            "duration" : 2400
+            "power" : 0.1,
+            "duration" : 5 
         },
         "50" : {
             // Hood move motor test mode

@@ -119,7 +119,6 @@ public class SwerveTestAutoMode extends TestAutoMode {
             //
             case 40:
                 //
-                addSubActionPair(conveyor, new MotorPowerAction(conveyor, 0.8), true) ;
                 addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, getDouble("power")), false) ;
                 addAction(new DelayAction(ctrl.getRobot(), getDouble("duration"))) ;
                 break ;
