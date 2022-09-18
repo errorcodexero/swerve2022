@@ -96,7 +96,11 @@ public class TalonFXMotorController extends MotorController
     /// \brief Return the velocity of the motor from the PID loop running in the controller
     /// \returns the velocity of the motor from the PID loop running in the controller
     public double getVelocity() throws BadMotorRequestException, MotorRequestFailedException {
-        return controller_.getSensorCollection().getIntegratedSensorVelocity() ;
+        double ret = controller_.getSensorCollection().getIntegratedSensorVelocity() ;
+        if (inverted_)
+            ret = -ret ;
+
+        return ret ;
     }
 
     /// \brief Return the current input voltage to the motor controller
@@ -117,7 +121,7 @@ public class TalonFXMotorController extends MotorController
         if (RobotBase.isSimulation())
             return false ;
 
-        return true ;
+        return false ;
     }
 
     /// \brief Set the target if running a PID loop on the motor controller
@@ -190,12 +194,7 @@ public class TalonFXMotorController extends MotorController
     /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
     /// \param factor the factor to convert encoder units to real world units
     public void setVelocityConversion(double factor) throws BadMotorRequestException, MotorRequestFailedException {
-        if (sim_ != null) {
-            //
-            // TODO: simulate the PID loop in the simulation model
-            //
-        }
-        else {
+        if (sim_ == null) {
             ErrorCode code = controller_.configSelectedFeedbackCoefficient(factor, 0, ControllerTimeout) ;
             if (code != ErrorCode.OK)
                 throw new MotorRequestFailedException(this, "CTRE configSelectedFeedbackCoefficient() call failed during setPositionConversion() calls", code) ;

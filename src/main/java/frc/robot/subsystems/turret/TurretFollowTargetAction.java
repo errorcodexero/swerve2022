@@ -98,8 +98,6 @@ public class TurretFollowTargetAction extends MotorAction {
             }
             sub_.setPower(out) ;
 
-            // System.out.println("TURRET desired " + desired_ + ", actual " + sub_.getPosition() + ", output " + out) ;
-
             //
             // Determine if the turret is close enough to the desired position to enable 
             // firing of the balls

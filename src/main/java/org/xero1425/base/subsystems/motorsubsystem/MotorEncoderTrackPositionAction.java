@@ -77,6 +77,7 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
 
         double out = ctrl_.getOutput(target_, sub.getPosition(), t - last_time_) ;
         sub.setPower(out) ;
+
         last_time_ = t ;
 
         error_ = Math.abs(target_ - sub.getPosition()) ;
@@ -113,6 +114,6 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
     /// \brief Returns a human readable string describing the action
     /// \returns a human readable string describing the action
     public String toString(int indent) {
-        return prefix(indent) + "MotorEncoderGotoAction," + getSubsystem().getName() + "," + Double.toString(target_) ;
+        return prefix(indent) + "MotorEncoderTrackPositionAction," + getSubsystem().getName() + "," + Double.toString(target_) ;
     }
 }

@@ -7,6 +7,7 @@ import org.xero1425.base.subsystems.intake2motor.Intake2MotorSubsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderGotoAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderPowerAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderSubsystem;
+import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderTrackPositionAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorPowerAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorSubsystem;
 import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
@@ -36,7 +37,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
         GPMSubsystem gpm = robotsys.getGPM() ;
         MotorEncoderSubsystem wheels = gpm.getShooter().getWheelSubsystem() ;
         MotorEncoderSubsystem hood = gpm.getShooter().getHoodSubsystem() ;
-        // Intake2MotorSubsystem intake = gpm.getIntake() ;
+        Intake2MotorSubsystem intake = gpm.getIntake() ;
         MotorSubsystem agitator = gpm.getAgitator() ;
         ConveyorSubsystem conveyor = gpm.getConveyor(); 
         TurretSubsystem turret = robotsys.getTurret() ;
@@ -87,20 +88,20 @@ public class SwerveTestAutoMode extends TestAutoMode {
             //
             // Intake test modes
             //
-            // case 10:
-            //     addSubActionPair(intake, new IntakePositionPowerAction(intake,  "collect:onpos", "collector:onpower", false, false), false) ;
-            //     addAction(new DelayAction(ctrl.getRobot(), getDouble("duration"))) ;
-            //     addSubActionPair(intake, new IntakePositionPowerAction(intake, "collect:offpos", "collector:offpower", true, true), false) ;
-            //     break ;
+            case 10:
+                addSubActionPair(intake, new IntakePositionPowerAction(intake,  "collect:onpos", "collector:onpower", false, false), false) ;
+                addAction(new DelayAction(ctrl.getRobot(), getDouble("duration"))) ;
+                addSubActionPair(intake, new IntakePositionPowerAction(intake, "collect:offpos", "collector:offpower", true, true), false) ;
+                break ;
 
-            // case 11:
-            //     addSubActionPair(intake, new MotorEncoderPowerAction(intake, getDouble("power"), getDouble("duration")), true);
-            //     break ;
+            case 11:
+                addSubActionPair(intake, new MotorEncoderPowerAction(intake, getDouble("power"), getDouble("duration")), true);
+                break ;
 
-            // case 12:
-            //     addSubActionPair(intake, new MotorEncoderGotoAction(intake, 6000, false), true);
-            //     break ;
-            //
+            case 12:
+                addSubActionPair(intake, new MotorEncoderGotoAction(intake, 6000, false), true);
+                break ;
+            
             // Agitator test modes
             //
             case 20:
@@ -118,9 +119,8 @@ public class SwerveTestAutoMode extends TestAutoMode {
             // Shooter test modes
             //
             case 40:
-                //
-                addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, getDouble("power")), false) ;
-                addAction(new DelayAction(ctrl.getRobot(), getDouble("duration"))) ;
+                //          
+                addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, getDouble("power"), getDouble("duration")), false) ;
                 break ;
 
             case 41:
@@ -153,6 +153,19 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 addSubActionPair(hood, new MotorEncoderPowerAction(hood, getDouble("power"), getDouble("duration")), true) ;
                 break ;
 
+            case 51:
+                addSubActionPair(hood, new MotorEncoderTrackPositionAction(hood, "hoodpos", getDouble("position")), true);
+                break ;
+
+            case 52:
+                addSubActionPair(hood, new MotorEncoderTrackPositionAction(hood, "hoodpos", 100), false);
+                addAction(new DelayAction(getAutoController().getRobot(), 1.00));
+                addSubActionPair(hood, new MotorEncoderTrackPositionAction(hood, "hoodpos", 600), false);
+                addAction(new DelayAction(getAutoController().getRobot(), 1.00));
+                addSubActionPair(hood, new MotorEncoderTrackPositionAction(hood, "hoodpos", 200), false);
+                addAction(new DelayAction(getAutoController().getRobot(), 1.00));
+                break ;
+
             //
             // Turret test modes
             //
@@ -168,15 +181,15 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 addSubActionPair(gpm, new GPMStopCollectAction(gpm), false);                
                 break ;
 
-            // case 81:
-            //     addSubActionPair(gpm, new GPMEjectAction(gpm), false);
-            //     break;     
+            case 81:
+                addSubActionPair(gpm, new GPMEjectAction(gpm), false);
+                break;     
                 
-            // case 82:
-            //     addSubActionPair(gpm, new GPMStartCollectAction(gpm), true); 
-            //     addAction(new DelayAction(ctrl.getRobot(), getDouble("delay")));           
-            //     addSubActionPair(gpm, new GPMEjectAction(gpm), true);
-            //     break; 
+            case 82:
+                addSubActionPair(gpm, new GPMStartCollectAction(gpm), true); 
+                addAction(new DelayAction(ctrl.getRobot(), getDouble("delay")));           
+                addSubActionPair(gpm, new GPMEjectAction(gpm), true);
+                break; 
 
             case 83:
                 addSubActionPair(gpm, new GPMTestShooterAction(gpm), true) ;

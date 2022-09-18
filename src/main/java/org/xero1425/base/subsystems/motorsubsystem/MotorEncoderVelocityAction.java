@@ -104,6 +104,8 @@ public class MotorEncoderVelocityAction extends MotorAction {
     public void setTarget(double target) throws BadMotorRequestException, MotorRequestFailedException {
         target_ = target ;
 
+        System.out.println("Updated target " + target) ;
+
         if (!useSWPID()) {
             //
             // If we are running the loop in the motor controller, commuincate the new target to the

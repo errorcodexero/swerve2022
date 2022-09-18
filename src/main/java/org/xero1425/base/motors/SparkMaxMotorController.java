@@ -85,7 +85,7 @@ public class SparkMaxMotorController extends MotorController
                 controller_ = new CANSparkMax(index, CANSparkMax.MotorType.kBrushed) ;
             }
 
-            controller_.restoreFactoryDefaults() ;
+            // controller_.restoreFactoryDefaults() ;
             code = controller_.enableVoltageCompensation(11.0) ;
             if (code != REVLibError.kOk) {
                 throw new MotorRequestFailedException(this, "enableVoltageCompensation() failed during initialization", code) ;

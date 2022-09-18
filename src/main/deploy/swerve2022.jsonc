@@ -272,7 +272,7 @@
                 "middle" : 2
             },
             "power" : {
-                "collect" : 0.2,
+                "collect" : 0.8,
                 "off" : 0.0,
                 "eject" : -1.0
             },
@@ -362,32 +362,35 @@
                 "wheel-velocity-threshold": 10,
                 "hood-position-threshold": 10
             },
-            "ramprate" : 10
+            "ramprate" : 5
         },
         "shooter-wheel": {
             "hw": {
                 "motors": {
                     "1": {
                         "type": "talon_fx",
-                        "canid": 26
+                        "canid": 26,
+                        "inverted" : true                        
                     },
                     "2": {
                         "type": "talon_fx",
-                        "canid": 27,
-                        "inverted" : true
+                        "canid": 27
                     }
                 },
                 "encoder": {
                     "type": "motor",
-                    "m": 1.25,
+
+                    // These values are not used for scaling the velocity
+                    // value from the shooter.  See the ShooterWheelSubsystem class.
+                    "m": 0.366210938,
                     "b": 0.0
                 }
             },
             "wheels": {
-                "kp": 0.00003,
-                "ki": 0.01,
+                "kp": 0.0001,
+                "ki": 0.0,
                 "kd": 0.0,
-                "kf": 7.5770890869800108049702863317126e-5,
+                "kf": 0.00019,
                 "max": 1.0,
                 "min": -1.0,
                 "imax": 0.0
@@ -397,38 +400,36 @@
             "hw": {
                 "motors": {
                     "type": "sparkmax_brushless",
-                    "canid": 6
+                    "canid": 6,
+                    "neutral_mode" : "coast"
                 },
                 "encoder" : {
                     "type": "analog",
                     "ainput": 1,
-                    "rmin": -180.0,
-                    "rmax": 180.0,
+                    "rmin": -100,
+                    "rmax": 900.0,
                     "emin": 0.0,
                     "emax": 5.0,
-                    "ec": {
-                        "COMPETITION": 0.9009,
-                        "PRACTICE": 0.62133
-                    },
+                    "ec": 3.262939119,
                     "rc": 0.0
                 }
             },
-            "hood": {
-                "kp": 0.10,
+            "hoodpos": {
+                "kp": 0.001,
                 "ki": 0.0,
                 "kd": 0.0,
                 "kf": 0.0,
-                "max": 0.4,
-                "min": -0.4,
+                "max": 1.0,
+                "min": -1.0,
                 "imax": 0.0
             },
-            "maxpos" : 21.5,
-            "minpos" : 1.5
+            "maxpos" : 800.0,
+            "minpos" : 0.0
         }    
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 40,
+        "which" : 83,
         "0" : {
             "angle" : 0.0,
             "power" : 0.2
@@ -470,17 +471,20 @@
             "duration" : 2.0
         },
         "30" : {
-            "power" : 0.2,
+            "power" : 0.5,
             "duration" : 5.0
         },
         "40" : {
-            "power" : 0.1,
-            "duration" : 5 
+            "power" : 0.8,
+            "duration" : 20
         },
         "50" : {
             // Hood move motor test mode
-            "power" : 0.2,
+            "power" : 0.7,
             "duration" : 0.5
+        },
+        "51" : {
+            "position" : 300
         },
         "60" : {
             // Turret move motor test mode

@@ -31,7 +31,7 @@ public class SetShooterAction extends Action {
         super(sub.getRobot().getMessageLogger());
         sub_ = sub;
         wheel_action_ = new MotorEncoderVelocityAction(sub.getWheelSubsystem(), "wheels", wheels);
-        hood_action_ = new MotorEncoderTrackPositionAction(sub.getHoodSubsystem(), "hood", hood);
+        hood_action_ = new MotorEncoderTrackPositionAction(sub.getHoodSubsystem(), "hoodpos", hood);
 
         plot_id_ = -1 ;
         plot_data_ = new Double[7] ;
@@ -44,20 +44,20 @@ public class SetShooterAction extends Action {
 
         String change ="" ;
 
-        // if (wheel_ == Double.NaN || wheel_ != wheel) {
-        //     wheel_action_.setTarget(wheel);
-        //     change += "wheel: " + Double.toString(wheel_) + " --> " + Double.toString(wheel) ;
-        //     wheel_ = wheel ;
-        // }
+        if (wheel_ == Double.NaN || wheel_ != wheel) {
+            wheel_action_.setTarget(wheel);
+            change += "wheel: " + Double.toString(wheel_) + " --> " + Double.toString(wheel) ;
+            wheel_ = wheel ;
+        }
 
-        // if (hood_ == Double.NaN || hood != hood_) {
-        //     hood_action_.setTarget(hood);
-        //     if (change.length() > 0) {
-        //         change += "  " ;
-        //     }
-        //     change += "hood: " + Double.toString(hood_) + " --> " + Double.toString(hood) ;
-        //     hood_ = hood ;
-        // }
+        if (hood_ == Double.NaN || hood != hood_) {
+            hood_action_.setTarget(hood);
+            if (change.length() > 0) {
+                change += "  " ;
+            }
+            change += "hood: " + Double.toString(hood_) + " --> " + Double.toString(hood) ;
+            hood_ = hood ;
+        }
 
         if (change.length() > 0) {
             MessageLogger logger = sub_.getRobot().getMessageLogger();

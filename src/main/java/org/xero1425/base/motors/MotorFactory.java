@@ -80,6 +80,15 @@ public class MotorFactory {
                 while (true) {
                     String motorid = id + ":" + Integer.toString(currentIndex);
 
+                    if (currentIndex > 1 && !settings_.isDefined(motorid)) {
+                        //
+                        // For multiple motors in a motor group, if the next motor index does not
+                        // exist in the settings file, we are done parsing motors.  Break out of 
+                        // the loop.
+                        //
+                        break ;
+                    }
+
                     //
                     // Create a new motor with the index given by currentIndex.  This means under the motors information
                     // with the name given by 'name' there will be a set of child nodes numbered from 1 - N if there are
@@ -171,11 +180,13 @@ public class MotorFactory {
         boolean hastype = settings_.isDefined(idparam) && settings_.getOrNull(idparam).isString();
 
         if (!hasid) {
-            errorMessage(id, "missing motor id, cannot create motor");
+            String msg = "missing motor id '" + idparam + "' - cannot create motor" ;
+            errorMessage(id, msg) ;
             return null;
         }
 
         if (!hastype) {
+            String msg = "missing motor id '" + idparam + "' - cannot create motor" ;
             errorMessage(id, "missing motor type, cannot create motor");
             return null;
         }

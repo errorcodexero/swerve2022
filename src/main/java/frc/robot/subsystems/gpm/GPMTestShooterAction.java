@@ -1,6 +1,7 @@
 package frc.robot.subsystems.gpm;
 
 import org.xero1425.base.actions.Action;
+import org.xero1425.base.misc.XeroTimer;
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.base.subsystems.intake2motor.IntakePositionPowerAction;
@@ -29,9 +30,9 @@ public class GPMTestShooterAction  extends Action {
     private IntakePositionPowerAction intake_down_ ;
     private IntakePowerPowerAction intake_stay_on_action_ ;
 
-    private MotorPowerAction agitator_on_action_ ;
-
     private ConveyorTestShootAction conveyor_test_shoot_action_ ;
+
+    private XeroTimer plot_timer_ ;
 
     private SetShooterAction fire_ ;
 
@@ -39,6 +40,8 @@ public class GPMTestShooterAction  extends Action {
     private double hood_angle_ ;
 
     private State state_ ;
+
+    private boolean plotting_ ;
 
     public GPMTestShooterAction(GPMSubsystem sub) throws Exception {
         super(sub.getRobot().getMessageLogger()) ;
@@ -48,12 +51,13 @@ public class GPMTestShooterAction  extends Action {
         velocity_widget_ = makeWidget("shooter") ;
         hood_angle_widget_ = makeWidget("hood") ;
 
-        intake_down_ = new IntakePositionPowerAction(sub_.getIntake(), "collect:onpos", "collector:onpower", false, false) ;
-        intake_stay_on_action_ = new IntakePowerPowerAction(sub_.getIntake(), "collect:onpower", "collector:onpower") ;
-
-        agitator_on_action_ = new MotorPowerAction(sub_.getAgitator(), sub_.getAgitator().getSettingsValue("forwardpower").getDouble());
+        intake_down_ = new IntakePositionPowerAction(sub_.getIntake(), "collect:onpos", "collector:offpower", false, false) ;
+        intake_stay_on_action_ = new IntakePowerPowerAction(sub_.getIntake(), "collect:onpower", "collector:offpower") ;
 
         conveyor_test_shoot_action_ = new ConveyorTestShootAction(sub_.getConveyor()) ;
+
+        plot_timer_ = new XeroTimer(sub.getRobot(), "shoottimer", 10.0) ;
+        plotting_ = false ;
 
         fire_ = new SetShooterAction(sub_.getShooter(), 0.0, 90.0) ;
 
@@ -68,7 +72,7 @@ public class GPMTestShooterAction  extends Action {
 
         state_ = State.IntakeDown ;
         sub_.getIntake().setAction(intake_down_, true) ;
-        sub_.getAgitator().setAction(agitator_on_action_, true) ;
+        // sub_.getAgitator().setAction(agitator_on_action_, true) ;
     }
 
     @Override
@@ -111,6 +115,7 @@ public class GPMTestShooterAction  extends Action {
         if (sub_.getIntake().getAction() == null || intake_down_.isDone()) {
             sub_.getConveyor().setAction(conveyor_test_shoot_action_, true);
             sub_.getIntake().setAction(intake_stay_on_action_, true) ;
+            sub_.getShooter().setAction(fire_, true) ;
             state_ = State.Shooting ;
         }
     }
@@ -118,6 +123,20 @@ public class GPMTestShooterAction  extends Action {
     private void shootingProc() throws BadMotorRequestException, MotorRequestFailedException {
         shooter_velocity_ = velocity_widget_.getEntry().getDouble(shooter_velocity_) ;
         hood_angle_ = hood_angle_widget_.getEntry().getDouble(hood_angle_) ;
+
+        if (plotting_) {
+            if (plot_timer_.isExpired()) {
+                fire_.stopPlot();
+                plotting_ = false ;
+            }
+        }
+        else {
+            if (sub_.getConveyor().shooterValue()) {
+                fire_.startPlot() ;
+                plot_timer_.start() ;
+                plotting_ = true ;
+            }
+        }
 
         fire_.update(shooter_velocity_, hood_angle_) ;
     }

@@ -130,6 +130,7 @@ public class MotorGroupController extends MotorController
         if (motors_.size() == 0)
             throw new BadMotorRequestException(this, "request made to empty MotorGroupController") ;
 
+        System.out.println("Group Controller - set Velocity Conversion " + factor) ;
         motors_.get(0).setVelocityConversion(factor);
     }
 

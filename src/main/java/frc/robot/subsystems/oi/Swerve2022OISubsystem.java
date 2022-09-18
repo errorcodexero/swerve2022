@@ -39,8 +39,8 @@ public class Swerve2022OISubsystem extends OISubsystem {
 
         if (index != -1) {
             try {
-                oipanel_ = new Swerve2022OIDevice(this, "OI", index) ;
-                addHIDDevice(oipanel_) ;
+                // oipanel_ = new Swerve2022OIDevice(this, "OI", index) ;
+                // addHIDDevice(oipanel_) ;
             }
             catch(Exception ex) {
                 logger.startMessage(MessageType.Error) ;
