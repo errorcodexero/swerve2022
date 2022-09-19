@@ -119,20 +119,6 @@ public class RomiMotorController extends MotorController {
         throw new BadMotorRequestException(this, "the 'Romi' motor does not support the follow() capability") ;
     }
 
-    /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
-    /// \param factor the factor to convert encoder units to real world units        
-    /// \throws BadMotorRequestException always since PID loops are not supported on the Romi controller       
-    public void setPositionConversion(double factor) throws BadMotorRequestException {
-        throw new BadMotorRequestException(this, "the 'Romi' motor does not support the setPositionConversion() capability") ;
-    }
-
-    /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
-    /// \param factor the factor to convert encoder units to real world units       
-    /// \throws BadMotorRequestException always since PID loops are not supported on the Romi controller     
-    public void setVelocityConversion(double factor) throws BadMotorRequestException {
-        throw new BadMotorRequestException(this, "the 'Romi' motor does not support the setVelocityConversion() capability") ;
-    }
-
     /// \brief Return the firmware version of the motor controller
     /// \returns the firmware version of the motor controller     
     public String getFirmwareVersion() throws BadMotorRequestException {

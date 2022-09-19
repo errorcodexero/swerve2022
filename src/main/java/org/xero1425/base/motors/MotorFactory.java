@@ -170,24 +170,24 @@ public class MotorFactory {
     //
     private MotorController createSingleMotor(String name, String id, boolean leader) throws BadParameterTypeException, BadMotorRequestException, MotorRequestFailedException {
             
-        String idparam = id + ":type";                  // This parameter holds the type of the motor
+        String typeparam = id + ":type";                  // This parameter holds the type of the motor
         String canparam = id + ":canid";                // This parameter holds the CAN id of the motor
 
         // Test to see if the motor has a CAN id
         boolean hasid = settings_.isDefined(canparam) && settings_.getOrNull(canparam).isInteger();
 
         // Test to see if the motor has a type
-        boolean hastype = settings_.isDefined(idparam) && settings_.getOrNull(idparam).isString();
+        boolean hastype = settings_.isDefined(typeparam) && settings_.getOrNull(typeparam).isString();
 
         if (!hasid) {
-            String msg = "missing motor id '" + idparam + "' - cannot create motor" ;
+            String msg = "missing motor id '" + canparam + "' - cannot create motor" ;
             errorMessage(id, msg) ;
             return null;
         }
 
         if (!hastype) {
-            String msg = "missing motor id '" + idparam + "' - cannot create motor" ;
-            errorMessage(id, "missing motor type, cannot create motor");
+            String msg = "missing motor type '" + typeparam + "' - cannot create motor" ;
+            errorMessage(id, msg);
             return null;
         }
 
@@ -207,7 +207,7 @@ public class MotorFactory {
         //
         // Get the motor type from the settings file
         //
-        String type = settings_.getOrNull(idparam).getString();
+        String type = settings_.getOrNull(canparam).getString();
         MotorController ctrl = null;
 
         //

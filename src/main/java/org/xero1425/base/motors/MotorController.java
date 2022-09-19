@@ -117,14 +117,6 @@ public abstract class MotorController
     /// \brief Stop the PID loop in the motor controller
     public abstract void stopPID() throws BadMotorRequestException , MotorRequestFailedException ;
 
-    /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
-    /// \param factor the factor to convert encoder units to real world units
-    public abstract void setPositionConversion(double factor) throws BadMotorRequestException , MotorRequestFailedException ;
-
-    /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
-    /// \param factor the factor to convert encoder units to real world units    
-    public abstract void setVelocityConversion(double factor) throws BadMotorRequestException , MotorRequestFailedException ;
-
     /// \brief Return the firmware version of the motor controller
     /// \returns the firmware version of the motor controller
     public abstract String getFirmwareVersion() throws BadMotorRequestException ;
@@ -145,8 +137,8 @@ public abstract class MotorController
         return false ;
     }
 
-    /// \brief Returns the position of the motor in motor units.  If the setPositionConversion() has been called
-    /// then these units will be based on the factor supplied.  Otherwise these units are in encoder ticks.
+    /// \brief Returns the position of the motor in motor units from the motor controller.  If the motor does not
+    /// have an attached encoder, an exception is thrown.
     /// \returns the position of the motor in motor units
     public double getPosition() throws BadMotorRequestException {
         throw new BadMotorRequestException(this, "motor does not support getPosition()") ;
@@ -167,5 +159,11 @@ public abstract class MotorController
     /// \param ramptime the amount of time for the motor to ramp from no power to full power
     public void setOpenLoopRampRate(double ramptime) throws BadMotorRequestException {
         throw new BadMotorRequestException(this, "motor does not support setOpenLoopRampRate()") ;    
+    }
+
+    /// \brief Returns the number of ticks per revolution for the motor if it has an embedded encoder
+    /// \returns the number of ticks per revolution for the motor if it has an embedded encoder
+    public double TicksPerRevolution() throws BadMotorRequestException {
+        throw new BadMotorRequestException(this, "this motor does not support an embedded encoder")  ;
     }
 }

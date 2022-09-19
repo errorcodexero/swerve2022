@@ -393,7 +393,9 @@
                 "kf": 0.00019,
                 "max": 1.0,
                 "min": -1.0,
-                "imax": 0.0
+                "imax": 0.0,
+                "use-sw" : false,
+                "plot-duration" : 15.0
             }
         },
         "shooter-hood": {

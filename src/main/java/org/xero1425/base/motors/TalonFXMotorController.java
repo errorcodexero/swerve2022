@@ -25,6 +25,8 @@ import edu.wpi.first.wpilibj.RobotBase;
 /// MotorController base class.
 public class TalonFXMotorController extends MotorController
 {
+    private final static double TicksPerRevolutionValue = 2048.0 ;
+
     private TalonFX controller_ ;                       // The base motor controller object
     private boolean inverted_ ;                         // If true, the motor is inverted
     private PidType type_ ;                             // For a PID in the controller, the type of PID (position vs velocity)
@@ -93,15 +95,6 @@ public class TalonFXMotorController extends MotorController
         }
     }
 
-    /// \brief Return the velocity of the motor from the PID loop running in the controller
-    /// \returns the velocity of the motor from the PID loop running in the controller
-    public double getVelocity() throws BadMotorRequestException, MotorRequestFailedException {
-        double ret = controller_.getSensorCollection().getIntegratedSensorVelocity() ;
-        if (inverted_)
-            ret = -ret ;
-
-        return ret ;
-    }
 
     /// \brief Return the current input voltage to the motor controller
     /// \returns the current input voltage to the motor controller
@@ -121,7 +114,7 @@ public class TalonFXMotorController extends MotorController
         if (RobotBase.isSimulation())
             return false ;
 
-        return false ;
+        return true ;
     }
 
     /// \brief Set the target if running a PID loop on the motor controller
@@ -147,9 +140,6 @@ public class TalonFXMotorController extends MotorController
     public void setPID(PidType type, double p, double i, double d, double f, double outmax) throws BadMotorRequestException, MotorRequestFailedException {
 
         if (sim_ != null) {
-            //
-            // TODO: simulate the PID loop in the simulation model
-            //
         }
         else {
             ErrorCode code ;
@@ -181,24 +171,6 @@ public class TalonFXMotorController extends MotorController
     /// \brief Stop the PID loop in the motor controller
     public void stopPID() throws BadMotorRequestException {
         controller_.set(ControlMode.PercentOutput, 0.0) ;
-    }
-
-    /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
-    /// \param factor the factor to convert encoder units to real world units
-    public void setPositionConversion(double factor) throws BadMotorRequestException, MotorRequestFailedException {
-        ErrorCode code = controller_.configSelectedFeedbackCoefficient(factor, 0, ControllerTimeout) ;
-        if (code != ErrorCode.OK)
-            throw new MotorRequestFailedException(this, "CTRE configSelectedFeedbackCoefficient() call failed during setPositionConversion() calls", code) ;
-    }
-
-    /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
-    /// \param factor the factor to convert encoder units to real world units
-    public void setVelocityConversion(double factor) throws BadMotorRequestException, MotorRequestFailedException {
-        if (sim_ == null) {
-            ErrorCode code = controller_.configSelectedFeedbackCoefficient(factor, 0, ControllerTimeout) ;
-            if (code != ErrorCode.OK)
-                throw new MotorRequestFailedException(this, "CTRE configSelectedFeedbackCoefficient() call failed during setPositionConversion() calls", code) ;
-        }
     }
 
     /// \brief Set the motor power
@@ -308,9 +280,18 @@ public class TalonFXMotorController extends MotorController
     public boolean hasPosition() {
         return true ;
     }
+    
+    /// \brief Return the velocity of the motor from the PID loop running in the controller
+    /// \returns the velocity of the motor from the PID loop running in the controller
+    public double getVelocity() throws BadMotorRequestException, MotorRequestFailedException {
+        double ret = controller_.getSelectedSensorVelocity() ;
+        if (inverted_)
+            ret = -ret ;
 
-    /// \brief Returns the position of the motor in motor units.  If the setPositionConversion() has been called
-    /// then these units will be based on the factor supplied.  Otherwise these units are in encoder ticks.
+        return ret ;
+    }
+
+    /// \brief Returns the position of the motor in motor units.
     /// \returns the position of the motor in motor units
     public double getPosition() throws BadMotorRequestException {
         double ret = 0 ;
@@ -320,10 +301,16 @@ public class TalonFXMotorController extends MotorController
         }
         else {
             TalonFX fx = (TalonFX)controller_ ;
-            ret = fx.getSelectedSensorPosition() ;
+            ret = fx.getSelectedSensorVelocity() ;
         }
 
         return ret ;
+    }
+
+    /// \brief Returns the number of ticks per revolution for the motor if it has an embedded encoder
+    /// \returns the number of ticks per revolution for the motor if it has an embedded encoder
+    public double TicksPerRevolution() throws BadMotorRequestException {
+        return TicksPerRevolutionValue ;
     }
 
     /// \brief Reset the encoder values to zero

@@ -73,6 +73,18 @@ public class XeroEncoder {
         return result ;
     }
 
+    public boolean isMotorEncoder() {
+        return motor_ != null ;
+    }
+
+    public double getB() {
+        return quad_b_ ;
+    }
+
+    public double getM() {
+        return quad_m_ ;
+    }
+
     /// \brief get the real world position for the encoder
     /// \returns the real world position for the encoder
     public double getPosition() {
@@ -101,6 +113,25 @@ public class XeroEncoder {
         }
 
         return result;
+    }
+
+    public double mapMotorToEncoder(double value) {
+        double result = 0.0 ;
+
+        if (motor_ != null) {
+            result = value * quad_m_ + quad_b_;
+        }
+        else if (quad_ != null) {
+            result = value * quad_m_ + quad_b_ ;
+        }
+        else if (analog_ != null) {
+            result = mapper_.toRobot(value) ;
+        }
+        else if (pwm_ != null) {
+            result = mapper_.toRobot(value) ;
+        }
+
+        return result ;
     }
 
     /// \brief reset the encoder values to zero at the current position

@@ -28,6 +28,32 @@ public class MotorEncoderSubsystem extends MotorSubsystem
     /// \param parent the owning subsystem
     /// \param name the name of this subsystem
     /// \param angle if true, the measured output is angular
+    /// \param velconv the velocity conversion if using the velocity from the motor controller
+    public MotorEncoderSubsystem(Subsystem parent, String name, boolean angle, boolean usectrlvel) throws Exception {
+        super(parent, name) ;
+
+        speedometer_ = new Speedometer(name, 2, angle) ;
+        angular_ = angle ;
+
+        use_ctrl_velocity_ = false ;
+
+        String encname = "subsystems:" + name + ":hw:encoder" ;
+        encoder_ = new XeroEncoder(parent.getRobot(), encname, angle, getMotorController()) ;
+
+        if (usectrlvel) {
+            if (!encoder_.isMotorEncoder()) {
+                String msg = "motor '" + name + "', you can only use the velocity from the motor if the encoder is in the motor" ;
+                throw new Exception(msg) ;
+            }
+
+            use_ctrl_velocity_ = true ;
+        }
+    }
+
+    /// \brief Create the subsystem
+    /// \param parent the owning subsystem
+    /// \param name the name of this subsystem
+    /// \param angle if true, the measured output is angular
     public MotorEncoderSubsystem(Subsystem parent, String name, boolean angle) throws Exception {
         super(parent, name) ;
 
@@ -38,6 +64,27 @@ public class MotorEncoderSubsystem extends MotorSubsystem
 
         String encname = "subsystems:" + name + ":hw:encoder" ;
         encoder_ = new XeroEncoder(parent.getRobot(), encname, angle, getMotorController()) ;
+
+        use_ctrl_velocity_ = false ;
+    }    
+
+    /// \brief Create the subsystem
+    /// \param parent the owning subsystem
+    /// \param name the name of this subsystem
+    /// \param angle if true, the measured output is angular
+    /// \param samples the number of samples to average for output position and velocity
+    public MotorEncoderSubsystem(Subsystem parent, String name, boolean angle, int samples, boolean usectrlvel) throws Exception {
+        super(parent, name) ;
+
+        speedometer_ = new Speedometer(name, samples, angle) ;
+        angular_ = angle ;
+
+        String encname = "subsystems:" + name + ":hw:encoder" ;
+        encoder_ = new XeroEncoder(parent.getRobot(), encname, angle, getMotorController()) ;
+
+        if (usectrlvel) {
+            use_ctrl_velocity_ = true ;
+        }
     }
 
     /// \brief Create the subsystem
@@ -53,6 +100,8 @@ public class MotorEncoderSubsystem extends MotorSubsystem
 
         String encname = "subsystems:" + name + ":hw:encoder" ;
         encoder_ = new XeroEncoder(parent.getRobot(), encname, angle, getMotorController()) ;
+
+        use_ctrl_velocity_ = false ;
     }
 
     /// \brief Returns true if the motor has a hardware PID loop in the motor controller
@@ -68,21 +117,6 @@ public class MotorEncoderSubsystem extends MotorSubsystem
         }
 
         return ret;
-    }
-
-    /// \brief Set the position conversion factor in the motor controller
-    /// This only applies when running the PID loop on the motor controller
-    /// \param factor the factor to multiple by the encoder ticks to get real world position
-    public void setPositionConversion(double factor) throws BadMotorRequestException, MotorRequestFailedException {
-        getMotorController().setPositionConversion(factor);
-    }
-
-    /// \brief Set the velocity conversion factor in the motor controller
-    /// This only applies when running the PID loop on the motor controller    
-    /// \param factor the factor to multiply the encoder ticks rate by to get real world velocity
-    public void setVelocityConversion(double factor) throws BadMotorRequestException, MotorRequestFailedException {
-        getMotorController().setVelocityConversion(factor);
-        use_ctrl_velocity_ = true ;
     }
 
     /// \brief Returns true if measuring an angular quantity
@@ -104,7 +138,7 @@ public class MotorEncoderSubsystem extends MotorSubsystem
 
         if (use_ctrl_velocity_) {
             try {
-                ret = getMotorController().getVelocity() ;
+                ret = encoder_.mapMotorToEncoder(getMotorController().getVelocity()) ;
             } catch (BadMotorRequestException | MotorRequestFailedException e) {
                 ret = 0.0 ;
             }
@@ -119,7 +153,13 @@ public class MotorEncoderSubsystem extends MotorSubsystem
     /// \brief Returns the acceleration of the motor output, as measured by the speedometer
     /// \returns the acceleration of the motor output, as measured by the speedometer     
     public double getAcceleration() {
-        return speedometer_.getAcceleration() ;
+        double ret = 0.0 ;
+
+        if (!use_ctrl_velocity_) {
+            ret = speedometer_.getAcceleration() ;
+        }
+
+        return ret ;
     }
 
     /// \brief Calibrates the motor encoder with the given position

@@ -1,5 +1,6 @@
 package org.xero1425.base.subsystems.motorsubsystem;
 
+import org.xero1425.base.misc.XeroTimer;
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.base.motors.MotorController.PidType;
@@ -39,6 +40,12 @@ public class MotorEncoderVelocityAction extends MotorAction {
     // For the PID control into software vs motor controller
     private boolean forcesw_ ;
 
+    // The duration of the plot request
+    private double plot_duration_ ;
+
+    // The timer for the plot
+    private XeroTimer plot_timer_ ;
+
     // The columns to plot
     private static String [] columns_ = { "time", "target(rpm)", "actual(rpm)"}  ;
 
@@ -51,12 +58,16 @@ public class MotorEncoderVelocityAction extends MotorAction {
 
         super(sub);
 
+        ISettingsSupplier settings = sub.getRobot().getSettingsSupplier() ;
+
         name_ = name ;
         target_ = target;
-        forcesw_ = true ;
+
+        String pidname = "subsystems:" + sub.getName() + ":" + name_ ;
+        forcesw_ = settings.get(pidname + ":use-sw").getBoolean() ;
 
         if (useSWPID()) {
-            pid_ = new PIDCtrl(sub.getRobot().getSettingsSupplier(), "subsystems:" + sub.getName() + ":" + name_, false);
+            pid_ = new PIDCtrl(settings, pidname, false);
         } else {
             MessageLogger logger = sub.getRobot().getMessageLogger() ;
             logger.startMessage(MessageType.Info) ;
@@ -66,18 +77,28 @@ public class MotorEncoderVelocityAction extends MotorAction {
         }
             
         plot_id_ = sub.initPlot(toString(0) + "-" + String.valueOf(which_++)) ;     
+
+        plot_duration_ = 10.0 ;
+        if (settings.isDefined(pidname + ":plot-duration")) {
+            plot_duration_ = settings.get(pidname + ":plot-duration").getDouble() ;
+        }
+        plot_timer_ = new XeroTimer(sub.getRobot(), "velocity-action-plot", plot_duration_) ;
     }
 
     /// \brief Create a new MotorEncoderVelocityAction
     /// \param sub the target MotorEncoderSubsystem
     /// \param target a string with the name of the target velocity in settings file
-    public MotorEncoderVelocityAction(MotorEncoderSubsystem sub, String target) throws BadParameterTypeException, MissingParameterException, BadMotorRequestException, MotorRequestFailedException {
+    public MotorEncoderVelocityAction(MotorEncoderSubsystem sub, String name, String target) throws BadParameterTypeException, MissingParameterException, BadMotorRequestException, MotorRequestFailedException {
         super(sub) ;
 
+        ISettingsSupplier settings = sub.getRobot().getSettingsSupplier() ;
+        String pidname = "subsystems:" + sub.getName() + ":" + name_ ;
+
         target_ = getSubsystem().getSettingsValue(target).getDouble() ;
+        forcesw_ = settings.get(pidname + ":use-sw").getBoolean() ;
 
         if (useSWPID()) {
-            pid_ = new PIDCtrl(getSubsystem().getRobot().getSettingsSupplier(), "subsystems:" + sub.getName() + ":" + name_, false);
+            pid_ = new PIDCtrl(getSubsystem().getRobot().getSettingsSupplier(), pidname, false);
         } else {
             MessageLogger logger = sub.getRobot().getMessageLogger() ;
             logger.startMessage(MessageType.Info) ;
@@ -86,7 +107,13 @@ public class MotorEncoderVelocityAction extends MotorAction {
             pid_ = null ;
         }
 
-        plot_id_ = - 1 ;
+        plot_id_ = sub.initPlot(toString(0) + "-" + String.valueOf(which_++)) ;   
+
+        plot_duration_ = 10.0 ;
+        if (settings.isDefined(pidname + ":plot-duration")) {
+            plot_duration_ = settings.get(pidname + ":plot-duration").getDouble() ;
+        }
+        plot_timer_ = new XeroTimer(sub.getRobot(), "velocity-action-plot", plot_duration_) ;        
     }
 
     public double getError() {
@@ -103,8 +130,6 @@ public class MotorEncoderVelocityAction extends MotorAction {
     /// \param target the target velocity desired
     public void setTarget(double target) throws BadMotorRequestException, MotorRequestFailedException {
         target_ = target ;
-
-        System.out.println("Updated target " + target) ;
 
         if (!useSWPID()) {
             //
@@ -126,8 +151,10 @@ public class MotorEncoderVelocityAction extends MotorAction {
     public void start() throws Exception {
         super.start() ;
 
-        if (plot_id_ != -1)
+        if (plot_id_ != -1) {
             getSubsystem().startPlot(plot_id_, columns_) ;
+            plot_timer_.start() ;
+        }
 
         start_ = getSubsystem().getRobot().getTime() ;
         if (!useSWPID()) {
@@ -146,6 +173,9 @@ public class MotorEncoderVelocityAction extends MotorAction {
             getSubsystem().getMotorController().setTarget(target_) ;
         }
         else {
+            //
+            // Software based PID controller, running on the RoboRio.  Reset any internal state.
+            //
             pid_.reset() ;
         }
     }
@@ -162,7 +192,6 @@ public class MotorEncoderVelocityAction extends MotorAction {
             // Running the PID loop in the RoboRio, do the calculations
             //
             error_ = Math.abs(target_ - me.getVelocity()) ;
-
             double out = pid_.getOutput(target_, me.getVelocity(), getSubsystem().getRobot().getDeltaTime()) ;
             getSubsystem().setPower(out) ;
         }
@@ -180,8 +209,7 @@ public class MotorEncoderVelocityAction extends MotorAction {
             data[2] = me.getVelocity() ;
             getSubsystem().addPlotData(plot_id_, data);
 
-            if (getSubsystem().getRobot().getTime() - start_ > 15.0)
-            {
+            if (plot_timer_.isExpired()) {
                 getSubsystem().endPlot(plot_id_) ;
                 plot_id_ = -1 ;
             }

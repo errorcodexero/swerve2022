@@ -6,7 +6,6 @@ import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.base.subsystems.intake2motor.IntakePositionPowerAction;
 import org.xero1425.base.subsystems.intake2motor.IntakePowerPowerAction;
-import org.xero1425.base.subsystems.motorsubsystem.MotorPowerAction;
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
 

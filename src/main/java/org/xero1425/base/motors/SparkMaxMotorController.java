@@ -19,6 +19,13 @@ import edu.wpi.first.wpilibj.RobotBase;
 /// MotorController base class.  This class supports both brushless and brushed motors.
 public class SparkMaxMotorController extends MotorController
 {
+    /// \brief A constant that gives the number of ticks per revolution for brushless motors
+    private final static int TicksPerRevolutionValue = 42 ;
+    private final static double SecondsPerMinuts = 60.0 ;
+    private final static double T100msPerSecond = 10.0 ;
+
+    private static double RPM2TicksPer100MS = TicksPerRevolutionValue / SecondsPerMinuts / T100msPerSecond ;
+
     private CANSparkMax controller_ ;
     private RelativeEncoder encoder_ ;
     private boolean inverted_ ;
@@ -38,8 +45,7 @@ public class SparkMaxMotorController extends MotorController
     /// \brief The device name in simulation for a brushless motor    
     public final static String SimDeviceNameBrushless = "SparkMaxBrushless" ;
 
-    /// \brief A constant that gives the number of ticks per revolution for brushless motors
-    public final static int TicksPerRevolution = 42 ;
+
 
     /// \brief Create a new SparkMax Motor Controller.
     /// \param name the name of this motor
@@ -93,22 +99,26 @@ public class SparkMaxMotorController extends MotorController
 
             if (leader) {
                 code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 100) ;
+                if (code != REVLibError.kOk) {
+                    throw new MotorRequestFailedException(this, "Failed to set periodic status frame 0 rate", code) ;
+                }
             }
             else {
                 code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 20) ;                
+                if (code != REVLibError.kOk) {
+                    throw new MotorRequestFailedException(this, "Failed to set periodic status frame 0 rate", code) ;
+                }
             }
-            
+
+            code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 1000) ;
             if (code != REVLibError.kOk) {
                 throw new MotorRequestFailedException(this, "Failed to set periodic status frame 0 rate", code) ;
-            }
+            }            
 
             encoder_ = controller_.getEncoder() ;
         }
     }
 
-    public double getVelocity() throws BadMotorRequestException, MotorRequestFailedException {
-        return encoder_.getVelocity() ;
-    }
 
     /// \brief Return the current input voltage to the motor controller
     /// \returns the current input voltage to the motor controller    
@@ -197,22 +207,6 @@ public class SparkMaxMotorController extends MotorController
     /// \brief Stop the PID loop in the motor controller      
     public void stopPID() throws BadMotorRequestException {
         set(0.0) ;   
-    }
-
-    /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
-    /// \param factor the factor to convert encoder units to real world units    
-    public void setPositionConversion(double factor) throws BadMotorRequestException {
-        if (!RobotBase.isSimulation()) {
-            encoder_.setPositionConversionFactor(factor) ;
-        }
-    }
-
-    /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
-    /// \param factor the factor to convert encoder units to real world units     
-    public void setVelocityConversion(double factor) throws BadMotorRequestException {
-        if (!RobotBase.isSimulation()) {
-            encoder_.setVelocityConversionFactor(factor) ;
-        }
     }
 
     /// \brief Set the motor power
@@ -323,10 +317,29 @@ public class SparkMaxMotorController extends MotorController
     public boolean hasPosition() {
         return brushless_ ;
     }
+    
+    /// \brief Returns the velocity of the motor in ticks per 100 ms.
+    /// \returns the velocity of the motor in ticks per 100 ms    
+    public double getVelocity() throws BadMotorRequestException, MotorRequestFailedException {
 
-    /// \brief Returns the position of the motor in motor units.  If the setPositionConversion() has been called
-    /// then these units will be based on the factor supplied.  Otherwise these units are in encoder ticks.
-    /// \returns the position of the motor in motor units        
+        double ret = 0.0 ;
+
+        if (sim_ != null) {
+            throw new BadMotorRequestException(this, "cannot use velocity from the motor controller when simulating") ;
+        }
+        else {
+            //
+            // This comes from the motor in RPMs.  We multiply by this conversion factor to return 
+            // velocity in ticks per 100 ms just like the TalonFX motors.
+            //
+            ret = encoder_.getVelocity() * RPM2TicksPer100MS ;
+        }
+
+        return ret ;
+    }
+
+    /// \brief Returns the position of the motor in encoder ticks
+    /// \returns the position of the motor in encoder ticks
     public double getPosition() throws BadMotorRequestException {
         double ret = 0 ;
 
@@ -334,12 +347,18 @@ public class SparkMaxMotorController extends MotorController
             throw new BadMotorRequestException(this, "brushed motor does not support getPosition()") ;
 
         if (sim_ != null) {
-            ret = sim_encoder_.get() * (double)TicksPerRevolution ;
+            throw new BadMotorRequestException(this, "cannot use velocity from the motor controller when simulating") ;
         } else {
-            ret = encoder_.getPosition() * TicksPerRevolution ;
+            ret = encoder_.getPosition() * TicksPerRevolutionValue ;
         }
 
         return ret ;
+    }
+
+    /// \brief Returns the number of ticks per revolution for the motor if it has an embedded encoder
+    /// \returns the number of ticks per revolution for the motor if it has an embedded encoder
+    public double TicksPerRevolution() throws BadMotorRequestException {
+        return TicksPerRevolutionValue ;
     }
 
     /// \brief Reset the encoder values to zero

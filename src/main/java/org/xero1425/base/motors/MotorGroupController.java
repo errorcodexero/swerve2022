@@ -115,25 +115,6 @@ public class MotorGroupController extends MotorController
         motors_.get(0).stopPID() ;
     }
 
-    /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
-    /// \param factor the factor to convert encoder units to real world units       
-    public void setPositionConversion(double factor) throws BadMotorRequestException, MotorRequestFailedException {
-        if (motors_.size() == 0)
-            throw new BadMotorRequestException(this, "request made to empty MotorGroupController") ;
-
-        motors_.get(0).setPositionConversion(factor);
-    }
-
-    /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
-    /// \param factor the factor to convert encoder units to real world units        
-    public void setVelocityConversion(double factor) throws BadMotorRequestException, MotorRequestFailedException {
-        if (motors_.size() == 0)
-            throw new BadMotorRequestException(this, "request made to empty MotorGroupController") ;
-
-        System.out.println("Group Controller - set Velocity Conversion " + factor) ;
-        motors_.get(0).setVelocityConversion(factor);
-    }
-
     /// \brief Set the motor power
     /// \param percent the motor power to assign to the motor      
     public void set(double percent) throws BadMotorRequestException, MotorRequestFailedException {
@@ -207,9 +188,7 @@ public class MotorGroupController extends MotorController
         return motors_.get(0).hasPosition() ;
     }
 
-    /// \brief Returns the position of the motor in motor units.  If the setPositionConversion() has been called
-    /// then these units will be based on the factor supplied.  Otherwise these units are in encoder ticks.
-    /// \returns the position of the motor in motor units        
+    /// \brief Returns the position of the motor in motor units.
     public double getPosition() throws BadMotorRequestException {
         if (motors_.size() == 0)
             throw new BadMotorRequestException(this, "request made to empty MotorGroupController") ;

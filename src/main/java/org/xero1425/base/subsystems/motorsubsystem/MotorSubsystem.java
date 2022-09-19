@@ -5,6 +5,7 @@ import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.motors.MotorController;
+import org.xero1425.base.motors.MotorGroupController;
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
 import org.xero1425.misc.SettingsValue;
@@ -99,10 +100,19 @@ public class MotorSubsystem extends Subsystem
         return power_ ;
     }
 
-    /// \brief Returns the motor controller object for this subsystem
+    /// \brief Returns the motor controller object for this subsystem.  If the controller is a group
+    /// controller, the first motor (the leader) in the group is returned.  It is guarenteed that a
+    /// real motor controller is returned.
     /// \returns the motor controller object for this subsystem.
     public MotorController getMotorController() {
-        return controller_ ;
+        MotorController ret = controller_ ;
+
+        if (controller_ instanceof MotorGroupController) {
+            MotorGroupController group = (MotorGroupController)controller_ ;
+            ret = group.getMotor(0) ;
+        }
+
+        return ret ;
     }
 
     /// \brief set the power for the motor

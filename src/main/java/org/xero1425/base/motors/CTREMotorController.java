@@ -152,22 +152,6 @@ public class CTREMotorController extends MotorController
         throw new BadMotorRequestException(this, "PID control not implemented");   
     }
 
-    /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
-    /// \param factor the factor to convert encoder units to real world units      
-    public void setPositionConversion(double factor) throws BadMotorRequestException, MotorRequestFailedException {
-        ErrorCode code = controller_.configSelectedFeedbackCoefficient(factor, 0, ControllerTimeout) ;
-        if (code != ErrorCode.OK)
-            throw new MotorRequestFailedException(this, "CTRE configSelectedFeedbackCoefficient() call failed during setPositionConversion() calls", code) ;         
-    }
-
-    /// \brief Set the factor for converting encoder units to real world units, only applies to the PID loop on the motor controller
-    /// \param factor the factor to convert encoder units to real world units   
-    public void setVelocityConversion(double factor) throws BadMotorRequestException, MotorRequestFailedException {
-        ErrorCode code = controller_.configSelectedFeedbackCoefficient(factor, 0, ControllerTimeout) ;
-        if (code != ErrorCode.OK)
-            throw new MotorRequestFailedException(this, "CTRE configSelectedFeedbackCoefficient() call failed during setPositionConversion() calls", code) ; 
-    }
-
     /// \brief Set the motor power
     /// \param percent the motor power to assign to the motor  
     public void set(double percent) {
@@ -289,8 +273,7 @@ public class CTREMotorController extends MotorController
         return false ;
     }
 
-    /// \brief Returns the position of the motor in motor units.  If the setPositionConversion() has been called
-    /// then these units will be based on the factor supplied.  Otherwise these units are in encoder ticks.
+    /// \brief Returns the position of the motor in motor units.  There is no integrated sensor, so an exception is thrown
     /// \returns the position of the motor in motor units   
     public double getPosition() throws BadMotorRequestException {
         throw new BadMotorRequestException(this, "motor does not support getPosition()") ;
