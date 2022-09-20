@@ -172,7 +172,7 @@ public class MotorEncoderVelocityAction extends MotorAction {
             double outmax = settings.get(name_ + ":max").getDouble() ;
 
             getSubsystem().getMotorController().setPID(PidType.Velocity, p, i, d, f, outmax);
-            getSubsystem().getMotorController().setTarget(target_) ;
+            setTarget(target_);
         }
         else {
             //
