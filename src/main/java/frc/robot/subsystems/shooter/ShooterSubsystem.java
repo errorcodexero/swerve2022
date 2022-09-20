@@ -8,14 +8,14 @@ import org.xero1425.misc.MessageType;
 import org.xero1425.misc.SettingsValue;
 
 public class ShooterSubsystem extends Subsystem {
-    private ShooterWheelSubsystem wheelSubsystem_;
+    private MotorEncoderSubsystem wheelSubsystem_;
     private HoodMotorSubsystem hoodSubsystem_;
     public static final String SubsystemName = "shooter";
 
     public ShooterSubsystem(Subsystem parent) throws Exception {
         super(parent, SubsystemName);
 
-        wheelSubsystem_ = new ShooterWheelSubsystem(this, SubsystemName + "-wheel", false, 8);
+        wheelSubsystem_ = new MotorEncoderSubsystem(this, SubsystemName + "-wheel", false, 8, true);
         addChild(wheelSubsystem_) ;
 
         if (isSettingDefined("ramprate")) {

@@ -140,6 +140,7 @@ public class TalonFXMotorController extends MotorController
     public void setPID(PidType type, double p, double i, double d, double f, double outmax) throws BadMotorRequestException, MotorRequestFailedException {
 
         if (sim_ != null) {
+            throw new BadMotorRequestException(this, "cannot use controller PID loops when simulating") ;
         }
         else {
             ErrorCode code ;

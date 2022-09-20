@@ -134,9 +134,11 @@ public class MotorEncoderVelocityAction extends MotorAction {
         if (!useSWPID()) {
             //
             // If we are running the loop in the motor controller, commuincate the new target to the
-            // motor controller
+            // motor controller.  Since the motor controller does not run its PID loop in robot units,
+            // we must as the subsystem to translate the units from robot units to motor controller units.
             //
-            getSubsystem().getMotorController().setTarget(target);
+            MotorEncoderSubsystem sub = (MotorEncoderSubsystem)getSubsystem() ;
+            getSubsystem().getMotorController().setTarget(sub.velocityToController(target)) ;
         }
     }
 

@@ -131,6 +131,10 @@ public class MotorEncoderSubsystem extends MotorSubsystem
         return speedometer_.getDistance() ;
     }
 
+    public double velocityToController(double vel) {
+        return encoder_.mapVelocityToMotor(vel) ;
+    }
+
     /// \brief Returns the velocity of the motor output, as measured by the speedometer
     /// \returns the velocity of the motor output, as measured by the speedometer    
     public double getVelocity() {
@@ -138,7 +142,7 @@ public class MotorEncoderSubsystem extends MotorSubsystem
 
         if (use_ctrl_velocity_) {
             try {
-                ret = encoder_.mapMotorToEncoder(getMotorController().getVelocity()) ;
+                ret = encoder_.mapMotorToVelocity(getMotorController().getVelocity()) ;
             } catch (BadMotorRequestException | MotorRequestFailedException e) {
                 ret = 0.0 ;
             }

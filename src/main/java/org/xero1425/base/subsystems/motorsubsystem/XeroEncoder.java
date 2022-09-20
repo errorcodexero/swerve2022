@@ -115,7 +115,7 @@ public class XeroEncoder {
         return result;
     }
 
-    public double mapMotorToEncoder(double value) {
+    public double mapMotorToVelocity(double value) {
         double result = 0.0 ;
 
         if (motor_ != null) {
@@ -129,6 +129,25 @@ public class XeroEncoder {
         }
         else if (pwm_ != null) {
             result = mapper_.toRobot(value) ;
+        }
+
+        return result ;
+    }
+
+    public double mapVelocityToMotor(double value) {
+        double result = 0.0 ;
+
+        if (motor_ != null) {
+            result = (value - quad_b_) / quad_m_ ;
+        }
+        else if (quad_ != null) {
+            result = (value - quad_b_) / quad_m_ ;
+        }
+        else if (analog_ != null) {
+            result = mapper_.toEncoder(value) ;
+        }
+        else if (pwm_ != null) {
+            result = mapper_.toEncoder(value) ;
         }
 
         return result ;
