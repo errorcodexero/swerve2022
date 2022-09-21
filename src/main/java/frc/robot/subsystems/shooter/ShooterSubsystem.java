@@ -45,6 +45,11 @@ public class ShooterSubsystem extends Subsystem {
     }
 
     @Override
+    public void run() {
+        putDashboard("shvel", DisplayType.Always, wheelSubsystem_.getVelocity());
+    }
+
+    @Override
     public SettingsValue getProperty(String name) {
         SettingsValue v = null ;
 

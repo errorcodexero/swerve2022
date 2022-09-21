@@ -8,6 +8,7 @@ import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderGotoAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderPowerAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderSubsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderTrackPositionAction;
+import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderVelocityAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorPowerAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorSubsystem;
 import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
@@ -124,26 +125,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 break ;
 
             case 41:
-                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.1), false) ;
-                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
-                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.2), false) ;
-                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
-                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.3), false) ;
-                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
-                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.4), false) ;
-                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
-                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.5), false) ;
-                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
-                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.6), false) ;
-                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
-                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.7), false) ;
-                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
-                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.8), false) ;
-                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
-                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 0.9), false) ;
-                // addAction(new DelayAction(ctrl.getRobot(), 1.0)) ;
-                // addSubActionPair(wheels, new MotorEncoderPowerAction(wheels, 1.0), false) ;
-                // addAction(new DelayAction(ctrl.getRobot(), 111.0)) ;
+                addSubActionPair(wheels, new MotorEncoderVelocityAction(wheels, "wheels", getDouble("velocity")), true) ;
                 break ;
             
             //

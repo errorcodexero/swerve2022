@@ -131,6 +131,7 @@ public class MotorEncoderSubsystem extends MotorSubsystem
         return speedometer_.getDistance() ;
     }
 
+    
     public double velocityToController(double vel) {
         return encoder_.mapVelocityToMotor(vel) ;
     }

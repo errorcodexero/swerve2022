@@ -79,8 +79,9 @@ public class MotorFactory {
 
                 while (true) {
                     String motorid = id + ":" + Integer.toString(currentIndex);
+                    String mtype = motorid + ":type" ;
 
-                    if (currentIndex > 1 && !settings_.isDefined(motorid)) {
+                    if (currentIndex > 1 && !settings_.isDefined(mtype)) {
                         //
                         // For multiple motors in a motor group, if the next motor index does not
                         // exist in the settings file, we are done parsing motors.  Break out of 
@@ -95,7 +96,8 @@ public class MotorFactory {
                     // N motors in the group.  This creates the Nth motor given by currentIndex.
                     //
                     MotorController single = createSingleMotor(name + ":" + Integer.toString(currentIndex), motorid, (currentIndex == 1));
-                    if (single != null) {                    
+                    if (single != null) {    
+                        logger_.startMessage(MessageType.Info).add("created: ").add(motorid).endMessage();
                         if (groupmode != null) {
                             // 
                             // If there is a neutral mode at the group level, assign it to
@@ -207,7 +209,7 @@ public class MotorFactory {
         //
         // Get the motor type from the settings file
         //
-        String type = settings_.getOrNull(canparam).getString();
+        String type = settings_.getOrNull(typeparam).getString();
         MotorController ctrl = null;
 
         //

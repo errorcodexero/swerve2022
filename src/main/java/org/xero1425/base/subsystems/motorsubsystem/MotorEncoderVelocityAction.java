@@ -164,12 +164,11 @@ public class MotorEncoderVelocityAction extends MotorAction {
             // We are using a control loop in the motor controller, get the parameters from the
             // settings file
             //
-            ISettingsSupplier settings = getSubsystem().getRobot().getSettingsSupplier() ;
             double p = getSubsystem().getSettingsValue(name_ + ":kp").getDouble() ;
             double i = getSubsystem().getSettingsValue(name_ + ":ki").getDouble() ;
             double d = getSubsystem().getSettingsValue(name_ + ":kd").getDouble() ;
             double f = getSubsystem().getSettingsValue(name_ + ":kf").getDouble() ;
-            double outmax = settings.get(name_ + ":max").getDouble() ;
+            double outmax = getSubsystem().getSettingsValue(name_ + ":max").getDouble() ;
 
             getSubsystem().getMotorController().setPID(PidType.Velocity, p, i, d, f, outmax);
             setTarget(target_);

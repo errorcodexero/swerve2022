@@ -362,7 +362,7 @@
                 "wheel-velocity-threshold": 10,
                 "hood-position-threshold": 10
             },
-            "ramprate" : 5
+            "ramprate" : 1.0
         },
         "shooter-wheel": {
             "hw": {
@@ -388,14 +388,14 @@
             },
             "wheels": {
                 "kp": 0.0001,
-                "ki": 0.0,
-                "kd": 0.0,
-                "kf": 0.00019,
+                "ki": 0.001,
+                "kd": 0.00005,
+                "kf": 0.000152,
                 "max": 1.0,
                 "min": -1.0,
-                "imax": 0.0,
+                "imax": 10.0,
                 "use-sw" : true,
-                "plot-duration" : 15.0
+                "plot-duration" : 8.0
             }
         },
         "shooter-hood": {
@@ -412,7 +412,7 @@
                     "rmax": 900.0,
                     "emin": 0.0,
                     "emax": 5.0,
-                    "ec": 3.262939119,
+                    "ec": 3.27148404,
                     "rc": 0.0
                 }
             },
@@ -477,8 +477,11 @@
             "duration" : 5.0
         },
         "40" : {
-            "power" : 0.8,
-            "duration" : 20
+            "power" : 0.9,
+            "duration" : 12
+        },
+        "41" : {
+            "velocity" : 4000
         },
         "50" : {
             // Hood move motor test mode
