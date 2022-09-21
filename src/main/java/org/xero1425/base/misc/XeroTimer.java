@@ -30,6 +30,15 @@ public class XeroTimer {
         return duration_ ;
     }
 
+    public void setDuration(double dur) {
+        if (running_) {
+            MessageLogger logger = robot_.getMessageLogger() ;
+            logger.startMessage(MessageType.Error).add("Timer ").add(name_).add(" had duration updated while running - change ignored").endMessage();
+        }
+
+        duration_ = dur ;
+    }
+
     public double elapsed() {
         return robot_.getTime() - start_ ;
     }

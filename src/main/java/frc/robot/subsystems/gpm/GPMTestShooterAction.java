@@ -53,9 +53,11 @@ public class GPMTestShooterAction  extends Action {
         intake_down_ = new IntakePositionPowerAction(sub_.getIntake(), "collect:onpos", "collector:offpower", false, false) ;
         intake_stay_on_action_ = new IntakePowerPowerAction(sub_.getIntake(), "collect:onpower", "collector:offpower") ;
 
-        conveyor_test_shoot_action_ = new ConveyorTestShootAction(sub_.getConveyor()) ;
+        conveyor_test_shoot_action_ = new ConveyorTestShootAction(sub_.getConveyor(), 1200) ;
 
-        plot_timer_ = new XeroTimer(sub.getRobot(), "shoottimer", 10.0) ;
+        double duration = sub.getSettingsValue("fire-plot-duration").getDouble() ;
+
+        plot_timer_ = new XeroTimer(sub.getRobot(), "shoottimer", duration) ;
         plotting_ = false ;
 
         fire_ = new SetShooterAction(sub_.getShooter(), 0.0, 90.0) ;

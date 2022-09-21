@@ -274,9 +274,13 @@
             "power" : {
                 "collect" : 0.8,
                 "off" : 0.0,
-                "eject" : -1.0
+                "eject" : -1.0,
+                "shoot" : 0.8
             },
-            "eject_duration" : 1.0
+            "duration" : {
+                "eject" : 1.0,
+                "shoot" : 1.0
+            }
         },
         "turret" : {
             "hw" : {
@@ -362,7 +366,8 @@
                 "wheel-velocity-threshold": 10,
                 "hood-position-threshold": 10
             },
-            "ramprate" : 1.0
+            "ramprate" : 1.0,
+            "fire-plot-duration" : 10.0
         },
         "shooter-wheel": {
             "hw": {

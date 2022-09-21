@@ -21,8 +21,8 @@ public class ConveyorSubsystem extends MotorSubsystem {
         WaitForShooter,
         WaitForIntake2,
         Eject,
-        StartTestShoot,
-        TestShoot,
+        StartShoot,
+        Shooting,
     }
 
     private State state_;
@@ -38,10 +38,12 @@ public class ConveyorSubsystem extends MotorSubsystem {
     private double collect_power_;
     private double off_power_;
     private double eject_power_;
+    private double shoot_power_ ;
 
     private int ball_count_;
 
     private XeroTimer eject_timer_;
+    private XeroTimer shoot_timer_ ;
 
     private boolean isStop; 
 
@@ -51,6 +53,7 @@ public class ConveyorSubsystem extends MotorSubsystem {
         collect_power_ = getSettingsValue("power:collect").getDouble();
         off_power_ = getSettingsValue("power:off").getDouble();
         eject_power_ = getSettingsValue("power:eject").getDouble();
+        shoot_power_ = getSettingsValue("power:shoot").getDouble() ;
 
         int channel = getSettingsValue("sensors:intake").getInteger() ;
         intake_sensor_ = new DigitalInput(channel) ;
@@ -61,7 +64,8 @@ public class ConveyorSubsystem extends MotorSubsystem {
         int channel2 = getSettingsValue("sensors:shooter").getInteger() ;
         shooter_sensor_ = new DigitalInput(channel2) ;
 
-        eject_timer_ = new XeroTimer(getRobot(), "Eject", getSettingsValue("eject_duration").getDouble());
+        eject_timer_ = new XeroTimer(getRobot(), "Eject", getSettingsValue("duration:eject").getDouble());
+        shoot_timer_ = new XeroTimer(getRobot(), "Shoot", getSettingsValue("duration:shoot").getDouble());
 
         isStop = false; 
 
@@ -137,14 +141,19 @@ public class ConveyorSubsystem extends MotorSubsystem {
         }
     }
 
-    public void testShoot() {
+    public void shoot() {
         if (state_ == State.Idle) {
-            state_ = State.StartTestShoot ;
+            state_ = State.StartShoot ;
         }
     }
 
-    public void shoot() {
-
+    public void shoot(double dur) {
+        if (state_ == State.Idle) {
+            if (dur != Double.NaN) {
+                shoot_timer_.setDuration(dur);
+            }
+            state_ = State.StartShoot ;
+        }
     }
 
     public void stop() {
@@ -191,12 +200,12 @@ public class ConveyorSubsystem extends MotorSubsystem {
                EjectProc(); 
                break;
 
-            case StartTestShoot:
-                StartTestShootProc() ;
+            case StartShoot:
+                StartShootProc() ;
                 break ;
 
-            case TestShoot:
-                TestShootProc() ;
+            case Shooting:
+                ShootingProc() ;
                 break ;
         }
 
@@ -289,21 +298,22 @@ public class ConveyorSubsystem extends MotorSubsystem {
         //if 2+ ball count, we're already in idle state, so we don't switch state!
     }
 
-    private void StartTestShootProc() {
+    private void StartShootProc() {
         if (isStop) {
             setPower(off_power_) ;
             state_ = State.Idle ;
         }
         else {
-            setPower(collect_power_) ;
-            state_ = State.TestShoot ;
+            setPower(shoot_power_) ;
+            state_ = State.Shooting ;
+            shoot_timer_.start() ;
         }
     }
 
-    private void TestShootProc() {
-        if (isStop) {
+    private void ShootingProc() {
+        if (isStop || shoot_timer_.isExpired()) {
             setPower(off_power_) ;
             state_ = State.Idle ;
-        }        
+        }
     }
 }
