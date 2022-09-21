@@ -51,18 +51,22 @@ public class MotorFactory {
     public MotorController createMotor(String name, String id) {
         MotorController ret = null;
         try {
-            //
-            // If a single motor can be created with the given name, then
-            // we just return it.
-            //
-            ret = createSingleMotor(name, id, false);
-            if (ret != null) {
+            String typechk = id + ":type" ;
+
+            if (settings_.isDefined(typechk)) {
                 //
-                // We never set the inversion property of a motor when it is created
-                // because how we set this varied depending on whether or not a motor is a single,
-                // a leader in a group, or a follower in a group.
+                // If the property id + 'type' exists, the motor is a single motor specified
+                // at the given level of the settings file.
                 //
-                ret.setInverted(isInverted(id));
+                ret = createSingleMotor(name, id, false);
+                if (ret != null) {
+                    //
+                    // We never set the inversion property of a motor when it is created
+                    // because how we set this varied depending on whether or not a motor is a single,
+                    // a leader in a group, or a follower in a group.
+                    //
+                    ret.setInverted(isInverted(id));
+                }
             }
             else {
                 //

@@ -432,7 +432,10 @@
             },
             "maxpos" : 800.0,
             "minpos" : 0.0
-        }    
+        },
+        "gpm" : {
+            "fire-plot-duration" : 10.0
+        }
     },
     "testmode" : {
         "enabled" : true,

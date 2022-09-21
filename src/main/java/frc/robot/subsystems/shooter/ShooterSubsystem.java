@@ -22,10 +22,6 @@ public class ShooterSubsystem extends Subsystem {
             MotorController ctrl = wheelSubsystem_.getMotorController() ;
             double rate = getSettingsValue("ramprate").getDouble() ;
             ctrl.setOpenLoopRampRate(rate);
-
-            MessageLogger logger = getRobot().getMessageLogger() ;
-            logger.startMessage(MessageType.Debug, getLoggerID()).add("Settings shooter ramp rate") ;
-            logger.add("rate", rate).endMessage();
         }
         hoodSubsystem_ = new HoodMotorSubsystem(this) ;
         addChild(hoodSubsystem_) ;
