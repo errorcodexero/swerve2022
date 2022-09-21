@@ -24,6 +24,10 @@ public class MotorEncoderSubsystem extends MotorSubsystem
     // If true, use the velocity from the motor controller
     private boolean use_ctrl_velocity_ ;
 
+    private double max_value_ ;
+    private double min_value_ ;
+
+
     /// \brief Create the subsystem
     /// \param parent the owning subsystem
     /// \param name the name of this subsystem
@@ -48,6 +52,24 @@ public class MotorEncoderSubsystem extends MotorSubsystem
 
             use_ctrl_velocity_ = true ;
         }
+
+        if (isSettingDefined("maxpos"))
+            max_value_ = getSettingsValue("maxpos").getDouble() ;
+        else
+            max_value_ = Double.MAX_VALUE ;
+
+        if (isSettingDefined("minpos"))
+            min_value_ = getSettingsValue("minpos").getDouble() ;
+        else
+            min_value_ = -Double.MAX_VALUE ;
+    }
+
+    public double getMaxPos() {
+        return max_value_ ;
+    }
+
+    public double getMinPos() {
+        return min_value_ ;
     }
 
     /// \brief Create the subsystem

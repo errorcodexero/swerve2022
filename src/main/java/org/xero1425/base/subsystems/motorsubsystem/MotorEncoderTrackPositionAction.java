@@ -16,6 +16,7 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
     // The time the last loop was run
     private double last_time_ ;
 
+    // The start time for the action
     private double start_ ;
 
     // The plot ID for the action
@@ -34,7 +35,7 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
         if (!(sub instanceof MotorEncoderSubsystem))
             throw new Exception("This subsystem is not a MotorEncoderSubsystem") ;
                     
-        target_ = target ;
+        target_ = checkTarget(target) ;
         
         ctrl_ = new PIDCtrl(sub.getRobot().getSettingsSupplier(), "subsystems:" + sub.getName() + ":" + name, false) ;
 
@@ -59,8 +60,20 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
     public void setTarget(double t) {
         MotorEncoderSubsystem sub = (MotorEncoderSubsystem)getSubsystem() ;
 
-        target_ = t ;
+        target_ = checkTarget(t) ;
         error_ = Math.abs(target_ - sub.getPosition()) ;
+    }
+
+    private double checkTarget(double t) {
+        MotorEncoderSubsystem sub = (MotorEncoderSubsystem)getSubsystem() ;
+
+        if (t < sub.getMinPos())
+            t = sub.getMinPos() ;
+
+        if (t > sub.getMaxPos())
+            t = sub.getMaxPos() ;
+
+        return t ;
     }
 
     public double getTarget() {
