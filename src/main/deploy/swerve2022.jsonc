@@ -434,7 +434,34 @@
             "minpos" : 0.0
         },
         "gpm" : {
-            "fire-plot-duration" : 10.0
+            "fire-plot-duration" : 10.0,
+            "fire-action" : {
+                "default-hood-pos" : 400,
+                "default-wheel-velocity" : 3500,
+                "max-db-velocity" : 0.1,
+                "hood-threshold" : 20,
+                "wheel-threshold" : 100,
+                "hood-pwl" : {
+                    "1" : {
+                        "x" : 40,
+                        "y" : 200
+                    },
+                    "2" : {
+                        "x" : 300,
+                        "y" : 200
+                    }
+                },
+                "velocity-pwl" : {
+                    "1" : {
+                        "x" : 40,
+                        "y" : 2200
+                    },
+                    "2" : {
+                        "x" : 300,
+                        "y" : 2200
+                    }
+                }
+            }
         }
     },
     "testmode" : {

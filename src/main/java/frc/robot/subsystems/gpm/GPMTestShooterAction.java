@@ -60,7 +60,7 @@ public class GPMTestShooterAction  extends Action {
         plot_timer_ = new XeroTimer(sub.getRobot(), "shoottimer", duration) ;
         plotting_ = false ;
 
-        fire_ = new SetShooterAction(sub_.getShooter(), 0.0, 90.0) ;
+        fire_ = new SetShooterAction(sub_.getShooter(), 0.0, 0.0) ;
 
         shooter_velocity_ = 0.0 ;
 

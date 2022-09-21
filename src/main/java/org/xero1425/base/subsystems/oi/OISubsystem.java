@@ -263,7 +263,6 @@ public class OISubsystem extends Subsystem {
                     }      
                     
                     try { 
-                        // TODO: check that db_ is an instance of SwerveBaseSubsystem
                         gp_ = new SwerveDriveGamepad(this, gp_index_, (SwerveBaseSubsystem)db_) ;
                         addHIDDevice(gp_) ;
                         logger.startMessage(MessageType.Info) ;

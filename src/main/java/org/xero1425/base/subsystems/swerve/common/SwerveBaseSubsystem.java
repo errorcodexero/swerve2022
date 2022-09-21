@@ -46,6 +46,8 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     private double width_ ;
     private double length_ ;
     private double rotate_angle_ ;
+    private Pose2d last_pose_ ;
+    private double velocity_ ;
    
     static public final int FL = 0;                                                             // Index of the front left module
     static public final int FR = 1;                                                             // Index of the front right module
@@ -91,6 +93,8 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         shuffleboardTab.addNumber("Heading", () -> getHeading().getDegrees());
         shuffleboardTab.addNumber("Pose X", () -> getPose().getX());
         shuffleboardTab.addNumber("Pose Y", () -> getPose().getY());
+
+        last_pose_ = new Pose2d() ;
     }
 
     // Control the swerve drive by settings a ChassisSppeds object
@@ -113,7 +117,12 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     @Override
     public void computeMyState() throws Exception {
         super.computeMyState();
+
         odometry_.update(getHeading(), getModuleState(FL), getModuleState(FR), getModuleState(BL), getModuleState(BR));
+
+        Pose2d p = getPose() ;
+        double dist = p.getTranslation().getDistance(last_pose_.getTranslation()) ;
+        velocity_ = dist / getRobot().getDeltaTime() ;
     }
 
     @Override
@@ -131,6 +140,10 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     
     public Pose2d getPose() {
         return odometry_.getPoseMeters() ;
+    }
+
+    public double getVelocity() {
+        return velocity_ ;
     }
 
     public void zeroGyro() {

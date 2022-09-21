@@ -3,8 +3,6 @@ package frc.robot.subsystems.shooter;
 import org.xero1425.base.motors.MotorController;
 import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderSubsystem;
-import org.xero1425.misc.MessageLogger;
-import org.xero1425.misc.MessageType;
 import org.xero1425.misc.SettingsValue;
 
 public class ShooterSubsystem extends Subsystem {
