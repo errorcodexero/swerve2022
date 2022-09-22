@@ -39,7 +39,8 @@ public class ShooterSubsystem extends Subsystem {
     }
 
     @Override
-    public void run() {
+    public void run() throws Exception {
+        super.run() ;
         putDashboard("shvel", DisplayType.Always, wheelSubsystem_.getVelocity());
     }
 
