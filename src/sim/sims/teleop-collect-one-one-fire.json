@@ -1,0 +1,264 @@
+{
+    "stimulus" :
+    [
+        {
+            "time" : 0.0,
+            "events" :
+            [
+                {
+                    "model" : "fms",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "automode must be set to the correct testmode in droid param file",
+                        "start" : 1.0,
+                        "autonomous" : 0.0,
+                        "between" : 0.0,
+                        "teleop" : 30.0,
+                        "fms" : false
+                    }
+                },
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" :
+                    {
+                        "comment" : "Collect/shoot mode switch set to collect",                        
+                        "button6" : true,
+                        
+                        // The climb lock button is in the locked state
+                        "button4" : true                        
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 3.0,
+            "events" :
+            [
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "Collect button pressed",
+                        "button3" : true
+                    }
+                }
+            ]
+        },        
+        {
+            "time" : 3.2,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 0
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "setting" : "subsystems:conveyor:power:off"
+                },
+                {
+                    "subsystem" : "agitator",
+                    "property" : "power",
+                    "setting" : "subsystems:agitator:forwardpower"
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:collector:onpower"
+                }                 
+            ]            
+        },
+        {
+            "time" : 4.0,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "first ball blocks the intake sensor on the conveyor",
+                        "intake" : false,
+                        "middle" : true,
+                        "shooter" : true
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 4.1,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 0
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "setting" : "subsystems:conveyor:power:collect"
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:collector:onpower"
+                }                
+            ]            
+        },
+        {
+            "time" : 4.5,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "first ball breaks the middle sensor on the conveyor",
+                        "intake" : true,
+                        "shooter" : true,
+                        "middle" : false
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 5.0,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 1
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "value" : 0.0
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:collector:onpower"
+                }                    
+            ]            
+        },
+        {
+            "time" : 5.1,
+            "events" :
+            [
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "Collect button released",
+                        "button3" : false
+                    }
+                }
+            ]
+        },  
+        {
+            "time" : 8.0,
+            "events" :
+            [
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "Collect button pressed",
+                        "button3" : true
+                    }
+                }
+            ]
+        },   
+        {
+            "time" : 8.2,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "second ball blocks the intake sensor on the conveyor",
+                        "intake" : false,
+                        "middle" : false,
+                        "shooter" : true
+                    }
+                }
+            ]
+        },  
+        {
+            "time" : 8.6,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "first ball blocks the shooter sensor on the conveyor",
+                        "intake" : false,
+                        "middle" : false,
+                        "shooter" : false
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 10.0,
+            "events" :
+            [
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "Collect button released",
+                        "button3" : false
+                    }
+                }
+            ]
+        },  
+        {
+            "time" : 11.0,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "ball-count",
+                    "value" : 2
+                },
+                {
+                    "subsystem" : "conveyor",
+                    "property" : "power",
+                    "value" : 0.0
+                },
+                {
+                    "subsystem" : "intake",
+                    "property" : "spinner-power",
+                    "setting" : "subsystems:intake:collector:offpower"
+                }                    
+            ]            
+        },
+        {
+            "time" : 12.0,
+            "events" : 
+            [
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" :
+                    {
+                        "comment" : "Collect/shoot mode switch set to shoot",                        
+                        "button6" : false,
+                    }
+                }
+            ]
+        }
+    ]
+}

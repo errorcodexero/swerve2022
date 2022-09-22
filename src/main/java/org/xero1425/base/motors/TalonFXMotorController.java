@@ -92,6 +92,8 @@ public class TalonFXMotorController extends MotorController
             // and not the external sensors, so this can be slowed down as well.
             //
             controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 20, ControllerTimeout) ;
+
+            controller_.configNeutralDeadband(0.1) ;
         }
     }
 

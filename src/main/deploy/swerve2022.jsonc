@@ -287,7 +287,7 @@
                 "motors" : {
                     "type" : "talon_fx",
                     "canid" : 7,
-                    "neutral_mode" : "brake",
+                    "neutral_mode" : "coast",
                     "inverted": true
                 },
                 "encoder" : {
@@ -297,55 +297,21 @@
                     "rmax": 180.0,
                     "emin": 0.0,
                     "emax": 5.0,
-                    "ec": {
-                        "COMPETITION": 0.9009,
-                        "PRACTICE": 0.62133
-                    },
+                    "ec": 2.475585684,
                     "rc": 0.0
                 }
             },
-            "hold" : {
-                "kp" : 0.0001,
-                "ki" : 0,
-                "kd" : 0,
-                "kf" : 0,
-                "min" : -0.1,
-                "max" : 0.1,
-                "imax" : 0
-            },
-            "goto" : {
-                "threshold" : 10,
-                "maxd" : -20000,
-                "maxa" : 20000,
-                "maxv" : 20000
-            },
             "follow" : {
-                "kp" : 0.0000,
+                "kp" : 0.03,
                 "kf" : 0.0,
-                "ki" : 0.0,
+                "ki" : 0.01,
                 "kd" : 0.0,
-                "min" : -1.0,
-                "max" : 1.0,
-                "imax" : 0.5
+                "min" : -0.4,
+                "max" : 0.4,
+                "imax" : 10.0
             },
-            "follower" : {
-                "up" : {
-                    "kp" : 0.0000,
-                    "ka" : 0.0,
-                    "ki" : 0.0,
-                    "kd" : 0.0,
-                    "kv" : 1.17647E-05
-                },
-                "down" : {
-                    "kp" : 0.000,
-                    "ka" : 0.0,
-                    "ki" : 0.0,
-                    "kd" : 0.0,
-                    "kv" : 1.17647E-05
-                }
-            },
-            "min": -60,
-            "max": 60,
+            "maxpos" : 90.0,
+            "minpos" : -90.0,
             "fire_threshold": 2.0            
         },
         "zeke_limelight": {
@@ -359,7 +325,10 @@
         "targettracker": {
             "camera_offset_angle": 0.0,
             "lost_count": 10,
-            "track_method": "v"
+            "track_method": "v",
+            "forced-target" : true,
+            "forced-distance" : 60,
+            "forced-angle" : 0
         },
         "shooter": {
             "shooter-action": {
@@ -417,7 +386,7 @@
                     "rmax": 900.0,
                     "emin": 0.0,
                     "emax": 5.0,
-                    "ec": 3.27148404,
+                    "ec": 2.824706742,
                     "rc": 0.0
                 }
             },
@@ -436,7 +405,7 @@
         "gpm" : {
             "fire-plot-duration" : 10.0,
             "fire-action" : {
-                "default-hood-pos" : 400,
+                "default-hood-position" : 400,
                 "default-wheel-velocity" : 3500,
                 "max-db-velocity" : 0.1,
                 "hood-threshold" : 20,
@@ -466,7 +435,7 @@
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 83,
+        "which" : 41,
         "0" : {
             "angle" : 0.0,
             "power" : 0.2
@@ -512,11 +481,11 @@
             "duration" : 5.0
         },
         "40" : {
-            "power" : 0.9,
+            "power" : 0.5,
             "duration" : 12
         },
         "41" : {
-            "velocity" : 4000
+            "velocity" : 2000
         },
         "50" : {
             // Hood move motor test mode
@@ -528,8 +497,14 @@
         },
         "60" : {
             // Turret move motor test mode
-            "power" : 0.2,
-            "duration" : 1.0
+            "power" : 0.10,
+            "duration" : 0.5
+        },
+        "61" : {
+            "angle" : -15
+        },
+        "62" :{
+            "delay" : 3.0
         },
         "80" : {
             "delay" : 20

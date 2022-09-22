@@ -1,5 +1,6 @@
 package org.xero1425.base.subsystems.motorsubsystem;
 
+import org.xero1425.base.XeroRobot;
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.base.subsystems.Subsystem;
@@ -44,7 +45,7 @@ public class MotorEncoderSubsystem extends MotorSubsystem
         String encname = "subsystems:" + name + ":hw:encoder" ;
         encoder_ = new XeroEncoder(parent.getRobot(), encname, angle, getMotorController()) ;
 
-        if (usectrlvel) {
+        if (usectrlvel && !XeroRobot.isSimulation()) {
             if (!encoder_.isMotorEncoder()) {
                 String msg = "motor '" + name + "', you can only use the velocity from the motor if the encoder is in the motor" ;
                 throw new Exception(msg) ;
@@ -82,8 +83,6 @@ public class MotorEncoderSubsystem extends MotorSubsystem
         speedometer_ = new Speedometer(name, 2, angle) ;
         angular_ = angle ;
 
-        use_ctrl_velocity_ = false ;
-
         String encname = "subsystems:" + name + ":hw:encoder" ;
         encoder_ = new XeroEncoder(parent.getRobot(), encname, angle, getMotorController()) ;
 
@@ -104,7 +103,7 @@ public class MotorEncoderSubsystem extends MotorSubsystem
         String encname = "subsystems:" + name + ":hw:encoder" ;
         encoder_ = new XeroEncoder(parent.getRobot(), encname, angle, getMotorController()) ;
 
-        if (usectrlvel) {
+        if (usectrlvel && !XeroRobot.isSimulation()) {
             use_ctrl_velocity_ = true ;
         }
     }
@@ -195,7 +194,7 @@ public class MotorEncoderSubsystem extends MotorSubsystem
         encoder_.calibrate(pos) ;
     }
 
-    /// \brief Reset the motor and attached encoder.  This will reset the encoder value to 
+    /// \brief Reset the motor and attacd encoder.  This will reset the encoder value to 
     /// zero and set the motor power to off.
     public void reset() {
         super.reset() ;

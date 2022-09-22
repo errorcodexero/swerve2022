@@ -80,7 +80,6 @@ public class GPMFireAction extends Action {
         sub_.getShooter().setAction(shoot_action_, true) ;
     }
 
-
     @Override
     public void run() throws Exception {
         super.run() ;

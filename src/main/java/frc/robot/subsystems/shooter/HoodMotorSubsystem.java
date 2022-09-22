@@ -14,8 +14,6 @@ public class HoodMotorSubsystem extends MotorEncoderSubsystem {
     @Override
     public void computeMyState() throws Exception {
         super.computeMyState();
-
-        putDashboard("hoodpos", DisplayType.Verbose, getPosition());
     }
 
     @Override

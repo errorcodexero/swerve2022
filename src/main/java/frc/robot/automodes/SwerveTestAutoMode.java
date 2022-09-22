@@ -154,6 +154,20 @@ public class SwerveTestAutoMode extends TestAutoMode {
             case 60:
                 addSubActionPair(turret, new MotorEncoderPowerAction(turret, getDouble("power"), getDouble("duration")), true) ;
                 break ;
+
+            case 61:
+                addSubActionPair(turret, new MotorEncoderTrackPositionAction(turret, "follow", getDouble("angle")), true) ;
+                break ;    
+
+            case 62:
+                addSubActionPair(turret, new MotorEncoderTrackPositionAction(turret, "follow", -15.0), false) ;
+                addAction(new DelayAction(ctrl.getRobot(), getDouble("delay")));
+                addSubActionPair(turret, new MotorEncoderTrackPositionAction(turret, "follow", 15.0), false) ;
+                addAction(new DelayAction(ctrl.getRobot(), getDouble("delay")));
+                addSubActionPair(turret, new MotorEncoderTrackPositionAction(turret, "follow", 0.0), false) ;
+
+                break ;    
+            
             //
             // GPM test modes
             //

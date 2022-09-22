@@ -100,6 +100,19 @@ public class TargetTrackerSubsystem extends Subsystem {
         // Turn off the LEDs unless we are actually wanting to track a target
         //
         enable(false) ;
+
+        if (isSettingDefined("forced-target") && isSettingDefined("forced-distance")) {
+            if (getSettingsValue("forced-target").getBoolean()) {
+                double dist = getSettingsValue("forced-distance").getDouble();
+                double angle = getSettingsValue("forced-angle").getDouble();
+                lockTarget(angle, dist) ;
+
+                MessageLogger logger = getRobot().getMessageLogger() ;
+                logger.startMessage(MessageType.Info) ;
+                logger.add("The target tracker has been forced on for testing") ;
+                logger.endMessage() ;
+            }
+        }
     }
 
     public LimeLightSubsystem getLimelight() {
@@ -176,7 +189,7 @@ public class TargetTrackerSubsystem extends Subsystem {
                 // Use field position
                 Pose2d robot_pose = getRobot().getRobotSubsystem().getDB().getPose() ;
                 double target_angle = field_target_tracker_.getRelativeTargetAngle(robot_pose) ;
-                double safe_target_angle = turret_.limitAngleToSafeRange(target_angle) ;
+                double safe_target_angle = target_angle ;
                 
                 desired_turret_angle_ = safe_target_angle ;
                 distance_ = field_target_tracker_.getRelativeTargetDistance(robot_pose) ;

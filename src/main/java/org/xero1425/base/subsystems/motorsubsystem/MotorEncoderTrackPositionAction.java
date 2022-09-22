@@ -65,13 +65,13 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
     }
 
     private double checkTarget(double t) {
-        MotorEncoderSubsystem sub = (MotorEncoderSubsystem)getSubsystem() ;
+        // MotorEncoderSubsystem sub = (MotorEncoderSubsystem)getSubsystem() ;
 
-        if (t < sub.getMinPos())
-            t = sub.getMinPos() ;
+        // if (t < sub.getMinPos())
+        //     t = sub.getMinPos() ;
 
-        if (t > sub.getMaxPos())
-            t = sub.getMaxPos() ;
+        // if (t > sub.getMaxPos())
+        //     t = sub.getMaxPos() ;
 
         return t ;
     }
