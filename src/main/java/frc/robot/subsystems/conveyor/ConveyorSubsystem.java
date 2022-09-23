@@ -314,6 +314,7 @@ public class ConveyorSubsystem extends MotorSubsystem {
         if (isStop || shoot_timer_.isExpired()) {
             setPower(off_power_) ;
             state_ = State.Idle ;
+            ball_count_ = 0 ;
         }
     }
 }

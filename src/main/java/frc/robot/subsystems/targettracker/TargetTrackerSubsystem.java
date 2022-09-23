@@ -101,7 +101,7 @@ public class TargetTrackerSubsystem extends Subsystem {
         //
         enable(false) ;
 
-        if (isSettingDefined("forced-target") && isSettingDefined("forced-distance")) {
+        if (isSettingDefined("forced-target") && isSettingDefined("forced-distance") && isSettingDefined("forced-angle")) {
             if (getSettingsValue("forced-target").getBoolean()) {
                 double dist = getSettingsValue("forced-distance").getDouble();
                 double angle = getSettingsValue("forced-angle").getDouble();
@@ -122,13 +122,15 @@ public class TargetTrackerSubsystem extends Subsystem {
     public void enable(boolean b) {
         enabled_ = b ;
 
-        if (b)
-        {
-            ll_.setLedMode(LedMode.ForceOn);
-        }
-        else
-        {
-            ll_.setLedMode(LedMode.ForceOff);
+        if (ll_ != null) {
+            if (b)
+            {
+                ll_.setLedMode(LedMode.ForceOn);
+            }
+            else
+            {
+                ll_.setLedMode(LedMode.ForceOff);
+            }
         }
     }
 
@@ -169,43 +171,46 @@ public class TargetTrackerSubsystem extends Subsystem {
                 desired_turret_angle_ = lock_angle_ ;
                 distance_ = lock_distance_ ;    
             }
-            else if (ll_.isTargetDetected() && (track_method_ != TrackMethod.FieldPositionOnly))
+            else
             {
-                distance_ = ll_.getDistance() ;
-               
-                double yaw = ll_.getYaw() - camera_offset_angle_ ;
-                desired_turret_angle_ = -yaw + turret_.getPosition() ;
-                logger.startMessage(MessageType.Debug, getLoggerID());
-                logger.add("yaw", yaw).add("distance", distance_) ;
-                logger.add(" ll", ll_.getYaw()).add(" offset", camera_offset_angle_) ;
-                logger.add(" tpos", turret_.getPosition()).add(" desired", desired_turret_angle_);
-                logger.endMessage();
-
-                has_vision_target_ = true ;
-                lost_count_ = 0 ;
-            }
-            else if (track_method_ != TrackMethod.VisionOnly) 
-            {
-                // Use field position
-                Pose2d robot_pose = getRobot().getRobotSubsystem().getDB().getPose() ;
-                double target_angle = field_target_tracker_.getRelativeTargetAngle(robot_pose) ;
-                double safe_target_angle = target_angle ;
+                if (ll_.isTargetDetected() && (track_method_ != TrackMethod.FieldPositionOnly))
+                {
+                    distance_ = ll_.getDistance() ;
                 
-                desired_turret_angle_ = safe_target_angle ;
-                distance_ = field_target_tracker_.getRelativeTargetDistance(robot_pose) ;
-            }
+                    double yaw = ll_.getYaw() - camera_offset_angle_ ;
+                    desired_turret_angle_ = -yaw + turret_.getPosition() ;
+                    logger.startMessage(MessageType.Debug, getLoggerID());
+                    logger.add("yaw", yaw).add("distance", distance_) ;
+                    logger.add(" ll", ll_.getYaw()).add(" offset", camera_offset_angle_) ;
+                    logger.add(" tpos", turret_.getPosition()).add(" desired", desired_turret_angle_);
+                    logger.endMessage();
 
-            // Using track method that allows vision, but target is not detected
-            if (!ll_.isTargetDetected() && (track_method_ != TrackMethod.FieldPositionOnly))
-            {
-                lost_count_++ ;
-                
-                if (lost_count_ > max_lost_count_)
-                    has_vision_target_ = false ;
+                    has_vision_target_ = true ;
+                    lost_count_ = 0 ;
+                }
+                else if (track_method_ != TrackMethod.VisionOnly) 
+                {
+                    // Use field position
+                    Pose2d robot_pose = getRobot().getRobotSubsystem().getDB().getPose() ;
+                    double target_angle = field_target_tracker_.getRelativeTargetAngle(robot_pose) ;
+                    double safe_target_angle = target_angle ;
+                    
+                    desired_turret_angle_ = safe_target_angle ;
+                    distance_ = field_target_tracker_.getRelativeTargetDistance(robot_pose) ;
+                }
 
-                logger.startMessage(MessageType.Debug, getLoggerID());
-                logger.add("targettracker: lost target ").add(" lost count", lost_count_) ;
-                logger.add(" has_target", has_vision_target_).endMessage();
+                // Using track method that allows vision, but target is not detected
+                if (!ll_.isTargetDetected() && (track_method_ != TrackMethod.FieldPositionOnly))
+                {
+                    lost_count_++ ;
+                    
+                    if (lost_count_ > max_lost_count_)
+                        has_vision_target_ = false ;
+
+                    logger.startMessage(MessageType.Debug, getLoggerID());
+                    logger.add("targettracker: lost target ").add(" lost count", lost_count_) ;
+                    logger.add(" has_target", has_vision_target_).endMessage();
+                }
             }
 
         }

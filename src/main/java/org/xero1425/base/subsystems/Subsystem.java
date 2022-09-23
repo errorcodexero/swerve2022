@@ -362,6 +362,8 @@ public class Subsystem {
             logger.add("subsystem ").addQuoted(getName()) ;
             logger.add(" threw exception in computeMyState() - ").add(ex.getMessage()) ;
             logger.endMessage();
+            logger.logStackTrace(ex.getStackTrace());
+
         }
     }
 
@@ -389,6 +391,7 @@ public class Subsystem {
                 logger.add("action ").addQuoted(action_.toString()) ;
                 logger.add(" threw exception during run() - ").add(ex.getMessage()) ;
                 logger.endMessage();
+                logger.logStackTrace(ex.getStackTrace());
             }
         }
 

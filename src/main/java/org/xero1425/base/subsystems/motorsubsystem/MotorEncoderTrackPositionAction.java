@@ -104,7 +104,7 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
             data[4] = out ;
             getSubsystem().addPlotData(plot_id_, data);
 
-            if (getSubsystem().getRobot().getTime() - start_ > 5.0)
+            if (getSubsystem().getRobot().getTime() - start_ > 2.5)
             {
                 getSubsystem().endPlot(plot_id_) ;
                 plot_id_ = -1 ;

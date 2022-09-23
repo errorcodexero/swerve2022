@@ -65,13 +65,6 @@ public class MotorEncoderSubsystem extends MotorSubsystem
             min_value_ = -Double.MAX_VALUE ;
     }
 
-    public double getMaxPos() {
-        return max_value_ ;
-    }
-
-    public double getMinPos() {
-        return min_value_ ;
-    }
 
     /// \brief Create the subsystem
     /// \param parent the owning subsystem
@@ -87,6 +80,16 @@ public class MotorEncoderSubsystem extends MotorSubsystem
         encoder_ = new XeroEncoder(parent.getRobot(), encname, angle, getMotorController()) ;
 
         use_ctrl_velocity_ = false ;
+
+        if (isSettingDefined("maxpos"))
+            max_value_ = getSettingsValue("maxpos").getDouble() ;
+        else
+            max_value_ = Double.MAX_VALUE ;
+
+        if (isSettingDefined("minpos"))
+            min_value_ = getSettingsValue("minpos").getDouble() ;
+        else
+            min_value_ = -Double.MAX_VALUE ;
     }    
 
     /// \brief Create the subsystem
@@ -106,6 +109,17 @@ public class MotorEncoderSubsystem extends MotorSubsystem
         if (usectrlvel && !XeroRobot.isSimulation()) {
             use_ctrl_velocity_ = true ;
         }
+
+        if (isSettingDefined("maxpos"))
+            max_value_ = getSettingsValue("maxpos").getDouble() ;
+        else
+            max_value_ = Double.MAX_VALUE ;
+
+        if (isSettingDefined("minpos"))
+            min_value_ = getSettingsValue("minpos").getDouble() ;
+        else
+            min_value_ = -Double.MAX_VALUE ;        
+        
     }
 
     /// \brief Create the subsystem
@@ -123,6 +137,15 @@ public class MotorEncoderSubsystem extends MotorSubsystem
         encoder_ = new XeroEncoder(parent.getRobot(), encname, angle, getMotorController()) ;
 
         use_ctrl_velocity_ = false ;
+    }
+
+    
+    public double getMaxPos() {
+        return max_value_ ;
+    }
+
+    public double getMinPos() {
+        return min_value_ ;
     }
 
     /// \brief Returns true if the motor has a hardware PID loop in the motor controller

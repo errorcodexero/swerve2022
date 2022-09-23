@@ -21,11 +21,15 @@ public class HoodMotorSubsystem extends MotorEncoderSubsystem {
 
     @Override
     public double limitPower(double p) {
-        // if (getPosition() >= getMaxPos() && p > 0.0) {
-        //     p = 0.0 ;
-        // } if (getPosition() <= getMinPos() && p < 0.0) {
-        //     p = 0.0 ;
-        // }
+        double orig = p ;
+
+        if (getPosition() >= getMaxPos() && p > 0.0) {
+            p = 0.0 ;
+        } if (getPosition() <= getMinPos() && p < 0.0) {
+            p = 0.0 ;
+        }
+
+        System.out.println("limitPower " + p + ", orig " + orig + ", max " + getMaxPos() + " min " + getMinPos() + ", pos " + getPosition()) ;
         return p ;
     }
 }

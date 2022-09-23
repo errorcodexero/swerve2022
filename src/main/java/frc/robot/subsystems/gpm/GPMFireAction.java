@@ -77,6 +77,7 @@ public class GPMFireAction extends Action {
     public void start() throws Exception {
         super.start() ;
 
+        shooting_ = false ;
         sub_.getShooter().setAction(shoot_action_, true) ;
     }
 

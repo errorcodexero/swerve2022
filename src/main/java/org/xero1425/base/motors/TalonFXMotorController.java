@@ -87,13 +87,10 @@ public class TalonFXMotorController extends MotorController
             }
 
             //
-            // Status frame 2 is the frame that carries position and velocity values for the default PID 0
-            // input.  However, for the TalonFX we rely on getting values back from the integraged sensors
-            // and not the external sensors, so this can be slowed down as well.
             //
             controller_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 20, ControllerTimeout) ;
 
-            controller_.configNeutralDeadband(0.1) ;
+            // controller_.configNeutralDeadband(0.1) ;
         }
     }
 
@@ -301,7 +298,7 @@ public class TalonFXMotorController extends MotorController
         }
         else {
             TalonFX fx = (TalonFX)controller_ ;
-            ret = fx.getSelectedSensorVelocity() ;
+            ret = fx.getSelectedSensorPosition() ;
         }
 
         return ret ;

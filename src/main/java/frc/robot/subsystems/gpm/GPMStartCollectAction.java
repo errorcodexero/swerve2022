@@ -23,7 +23,7 @@ public class GPMStartCollectAction extends Action {
         intake_on_action_ = new IntakePositionPowerAction(subsystem_.getIntake(), "collect:onpos", "collector:onpower", false, false);
         agitator_on_action_ = new MotorPowerAction(subsystem_.getAgitator(), subsystem_.getAgitator().getSettingsValue("forwardpower").getDouble());
         conveyor_on_action_ = new ConveyorCollectAction(subsystem_.getConveyor()) ;
-        intake_stop_action_ = new IntakePositionPowerAction(subsystem.getIntake(), "collect:offpos", "collector:offpower", true, false);
+        intake_stop_action_ = new IntakePositionPowerAction(subsystem.getIntake(), "collect:offpos", "collector:offpower", true, true);
         intake_stay_on_action_ = new IntakePowerPowerAction(subsystem.getIntake(), "collect:onpower", "collector:onpower") ;
     }
 
@@ -47,7 +47,6 @@ public class GPMStartCollectAction extends Action {
             stay_action_applied_ = true ;
         }
 
-        // README: Hollister - note the GPM start collection is done, when the conveyor collect action is done
         if (conveyor_on_action_.isDone()) {
             subsystem_.getIntake().setAction(intake_stop_action_, true);
             agitator_on_action_.cancel();

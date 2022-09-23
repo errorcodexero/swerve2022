@@ -100,9 +100,12 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 break ;
 
             case 12:
-                addSubActionPair(intake, new MotorEncoderGotoAction(intake, 6000, false), true);
+                addSubActionPair(intake, new MotorEncoderGotoAction(intake, 7500, false), true);
+                addAction(new DelayAction(getAutoController().getRobot(), 3.00));
+                addSubActionPair(intake, new MotorEncoderGotoAction(intake, 0, false), true);
                 break ;
             
+            //
             // Agitator test modes
             //
             case 20:
