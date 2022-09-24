@@ -76,9 +76,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
 
         if (index_ < path_.getSize())
         {
-            Rotation2d rot = getSubsystem().getPose().getRotation() ;
-            if (index_ > 200)
-                rot = end_rotation_ ;
+            Rotation2d rot = end_rotation_ ;
             Pose2d target = getPoseFromPath(index_);
             getSubsystem().setPathLocation(target);
             double velocity = getVelocityFromPath(index_) ;
