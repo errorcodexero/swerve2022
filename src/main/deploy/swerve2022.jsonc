@@ -336,7 +336,8 @@
                 "hood-position-threshold": 10
             },
             "ramprate" : 1.0,
-            "fire-plot-duration" : 10.0
+            "fire-plot-duration" : 10.0,
+            "spinup-power" : 0.4
         },
         "shooter-wheel": {
             "hw": {
@@ -431,6 +432,15 @@
                     }
                 }
             }
+        }
+    },
+    "automodes" : {
+        "four-ball" : {                     // Values for the auto mode named 'four-ball'
+            "p1-end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
+            "p1-collect-delay" : 0.0,       // The delay after starting collect action and before driving for path 'p1'
+            "p2-end-angle" : 0.0,
+            "p2-collect-delay" : 0.0,
+            "p3-end-angle" : 0.0
         }
     },
     "testmode" : {

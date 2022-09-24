@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import frc.robot.subsystems.conveyor.ConveyorTestShootAction;
-import frc.robot.subsystems.shooter.SetShooterAction;
+import frc.robot.subsystems.shooter.ShooterSetHoodWheelsAction;
 
 public class GPMTestShooterAction  extends Action {
     private enum State {
@@ -33,7 +33,7 @@ public class GPMTestShooterAction  extends Action {
 
     private XeroTimer plot_timer_ ;
 
-    private SetShooterAction fire_ ;
+    private ShooterSetHoodWheelsAction fire_ ;
 
     private double shooter_velocity_ ;
     private double hood_angle_ ;
@@ -60,7 +60,7 @@ public class GPMTestShooterAction  extends Action {
         plot_timer_ = new XeroTimer(sub.getRobot(), "shoottimer", duration) ;
         plotting_ = false ;
 
-        fire_ = new SetShooterAction(sub_.getShooter(), 0.0, 0.0) ;
+        fire_ = new ShooterSetHoodWheelsAction(sub_.getShooter(), 0.0, 0.0) ;
 
         shooter_velocity_ = 0.0 ;
 

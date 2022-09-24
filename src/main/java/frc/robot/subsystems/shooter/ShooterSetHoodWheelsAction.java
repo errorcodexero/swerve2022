@@ -1,6 +1,5 @@
 package frc.robot.subsystems.shooter;
 
-
 import org.xero1425.base.actions.Action;
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
@@ -9,7 +8,7 @@ import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderVelocityAction;
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
 
-public class SetShooterAction extends Action {
+public class ShooterSetHoodWheelsAction extends Action {
     private ShooterSubsystem sub_;
     private MotorEncoderVelocityAction wheel_action_;
     private MotorEncoderTrackPositionAction hood_action_;
@@ -26,7 +25,7 @@ public class SetShooterAction extends Action {
     // The columns to plot
     private static String [] columns_ = { "time", "ltarget(rpm)", "lactual(rpm)", "htarget(degrees)", "hactual(degrees)" } ;
 
-    public SetShooterAction(ShooterSubsystem sub, double wheels, double hood) throws Exception
+    public ShooterSetHoodWheelsAction(ShooterSubsystem sub, double wheels, double hood) throws Exception
     {
         super(sub.getRobot().getMessageLogger());
         sub_ = sub;

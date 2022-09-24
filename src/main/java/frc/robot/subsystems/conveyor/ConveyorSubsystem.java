@@ -73,6 +73,10 @@ public class ConveyorSubsystem extends MotorSubsystem {
         state_ = State.Idle ;
     }
 
+    public void setPreloadedBall() {
+        ball_count_ = 1 ;
+    }
+
     public boolean shooterValue() {
         return shooter_value_ ;
     }

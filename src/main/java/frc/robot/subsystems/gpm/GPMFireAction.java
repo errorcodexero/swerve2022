@@ -9,7 +9,7 @@ import org.xero1425.base.utils.PieceWiseLinear;
 
 import frc.robot.subsystems.conveyor.ConveyorShootAction;
 import frc.robot.subsystems.conveyor.ConveyorSubsystem;
-import frc.robot.subsystems.shooter.SetShooterAction;
+import frc.robot.subsystems.shooter.ShooterSetHoodWheelsAction;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.targettracker.TargetTrackerSubsystem;
 import frc.robot.subsystems.turret.TurretSubsystem;
@@ -36,7 +36,7 @@ public class GPMFireAction extends Action {
     private ShooterParams last_params_ ;
     private ShooterParams default_params_ ;
 
-    private SetShooterAction shoot_action_ ;
+    private ShooterSetHoodWheelsAction shoot_action_ ;
     private ConveyorShootAction conveyor_action_ ;
     private boolean shooting_ ;
 
@@ -64,7 +64,7 @@ public class GPMFireAction extends Action {
         double pos = gpm.getSettingsValue("fire-action:default-hood-position").getDouble() ;
         default_params_ = new ShooterParams(vel, pos, false) ;
 
-        shoot_action_ = new SetShooterAction(gpm.getShooter(), 0.0, 0.0) ;
+        shoot_action_ = new ShooterSetHoodWheelsAction(gpm.getShooter(), 0.0, 0.0) ;
         conveyor_action_ = new ConveyorShootAction(gpm.getConveyor()) ;
 
         pwl_hood_ = new PieceWiseLinear(sub_.getRobot().getSettingsSupplier(), "subsystems:gpm:fire-action:hood-pwl") ;

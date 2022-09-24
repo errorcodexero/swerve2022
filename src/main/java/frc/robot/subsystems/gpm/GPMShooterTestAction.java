@@ -7,13 +7,13 @@ import org.xero1425.base.motors.MotorRequestFailedException;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
-import frc.robot.subsystems.shooter.SetShooterAction;
+import frc.robot.subsystems.shooter.ShooterSetHoodWheelsAction;
 
 public class GPMShooterTestAction extends Action {
     private GPMSubsystem sub_ ;
     private SimpleWidget wheel_widget_ ;
     private SimpleWidget hood_widget_ ;
-    private SetShooterAction shoot_action_ ;
+    private ShooterSetHoodWheelsAction shoot_action_ ;
     private double w1current_ ;
     private double hoodcurrent_ ;
 
@@ -21,7 +21,7 @@ public class GPMShooterTestAction extends Action {
         super(sub.getRobot().getMessageLogger()) ;
 
         sub_ = sub ;
-        shoot_action_ = new SetShooterAction(sub.getShooter(), 0.0, 0.0) ;
+        shoot_action_ = new ShooterSetHoodWheelsAction(sub.getShooter(), 0.0, 0.0) ;
 
         wheel_widget_ = makeWidget("velocity") ;
         hood_widget_ = makeWidget("hood") ;
@@ -32,8 +32,6 @@ public class GPMShooterTestAction extends Action {
 
     @Override
     public void start() throws BadMotorRequestException, MotorRequestFailedException {
-        // sub_.getConveyor().setBypass(true);
-        // sub_.getConveyor().setMotorsPower(1.0, 0.2);
         sub_.getShooter().setAction(shoot_action_, true) ;
     }
 
