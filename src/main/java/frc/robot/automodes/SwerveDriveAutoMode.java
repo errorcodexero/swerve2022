@@ -43,13 +43,13 @@ public abstract class SwerveDriveAutoMode extends AutoMode {
             GPMSubsystem gpm = getRobotSubsystem().getGPM();
             addSubActionPair(gpm, new GPMStartCollectAction(gpm), false);
 
-            double delay = getSetting("-collect-delay").getDouble() ;
+            double delay = getSetting(name + ":collect-delay").getDouble() ;
             if (delay > 0.01) {
                 addAction(new DelayAction(getAutoController().getRobot(), delay));
             }
         }
  
-        double angle = getSetting(name + "-end-angle").getDouble() ;
+        double angle = getSetting(name + ":end-angle").getDouble() ;
         addSubActionPair(db, new SwerveHolonomicPathFollower(db, getName() + "-p1", angle), true) ;
     }
 }
