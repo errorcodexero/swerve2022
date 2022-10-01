@@ -75,14 +75,14 @@ public class SwerveTestAutoMode extends TestAutoMode {
 
             case 5:
                 // Set the steering motor to the angle given, and the drive motor to the power given.  Run  until the duration has expired
-                angles[0] = 0.0 ;
-                angles[1] = 0.0 ;
-                angles[2] = 0.0 ;
-                angles[3] = 0.0 ;
-                powers[0] = 0.0 ;
-                powers[1] = 0.0 ;
-                powers[2] = 0.0 ;
-                powers[3] = 0.1 ;
+                angles[0] = getDouble("angle");
+                angles[1] = getDouble("angle");
+                angles[2] = getDouble("angle");
+                angles[3] = getDouble("angle");
+                powers[0] = getDouble("power");
+                powers[1] = getDouble("power");
+                powers[2] = getDouble("power");
+                powers[3] = getDouble("power");
                 addSubActionPair(swerve, new SwervePowerAngleAction(swerve, angles, powers, getDouble("duration")), true) ;
                 break ;
 

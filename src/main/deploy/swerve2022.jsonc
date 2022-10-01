@@ -43,7 +43,7 @@
                     },
                     "encoder" : {
                         "canid" : 13,
-                        "offset" : 74.9
+                        "offset" : 75.0
                     }
                 },
                 "fr" : {
@@ -55,7 +55,7 @@
                     },
                     "encoder" : {
                         "canid" : 23,
-                        "offset" : 104.6                        
+                        "offset" : 99.7                        
                     }
                 },
                 "bl" : {
@@ -79,7 +79,7 @@
                     },
                     "encoder" : {
                         "canid" : 33,
-                        "offset" : 45.5               
+                        "offset" : 45.45
                     }
                 }               
             },
@@ -292,12 +292,12 @@
                 },
                 "encoder" : {
                     "type": "analog",
-                    "ainput": 0,
+                    "ainput": 1,
                     "rmin": -180.0,
                     "rmax": 180.0,
                     "emin": 0.0,
                     "emax": 5.0,
-                    "ec": 2.446288812,
+                    "ec": 4.998779,
                     "rc": 0.0
                 }
             },
@@ -381,12 +381,12 @@
                 },
                 "encoder" : {
                     "type": "analog",
-                    "ainput": 1,
+                    "ainput": 0,
                     "rmin": -100,
                     "rmax": 900.0,
                     "emin": 0.0,
                     "emax": 5.0,
-                    "ec": 3.657,
+                    "ec": 2.872,
                     "rc": 0.0
                 }
             },
@@ -435,7 +435,7 @@
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 51,
+        "which" : 3,
         "0" : {
             "angle" : 0.0,
             "power" : 0.2
@@ -451,8 +451,8 @@
         },
         "3" : {
             "angle" :0.0,
-            "speed" : 1, 
-            "duration" : 5.0
+            "speed" : 2, 
+            "duration" : 6.0
         },
         "4" : {
             "name" : "Test_Straight",
@@ -461,7 +461,7 @@
         "5" : {
             "angle" :0.0,
             "power" : 0.1,
-            "duration" : 1000.0
+            "duration" : 10 
         },
         "10" : {
             "duration" : 4
