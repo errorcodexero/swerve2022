@@ -31,7 +31,7 @@ exposure:2
 force_convex:1
 hue_max:100
 hue_min:60
-image_flip:0
+image_flip:1
 image_source:0
 img_to_show:1
 intersection_filter:0
@@ -39,7 +39,7 @@ invert_hue:0
 multigroup_max:4
 multigroup_min:2
 multigroup_rejector:1
-pipeline_led_enabled:1
+pipeline_led_enabled:0
 pipeline_led_power:100
 pipeline_res:0
 pipeline_type:0
