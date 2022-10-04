@@ -5,6 +5,7 @@ import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
 import org.xero1425.base.subsystems.swerve.common.SwerveDriveChassisSpeedAction;
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MissingParameterException;
+import org.xero1425.misc.PIDCtrl;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -17,6 +18,9 @@ public class SwerveDriveGamepad extends Gamepad {
     private double deadband_pos_y_ ;
     private double deadband_rotate_ ;
     private double power_ ;
+    private double prev_heading_ ;
+    private double drive_straight_threshold_ ;
+    private PIDCtrl straight_controller_ ;
     private SwerveDriveChassisSpeedAction action_;
 
     public SwerveDriveGamepad(OISubsystem oi, int index, SwerveBaseSubsystem drive_) throws Exception {
@@ -30,7 +34,12 @@ public class SwerveDriveGamepad extends Gamepad {
             throw new Exception("invalid gamepad for TankDriveGamepad");
         }
 
+        String pidname = "subsystems:" + oi.getName() + ":straight-pid" ;
+        straight_controller_ = new PIDCtrl(oi.getRobot().getSettingsSupplier(), pidname, true) ;
+
         db_ = drive_;
+        prev_heading_ = Double.NaN ;
+        drive_straight_threshold_ = 1.0 ;
     }
 
     @Override
@@ -80,6 +89,24 @@ public class SwerveDriveGamepad extends Gamepad {
         // the positive X axis of the field.
         //
         rxscaled *= 2.0 / Math.hypot(db_.getLength(), db_.getWidth()) / 39.37;  // 39.27 to convert meters -> inches. Original equation from SDS assumes inches.
+
+        if (Math.abs(rxscaled) < drive_straight_threshold_) {
+            //
+            // The driver is not rotating, try to maintain a straight course
+            //
+            if (prev_heading_ == Double.NaN) {
+                prev_heading_ = db_.getHeading().getDegrees() ;
+            }
+            rxscaled = straight_controller_.getOutput(prev_heading_, db_.getHeading().getDegrees(), getSubsystem().getRobot().getDeltaTime()) ;
+        }
+        else {
+            //
+            // The driver is rotating, the angular motion is controlled by the
+            // drivers stick
+            //
+            prev_heading_ = Double.NaN ;
+        }
+
         ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(-lyscaled, -lxscaled, rxscaled, db_.getHeading()) ;
         action_.update(speeds) ;
         
