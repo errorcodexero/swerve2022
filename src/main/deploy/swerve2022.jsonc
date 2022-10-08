@@ -20,7 +20,8 @@
         },
         "verbose" : {
             "swervedrive": true,
-            "intake": true
+            "intake": true,
+            "limelight": true
         },
         "plotting" : true,
         "pneumatics": {
@@ -200,8 +201,8 @@
             "timeout": 8.0,
             "camera_latency": 0.011,
             "network_latency": 0.010,
-            "camera_angle": 28.83, // change this
-            "camera_height": 51.0, // change this
+            "camera_angle": 41, // change this
+            "camera_height": 29.75, // change this
             "target_height": 103
         },
         "intake" : {

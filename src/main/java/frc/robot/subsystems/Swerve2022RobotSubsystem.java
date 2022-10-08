@@ -31,11 +31,8 @@ public class Swerve2022RobotSubsystem extends RobotSubsystem {
         gpm_ = new GPMSubsystem(this, "gpm") ;
         addChild(gpm_) ;
 
-        if (XeroRobot.isSimulation())
-        {
-            limelight_ = new LimeLightSubsystem(this, "limelight");
-            addChild(limelight_);
-        }
+        limelight_ = new LimeLightSubsystem(this, "limelight");
+        addChild(limelight_);
 
         tracker_ = new TargetTrackerSubsystem(this, limelight_, turret_);
         addChild(tracker_);
