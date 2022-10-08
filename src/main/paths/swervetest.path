@@ -48,7 +48,7 @@
                     "maxacceleration": 3.556,
                     "maxcentripetal": 10000,
                     "maxjerk": 35.559999999999995,
-                    "maxvelocity": 3.556,
+                    "maxvelocity": 1,
                     "name": "CurveRight",
                     "points": [
                         {
@@ -58,8 +58,8 @@
                         },
                         {
                             "heading": -90,
-                            "x": 3.048,
-                            "y": 1.524
+                            "x": 3,
+                            "y": 3
                         }
                     ],
                     "startangle": 0,
@@ -223,5 +223,5 @@
             ]
         }
     ],
-    "outdir": "D:/cygwin64/home/bwg/robottools/swerve2022/src/main/deploy/paths"
+    "outdir": "Z:/home/hollister/swerve2022abc/src/main/deploy/paths"
 }
