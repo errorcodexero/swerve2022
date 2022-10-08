@@ -6,7 +6,6 @@ package frc.robot;
 
 import frc.robot.automodes.SwerveDriveRobotAutoController;
 import frc.robot.subsystems.Swerve2022RobotSubsystem;
-
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.controllers.AutoController;
 import org.xero1425.misc.SimArgs;
@@ -22,47 +21,43 @@ import org.xero1425.simulator.engine.SimulationEngine;
  * project.
  */
 public class Swerve2022 extends XeroRobot {
-    public Swerve2022() {
-        super(0.02);
+  public Swerve2022() { super(0.02); }
+
+  protected void addRobotSimulationModels() {
+    ModelFactory factory = SimulationEngine.getInstance().getModelFactory();
+    factory.registerModel("conveyor", "frc.models.ConveyorModel");
+    factory.registerModel("swerve2022oi", "frc.models.Swerve2022OIModel");
+    factory.registerModel("turret", "frc.models.TurretModel");
+  }
+
+  public String getName() { return "swerve2022"; }
+
+  public String getSimulationFileName() {
+    String ret = SimArgs.InputFileName;
+    if (ret != null)
+      return ret;
+
+    return "automode";
+  }
+
+  public AutoController createAutoController() {
+    AutoController ctrl;
+
+    try {
+      ctrl = new SwerveDriveRobotAutoController(this);
+    } catch (Exception ex) {
+      ctrl = null;
     }
 
-    protected void addRobotSimulationModels() {
-        ModelFactory factory = SimulationEngine.getInstance().getModelFactory();
-        factory.registerModel("conveyor", "frc.models.ConveyorModel");
-        factory.registerModel("swerve2022oi", "frc.models.Swerve2022OIModel") ;
-        factory.registerModel("turret", "frc.models.TurretModel");
-    }    
+    return ctrl;
+  }
 
-    public String getName() {
-        return "swerve2022";
-    }
+  protected void hardwareInit() throws Exception {
+    Swerve2022RobotSubsystem robot = new Swerve2022RobotSubsystem(this);
+    setRobotSubsystem(robot);
+  }
 
-    public String getSimulationFileName() {
-        String ret = SimArgs.InputFileName;
-        if (ret != null)
-            return ret;
-
-        return "automode";
-    }
-
-    public AutoController createAutoController() {
-        AutoController ctrl;
-
-        try {
-            ctrl = new SwerveDriveRobotAutoController(this);
-        } catch (Exception ex) {
-            ctrl = null;
-        }
-
-        return ctrl;
-    }
-
-    protected void hardwareInit() throws Exception {
-        Swerve2022RobotSubsystem robot = new Swerve2022RobotSubsystem(this);
-        setRobotSubsystem(robot);
-    }
-
-    protected XeroPathType getPathType() {
-        return XeroPathType.SwervePathFollowing ;
-    }
+  protected XeroPathType getPathType() {
+    return XeroPathType.SwervePathFollowing;
+  }
 }

@@ -317,4 +317,8 @@ public class ConveyorSubsystem extends MotorSubsystem {
             ball_count_ = 0 ;
         }
     }
+
+    public void setPreloadedBall() {
+        ball_count_ = 1;
+    }
 }
