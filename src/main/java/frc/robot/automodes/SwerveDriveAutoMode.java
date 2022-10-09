@@ -1,26 +1,20 @@
 package frc.robot.automodes;
 
-import frc.robot.subsystems.gpm.GPMFireAction;
 import org.xero1425.base.actions.DelayAction;
 import org.xero1425.base.actions.InvalidActionRequest;
-import org.xero1425.base.actions.ParallelAction;
-import org.xero1425.base.actions.SequenceAction;
 import org.xero1425.base.controllers.AutoController;
 import org.xero1425.base.controllers.AutoMode;
-import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderGotoAction;
 import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
 import org.xero1425.base.subsystems.swerve.common.SwerveHolonomicPathFollower;
-import org.xero1425.base.subsystems.swerve.common.SwervePathFollowAction;
 import org.xero1425.misc.BadParameterTypeException;
+import org.xero1425.misc.ISettingsSupplier;
 import org.xero1425.misc.MissingParameterException;
+import org.xero1425.misc.SettingsValue;
 
 import frc.robot.subsystems.Swerve2022RobotSubsystem;
 import frc.robot.subsystems.gpm.GPMStartCollectAction;
-import frc.robot.subsystems.gpm.GPMStopCollectAction;
 import frc.robot.subsystems.gpm.GPMSubsystem;
-import frc.robot.subsystems.shooter.SetShooterAction;
 import frc.robot.subsystems.turret.TurretFollowTargetAction;
-import frc.robot.subsystems.turret.TurretSubsystem;
 
 public abstract class SwerveDriveAutoMode extends AutoMode {
     SwerveDriveAutoMode(AutoController ctrl, String name) {
@@ -37,71 +31,91 @@ public abstract class SwerveDriveAutoMode extends AutoMode {
         addSubActionPair(swerve.getTurret(), act, false);
     }
 
-    protected void driveAndFire(String path, double angle, double endangle) throws Exception {
+    // protected void driveAndFire(String path, double angle, double endangle) throws Exception {
         
-        Swerve2022RobotSubsystem swerve = getSwerveRobotSubsystem() ;
-        GPMSubsystem gpm = swerve.getGPM();
-        TurretSubsystem turret = swerve.getTurret() ;
-        ParallelAction parallel;
+    //     Swerve2022RobotSubsystem swerve = getSwerveRobotSubsystem() ;
+    //     GPMSubsystem gpm = swerve.getGPM();
+    //     TurretSubsystem turret = swerve.getTurret() ;
+    //     ParallelAction parallel;
 
-        parallel = new ParallelAction(getAutoController().getRobot().getMessageLogger(), ParallelAction.DonePolicy.All);
-        parallel.addSubActionPair(turret, new MotorEncoderGotoAction(turret, angle, true), false) ;
-        parallel.addSubActionPair(swerve.getDB(), new SwerveHolonomicPathFollower(swerve.getDB(), path, endangle), true);
-        addAction(parallel);
+    //     parallel = new ParallelAction(getAutoController().getRobot().getMessageLogger(), ParallelAction.DonePolicy.All);
+    //     parallel.addSubActionPair(turret, new MotorEncoderGotoAction(turret, angle, true), false) ;
+    //     parallel.addSubActionPair(swerve.getDB(), new SwerveHolonomicPathFollower(swerve.getDB(), path, endangle), true);
+    //     addAction(parallel);
         
-        startLimelightTracking();
-        addSubActionPair(gpm, new GPMFireAction(gpm, swerve.getTracker(), swerve.getDB(), swerve.getTurret()), true) ;
+    //     startLimelightTracking();
+    //     addSubActionPair(gpm, new GPMFireAction(gpm, swerve.getTracker(), swerve.getDB(), swerve.getTurret()), true) ;
+    // }
+
+    // protected void driveAndCollect(String path, double delay1, double delay2, double angle, SetShooterAction act, double endangle) throws Exception {
+    //     GPMSubsystem gpm = getSwerveRobotSubsystem().getGPM();
+    //     SwerveBaseSubsystem db = getSwerveRobotSubsystem().getDB();
+    //     TurretSubsystem turret = getSwerveRobotSubsystem().getTurret() ;
+    //     ParallelAction parallel;
+    //     SequenceAction drive;
+
+    //     parallel = new ParallelAction(getAutoController().getRobot().getMessageLogger(), ParallelAction.DonePolicy.All);
+
+    //     //
+    //     // The drive series that delays, drives, then delays.  This series should controle the life time of the
+    //     // parallel.
+    //     //
+
+    //     drive = new SequenceAction(getAutoController().getRobot().getMessageLogger());
+
+    //     if (Math.abs(delay1) > 0.05) {
+    //         drive.addAction(new DelayAction(getAutoController().getRobot(), delay1));
+    //     }
+    //     drive.addSubActionPair(db, new SwerveHolonomicPathFollower(db, path, endangle), true);
+    //     if (Math.abs(delay2) > 0.05) {
+    //         drive.addAction(new DelayAction(getAutoController().getRobot(), delay2));
+    //     } 
+    //     parallel.addAction(drive);
+
+    //     //
+    //     // The turret positioning so we are sure the turret is pointed at the lime
+    //     // light when we are done.
+    //     //
+    //     parallel.addSubActionPair(turret, new MotorEncoderGotoAction(turret, angle, true), true);
+
+    //     //
+    //     // The collect sequence
+    //     //
+    //     GPMStartCollectAction collect = new GPMStartCollectAction(gpm) ;
+    //     parallel.addSubActionPair(gpm, collect, false) ;
+
+    //     //
+    //     // Now add the parallel to the action to the automode that does the drive and collect with
+    //     // turret alignment at the end of the drive
+    //     //
+    //     addAction(parallel);
+
+    //     //
+    //     // When the path and delay is done, stop collecting
+    //     //
+    //     GPMStopCollectAction stop = new GPMStopCollectAction(gpm) ;
+    //     addSubActionPair(gpm, stop, false);
+    // }
+
+    protected SettingsValue getSetting(String name) throws MissingParameterException {
+        ISettingsSupplier settings = getAutoController().getRobot().getSettingsSupplier() ;
+        String settingname = "automodes:" + getName() + ":" + name ;
+        return settings.get(settingname) ;
     }
 
-    protected void driveAndCollect(String path, double delay1, double delay2, double angle, SetShooterAction act, double endangle) throws Exception {
-        GPMSubsystem gpm = getSwerveRobotSubsystem().getGPM();
-        SwerveBaseSubsystem db = getSwerveRobotSubsystem().getDB();
-        TurretSubsystem turret = getSwerveRobotSubsystem().getTurret() ;
-        ParallelAction parallel;
-        SequenceAction drive;
+    protected void drivePath(String name, boolean collect) throws Exception {
+        SwerveBaseSubsystem db = getSwerveRobotSubsystem().getDB() ;
+        if (collect) {
+            GPMSubsystem gpm = getSwerveRobotSubsystem().getGPM();
+            addSubActionPair(gpm, new GPMStartCollectAction(gpm), false);
 
-        parallel = new ParallelAction(getAutoController().getRobot().getMessageLogger(), ParallelAction.DonePolicy.All);
-
-        //
-        // The drive series that delays, drives, then delays.  This series should controle the life time of the
-        // parallel.
-        //
-
-        drive = new SequenceAction(getAutoController().getRobot().getMessageLogger());
-
-        if (Math.abs(delay1) > 0.05) {
-            drive.addAction(new DelayAction(getAutoController().getRobot(), delay1));
+            double delay = getSetting(name + ":collect-delay").getDouble() ;
+            if (delay > 0.01) {
+                addAction(new DelayAction(getAutoController().getRobot(), delay));
+            }
         }
-        drive.addSubActionPair(db, new SwerveHolonomicPathFollower(db, path, endangle), true);
-        if (Math.abs(delay2) > 0.05) {
-            drive.addAction(new DelayAction(getAutoController().getRobot(), delay2));
-        } 
-        parallel.addAction(drive);
-
-        //
-        // The turret positioning so we are sure the turret is pointed at the lime
-        // light when we are done.
-        //
-        parallel.addSubActionPair(turret, new MotorEncoderGotoAction(turret, angle, true), true);
-
-        //
-        // The collect sequence
-        //
-        GPMStartCollectAction collect = new GPMStartCollectAction(gpm) ;
-        parallel.addSubActionPair(gpm, collect, false) ;
-
-        //
-        // Now add the parallel to the action to the automode that does the drive and collect with
-        // turret alignment at the end of the drive
-        //
-        addAction(parallel);
-
-        //
-        // When the path and delay is done, stop collecting
-        //
-        GPMStopCollectAction stop = new GPMStopCollectAction(gpm) ;
-        addSubActionPair(gpm, stop, false);
+ 
+        double angle = getSetting(name + ":end-angle").getDouble() ;
+        addSubActionPair(db, new SwerveHolonomicPathFollower(db, getName() + "-p1", angle), true) ;
     }
-
-
 }
