@@ -49,7 +49,7 @@ public class FourBallAuto extends SwerveDriveAutoMode {
         drivePath("p2", true) ;
 
         // Drive back to the shooting location
-        drivePath("p3", true) ;
+        drivePath("p3", false) ;
 
         // Fire the third and possible fourth balls
         addSubActionPair(gpm, new GPMFireAction(gpm, tracker, db, turret), true);

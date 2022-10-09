@@ -357,7 +357,8 @@
                 "hood-position-threshold": 10
             },
             "ramprate" : 1.0,
-            "fire-plot-duration" : 10.0
+            "fire-plot-duration" : 10.0,
+            "spinup-power" : 0.4
         },
         "shooter-wheel": {
             "hw": {

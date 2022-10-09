@@ -33,7 +33,7 @@ public class SwerveDriveRobotAutoController extends AutoController {
         }
         catch(Exception ex) {
             MessageLogger logger = robot.getMessageLogger() ;
-            logger.startMessage(MessageType.Error).add("Exception thrown creating test mode actions - ") ;
+            logger.startMessage(MessageType.Error).add("Exception thrown creating automodes - ") ;
             logger.add(ex.getMessage()).endMessage();
             robot.logStackTrace(ex.getStackTrace());
 
