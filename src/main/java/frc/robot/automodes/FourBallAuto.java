@@ -12,7 +12,7 @@ import frc.robot.subsystems.turret.TurretSubsystem;
 public class FourBallAuto extends SwerveDriveAutoMode {
 
     public FourBallAuto(SwerveDriveRobotAutoController ctrl) throws Exception {
-        super(ctrl, "four-ball") ;
+        super(ctrl, "fourball") ;
 
         Swerve2022RobotSubsystem swerve = (Swerve2022RobotSubsystem)ctrl.getRobot().getRobotSubsystem() ;
         GPMSubsystem gpm = swerve.getGPM() ;

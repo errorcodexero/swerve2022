@@ -2,7 +2,7 @@
     "_version": "2",
     "groups": [
         {
-            "name": "Test",
+            "name": "fourball",
             "paths": [
                 {
                     "constraints": [
@@ -14,21 +14,21 @@
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 3.556,
-                    "maxcentripetal": 10000,
-                    "maxjerk": 35.559999999999995,
-                    "maxvelocity": 3.556,
-                    "name": "Straight",
+                    "maxacceleration": 180,
+                    "maxcentripetal": 100000,
+                    "maxjerk": 1800,
+                    "maxvelocity": 180,
+                    "name": "p1",
                     "points": [
                         {
-                            "heading": 0,
-                            "x": 0,
-                            "y": 4.572
+                            "heading": -155.898,
+                            "x": 6.803916159814537,
+                            "y": 2.7180530576427815
                         },
                         {
-                            "heading": 0,
-                            "x": 3.048,
-                            "y": 4.572
+                            "heading": -145.491,
+                            "x": 5.28005,
+                            "y": 2.04003
                         }
                     ],
                     "startangle": 0,
@@ -45,21 +45,21 @@
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 3.556,
-                    "maxcentripetal": 10000,
-                    "maxjerk": 35.559999999999995,
-                    "maxvelocity": 1,
-                    "name": "CurveRight",
+                    "maxacceleration": 180,
+                    "maxcentripetal": 100000,
+                    "maxjerk": 1800,
+                    "maxvelocity": 180,
+                    "name": "p2",
                     "points": [
                         {
-                            "heading": 0,
-                            "x": 0,
-                            "y": 4.572
+                            "heading": -145.491,
+                            "x": 5.28005,
+                            "y": 2.04003
                         },
                         {
-                            "heading": -90,
-                            "x": 3,
-                            "y": 3
+                            "heading": -172.48785589694725,
+                            "x": 1.6449305376347039,
+                            "y": 1.2114361850692426
                         }
                     ],
                     "startangle": 0,
@@ -76,144 +76,21 @@
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 3,
-                    "maxcentripetal": 10000,
-                    "maxjerk": 35.559999999999995,
-                    "maxvelocity": 3,
-                    "name": "ThereBack",
-                    "points": [
-                        {
-                            "heading": 0,
-                            "x": -0.06395605102368984,
-                            "y": 4.578635746596634
-                        },
-                        {
-                            "heading": 0,
-                            "x": 3.8563688033891252,
-                            "y": 6.264456031668865
-                        },
-                        {
-                            "heading": -90,
-                            "x": 5.7810096590040985,
-                            "y": 4.9896939065212855
-                        },
-                        {
-                            "heading": -180,
-                            "x": 3.9063594749635397,
-                            "y": 3.4649784235016305
-                        },
-                        {
-                            "heading": -180,
-                            "x": 0,
-                            "y": 4.572
-                        }
-                    ],
-                    "startangle": 0,
-                    "startangledelay": 0,
-                    "startvelocity": 0
-                },
-                {
-                    "constraints": [
-                    ],
-                    "endangle": 0,
-                    "endangledelay": 0,
-                    "endvelocity": 0,
-                    "flags": [
-                    ],
-                    "markers": [
-                    ],
-                    "maxacceleration": 3.556,
+                    "maxacceleration": 180,
                     "maxcentripetal": 100000,
-                    "maxjerk": 35.559999999999995,
-                    "maxvelocity": 3.556,
-                    "name": "CurveLeft",
+                    "maxjerk": 1800,
+                    "maxvelocity": 180,
+                    "name": "p3",
                     "points": [
                         {
-                            "heading": 0,
-                            "x": 0,
-                            "y": 4.572
+                            "heading": 7.512,
+                            "x": 1.64493,
+                            "y": 1.21144
                         },
                         {
-                            "heading": 90,
-                            "x": 3.048,
-                            "y": 7.62
-                        }
-                    ],
-                    "startangle": 0,
-                    "startangledelay": 0,
-                    "startvelocity": 0
-                },
-                {
-                    "constraints": [
-                    ],
-                    "endangle": 180,
-                    "endangledelay": 0,
-                    "endvelocity": 0,
-                    "flags": [
-                    ],
-                    "markers": [
-                    ],
-                    "maxacceleration": 3.5,
-                    "maxcentripetal": 100000,
-                    "maxjerk": 35,
-                    "maxvelocity": 3.5,
-                    "name": "StraightRotate",
-                    "points": [
-                        {
-                            "heading": 0,
-                            "x": 0,
-                            "y": 4.572
-                        },
-                        {
-                            "heading": 0,
-                            "x": 3.048,
-                            "y": 4.572
-                        }
-                    ],
-                    "startangle": 0,
-                    "startangledelay": 0,
-                    "startvelocity": 0
-                },
-                {
-                    "constraints": [
-                    ],
-                    "endangle": 180,
-                    "endangledelay": 0,
-                    "endvelocity": 0,
-                    "flags": [
-                    ],
-                    "markers": [
-                    ],
-                    "maxacceleration": 3.5,
-                    "maxcentripetal": 100000,
-                    "maxjerk": 35,
-                    "maxvelocity": 3.5,
-                    "name": "ThereBackRotate",
-                    "points": [
-                        {
-                            "heading": 0,
-                            "x": 0,
-                            "y": 4.572
-                        },
-                        {
-                            "heading": 0,
-                            "x": 3.85637,
-                            "y": 6.26446
-                        },
-                        {
-                            "heading": -90,
-                            "x": 5.78101,
-                            "y": 4.98969
-                        },
-                        {
-                            "heading": -180,
-                            "x": 3.90636,
-                            "y": 3.46498
-                        },
-                        {
-                            "heading": -180,
-                            "x": 0,
-                            "y": 4.572
+                            "heading": 22.166345822082427,
+                            "x": 5.280051294831569,
+                            "y": 2.0400298870773526
                         }
                     ],
                     "startangle": 0,
@@ -223,5 +100,5 @@
             ]
         }
     ],
-    "outdir": "Z:/home/hollister/swerve2022abc/src/main/deploy/paths"
+    "outdir": "C:/cygwin64/home/butch/robottools/robots/swerve2022/src/main/deploy/paths"
 }

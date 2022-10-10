@@ -277,10 +277,17 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
 
     /// \brief set the pose (x and y location plus heading) of the robot
     /// \param pose the pose for the robot
-    public void setPose(Pose2d pose) throws BadMotorRequestException {
+    public void setPose(Pose2d pose) {
         tracker_.resetPosition(pose, getAngle()) ;
-        left_motors_.resetEncoder();
-        right_motors_.resetEncoder();
+        try {
+            left_motors_.resetEncoder();
+            right_motors_.resetEncoder();
+        }
+        catch(BadMotorRequestException ex) {
+            MessageLogger logger = getRobot().getMessageLogger() ;
+            logger.startMessage(MessageType.Error) ;
+            logger.add("error occurred setting the tank drive pose - " + ex.getMessage()) ;
+        }
     }
 
     /// \brief get the pose for the robot

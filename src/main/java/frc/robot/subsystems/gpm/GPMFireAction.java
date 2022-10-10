@@ -6,6 +6,8 @@ import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.base.subsystems.DriveBaseSubsystem;
 import org.xero1425.base.subsystems.Subsystem.DisplayType;
 import org.xero1425.base.utils.PieceWiseLinear;
+import org.xero1425.misc.MessageLogger;
+import org.xero1425.misc.MessageType;
 
 import frc.robot.subsystems.conveyor.ConveyorShootAction;
 import frc.robot.subsystems.conveyor.ConveyorSubsystem;
@@ -146,8 +148,17 @@ public class GPMFireAction extends Action {
 
             sub_.putDashboard("hood-pcnt", DisplayType.Always, hoodpcnt);
             sub_.putDashboard("wheel-pcnt", DisplayType.Always, wheelpcnt);
+            ret = hoodpcnt < hood_threshold_ && wheelpcnt < wheel_threshold_ ;        
+            
+            MessageLogger logger = sub_.getRobot().getMessageLogger() ;
+            logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
+            logger.add("GPMFireAction: isShooterReady: ") ;
+            logger.add("hood", hoodpcnt) ;
+            logger.add("wheel", wheelpcnt) ;
+            logger.add("ready", ret) ;
+            logger.endMessage();
 
-            ret = hoodpcnt < hood_threshold_ && wheelpcnt < wheel_threshold_ ;
+
         }
 
         return ret ;
@@ -158,17 +169,31 @@ public class GPMFireAction extends Action {
     }
 
     private ShooterParams setShooterParams() throws BadMotorRequestException, MotorRequestFailedException {
+        MessageLogger logger = sub_.getRobot().getMessageLogger() ;
         ShooterParams sp ;
 
         if (tracker_.hasTarget()) {
             sp = computeShooterParams(tracker_.getDistance()) ;
-            last_params_ = sp ;
+            logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
+            logger.add("GPMFireAction: has target") ;
+            logger.add("hood", sp.HoodPosition) ;
+            logger.add("wheel", sp.WheelVelocity) ;
+            logger.endMessage();
+            last_params_ = new ShooterParams(sp.WheelVelocity, sp.HoodPosition, false) ;
         }
         else if (last_params_ != null) {
+            logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
+            logger.add("GPMFireAction: no target, has previous params") ;
+            logger.endMessage();
             sp = last_params_ ;
         }
         else {
             sp = getDefaultShooterParams() ;
+            logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
+            logger.add("GPMFireAction: no target, default params") ;
+            logger.add("hood", sp.HoodPosition) ;
+            logger.add("wheel", sp.WheelVelocity) ;
+            logger.endMessage();
         }
 
         shoot_action_.update(sp.WheelVelocity, sp.HoodPosition) ;

@@ -45,7 +45,7 @@ public class SwervePathFollowAction extends SwerveDriveAction {
         double heading = fl.getHeading() ;
 
         Pose2d pose = new Pose2d(x, y, Rotation2d.fromDegrees(heading)) ;
-        getSubsystem().resetOdometry(pose);
+        getSubsystem().setPose(pose);
 
         getSubsystem().startSwervePlot("SwervePathFollowAction") ;
         getSubsystem().startPathing();

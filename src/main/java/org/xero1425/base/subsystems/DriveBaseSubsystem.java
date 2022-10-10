@@ -69,6 +69,7 @@ public abstract class DriveBaseSubsystem extends Subsystem {
     }
 
     public abstract Pose2d getPose() ;
+    public abstract void setPose(Pose2d p) ;
 
     public abstract double getVelocity() ;
 

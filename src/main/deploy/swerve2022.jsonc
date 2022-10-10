@@ -8,10 +8,11 @@
             "simulator": false,
 
             // Subsystem related messages
-            "conveyor" : true,
+            "conveyor" : false,
             "gpm": true,
-            "shooter": true,
+            "shooter": false,
             "intake" : false,
+            "turret" : false,
 
             // Tank drive related settings
             "pathfollowing": false,
@@ -21,7 +22,9 @@
         "verbose" : {
             "swervedrive": true,
             "intake": true,
-            "limelight": true
+            "limelight": true,
+            "shooter-hood" : true,
+            "shooter-wheel" : true
         },
         "plotting" : true,
         "pneumatics": {
@@ -323,7 +326,7 @@
                 }
             },
             "follow" : {
-                "kp" : 0.02,
+                "kp" : 0.025,
                 "kf" : 0.0,
                 "ki" : 0.05,
                 "kd" : 0.00,
@@ -344,12 +347,9 @@
             "target_height": 103
         },
         "targettracker": {
-            "camera_offset_angle": 0.0,
+            "camera_offset_angle": 3.0,
             "lost_count": 10,
-            "track_method": "v",
-            "forced-target" : true,
-            "forced-distance" : 60,
-            "forced-angle" : 0
+            "track_method": "v"
         },
         "shooter": {
             "shooter-action": {
@@ -430,8 +430,8 @@
                 "default-hood-position" : 400,
                 "default-wheel-velocity" : 3500,
                 "max-db-velocity" : 0.1,
-                "hood-threshold" : 20,
-                "wheel-threshold" : 100,
+                "hood-threshold" : 10,
+                "wheel-threshold" : 7,
                 "hood-pwl" : {
                     "1" : {
                         "x" : 56,
@@ -520,7 +520,7 @@
         }
     },
     "automodes" : {
-        "four-ball" : {                      // Values for the auto mode named 'four-ball'
+        "fourball" : {                      // Values for the auto mode named 'four-ball'
             "p1" : {
                 "end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
                 "collect-delay" : 0.0        // The delay after starting collect action and before driving for path 'p1'
@@ -533,13 +533,13 @@
                 "end-angle" : 0.0
             }
         },
-        "two-ball-left" : {
+        "twoballleft" : {
             "p1" : {
                 "end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
                 "collect-delay" : 1.0        // The delay after starting collect action and before driving for path 'p1'
             }
         },
-        "two-ball-right" : {
+        "twoballright" : {
             "p1" : {
                 "end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
                 "collect-delay" : 1.0        // The delay after starting collect action and before driving for path 'p1'
@@ -548,7 +548,7 @@
     },
     "testmode" : {
         "enabled" : true,
-        "which" : 4,
+        "which" : 62,
         "0" : {
             "angle" : 0.0,
             "power" : 0.2
@@ -568,7 +568,7 @@
             "duration" : 6.0
         },
         "4" : {
-            "name" : "Test_CurveRight",
+            "name" :"fourball_pa",
             "endangle" : 0.0
         },
         "5" : {

@@ -13,7 +13,7 @@ import frc.robot.subsystems.turret.TurretSubsystem;
 public class TwoBallLeftAuto extends SwerveDriveAutoMode{
 
     public TwoBallLeftAuto(SwerveDriveRobotAutoController ctrl) throws Exception {
-        super(ctrl, "two-ball-left") ;
+        super(ctrl, "twoballleft") ;
 
         Swerve2022RobotSubsystem robot = getSwerveRobotSubsystem();
         GPMSubsystem gpm = robot.getGPM() ;

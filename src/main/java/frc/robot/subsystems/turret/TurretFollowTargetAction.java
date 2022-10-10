@@ -74,6 +74,7 @@ public class TurretFollowTargetAction extends MotorAction {
     @Override
     public void run() {
         double out = 0.0 ;
+        MessageLogger logger = sub_.getRobot().getMessageLogger() ;
 
         //
         // Ask the target tracker what angle the turret should be at to 
@@ -87,14 +88,12 @@ public class TurretFollowTargetAction extends MotorAction {
                 desired_ = 60.0 ;
             else if (desired_ < -60.0)
                 desired_ = -60.0 ;
-
             //
             // Update the turret motor power based on the current position of the turret and
             // the desired positon of the turret.
             //
             if (!locked_) {
                 out = pid_.getOutput(desired_, sub_.getPosition(), sub_.getRobot().getDeltaTime()) ;
-
             }
             sub_.setPower(out) ;
 
@@ -109,7 +108,6 @@ public class TurretFollowTargetAction extends MotorAction {
             //
             // Print debug messages for this action
             //
-            MessageLogger logger = sub_.getRobot().getMessageLogger() ;
             logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
             logger.add("FollowTargetAction:") ;
             logger.add(" desired", desired_) ;
@@ -120,6 +118,9 @@ public class TurretFollowTargetAction extends MotorAction {
             logger.endMessage();            
         }
         else {
+            logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
+            logger.add("FollowTargetAction: no target detected") ;
+            logger.endMessage();
             sub_.setReadyToFire(false);
             out = pid_.getOutput(0.0, sub_.getPosition(), sub_.getRobot().getDeltaTime()) ;
             sub_.setPower(out) ;

@@ -2,6 +2,8 @@ package org.xero1425.base.controllers;
 
 import org.xero1425.base.actions.SequenceAction;
 
+import edu.wpi.first.math.geometry.Pose2d;
+
 /// \file
 
 /// \brief This class defines an auto mode that can be run by the
@@ -39,10 +41,13 @@ public class AutoMode extends SequenceAction {
     public void update(String gamedata) throws Exception {
     }
 
+    public Pose2d getInitialPose() {
+        return new Pose2d() ;
+    }
+
     /// \brief Returns the auto mode controller that manages this automode
     /// \returns the auto mode controller that manages this automode
     protected AutoController getAutoController() {
         return ctrl_ ;
     }
-
 }

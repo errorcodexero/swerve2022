@@ -123,6 +123,7 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         Pose2d p = getPose() ;
         double dist = p.getTranslation().getDistance(last_pose_.getTranslation()) ;
         velocity_ = dist / getRobot().getDeltaTime() ;
+        last_pose_ = p ;
     }
 
     @Override
@@ -142,6 +143,10 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         return odometry_.getPoseMeters() ;
     }
 
+    public void setPose(Pose2d pose) {
+        odometry_.resetPosition(pose, getHeading());
+    }
+
     public double getVelocity() {
         return velocity_ ;
     }
@@ -149,10 +154,6 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     public void zeroGyro() {
         odometry_.resetPosition(
                 new Pose2d(odometry_.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0.0)), getHeading()) ;
-    }
-
-    public void resetOdometry(Pose2d pose) {
-        odometry_.resetPosition(pose, getHeading()) ;
     }
 
     public int getModuleCount() {

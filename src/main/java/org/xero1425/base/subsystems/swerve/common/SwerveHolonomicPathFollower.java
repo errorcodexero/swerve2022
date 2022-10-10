@@ -63,7 +63,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         path_ = getSubsystem().getRobot().getPathManager().getPath(pathname_);
 
         Pose2d pose = getPoseFromPath(0) ;
-        getSubsystem().resetOdometry(pose);
+        getSubsystem().setPose(pose);
 
         index_ = 0 ;
 
