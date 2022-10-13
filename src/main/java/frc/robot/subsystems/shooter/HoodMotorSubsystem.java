@@ -29,7 +29,6 @@ public class HoodMotorSubsystem extends MotorEncoderSubsystem {
             p = 0.0 ;
         }
 
-        System.out.println("limitPower " + p + ", orig " + orig + ", max " + getMaxPos() + " min " + getMinPos() + ", pos " + getPosition()) ;
         return p ;
     }
 }

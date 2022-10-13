@@ -17,6 +17,7 @@ public class Intake2MotorSubsystem extends MotorEncoderSubsystem {
         // Motor 2, explicitly create it
         String motorname = "subsystems:" + name + ":hw:spinner:motor" ;
         spinner_ = getRobot().getMotorFactory().createMotor("intake-spinner", motorname);
+        this.setAction(new IntakePositionPowerAction(this, "collect:offpos", "collector:offpower", true, true));
     }
 
     public void setSpinnerPower(double p) throws BadMotorRequestException, MotorRequestFailedException {
