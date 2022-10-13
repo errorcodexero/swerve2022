@@ -154,6 +154,7 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     public void zeroGyro() {
         odometry_.resetPosition(
                 new Pose2d(odometry_.getPoseMeters().getTranslation(), Rotation2d.fromDegrees(0.0)), getHeading()) ;
+        gyro().reset();
     }
 
     public int getModuleCount() {
