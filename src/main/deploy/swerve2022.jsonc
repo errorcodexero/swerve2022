@@ -548,7 +548,7 @@
         }
     },
     "testmode" : {
-        "enabled" : true,
+        "enabled" : false,
         "which" : 51,
         "0" : {
             "angle" : 0.0,
