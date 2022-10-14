@@ -98,6 +98,202 @@
                     "startvelocity": 0
                 }
             ]
+        },
+        {
+            "name": "twoballright",
+            "paths": [
+                {
+                    "constraints": [
+                    ],
+                    "endangle": 0,
+                    "endangledelay": 0,
+                    "endvelocity": 0,
+                    "flags": [
+                    ],
+                    "markers": [
+                    ],
+                    "maxacceleration": 180,
+                    "maxcentripetal": 100000,
+                    "maxjerk": 1800,
+                    "maxvelocity": 180,
+                    "name": "p1",
+                    "points": [
+                        {
+                            "heading": -155.898,
+                            "x": 6.803916159814537,
+                            "y": 2.7180530576427815
+                        },
+                        {
+                            "heading": -145.491,
+                            "x": 5.28005,
+                            "y": 2.04003
+                        }
+                    ],
+                    "startangle": 0,
+                    "startangledelay": 0,
+                    "startvelocity": 0
+                },
+                {
+                    "constraints": [
+                    ],
+                    "endangle": 0,
+                    "endangledelay": 0,
+                    "endvelocity": 0,
+                    "flags": [
+                    ],
+                    "markers": [
+                    ],
+                    "maxacceleration": 180,
+                    "maxcentripetal": 100000,
+                    "maxjerk": 1800,
+                    "maxvelocity": 180,
+                    "name": "p2",
+                    "points": [
+                        {
+                            "heading": -145.491,
+                            "x": 5.28005,
+                            "y": 2.04003
+                        },
+                        {
+                            "heading": -172.48785589694725,
+                            "x": 1.6449305376347039,
+                            "y": 1.2114361850692426
+                        }
+                    ],
+                    "startangle": 0,
+                    "startangledelay": 0,
+                    "startvelocity": 0
+                },
+                {
+                    "constraints": [
+                    ],
+                    "endangle": 0,
+                    "endangledelay": 0,
+                    "endvelocity": 0,
+                    "flags": [
+                    ],
+                    "markers": [
+                    ],
+                    "maxacceleration": 180,
+                    "maxcentripetal": 100000,
+                    "maxjerk": 1800,
+                    "maxvelocity": 180,
+                    "name": "p3",
+                    "points": [
+                        {
+                            "heading": 7.512,
+                            "x": 1.64493,
+                            "y": 1.21144
+                        },
+                        {
+                            "heading": 22.166345822082427,
+                            "x": 5.280051294831569,
+                            "y": 2.0400298870773526
+                        }
+                    ],
+                    "startangle": 0,
+                    "startangledelay": 0,
+                    "startvelocity": 0
+                }
+            ]
+        },
+        {
+            "name": "twoballleft",
+            "paths": [
+                {
+                    "constraints": [
+                    ],
+                    "endangle": 0,
+                    "endangledelay": 0,
+                    "endvelocity": 0,
+                    "flags": [
+                    ],
+                    "markers": [
+                    ],
+                    "maxacceleration": 180,
+                    "maxcentripetal": 100000,
+                    "maxjerk": 1800,
+                    "maxvelocity": 180,
+                    "name": "p1",
+                    "points": [
+                        {
+                            "heading": -155.898,
+                            "x": 6.803916159814537,
+                            "y": 2.7180530576427815
+                        },
+                        {
+                            "heading": -145.491,
+                            "x": 5.28005,
+                            "y": 2.04003
+                        }
+                    ],
+                    "startangle": 0,
+                    "startangledelay": 0,
+                    "startvelocity": 0
+                },
+                {
+                    "constraints": [
+                    ],
+                    "endangle": 0,
+                    "endangledelay": 0,
+                    "endvelocity": 0,
+                    "flags": [
+                    ],
+                    "markers": [
+                    ],
+                    "maxacceleration": 180,
+                    "maxcentripetal": 100000,
+                    "maxjerk": 1800,
+                    "maxvelocity": 180,
+                    "name": "p2",
+                    "points": [
+                        {
+                            "heading": -145.491,
+                            "x": 5.28005,
+                            "y": 2.04003
+                        },
+                        {
+                            "heading": -172.48785589694725,
+                            "x": 1.6449305376347039,
+                            "y": 1.2114361850692426
+                        }
+                    ],
+                    "startangle": 0,
+                    "startangledelay": 0,
+                    "startvelocity": 0
+                },
+                {
+                    "constraints": [
+                    ],
+                    "endangle": 0,
+                    "endangledelay": 0,
+                    "endvelocity": 0,
+                    "flags": [
+                    ],
+                    "markers": [
+                    ],
+                    "maxacceleration": 180,
+                    "maxcentripetal": 100000,
+                    "maxjerk": 1800,
+                    "maxvelocity": 180,
+                    "name": "p3",
+                    "points": [
+                        {
+                            "heading": 7.512,
+                            "x": 1.64493,
+                            "y": 1.21144
+                        },
+                        {
+                            "heading": 22.166345822082427,
+                            "x": 5.280051294831569,
+                            "y": 2.0400298870773526
+                        }
+                    ],
+                    "startangle": 0,
+                    "startangledelay": 0,
+                    "startvelocity": 0
+                }
+            ]
         }
     ],
     "outdir": "C:/cygwin64/home/butch/robottools/robots/swerve2022/src/main/deploy/paths"
