@@ -83,8 +83,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
             ChassisSpeeds speed = ctrl_.calculate(getSubsystem().getPose(), target, velocity, rot) ;
             getSubsystem().drive(speed) ;
 
-            if (index_ != path_.getSize() - 1 || ctrl_.atReference())
-                index_++ ;
+            index_++ ;
         }
 
         if (index_ >= path_.getSize())
@@ -92,6 +91,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
             getSubsystem().endSwervePlot() ;
             getSubsystem().drive(new ChassisSpeeds()) ;
             getSubsystem().endPathing();
+            setDone();
         }
     }
 
