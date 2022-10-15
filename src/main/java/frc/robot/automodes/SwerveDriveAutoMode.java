@@ -125,7 +125,7 @@ public abstract class SwerveDriveAutoMode extends AutoMode {
             if (delay > 0.0) {
                 addAction(new DelayAction(getAutoController().getRobot(), delay));
             }
-            addSubActionPair(gpm, new GPMStopCollectAction(gpm), false);
+            addSubActionPair(gpm, new GPMStopCollectAction(gpm), true);
         }
     }
 }
