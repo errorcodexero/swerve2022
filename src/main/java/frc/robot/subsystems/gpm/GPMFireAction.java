@@ -95,6 +95,11 @@ public class GPMFireAction extends Action {
             // are done.
             //
             if (conveyor.isIdle()) {
+                MessageLogger logger = sub_.getRobot().getMessageLogger() ;
+                logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
+                logger.add("GPMFireAction: Shooting dones") ;
+                logger.endMessage();
+                
                 shoot_action_.cancel() ;
                 setDone() ;
             }
@@ -117,7 +122,19 @@ public class GPMFireAction extends Action {
             sub_.putDashboard("db-ready", DisplayType.Always, db_ready);
             sub_.putDashboard("tu-ready", DisplayType.Always, turret_ready);
 
+            MessageLogger logger = sub_.getRobot().getMessageLogger() ;
+            logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
+            logger.add("GPMFireAction: ") ;
+            logger.add("shooter_ready=" + shooter_ready) ;
+            logger.add("db_ready=" + db_ready) ;
+            logger.add("turret_ready=" + turret_ready) ;
+            logger.endMessage();
+
             if (shooter_ready && db_ready && turret_ready) {
+                logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
+                logger.add("GPMFireAction: Shooting start") ;
+                logger.endMessage();
+
                 shoot_action_.startPlot();
                 conveyor.setAction(conveyor_action_, true) ;
                 shooting_ = true ;
