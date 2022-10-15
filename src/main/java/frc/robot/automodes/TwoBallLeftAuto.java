@@ -29,7 +29,7 @@ public class TwoBallLeftAuto extends SwerveDriveAutoMode{
         startLimelightTracking() ;
 
         // Start spin up of the shooter
-        addSubActionPair(gpm.getShooter(), new ShooterSpinUpAction(gpm.getShooter()), false) ;
+        //addSubActionPair(gpm.getShooter(), new ShooterSpinUpAction(gpm.getShooter()), false) ;
 
         // Drive and collect the second ball
         drivePath("p1", true) ;
