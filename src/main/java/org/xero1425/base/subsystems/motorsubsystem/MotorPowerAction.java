@@ -127,8 +127,8 @@ public class MotorPowerAction extends MotorAction {
     /// \brief Returns a human readable string representing the action
     /// \returns a human readable string representing the action
     public String toString(int indent) {
-        String ret = prefix(indent) + "MotorPowerAction" ;
-        ret += " power=" + Double.toString(power_) ;
+        String ret = prefix(indent) + "MotorPowerAction, " + getSubsystem().getName();
+        ret += " , power=" + Double.toString(power_) ;
         if (timed_)
             ret += " duration=" + Double.toString(duration_) ;
 

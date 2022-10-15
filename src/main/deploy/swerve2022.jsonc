@@ -11,7 +11,7 @@
             "conveyor" : false,
             "gpm": true,
             "shooter": false,
-            "intake" : false,
+            "intake" : true,
             "turret" : false,
 
             // Tank drive related settings
@@ -322,7 +322,7 @@
                     "rmax": 180.0,
                     "emin": 0.0,
                     "emax": 5.0,
-                    "ec": 4.998779,
+                    "ec": 0.135,
                     "rc": 0.0
                 }
             },
@@ -409,7 +409,7 @@
                     "rmax": 900.0,
                     "emin": 0.0,
                     "emax": 5.0,
-                    "ec": 0.720,
+                    "ec": 1.557,
                     "rc": 0.0
                 }
             },
@@ -554,7 +554,7 @@
     },
     "testmode" : {
         "enabled" : false,
-        "which" : 51,
+        "which" : 52,
         "0" : {
             "angle" : 0.0,
             "power" : 0.2
