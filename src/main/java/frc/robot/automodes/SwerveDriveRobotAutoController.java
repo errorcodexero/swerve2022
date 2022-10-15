@@ -20,9 +20,11 @@ public class SwerveDriveRobotAutoController extends AutoController {
 
         try {
             test_mode_ = new SwerveTestAutoMode(this) ;
-            modes_[0] = new FourBallAuto(this) ;
+            //modes_[0] = new FourBallAuto(this) ;
+            modes_[0] = new NoOpAutomode(this) ;
             modes_[1] = new TwoBallLeftAuto(this) ;
-            modes_[2] = new TwoBallRightAuto(this) ;
+            //modes_[2] = new TwoBallRightAuto(this) ;
+            modes_[2] = new NoOpAutomode(this) ;
             modes_[3] = new NoOpAutomode(this) ;
             modes_[4] = new NoOpAutomode(this) ;
             modes_[5] = new NoOpAutomode(this) ;
