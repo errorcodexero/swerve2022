@@ -13,6 +13,7 @@ import org.xero1425.misc.SettingsValue;
 
 import frc.robot.subsystems.Swerve2022RobotSubsystem;
 import frc.robot.subsystems.gpm.GPMStartCollectAction;
+import frc.robot.subsystems.gpm.GPMStopCollectAction;
 import frc.robot.subsystems.gpm.GPMSubsystem;
 import frc.robot.subsystems.turret.TurretFollowTargetAction;
 
@@ -117,5 +118,14 @@ public abstract class SwerveDriveAutoMode extends AutoMode {
  
         double angle = getSetting(name + ":end-angle").getDouble() ;
         addSubActionPair(db, new SwerveHolonomicPathFollower(db, getName() + "_" + name, angle), true) ;
+
+        if (collect) {
+            GPMSubsystem gpm = getSwerveRobotSubsystem().getGPM();
+            double delay = getSetting(name + ":stop-collect-delay").getDouble() ;
+            if (delay > 0.0) {
+                addAction(new DelayAction(getAutoController().getRobot(), delay));
+            }
+            addSubActionPair(gpm, new GPMStopCollectAction(gpm), false);
+        }
     }
 }
