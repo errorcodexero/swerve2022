@@ -103,7 +103,7 @@ public abstract class SwerveDriveAutoMode extends AutoMode {
         return settings.get(settingname) ;
     }
 
-    protected void drivePath(String name, boolean collect) throws Exception {
+    protected void drivePath(String name, boolean collect, boolean setpose) throws Exception {
         SwerveBaseSubsystem db = getSwerveRobotSubsystem().getDB() ;
         if (collect) {
             GPMSubsystem gpm = getSwerveRobotSubsystem().getGPM();
@@ -116,6 +116,6 @@ public abstract class SwerveDriveAutoMode extends AutoMode {
         }
  
         double angle = getSetting(name + ":end-angle").getDouble() ;
-        addSubActionPair(db, new SwerveHolonomicPathFollower(db, getName() + "-p1", angle), true) ;
+        addSubActionPair(db, new SwerveHolonomicPathFollower(db, getName() + "-p1", angle, setpose), true) ;
     }
 }

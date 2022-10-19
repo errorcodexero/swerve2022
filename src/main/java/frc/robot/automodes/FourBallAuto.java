@@ -39,17 +39,17 @@ public class FourBallAuto extends SwerveDriveAutoMode {
         // This requires a value in the settings file of "automodes:four-ball:p1-collect-delay"
         //     which is the delay after the collect action is deployed before the robot starts
         //     driving.  This is needed if we get to a ball before our collector is down
-        drivePath("p1", true) ;
+        drivePath("p1", true, true) ;
 
         // Start firing the two balls
         addSubActionPair(gpm, new GPMFireAction(gpm, tracker, db, turret), true);
 
         // Drive and get the third ball, and the fourth if the human player rolls
         // the ball in correctly
-        drivePath("p2", true) ;
+        drivePath("p2", true, false) ;
 
         // Drive back to the shooting location
-        drivePath("p3", false) ;
+        drivePath("p3", false, false) ;
 
         // Fire the third and possible fourth balls
         addSubActionPair(gpm, new GPMFireAction(gpm, tracker, db, turret), true);

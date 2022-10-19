@@ -24,12 +24,14 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
     private XeroPath path_;
     private int index_ ;
     private Rotation2d end_rotation_ ;
+    private boolean setpose_ ;
 
-    public SwerveHolonomicPathFollower(SwerveBaseSubsystem sub, String pathname, double endangle) {
+    public SwerveHolonomicPathFollower(SwerveBaseSubsystem sub, String pathname, double endangle, boolean setpose) {
         super(sub) ;
 
         pathname_ = pathname ;
         end_rotation_ = Rotation2d.fromDegrees(endangle) ;
+        this.setpose_ = setpose ;
     }
 
     @Override
@@ -62,8 +64,10 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
 
         path_ = getSubsystem().getRobot().getPathManager().getPath(pathname_);
 
-        Pose2d pose = getPoseFromPath(0) ;
-        getSubsystem().setPose(pose);
+        if (setpose_) {
+            Pose2d pose = getPoseFromPath(0) ;
+            getSubsystem().setPose(pose);
+        }
 
         index_ = 0 ;
 
