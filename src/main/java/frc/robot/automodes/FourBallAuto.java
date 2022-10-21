@@ -33,8 +33,6 @@ public class FourBallAuto extends SwerveDriveAutoMode {
         // This requires that the path be named four-ball-p1
         // The four-ball comes from the name of the automode
         // The p1 comes from name of the path (e.g. four-ball-p1)
-        // This requires a value in the settings file of "automodes:four-ball:p1-end-angle" 
-        //     to specify the end angle for the path
         // Since the second argument is true, we will collect while driving
         // This requires a value in the settings file of "automodes:four-ball:p1-collect-delay"
         //     which is the delay after the collect action is deployed before the robot starts

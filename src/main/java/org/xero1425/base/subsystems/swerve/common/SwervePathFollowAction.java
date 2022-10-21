@@ -53,7 +53,7 @@ public class SwervePathFollowAction extends SwerveDriveAction {
 
     @Override
     public void run() throws BadMotorRequestException, MotorRequestFailedException {
-        if (index_ < path_.getSize())
+        if (index_ < path_.getTrajectoryEntryCount())
         {
             XeroPathSegment fl = path_.getSegment(XeroSwerveDriveSubsystem.FL, index_) ;
             XeroPathSegment fr = path_.getSegment(XeroSwerveDriveSubsystem.FR, index_) ;
@@ -75,7 +75,7 @@ public class SwervePathFollowAction extends SwerveDriveAction {
             index_++ ;
         }
 
-        if (index_ == path_.getSize())
+        if (index_ == path_.getTrajectoryEntryCount())
         {
             getSubsystem().drive(new ChassisSpeeds()) ;
             getSubsystem().endPathing();

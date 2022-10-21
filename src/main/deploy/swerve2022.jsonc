@@ -16,7 +16,7 @@
 
             // Tank drive related settings
             "pathfollowing": false,
-            "swervedrive": false,
+            "swervedrive": true,
             "swerveoi": false
         },
         "verbose" : {
@@ -156,6 +156,10 @@
                 "nominal-voltage" : 11.0,
                 "steer-current-limit" : 10.0,
                 "drive-current-limit" : 30.0
+            },
+            "holonomic-path-following" : {
+                "xy-tolerance" : 0.05,
+                "angle-tolerance" : 5.0
             }
         },   
         "swerve2022oi" : {
@@ -523,35 +527,29 @@
     "automodes" : {
         "fourball" : {                      // Values for the auto mode named 'four-ball'
             "p1" : {
-                "end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
                 "collect-delay" : 0.0,       // The delay after starting collect action and before driving for path 'p1'
                 "stop-collect-delay" : 1.0   // The delay after path following and before stopping collection
             },
             "p2" : {
-                "end-angle" : 0.0,
                 "collect-delay" : 0.0,
                 "stop-collect-delay" : 1.0
             },
             "p3" : {
-                "end-angle" : 0.0,
                 "stop-collect-delay" : 1.0
             }
         },
         "twoballleft" : {
             "p1" : {
-                "end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
                 "collect-delay" : 1.5,        // The delay after starting collect action and before driving for path 'p1'
                 "stop-collect-delay" : 2.0   // The delay after path following and before stopping collection
             },
             "p2" : {
-                "end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
                 "collect-delay" : 1.5,        // The delay after starting collect action and before driving for path 'p1'
                 "stop-collect-delay" : 2.0   // The delay after path following and before stopping collection
             }
         },
         "twoballright" : {
             "p1" : {
-                "end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
                 "collect-delay" : 1.0,        // The delay after starting collect action and before driving for path 'p1'
                 "stop-collect-delay" : 1.0   // The delay after path following and before stopping collection
             }

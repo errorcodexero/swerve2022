@@ -116,8 +116,7 @@ public abstract class SwerveDriveAutoMode extends AutoMode {
             }
         }
  
-        double angle = getSetting(name + ":end-angle").getDouble() ;
-        addSubActionPair(db, new SwerveHolonomicPathFollower(db, getName() + "_" + name, angle, setpose), true) ;
+        addSubActionPair(db, new SwerveHolonomicPathFollower(db, getName() + "_" + name, setpose), true) ;
 
         if (collect) {
             GPMSubsystem gpm = getSwerveRobotSubsystem().getGPM();

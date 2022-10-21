@@ -2,8 +2,8 @@ package org.xero1425.base.subsystems.swerve.common;
 
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
-import org.xero1425.base.subsystems.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 import org.xero1425.misc.BadParameterTypeException;
+import org.xero1425.misc.ISettingsSupplier;
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
 import org.xero1425.misc.MissingParameterException;
@@ -25,14 +25,12 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
     private HolonomicDriveController ctrl_ ;
     private XeroPath path_;
     private int index_ ;
-    private Rotation2d end_rotation_ ;
     private boolean setpose_ ;
 
-    public SwerveHolonomicPathFollower(SwerveBaseSubsystem sub, String pathname, double endangle, boolean setpose) {
+    public SwerveHolonomicPathFollower(SwerveBaseSubsystem sub, String pathname, boolean setpose) {
         super(sub) ;
 
         pathname_ = pathname ;
-        end_rotation_ = Rotation2d.fromDegrees(endangle) ;
         this.setpose_ = setpose ;
     }
 
@@ -58,11 +56,15 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         kd = getSubsystem().getSettingsValue("pid:rotation:kd").getDouble() ;
         TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(maxv, maxa) ;
         ProfiledPIDController thetactrl = new ProfiledPIDController(kp, ki, kd, constraints) ;
+        thetactrl.enableContinuousInput(-Math.PI, Math.PI);
         
         ctrl_ = new HolonomicDriveController(xctrl, yctrl, thetactrl) ;
         ctrl_.setEnabled(true);
-        Pose2d done = new Pose2d(0.05, 0.05, Rotation2d.fromDegrees(5)) ;
-        ctrl_.setTolerance(done);
+
+        ISettingsSupplier settings = getSubsystem().getRobot().getSettingsSupplier() ;
+        double xytol = settings.get("subsystems:swervedrive:holonomic-path-following:xy-tolerance").getDouble() ;
+        double angletol = settings.get("subsystems:swervedrive:holonomic-path-following:angle-tolerance").getDouble() ;
+        ctrl_.setTolerance(new Pose2d(xytol, xytol, Rotation2d.fromDegrees(angletol))) ;
 
         path_ = getSubsystem().getRobot().getPathManager().getPath(pathname_);
 
@@ -71,8 +73,8 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
             getSubsystem().setPose(pose);
 
             MessageLogger logger = getSubsystem().getRobot().getMessageLogger() ;
-            logger.startMessage(MessageType.Debug) ;
-            logger.add("SwerveHolonomicPathFollower set pose", pose.toString()) ;
+            logger.startMessage(MessageType.Debug, getSubsystem().getLoggerID()) ;
+            logger.add("SwerveHolonomicPathFollower: Initial Pose ", pose.toString()) ;
             logger.endMessage();
         }
 
@@ -85,23 +87,24 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
     @Override
     public void run() throws BadMotorRequestException, MotorRequestFailedException {
 
-        if (index_ < path_.getSize())
+        if (index_ < path_.getTrajectoryEntryCount())
         {
-            Rotation2d rot = end_rotation_ ;
             Pose2d target = getPoseFromPath(index_);
+
             MessageLogger logger = getSubsystem().getRobot().getMessageLogger() ;
-            logger.startMessage(MessageType.Debug) ;
-            logger.add("Following path:").add("index", index_).add(", pose", target.toString());
+            logger.startMessage(MessageType.Debug, getSubsystem().getLoggerID()) ;
+            logger.add("SwerveHolonomicPathFollower Target:").add("index", index_).add(", pose", target.toString());
             logger.endMessage();
+
             getSubsystem().setPathLocation(target);
             double velocity = getVelocityFromPath(index_) ;
-            ChassisSpeeds speed = ctrl_.calculate(getSubsystem().getPose(), target, velocity, rot) ;
+            ChassisSpeeds speed = ctrl_.calculate(getSubsystem().getPose(), target, velocity, target.getRotation()) ;
             getSubsystem().drive(speed) ;
 
             index_++ ;
         }
 
-        if (index_ >= path_.getSize())
+        if (index_ >= path_.getTrajectoryEntryCount())
         {
             getSubsystem().endSwervePlot() ;
             getSubsystem().drive(new ChassisSpeeds()) ;
@@ -116,25 +119,12 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
     }
 
     private Pose2d getPoseFromPath(int index) {
-        XeroPathSegment fl = path_.getSegment(XeroSwerveDriveSubsystem.FL, index) ;
-        XeroPathSegment fr = path_.getSegment(XeroSwerveDriveSubsystem.FR, index) ;
-        XeroPathSegment bl = path_.getSegment(XeroSwerveDriveSubsystem.BL, index) ;
-        XeroPathSegment br = path_.getSegment(XeroSwerveDriveSubsystem.BR, index) ;
-
-        double x = (fl.getX() + fr.getX() + bl.getX() + br.getX()) / 4.0 ;
-        double y = (fl.getY() + fr.getY() + bl.getY() + br.getY()) / 4.0 ;
-        double heading = fl.getHeading() ;
-
-        return new Pose2d(x, y, Rotation2d.fromDegrees(heading)) ;
+        XeroPathSegment main = path_.getSegment(0, index) ;
+        return new Pose2d(main.getX(), main.getY(), Rotation2d.fromDegrees(main.getRotation())) ;
     }
 
     private double getVelocityFromPath(int index) {
-        XeroPathSegment fl = path_.getSegment(XeroSwerveDriveSubsystem.FL, index) ;
-        XeroPathSegment fr = path_.getSegment(XeroSwerveDriveSubsystem.FR, index) ;
-        XeroPathSegment bl = path_.getSegment(XeroSwerveDriveSubsystem.BL, index) ;
-        XeroPathSegment br = path_.getSegment(XeroSwerveDriveSubsystem.BR, index) ;
-
-        double ret = (fl.getVelocity() + fr.getVelocity() + bl.getVelocity() + br.getVelocity())  / 4.0 ;
-        return ret ;
+        XeroPathSegment main = path_.getSegment(0, index) ;
+        return main.getVelocity() ;
     }
 }
