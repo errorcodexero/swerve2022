@@ -1,0 +1,86 @@
+{
+    "stimulus" :
+    [
+        {
+            "time" : 0.0,
+            "events" :
+            [
+                {
+                    "model" : "fms",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "automode must be set to the correct testmode in droid param file",
+                        "start" : 1.0,
+                        "autonomous" : 0.0,
+                        "between" : 0.0,
+                        "teleop" : 13.0,
+                        "fms" : false
+                    }
+                },
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" :
+                    {
+                        "comment": "The climb lock button is in the unlocked state",
+                        "button4" : false
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 3.0,
+            "events" :
+            [
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "climb deploy switch on",
+                        "button7" : true
+                    }
+                }
+            ]
+        },        
+        {
+            "time" : 5.2,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "climber",
+                    "property" : "position",
+                    "setting": "subsystems:climber:deploy_position"
+                },
+            ]
+        },
+        {
+            "time" : 7.4,
+            "events" :
+            [
+                {
+                    "model" : "swerve2022oi",
+                    "instance" : "1",
+                    "values" : 
+                    {
+                        "comment" : "Climb button pressed",
+                        "button2" : 9
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 12.0,
+            "asserts" : 
+            [
+                {
+                    "subsystem" : "climber",
+                    "property" : "position",
+                    "setting": "subsystems:climber:start_position"
+                }
+
+            ]            
+        },        
+    ]
+}

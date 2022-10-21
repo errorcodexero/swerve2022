@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import frc.robot.subsystems.climber.ClimberSubsystem;
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.limelight.LimeLightSubsystem;
 import org.xero1425.base.subsystems.RobotSubsystem;
@@ -18,6 +19,8 @@ public class Swerve2022RobotSubsystem extends RobotSubsystem {
     private TurretSubsystem turret_ ;
     private TargetTrackerSubsystem tracker_ ;
     private LimeLightSubsystem limelight_ ;
+
+    private ClimberSubsystem climber_;
 
     public Swerve2022RobotSubsystem(XeroRobot robot) throws Exception {
         super(robot, "SwerveRobotSubsystem") ;
@@ -39,6 +42,10 @@ public class Swerve2022RobotSubsystem extends RobotSubsystem {
 
         tracker_ = new TargetTrackerSubsystem(this, limelight_, turret_);
         addChild(tracker_);
+
+        climber_ = new ClimberSubsystem(this);
+        addChild(climber_);
+
     }
 
     public GPMSubsystem getGPM() {
@@ -54,7 +61,7 @@ public class Swerve2022RobotSubsystem extends RobotSubsystem {
     }
 
     public Subsystem getClimber() {
-        return null ;
+        return climber_;
     }
 
     public TargetTrackerSubsystem getTracker() {

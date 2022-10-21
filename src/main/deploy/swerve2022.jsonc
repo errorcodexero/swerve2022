@@ -307,6 +307,60 @@
                 "shoot" : 1.0
             }
         },
+        "climber": {
+            "stow_position": 0,
+            "deploy_position": 0,
+            "start_position": 0,
+            "hw" : {
+                "motors": {
+                    "1": {
+                        "type": "sparkmax_brushless",
+                        "canid": 38
+                    },
+                    "2": {
+                        "type": "sparkmax_brushless",
+                        "canid": 39
+                    }
+                },
+                "encoder": {
+                    "type": "motor",
+                    "m": 1,
+                    "b": 0
+                }
+            },
+            "goto": {
+                "threshold" : 10,
+                "maxd" : -40000,
+                "maxa" : 40000,
+                "maxv" : 40000
+            },
+            "hold": {
+                "kp": 0,
+                "ki" : 0,
+                "kd" : 0,
+                "kf" : 0,
+                "min" : 0,
+                "max" : 0,
+                "imax" : 0
+            },
+            "follower" : {
+                "up" : {
+                    "kp" : 0.0000,
+                    "ka" : 0.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0,
+                    "kv" : 0.0000
+                },
+                "down" : {
+                    "kp" : 0.0000,
+                    "ka" : 0.0,
+                    "ki" : 0.0,
+                    "kd" : 0.0,
+                    "kv" : 0.0000
+                }
+            }
+
+        },
         "turret" : {
             "hw" : {
                 "motors" : {

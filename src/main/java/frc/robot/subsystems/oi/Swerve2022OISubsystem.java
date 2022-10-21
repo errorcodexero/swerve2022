@@ -57,11 +57,10 @@ public class Swerve2022OISubsystem extends OISubsystem {
 
     public void run() throws  Exception {
         super.run();
-
-        Gamepad gamepad = getGamePad();
-        if (gamepad.isBPressed() && gamepad.isYPressed()) {
-            Swerve2022RobotSubsystem robotSubsystem = (Swerve2022RobotSubsystem) getRobot().getRobotSubsystem();
-            robotSubsystem.getDB().zeroGyro();
-        }
+            Gamepad gamepad = getGamePad();
+            if (gamepad.isBPressed() && gamepad.isYPressed()) {
+                Swerve2022RobotSubsystem robotSubsystem = (Swerve2022RobotSubsystem) getRobot().getRobotSubsystem();
+                robotSubsystem.getDB().zeroGyro();
+            }
     }
 }
