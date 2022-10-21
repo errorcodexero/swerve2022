@@ -83,11 +83,10 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         //
         rotate_angle_ = Math.toDegrees(Math.atan2(length_, width_)) ;
 
-        
         kinematics_ = new SwerveDriveKinematics(new Translation2d(getWidth() / 2.0, getLength() / 2.0), new Translation2d(getWidth() / 2.0, -getLength() / 2.0), 
                         new Translation2d(-getWidth() / 2.0, getLength() / 2.0), new Translation2d(-getWidth() / 2.0, -getLength() / 2.0)) ;
 
-        odometry_ = new SwerveDriveOdometry(kinematics_, getHeading()) ;
+        odometry_ = new SwerveDriveOdometry(kinematics_, Rotation2d.fromDegrees(gyro().getYaw())) ;
 
         ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("Drivetrain");
         shuffleboardTab.addNumber("Heading", () -> getHeading().getDegrees());
@@ -118,7 +117,7 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     public void computeMyState() throws Exception {
         super.computeMyState();
 
-        odometry_.update(getHeading(), getModuleState(FL), getModuleState(FR), getModuleState(BL), getModuleState(BR));
+        odometry_.update(Rotation2d.fromDegrees(gyro().getYaw()), getModuleState(FL), getModuleState(FR), getModuleState(BL), getModuleState(BR));
 
         Pose2d p = getPose() ;
         double dist = p.getTranslation().getDistance(last_pose_.getTranslation()) ;
@@ -144,7 +143,9 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     }
 
     public void setPose(Pose2d pose) {
-        odometry_.resetPosition(pose, getHeading());
+        Rotation2d rot = Rotation2d.fromDegrees(gyro().getYaw()) ;
+        odometry_.resetPosition(pose, rot) ;
+        gyro().reset() ;
     }
 
     public double getVelocity() {

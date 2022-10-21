@@ -4,6 +4,8 @@ import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.base.subsystems.swerve.xeroswerve.XeroSwerveDriveSubsystem;
 import org.xero1425.misc.BadParameterTypeException;
+import org.xero1425.misc.MessageLogger;
+import org.xero1425.misc.MessageType;
 import org.xero1425.misc.MissingParameterException;
 import org.xero1425.misc.MissingPathException;
 import org.xero1425.misc.XeroPath;
@@ -67,6 +69,11 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         if (setpose_) {
             Pose2d pose = getPoseFromPath(0) ;
             getSubsystem().setPose(pose);
+
+            MessageLogger logger = getSubsystem().getRobot().getMessageLogger() ;
+            logger.startMessage(MessageType.Debug) ;
+            logger.add("SwerveHolonomicPathFollower set pose", pose.toString()) ;
+            logger.endMessage();
         }
 
         index_ = 0 ;
@@ -82,6 +89,10 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         {
             Rotation2d rot = end_rotation_ ;
             Pose2d target = getPoseFromPath(index_);
+            MessageLogger logger = getSubsystem().getRobot().getMessageLogger() ;
+            logger.startMessage(MessageType.Debug) ;
+            logger.add("Following path:").add("index", index_).add(", pose", target.toString());
+            logger.endMessage();
             getSubsystem().setPathLocation(target);
             double velocity = getVelocityFromPath(index_) ;
             ChassisSpeeds speed = ctrl_.calculate(getSubsystem().getPose(), target, velocity, rot) ;

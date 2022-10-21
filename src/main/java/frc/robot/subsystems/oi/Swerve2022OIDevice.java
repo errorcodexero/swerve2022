@@ -110,8 +110,9 @@ public class Swerve2022OIDevice extends OIPanel {
         GPMSubsystem gpm = robot.getGPM() ;
 
         if (robot.getTurret() != null) {
-            if (robot.getTurret().getAction() != follow_action_)
-                robot.getTurret().setAction(follow_action_) ;
+            // TODO: remove this comments
+            // if (robot.getTurret().getAction() != follow_action_)
+            //     robot.getTurret().setAction(follow_action_) ;
         }
 
         if (getValue(collect_v_shoot_gadget_) == 1) {

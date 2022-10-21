@@ -9,9 +9,9 @@
 
             // Subsystem related messages
             "conveyor" : false,
-            "gpm": true,
+            "gpm": false,
             "shooter": false,
-            "intake" : true,
+            "intake" : false,
             "turret" : false,
 
             // Tank drive related settings
@@ -542,6 +542,11 @@
                 "end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
                 "collect-delay" : 1.5,        // The delay after starting collect action and before driving for path 'p1'
                 "stop-collect-delay" : 2.0   // The delay after path following and before stopping collection
+            },
+            "p2" : {
+                "end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
+                "collect-delay" : 1.5,        // The delay after starting collect action and before driving for path 'p1'
+                "stop-collect-delay" : 2.0   // The delay after path following and before stopping collection
             }
         },
         "twoballright" : {
@@ -553,8 +558,8 @@
         }
     },
     "testmode" : {
-        "enabled" : true,
-        "which" : 60,
+        "enabled" : false,
+        "which" : 52,
         "0" : {
             "angle" : 0.0,
             "power" : 0.2

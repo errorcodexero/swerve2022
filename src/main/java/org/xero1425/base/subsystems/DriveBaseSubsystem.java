@@ -73,7 +73,7 @@ public abstract class DriveBaseSubsystem extends Subsystem {
 
     public abstract double getVelocity() ;
 
-    protected XeroGyro gyro() {
+    public XeroGyro gyro() {
         return gyro_ ;
     }
 }
