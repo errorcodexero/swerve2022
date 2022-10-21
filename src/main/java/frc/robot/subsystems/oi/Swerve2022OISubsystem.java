@@ -1,13 +1,11 @@
 package frc.robot.subsystems.oi ;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import frc.robot.Swerve2022;
 import frc.robot.subsystems.Swerve2022RobotSubsystem;
 import org.xero1425.base.subsystems.DriveBaseSubsystem;
 import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.subsystems.oi.Gamepad;
 import org.xero1425.base.subsystems.oi.OISubsystem;
-import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
@@ -61,7 +59,7 @@ public class Swerve2022OISubsystem extends OISubsystem {
         Gamepad gamepad = getGamePad();
         if (gamepad.isBPressed() && gamepad.isYPressed()) {
             Swerve2022RobotSubsystem robotSubsystem = (Swerve2022RobotSubsystem) getRobot().getRobotSubsystem();
-            robotSubsystem.getDB().zeroGyro();
+            robotSubsystem.getDB().setPose(new Pose2d()) ;
         }
     }
 }

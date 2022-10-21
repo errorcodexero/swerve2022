@@ -172,8 +172,9 @@ public class XeroEncoder {
     /// method resets the encoder count to zero and sets the B term in the mapping
     /// function Y = MX + B to the given position.
     public void calibrate(double pos) {
-        if (quad_ != null)
+        if (quad_ != null) {
             quad_.reset() ;
+        }
         else if (motor_ != null)
         {
             try {
@@ -181,6 +182,12 @@ public class XeroEncoder {
             }
             catch(Exception ex) {                
             }
+        }
+        else if (analog_ != null) {
+            //
+            // This is an analog absolute encoder.
+            //
+            mapper_.calibrate(pos, analog_.getVoltage());
         }
 
         quad_b_ = pos ;

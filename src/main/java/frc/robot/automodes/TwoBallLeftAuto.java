@@ -32,7 +32,7 @@ public class TwoBallLeftAuto extends SwerveDriveAutoMode{
         //addSubActionPair(gpm.getShooter(), new ShooterSpinUpAction(gpm.getShooter()), false) ;
 
         // Drive and collect the second ball
-        drivePath("p1", true) ;
+        drivePath("p1", false, true) ;
         
         // Start firing the two balls
         addSubActionPair(gpm, new GPMFireAction(gpm, tracker, db, turret), true);
