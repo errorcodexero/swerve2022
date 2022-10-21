@@ -553,8 +553,8 @@
         }
     },
     "testmode" : {
-        "enabled" : false,
-        "which" : 52,
+        "enabled" : true,
+        "which" : 60,
         "0" : {
             "angle" : 0.0,
             "power" : 0.2
@@ -587,9 +587,14 @@
         },
         "11" : {
             "power" : 0.2,
-            "duration" : 0.2
+            "duration" : 0.1
         },
         "12" : {
+        },
+        "13" : {
+            "updown" : 0.0,
+            "spinner" : 0.3,
+            "duration" : 1.0
         },
         "20" : {
             "power" : 0.5,
@@ -601,15 +606,15 @@
         },
         "40" : {
             "power" : 0.5,
-            "duration" : 12
+            "duration" :2
         },
         "41" : {
             "velocity" : 2000
         },
         "50" : {
             // Hood move motor test mode
-            "power" : 0.7,
-            "duration" : 0.5
+            "power" : 0.2,
+            "duration" : 0.2
         },
         "51" : {
             "position" : 300
@@ -617,7 +622,7 @@
         "60" : {
             // Turret move motor test mode
             "power" : 0.20,
-            "duration" : 0.5
+            "duration" : 0.1
         },
         "61" : {
             "angle" : 4

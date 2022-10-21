@@ -3,6 +3,7 @@ package frc.robot.automodes;
 import org.xero1425.base.actions.DelayAction;
 import org.xero1425.base.controllers.TestAutoMode;
 import org.xero1425.base.subsystems.intake2motor.IntakePositionPowerAction;
+import org.xero1425.base.subsystems.intake2motor.IntakePowerPowerAction;
 import org.xero1425.base.subsystems.intake2motor.Intake2MotorSubsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderGotoAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderPowerAction;
@@ -103,6 +104,13 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 addSubActionPair(intake, new MotorEncoderGotoAction(intake, 7500, false), true);
                 addAction(new DelayAction(getAutoController().getRobot(), 3.00));
                 addSubActionPair(intake, new MotorEncoderGotoAction(intake, 0, false), true);
+                break ;
+
+            case 13:
+                addSubActionPair(intake, new IntakePowerPowerAction(intake, getDouble("updown"), getDouble("spinner")), false) ;
+                addAction(new DelayAction(getAutoController().getRobot(), getDouble("duration"))) ;
+                addSubActionPair(intake, new IntakePowerPowerAction(intake, 0.0, 0.0), false) ;
+
                 break ;
             
             //

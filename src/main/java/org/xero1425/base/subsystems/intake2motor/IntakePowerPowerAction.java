@@ -24,6 +24,13 @@ public class IntakePowerPowerAction extends MotorPowerAction {
         collect_power_ = sub.getSettingsValue(power).getDouble() ;
     }
 
+    public IntakePowerPowerAction(Intake2MotorSubsystem sub, double updownpower, double power)  throws Exception {
+        super(sub, updownpower) ;
+
+        sub_ = sub ;
+        collect_power_ = power ;
+    }
+
     @Override
     public void start() throws Exception {
         super.start() ;
