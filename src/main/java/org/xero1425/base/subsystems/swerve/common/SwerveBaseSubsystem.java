@@ -123,6 +123,8 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         double dist = p.getTranslation().getDistance(last_pose_.getTranslation()) ;
         velocity_ = dist / getRobot().getDeltaTime() ;
         last_pose_ = p ;
+
+        setRobotLocation(getPose());
     }
 
     @Override

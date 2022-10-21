@@ -94,6 +94,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
             MessageLogger logger = getSubsystem().getRobot().getMessageLogger() ;
             logger.startMessage(MessageType.Debug, getSubsystem().getLoggerID()) ;
             logger.add("SwerveHolonomicPathFollower Target:").add("index", index_).add(", pose", target.toString());
+            logger.add(", actual", getSubsystem().getPose().toString()) ;
             logger.endMessage();
 
             getSubsystem().setPathLocation(target);
