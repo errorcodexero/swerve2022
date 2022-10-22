@@ -1,14 +1,14 @@
 package frc.robot.automodes;
 
-import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
+// import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
 
 import frc.robot.subsystems.Swerve2022RobotSubsystem;
 import frc.robot.subsystems.conveyor.ConveyorSetBall;
-import frc.robot.subsystems.gpm.GPMFireAction;
+// import frc.robot.subsystems.gpm.GPMFireAction;
 import frc.robot.subsystems.gpm.GPMSubsystem;
-import frc.robot.subsystems.shooter.ShooterSpinUpAction;
-import frc.robot.subsystems.targettracker.TargetTrackerSubsystem;
-import frc.robot.subsystems.turret.TurretSubsystem;
+// import frc.robot.subsystems.shooter.ShooterSpinUpAction;
+// import frc.robot.subsystems.targettracker.TargetTrackerSubsystem;
+// import frc.robot.subsystems.turret.TurretSubsystem;
 
 public class TwoBallLeftAuto extends SwerveDriveAutoMode{
 
@@ -17,10 +17,10 @@ public class TwoBallLeftAuto extends SwerveDriveAutoMode{
 
         Swerve2022RobotSubsystem robot = getSwerveRobotSubsystem();
         GPMSubsystem gpm = robot.getGPM() ;
-        SwerveBaseSubsystem db = getSwerveRobotSubsystem().getDB() ;
+        // SwerveBaseSubsystem db = getSwerveRobotSubsystem().getDB() ;
 
-        TargetTrackerSubsystem tracker = robot.getTracker() ;
-        TurretSubsystem turret = robot.getTurret() ;
+        // TargetTrackerSubsystem tracker = robot.getTracker() ;
+        // TurretSubsystem turret = robot.getTurret() ;
 
         // Set state of the conveyor to reflect a single ball preloaded
         addSubActionPair(gpm.getConveyor(), new ConveyorSetBall(gpm.getConveyor()), false);
@@ -29,12 +29,16 @@ public class TwoBallLeftAuto extends SwerveDriveAutoMode{
         startLimelightTracking() ;
 
         // Start spin up of the shooter
+        // TODO: add the line below when the turret and intake are working
         //addSubActionPair(gpm.getShooter(), new ShooterSpinUpAction(gpm.getShooter()), false) ;
 
         // Drive and collect the second ball
-        drivePath("p1", true) ;
+        // drivePath("p2", true, true) ;
+        // TODO: replace this current line with the one above once the intake is working
+        drivePath("p2", false, true) ;
         
         // Start firing the two balls
-        addSubActionPair(gpm, new GPMFireAction(gpm, tracker, db, turret), true);
+        // TODO: add the following line once the intake and turret are working
+        // addSubActionPair(gpm, new GPMFireAction(gpm, tracker, db, turret), true);
     }
 }

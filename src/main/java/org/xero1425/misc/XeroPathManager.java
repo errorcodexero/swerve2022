@@ -91,7 +91,11 @@ public class XeroPathManager
             exts_[2] = "_bl.csv" ;
             exts_[3] = "_br.csv" ;
         }
-
+        else if (path_type_ == XeroPathType.SwerveHolonomic) 
+        {
+            exts_ = new String[1] ;
+            exts_[0] = "_main.csv" ;
+        }
     }
 
     /// \brief return the types of paths the path manager is managing

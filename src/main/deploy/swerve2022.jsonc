@@ -9,14 +9,14 @@
 
             // Subsystem related messages
             "conveyor" : false,
-            "gpm": true,
+            "gpm": false,
             "shooter": false,
-            "intake" : true,
+            "intake" : false,
             "turret" : false,
 
             // Tank drive related settings
             "pathfollowing": false,
-            "swervedrive": false,
+            "swervedrive": true,
             "swerveoi": false
         },
         "verbose" : {
@@ -156,6 +156,10 @@
                 "nominal-voltage" : 11.0,
                 "steer-current-limit" : 10.0,
                 "drive-current-limit" : 30.0
+            },
+            "holonomic-path-following" : {
+                "xy-tolerance" : 0.05,
+                "angle-tolerance" : 5.0
             }
         },   
         "swerve2022oi" : {
@@ -577,30 +581,29 @@
     "automodes" : {
         "fourball" : {                      // Values for the auto mode named 'four-ball'
             "p1" : {
-                "end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
                 "collect-delay" : 0.0,       // The delay after starting collect action and before driving for path 'p1'
                 "stop-collect-delay" : 1.0   // The delay after path following and before stopping collection
             },
             "p2" : {
-                "end-angle" : 0.0,
                 "collect-delay" : 0.0,
                 "stop-collect-delay" : 1.0
             },
             "p3" : {
-                "end-angle" : 0.0,
                 "stop-collect-delay" : 1.0
             }
         },
         "twoballleft" : {
             "p1" : {
-                "end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
+                "collect-delay" : 1.5,        // The delay after starting collect action and before driving for path 'p1'
+                "stop-collect-delay" : 2.0   // The delay after path following and before stopping collection
+            },
+            "p2" : {
                 "collect-delay" : 1.5,        // The delay after starting collect action and before driving for path 'p1'
                 "stop-collect-delay" : 2.0   // The delay after path following and before stopping collection
             }
         },
         "twoballright" : {
             "p1" : {
-                "end-angle" : 0.0,           // The end angle for the path 'p1' in the automode 'four-ball'
                 "collect-delay" : 1.0,        // The delay after starting collect action and before driving for path 'p1'
                 "stop-collect-delay" : 1.0   // The delay after path following and before stopping collection
             }
@@ -641,9 +644,14 @@
         },
         "11" : {
             "power" : 0.2,
-            "duration" : 0.2
+            "duration" : 0.1
         },
         "12" : {
+        },
+        "13" : {
+            "updown" : 0.0,
+            "spinner" : 0.3,
+            "duration" : 1.0
         },
         "20" : {
             "power" : 0.5,
@@ -655,15 +663,15 @@
         },
         "40" : {
             "power" : 0.5,
-            "duration" : 12
+            "duration" :2
         },
         "41" : {
             "velocity" : 2000
         },
         "50" : {
             // Hood move motor test mode
-            "power" : 0.7,
-            "duration" : 0.5
+            "power" : 0.2,
+            "duration" : 0.2
         },
         "51" : {
             "position" : 300
@@ -671,7 +679,7 @@
         "60" : {
             // Turret move motor test mode
             "power" : 0.20,
-            "duration" : 0.5
+            "duration" : 0.1
         },
         "61" : {
             "angle" : 4

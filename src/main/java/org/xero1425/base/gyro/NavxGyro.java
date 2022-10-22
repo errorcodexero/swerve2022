@@ -38,7 +38,10 @@ public class NavxGyro implements XeroGyro {
     /// -180 degrees and 180 degrees.
     /// \returns the current effective YAW angle for the NavX
     public double getYaw() {
-        return -navx_.getYaw() - offset_ ;
+        double ret = 0.0 ;
+
+        ret = -navx_.getYaw() - offset_ ;
+        return ret ;
     }
 
     /// \brief Returns the total angle for the NavX

@@ -63,6 +63,6 @@ public class Swerve2022 extends XeroRobot {
     }
 
     protected XeroPathType getPathType() {
-        return XeroPathType.SwervePathFollowing ;
+        return XeroPathType.SwerveHolonomic ;
     }
 }

@@ -21,17 +21,17 @@ public class SwerveDriveRobotAutoController extends AutoController {
         try {
             test_mode_ = new SwerveTestAutoMode(this) ;
             //modes_[0] = new FourBallAuto(this) ;
-            modes_[0] = new NoOpAutomode(this) ;
+            modes_[0] = new TwoBallLeftAuto(this) ;
             modes_[1] = new TwoBallLeftAuto(this) ;
             //modes_[2] = new TwoBallRightAuto(this) ;
-            modes_[2] = new NoOpAutomode(this) ;
-            modes_[3] = new NoOpAutomode(this) ;
-            modes_[4] = new NoOpAutomode(this) ;
-            modes_[5] = new NoOpAutomode(this) ;
-            modes_[6] = new NoOpAutomode(this) ;
-            modes_[7] = new NoOpAutomode(this) ;
-            modes_[8] = new NoOpAutomode(this) ;
-            modes_[9] = new NoOpAutomode(this) ;
+            modes_[2] = new TwoBallLeftAuto(this) ;
+            modes_[3] = new TwoBallLeftAuto(this) ;
+            modes_[4] = new TwoBallLeftAuto(this) ;
+            modes_[5] = new TwoBallLeftAuto(this) ;
+            modes_[6] = new TwoBallLeftAuto(this) ;
+            modes_[7] = new TwoBallLeftAuto(this) ;
+            modes_[8] = new TwoBallLeftAuto(this) ;
+            modes_[9] = new TwoBallLeftAuto(this) ;
         }
         catch(Exception ex) {
             MessageLogger logger = robot.getMessageLogger() ;
@@ -54,6 +54,8 @@ public class SwerveDriveRobotAutoController extends AutoController {
                 if (getAutoMode() != modes_[mode])
                     setAutoMode(modes_[mode]) ;
             }
+
+            setAutoMode(modes_[0]) ;
         }
     }    
 }

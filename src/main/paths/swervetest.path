@@ -178,7 +178,7 @@
                 {
                     "constraints": [
                     ],
-                    "endangle": 0,
+                    "endangle": 148.7,
                     "endangledelay": 0,
                     "endvelocity": 0,
                     "flags": [
@@ -192,7 +192,7 @@
                     "name": "p2",
                     "points": [
                         {
-                            "heading": 133.02506598911802,
+                            "heading": 132.7553194700928,
                             "x": 6.336230246049112,
                             "y": 5.227686633076763
                         },
@@ -202,12 +202,12 @@
                             "y": 6.069156997277604
                         }
                     ],
-                    "startangle": 0,
+                    "startangle": 132.8,
                     "startangledelay": 0,
                     "startvelocity": 0
                 }
             ]
         }
     ],
-    "outdir": "C:/cygwin64/home/mkassab/team1425_repos/swerve2022/src/main/deploy/paths"
+    "outdir": "C:/cygwin64/home/butch/robottools/robots/swerve2022/src/main/deploy/paths"
 }

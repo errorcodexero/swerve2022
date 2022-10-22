@@ -15,11 +15,6 @@ public class XeroPath
     private String name_ ;
 
     //
-    // The type of the drivebase for the path
-    //
-    private int data_count_ ;
-
-    //
     // The set of segment for the left side of the robot
     //
     private ArrayList<ArrayList<XeroPathSegment>> data_ ;
@@ -29,7 +24,6 @@ public class XeroPath
     /// \param data_count the number of data per time point
     public XeroPath(String name, int data_count) throws Exception {
         name_ = name ;
-        data_count_ = data_count ;
         data_ = new ArrayList<ArrayList<XeroPathSegment>>() ;
 
         for(int i = 0 ; i < data_count ; i++)
@@ -40,8 +34,8 @@ public class XeroPath
 
     /// \brief return the path type
     /// \returns the path type
-    public int getDataCounts() {
-        return data_count_ ;
+    public int getTrajectorCount() {
+        return data_.size() ;
     }
 
     /// \brief return the name of the path
@@ -52,7 +46,7 @@ public class XeroPath
 
     /// \brief returns the number of data points in the path
     /// \returns the numer of data points in the path
-    public int getSize() {
+    public int getTrajectoryEntryCount() {
         return data_.get(0).size() ;
     }
 

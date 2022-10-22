@@ -122,7 +122,7 @@ public class TankDrivePathFollowerAction extends TankDrivePathAction {
         logger.startMessage(MessageType.Debug, getActionLoggerID()) ;
         logger.add("index", index_) ;
 
-        if (index_ < getPath().getSize())
+        if (index_ < getPath().getTrajectoryEntryCount())
         {
             double dt = robot.getDeltaTime();
             XeroPathSegment lseg = getPath().getSegment(LeftSide, index_) ;
@@ -237,7 +237,7 @@ public class TankDrivePathFollowerAction extends TankDrivePathAction {
         logger.endMessage();
         index_++ ;
 
-        if (index_ == getPath().getSize())
+        if (index_ == getPath().getTrajectoryEntryCount())
         {
             getSubsystem().setRecording(false);
             td.endPlot(plot_id_);
@@ -250,7 +250,7 @@ public class TankDrivePathFollowerAction extends TankDrivePathAction {
     @Override
     public void cancel() {
         super.cancel() ;
-        index_ = getPath().getSize() ;
+        index_ = getPath().getTrajectoryEntryCount() ;
 
         getSubsystem().setPower(0.0, 0.0) ;
         getSubsystem().endPlot(plot_id_);

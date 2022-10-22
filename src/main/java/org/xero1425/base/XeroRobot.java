@@ -367,6 +367,8 @@ public abstract class XeroRobot extends TimedRobot {
 
             logStackTrace(ex.getStackTrace());
 
+            signalHardwareInitFailure() ;
+
             robot_subsystem_ = null;
         }
 
@@ -543,8 +545,6 @@ public abstract class XeroRobot extends TimedRobot {
     }
 
     /// \brief Called from the base class each robot loop while in the disabled state
-    static int mycount = 0 ;
-    static double mytime = 0.0 ;
     @Override
     public void disabledPeriodic() {
         if (robot_subsystem_ == null)
@@ -555,7 +555,6 @@ public abstract class XeroRobot extends TimedRobot {
 
         updateAutoMode();
 
-        double start = getTime() ;
         try {
             robot_subsystem_.computeState();
         } catch (Exception ex) {
@@ -564,9 +563,6 @@ public abstract class XeroRobot extends TimedRobot {
             logger_.add(ex.getMessage());
             logger_.endMessage();
         }
-        mytime += (getTime() - start) ;
-        mycount++ ;
-
         if (isSimulation()) {
             SimulationEngine engine = SimulationEngine.getInstance() ;
             if (engine != null)
@@ -628,6 +624,12 @@ public abstract class XeroRobot extends TimedRobot {
     /// \returns the message logger
     public PlotManager getPlotManager() {
         return plot_mgr_;
+    }
+
+    /// \brief Signals that the robot initialization failed
+    protected void signalHardwareInitFailure() {
+        String msg = "hardware initialization failed - check the log file for details" ;
+        DriverStation.reportError(msg, false) ;
     }
 
     /// \brief enable specific messages, epxected to be overridden by the derived class
