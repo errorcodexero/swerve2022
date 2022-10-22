@@ -195,6 +195,16 @@ public abstract class XeroRobot extends TimedRobot {
         automode_ = -1;
     }
 
+    public List<AutoMode> getAllAutomodes() {
+        final ArrayList<AutoMode> none = new ArrayList<AutoMode>() ;
+
+        if (auto_controller_ == null) {
+            return none ;
+        }
+        
+        return auto_controller_.getAllAutomodes() ;
+    }
+
     /// \brief returns true if pneumatics are enabled
     /// \return true if pneumatics are enabled
     public boolean arePneumaticsEnabled() {

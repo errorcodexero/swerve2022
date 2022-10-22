@@ -25,8 +25,6 @@ public class AutoMode extends SequenceAction {
 
         ctrl_ = ctrl ;
         name_ = name ;
-
-        ctrl.addAutoMode(this) ;
     }
 
     /// \brief Returns the name of the automode

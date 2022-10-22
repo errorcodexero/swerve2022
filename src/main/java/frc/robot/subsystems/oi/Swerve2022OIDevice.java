@@ -22,7 +22,7 @@ import org.xero1425.base.subsystems.oi.OILed;
 import org.xero1425.base.subsystems.oi.OIPanelButton;
 
 public class Swerve2022OIDevice extends OIPanel {
-    private int automode_gadget_ ;
+    // private int automode_gadget_ ;
     private int collect_v_shoot_gadget_ ;
     private int start_collect_gadget_ ;
     private int eject_gadget_ ;
@@ -57,11 +57,11 @@ public class Swerve2022OIDevice extends OIPanel {
         // distance_ok_led_ = createLED(parent.getSettingsValue("panel:outputs:shooting:distance").getInteger()) ;  
     }
 
-    @Override
-    public int getAutoModeSelector() {
-        int value = getValue(automode_gadget_) ;
-        return value ;
-    }
+    // @Override
+    // public int getAutoModeSelector() {
+    //     int value = getValue(automode_gadget_) ;
+    //     return value ;
+    // }
 
     @Override
     public void createStaticActions() throws Exception {
@@ -188,10 +188,11 @@ public class Swerve2022OIDevice extends OIPanel {
     }
 
     private void initializeGadgets() throws BadParameterTypeException, MissingParameterException {
-        int num = getSubsystem().getSettingsValue("panel:gadgets:automode").getInteger();
-        Double[] map = { -0.3, 0.05, 0.20, 0.30, 0.50, 0.60, 0.80, 0.9, 1.0} ;
+        int num ;
         
-        automode_gadget_ = mapAxisScale(num, map);
+        // num = getSubsystem().getSettingsValue("panel:gadgets:automode").getInteger();
+        // Double[] map = { -0.3, 0.05, 0.20, 0.30, 0.50, 0.60, 0.80, 0.9, 1.0} ;
+        // automode_gadget_ = mapAxisScale(num, map);
 
         num = getSubsystem().getSettingsValue("panel:gadgets:shoot_collect_mode").getInteger();
         collect_v_shoot_gadget_ = mapButton(num, OIPanelButton.ButtonType.Level);

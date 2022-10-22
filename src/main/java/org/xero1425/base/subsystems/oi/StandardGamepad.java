@@ -105,12 +105,19 @@ public class StandardGamepad extends Gamepad {
     /// \brief generate the actions for the drivebase for the current robot loop
     @Override
     public void generateActions() {
+        double xSpeed, zRotation ;
 
-        if (db_ == null || isEnabled() == false)
+        if (db_ == null || isEnabled() == false) {
           return ;
+        }
 
-        double xSpeed = -DriverStation.getStickAxis(getIndex(), AxisNumber.LEFTY.value) ;
-        double zRotation = DriverStation.getStickAxis(getIndex(), AxisNumber.RIGHTX.value) ;
+        try {
+            xSpeed = -DriverStation.getStickAxis(getIndex(), AxisNumber.LEFTY.value) ;
+            zRotation = DriverStation.getStickAxis(getIndex(), AxisNumber.RIGHTX.value) ;
+        }
+        catch(Exception ex) {
+            return ;
+        }
         
         xSpeed = MathUtil.applyDeadband(xSpeed, deadband_) ;
         xSpeed = MathUtil.clamp(xSpeed, -1.0, 1.0) ;

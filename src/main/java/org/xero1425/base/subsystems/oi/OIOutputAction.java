@@ -31,7 +31,7 @@ public class OIOutputAction extends Action {
 
     @Override
     public void start() {
-        HIDDevice dev = sub_.getDevice(device_) ;
+        OIDevice dev = sub_.getDevice(device_) ;
         dev.setOutput(output_, value_) ;
     }
 

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation ;
 
 /// \brief a base class for a gamepad.  This class provides access to the various axis, buttons, and POV
 /// switches.  It does not provide any mapping to the drivebase.  This is done by derived classes.
-public abstract class Gamepad extends HIDDevice
+public abstract class Gamepad extends OIDevice
 {
     // The XBOX Controller attached
     private XboxController controller_ ;
@@ -59,67 +59,165 @@ public abstract class Gamepad extends HIDDevice
     /// \brief Returns true if the right trigger is pressed
     /// \returns true if the right trigger is pressed
     public boolean isRTriggerPressed() {
-        return DriverStation.getStickAxis(getIndex(), AxisNumber.RTRIGGER.value) > 0.5 ;
+        boolean ret ;
+        
+        try {
+            ret = DriverStation.getStickAxis(getIndex(), AxisNumber.RTRIGGER.value) > 0.5 ;
+        }
+        catch(Exception ex) {
+            ret = false ;
+        }
+
+        return ret ;
     }
 
     /// \brief Returns true if the right trigger is pressed
     /// \returns true if the right trigger is pressed    
     public boolean isLTriggerPressed() {
-        return DriverStation.getStickAxis(getIndex(), AxisNumber.LTRIGGER.value) > 0.5 ;
+        boolean ret ;
+        
+        try {
+            ret = DriverStation.getStickAxis(getIndex(), AxisNumber.LTRIGGER.value) > 0.5 ;
+        }
+        catch(Exception ex) {
+            ret = false ;
+        }
+
+        return ret ;
     }    
 
     /// \brief Returns true if the right trigger is pressed
     /// \returns true if the right trigger is pressed    
     public boolean isAPressed() {
-        return DriverStation.getStickButton(getIndex(), ButtonNumber.A.value) ;
+        boolean ret ;
+
+        try {
+            ret = DriverStation.getStickButton(getIndex(), ButtonNumber.A.value) ;
+        }
+        catch(Exception ex) {
+            ret = false ;
+        }
+
+        return ret ;
     }
 
     /// \brief Returns true if the right trigger is pressed
     /// \returns true if the right trigger is pressed    
     public boolean isBPressed() {
-        return DriverStation.getStickButton(getIndex(), ButtonNumber.B.value) ;
+        boolean ret ;
+
+        try {
+            ret = DriverStation.getStickButton(getIndex(), ButtonNumber.B.value) ;
+        }
+        catch(Exception ex) {
+            ret = false ;
+        }
+
+        return ret ;
     }
 
     /// \brief Returns true if the right trigger is pressed
     /// \returns true if the right trigger is pressed    
     public boolean isXPressed() {
-        return DriverStation.getStickButton(getIndex(), ButtonNumber.X.value) ;
+        boolean ret ;
+
+        try {
+            ret = DriverStation.getStickButton(getIndex(), ButtonNumber.X.value) ;
+        }
+        catch(Exception ex) {
+            ret = false ;
+        }
+
+        return ret ;
     }
 
     /// \brief Returns true if the right trigger is pressed
     /// \returns true if the right trigger is pressed    
     public boolean isYPressed() {
-        return DriverStation.getStickButton(getIndex(), ButtonNumber.Y.value) ;
+        boolean ret ;
+
+        try {
+            ret = DriverStation.getStickButton(getIndex(), ButtonNumber.Y.value) ;
+        }
+        catch(Exception ex) {
+            ret = false ;
+        }
+
+        return ret ;
     }
 
     /// \brief Returns true if the right trigger is pressed
     /// \returns true if the right trigger is pressed    
     public boolean isLJoyButtonPressed() {
-        return DriverStation.getStickButton(getIndex(), ButtonNumber.L_JOY.value) ;
+        boolean ret ;
+
+        try {
+            ret = DriverStation.getStickButton(getIndex(), ButtonNumber.L_JOY.value) ;
+        }
+        catch(Exception ex) {
+            ret = false ;
+        }
+
+        return ret ;
     }
 
     /// \brief Returns true if the right trigger is pressed
     /// \returns true if the right trigger is pressed    
     public boolean isRJoyButtonPressed() {
-        return DriverStation.getStickButton(getIndex(), ButtonNumber.R_JOY.value) ;
+        boolean ret ;
+
+        try {
+            ret = DriverStation.getStickButton(getIndex(), ButtonNumber.R_JOY.value) ;
+        }
+        catch(Exception ex) {
+            ret = false ;
+        }
+
+        return ret ;
     }
 
     /// \brief Returns true if the right trigger is pressed
     /// \returns true if the right trigger is pressed    
     public boolean isRBackButtonPressed() {
-        return DriverStation.getStickButton(getIndex(), ButtonNumber.RB.value) ;        
+        boolean ret ;
+
+        try {
+            ret = DriverStation.getStickButton(getIndex(), ButtonNumber.RB.value) ;
+        }
+        catch(Exception ex) {
+            ret = false ;
+        }
+
+        return ret ;    
     }
 
     /// \brief Returns true if the right trigger is pressed
     /// \returns true if the right trigger is pressed    
     public boolean isLBackButtonPrssed() {
-        return DriverStation.getStickButton(getIndex(), ButtonNumber.LB.value) ;        
+        boolean ret ;
+
+        try {
+            ret = DriverStation.getStickButton(getIndex(), ButtonNumber.LB.value) ;
+        }
+        catch(Exception ex) {
+            ret = false ;
+        }
+
+        return ret ;       
     }
 
     /// \brief Returns the POV angle for the gamepad
     /// \returns the POV angle for the gamepad
     public POVAngle getPOVAngle() {
-        int povval = DriverStation.getStickPOV(getIndex(), 0) ;
+        int povval ;
+        
+        try {
+            povval = DriverStation.getStickPOV(getIndex(), 0) ;
+        }
+        catch(Exception ex) {
+            povval = -1 ;
+        }
+        
         return POVAngle.fromInt(povval) ;
     }
 

@@ -35,7 +35,7 @@ public class OISubsystem extends Subsystem {
     }
     
     // The list of devices attached to the OI subsystem
-    private List<HIDDevice> devices_ ;
+    private List<OIDevice> devices_ ;
 
     // The tankdrive subsystem
     private DriveBaseSubsystem db_ ;
@@ -59,24 +59,37 @@ public class OISubsystem extends Subsystem {
     /// \param name the name of the subsystem
     /// \param type the type of gamepad to attach
     /// \param db the drivebase to control via the gamepad
-    public OISubsystem(Subsystem parent, String name, GamePadType type, DriveBaseSubsystem db) {
+    public OISubsystem(Subsystem parent, String name, GamePadType type, DriveBaseSubsystem db, boolean addshuffleboard) {
         super(parent, name);
 
-        devices_ = new ArrayList<HIDDevice>();
+        devices_ = new ArrayList<OIDevice>();
         db_ = db ;
         gp_index_ = -1 ;
 
         gamepad_type_ = type ;
         addTankDriveGamePad();
+
+        if (addshuffleboard) {
+            OIShuffleBoardDevice shdev = new OIShuffleBoardDevice(this) ;
+            addHIDDevice(shdev);
+        }
     }
 
-    public HIDDevice getDevice(int index) {
-        for(HIDDevice dev : devices_) {
-            if (dev.getIndex() == index)
-                return dev ;
+    public OIDevice getDevice(int index) {
+        OIDevice ret = null ;
+
+        for(OIDevice dev : devices_) {
+            try {
+                if (dev.getIndex() == index) {
+                    ret = dev ;
+                    break ;
+                }
+            }
+            catch(Exception ex) {
+            }
         }
 
-        return null ;
+        return ret ;
     }
 
     public GamePadType getGamePadType() {
@@ -100,7 +113,7 @@ public class OISubsystem extends Subsystem {
     /// Calls init() on each child device.
     @Override
     public void init(LoopType ltype) {
-        for (HIDDevice dev : devices_)
+        for (OIDevice dev : devices_)
             dev.init(ltype);
     }
 
@@ -120,7 +133,7 @@ public class OISubsystem extends Subsystem {
         }
 
         // Iterate through each of the devices in the subsystem and if enabled, call device level computeState().
-        for (HIDDevice dev : devices_) {
+        for (OIDevice dev : devices_) {
             if (dev.isEnabled())
                 dev.computeState();
         }
@@ -128,7 +141,7 @@ public class OISubsystem extends Subsystem {
 
     /// \brief Called each robot loop to generate actions to assign for each enable OI HID device.
     public void generateActions() throws InvalidActionRequest {
-        for(HIDDevice dev : devices_)
+        for(OIDevice dev : devices_)
         {
             if (dev.isEnabled())
                 dev.generateActions() ;
@@ -151,7 +164,7 @@ public class OISubsystem extends Subsystem {
         // This is done here because we are guarenteed to have created
         // all subsystems and established their parent child relationship
         //
-        for(HIDDevice dev : devices_)
+        for(OIDevice dev : devices_)
             dev.createStaticActions();
     }
 
@@ -160,11 +173,12 @@ public class OISubsystem extends Subsystem {
     /// is not -1 is used.
     /// \returns the automode number to use
     public int getAutoModeSelector() {
-        for(HIDDevice dev : devices_)
+        for(OIDevice dev : devices_)
         {
             int mode = dev.getAutoModeSelector() ;
-            if (mode != -1)
+            if (mode != -1) {
                 return mode ;
+            }
         }
 
         return -1 ;
@@ -172,7 +186,7 @@ public class OISubsystem extends Subsystem {
 
     /// \brief Add a new HID device to this OI subsystem
     /// \param dev the HID device to add
-    protected void addHIDDevice(HIDDevice dev) {
+    protected void addHIDDevice(OIDevice dev) {
         devices_.add(dev) ;
     }
 

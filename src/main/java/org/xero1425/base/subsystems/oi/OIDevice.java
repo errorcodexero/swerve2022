@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 
 /// \brief This class represents a basic HID device attached to the driver station.  This
 /// could be a gamepad for driving the robot, or an OI device for the gunner.
-public abstract class HIDDevice
+public abstract class OIDevice
 {
     // The name of the device
     private String name_ ;
@@ -30,13 +30,21 @@ public abstract class HIDDevice
     /// \param sub the subsystem that owns this HID device
     /// \param name the name of this HID device
     /// \param index the index used to reference this device in the WPILib APIs.
-    public HIDDevice(OISubsystem sub, String name, int index) {
+    public OIDevice(OISubsystem sub, String name, int index) {
         sub_ = sub ;
         index_ = index ;
         enabled_ = true ;
         name_ = name ;
 
         hid_device_ = new GenericHID(index) ;
+    }
+
+    public OIDevice(OISubsystem sub, String name) {
+        index_ = -1 ;
+        sub_ = sub ;
+        enabled_ = true ;
+        name_ = name ;
+        hid_device_ = null ;
     }
 
     /// \brief Return the the name of the device
@@ -53,7 +61,10 @@ public abstract class HIDDevice
 
     /// \brief Return the index for the device, used in WPILib calls
     /// \returns the index for the device, used in WPILib calls
-    public int getIndex() {
+    public int getIndex() throws Exception {
+        if (index_ == -1) {
+            throw new Exception("calling getIndex() when the OIDevice is not HID based") ;
+        }
         return index_ ;
     }
 

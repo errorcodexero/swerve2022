@@ -210,7 +210,6 @@ public class MotorEncoderGotoAction extends MotorAction {
 
         // Check the current position to see if we are done
         double dist = normalizePosition(sub, target_ - sub.getPosition()) ;
-        System.out.println("dist " + dist + ", target " + target_ + ", pos " + sub.getPosition()) ;
         if (Math.abs(dist) < threshold_)
         {
             setDone() ;
@@ -231,8 +230,6 @@ public class MotorEncoderGotoAction extends MotorAction {
             profile_.update(dist, 0, 0) ;
             start_time_ = sub.getRobot().getTime() ;
             start_position_ = sub.getPosition() ;
-
-            System.out.println("Profile: " + profile_.toString()) ;
         }
     }
 

@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 import org.xero1425.base.LoopType;
 import org.xero1425.base.actions.Action;
-import org.xero1425.base.actions.InvalidActionRequest;
 import org.xero1425.base.actions.SequenceAction;
 import org.xero1425.base.subsystems.DriveBaseSubsystem;
 import org.xero1425.base.subsystems.tankdrive.TankDrivePowerAction;
@@ -191,7 +190,7 @@ public class Xero1425Gamepad extends Gamepad {
                 }
             }
         }
-        catch(InvalidActionRequest ex) {
+        catch(Exception ex) {
             //
             // This should never happen
             //

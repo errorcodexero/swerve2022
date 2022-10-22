@@ -56,15 +56,22 @@ public class SwerveDriveGamepad extends Gamepad {
 
     @Override
     public void generateActions() {
+        double ly, lx, rx ;
+
         if (db_ == null || !isEnabled())
             return ;
 
         // For X axis, left is -1, right is +1
         // For Y axis, forward is -1, back is +1
 
-        double ly = DriverStation.getStickAxis(getIndex(), AxisNumber.LEFTY.value) ;
-        double lx = DriverStation.getStickAxis(getIndex(), AxisNumber.LEFTX.value) ;
-        double rx = -DriverStation.getStickAxis(getIndex(), AxisNumber.RIGHTX.value) ;
+        try {
+            ly = DriverStation.getStickAxis(getIndex(), AxisNumber.LEFTY.value) ;
+            lx = DriverStation.getStickAxis(getIndex(), AxisNumber.LEFTX.value) ;
+            rx = -DriverStation.getStickAxis(getIndex(), AxisNumber.RIGHTX.value) ;
+        }
+        catch(Exception ex) {
+            return ;
+        }
 
         double lyscaled = mapJoyStick(ly, pos_maximum_, deadband_pos_y_, power_) ;
         double lxscaled = mapJoyStick(lx, pos_maximum_, deadband_pos_x_, power_) ;

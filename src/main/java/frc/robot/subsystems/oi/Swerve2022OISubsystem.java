@@ -18,7 +18,7 @@ public class Swerve2022OISubsystem extends OISubsystem {
     private final static String OIHIDIndexName = "panel:index";
 
     public Swerve2022OISubsystem(Subsystem parent, DriveBaseSubsystem db) {
-        super(parent, SubsystemName, GamePadType.Swerve, db) ;
+        super(parent, SubsystemName, GamePadType.Swerve, db, true) ;
 
         int index ;
         MessageLogger logger = getRobot().getMessageLogger() ;

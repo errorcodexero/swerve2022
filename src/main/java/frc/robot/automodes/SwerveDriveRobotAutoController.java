@@ -1,8 +1,11 @@
 package frc.robot.automodes;
 
+import java.util.List;
+
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.actions.InvalidActionRequest;
 import org.xero1425.base.controllers.AutoController;
+import org.xero1425.base.controllers.AutoMode;
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
@@ -10,52 +13,42 @@ import org.xero1425.misc.MissingParameterException;
 
 public class SwerveDriveRobotAutoController extends AutoController {
 
-    private SwerveDriveAutoMode [] modes_;
     private SwerveTestAutoMode test_mode_ ;
 
     public SwerveDriveRobotAutoController(XeroRobot robot) throws MissingParameterException, BadParameterTypeException, InvalidActionRequest {
         super(robot, "SwerveDriveAutoController");
 
-        modes_ = new SwerveDriveAutoMode[10] ;
-
         try {
             test_mode_ = new SwerveTestAutoMode(this) ;
-            //modes_[0] = new FourBallAuto(this) ;
-            modes_[0] = new TwoBallLeftAuto(this) ;
-            modes_[1] = new TwoBallLeftAuto(this) ;
-            //modes_[2] = new TwoBallRightAuto(this) ;
-            modes_[2] = new TwoBallLeftAuto(this) ;
-            modes_[3] = new TwoBallLeftAuto(this) ;
-            modes_[4] = new TwoBallLeftAuto(this) ;
-            modes_[5] = new TwoBallLeftAuto(this) ;
-            modes_[6] = new TwoBallLeftAuto(this) ;
-            modes_[7] = new TwoBallLeftAuto(this) ;
-            modes_[8] = new TwoBallLeftAuto(this) ;
-            modes_[9] = new TwoBallLeftAuto(this) ;
+
+            addAutoMode(new FourBallAuto(this)) ;
+            addAutoMode(new TwoBallLeftAuto(this)) ;
+            addAutoMode(new TwoBallRightAuto(this)) ;
         }
         catch(Exception ex) {
             MessageLogger logger = robot.getMessageLogger() ;
             logger.startMessage(MessageType.Error).add("Exception thrown creating automodes - ") ;
             logger.add(ex.getMessage()).endMessage();
             robot.logStackTrace(ex.getStackTrace());
-
-            test_mode_ = null ;
         }
-    }  
+    }
 
     public void updateAutoMode(int mode, String gamedata) {
-        if (isTestMode()) 
-        {
-            setAutoMode(test_mode_) ;
-        }
-        else
-        {
-            if (mode >= 0 && mode < modes_.length) {
-                if (getAutoMode() != modes_[mode])
-                    setAutoMode(modes_[mode]) ;
-            }
 
-            setAutoMode(modes_[0]) ;
+        AutoMode modeobj = null ;
+
+        if (isTestMode()) {
+            modeobj = test_mode_ ;
         }
-    }    
+        else {
+            List<AutoMode> automodes = getAllAutomodes() ;
+            if (mode >= 0 && mode < automodes.size()) {
+                modeobj = automodes.get(mode) ;
+            }
+        }
+
+        if (getAutoMode() != modeobj) {
+            setAutoMode(modeobj) ;
+        }
+    }
 }

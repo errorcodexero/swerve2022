@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 /// \brief This class represents an OI Panel that is used by the gunner to control the
 /// robot.  A panel consists of a set of OIPanelButton, OIPanelAxisSwitch, and OIPanelAxisScale
 /// items.  An OI panel is assocaited with single HID device.
-public class OIPanel extends HIDDevice
+public class OIPanel extends OIDevice
 {
     // The next handle value to use when a map() call is made
     int next_handle_ ;
