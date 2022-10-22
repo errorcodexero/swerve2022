@@ -13,7 +13,7 @@ import frc.robot.subsystems.gpm.GPMFireAction;
 import frc.robot.subsystems.gpm.GPMStartCollectAction;
 import frc.robot.subsystems.gpm.GPMStopCollectAction;
 import frc.robot.subsystems.gpm.GPMSubsystem;
-import frc.robot.subsystems.turret.TurretFollowTargetAction;
+// import frc.robot.subsystems.turret.TurretFollowTargetAction;
 
 import org.xero1425.base.actions.Action;
 import org.xero1425.base.actions.InvalidActionRequest;
@@ -36,7 +36,8 @@ public class Swerve2022OIDevice extends OIPanel {
     // private OILed turret_ready_led_ ;
     // private OILed distance_ok_led_ ;
 
-    private Action follow_action_ ;
+    // TODO: add this back when the turret is working
+    // private Action follow_action_ ;
     private Action gpm_eject_action_ ;
     private Action start_collect_action_ ;
     private Action stop_collect_action_ ;
@@ -72,9 +73,10 @@ public class Swerve2022OIDevice extends OIPanel {
         stop_collect_action_ = new GPMStopCollectAction(gpm) ;
         fire_action_ = new GPMFireAction(gpm, robot.getTracker(), robot.getDB(), robot.getTurret()) ;
 
-        if (robot.getTurret() != null) {
-            follow_action_ = new TurretFollowTargetAction(robot.getTurret(), robot.getTracker()) ;
-        }
+        // TODO: add the following lines once the turret is ready
+        // if (robot.getTurret() != null) {
+        //     follow_action_ = new TurretFollowTargetAction(robot.getTurret(), robot.getTracker()) ;
+        // }
     }
 
 
@@ -110,8 +112,9 @@ public class Swerve2022OIDevice extends OIPanel {
         GPMSubsystem gpm = robot.getGPM() ;
 
         if (robot.getTurret() != null) {
-            if (robot.getTurret().getAction() != follow_action_)
-                robot.getTurret().setAction(follow_action_) ;
+            // TODO: add the following two lines once the turret works
+            // if (robot.getTurret().getAction() != follow_action_)
+                // robot.getTurret().setAction(follow_action_) ;
         }
 
         if (getValue(collect_v_shoot_gadget_) == 1) {
