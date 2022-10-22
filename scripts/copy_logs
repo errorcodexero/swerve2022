@@ -1,0 +1,4 @@
+#!/bin/bash
+
+mkdir -p logs
+scp lvuser@10.14.25.2:/u/\* logs/
