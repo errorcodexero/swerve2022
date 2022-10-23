@@ -23,6 +23,8 @@ public class ConveyorSubsystem extends MotorSubsystem {
         Eject,
         StartShoot,
         Shooting,
+        PreloadBallWaitForMiddleLow,
+        PreloadBallWaitForMiddleHigh,
     }
 
     private State state_;
@@ -39,6 +41,7 @@ public class ConveyorSubsystem extends MotorSubsystem {
     private double off_power_;
     private double eject_power_;
     private double shoot_power_ ;
+    private double preload_power_ ;
 
     private int ball_count_;
 
@@ -54,6 +57,7 @@ public class ConveyorSubsystem extends MotorSubsystem {
         off_power_ = getSettingsValue("power:off").getDouble();
         eject_power_ = getSettingsValue("power:eject").getDouble();
         shoot_power_ = getSettingsValue("power:shoot").getDouble() ;
+        preload_power_ = getSettingsValue("power:preload").getDouble() ;
 
         int channel = getSettingsValue("sensors:intake").getInteger() ;
         intake_sensor_ = new DigitalInput(channel) ;
@@ -207,6 +211,15 @@ public class ConveyorSubsystem extends MotorSubsystem {
             case Shooting:
                 ShootingProc() ;
                 break ;
+
+            case PreloadBallWaitForMiddleLow:
+                PreloadBallWaitForMiddleLow() ;
+                break ;
+
+            case PreloadBallWaitForMiddleHigh:
+                PreloadBallWaitForMiddleHigh() ;
+                break ;                
+
         }
 
         //
@@ -317,8 +330,36 @@ public class ConveyorSubsystem extends MotorSubsystem {
             ball_count_ = 0 ;
         }
     }
+    
+    private void PreloadBallWaitForMiddleLow() {
+        if (!middle_value_) {
+            setPower(preload_power_);
+            state_ = State.PreloadBallWaitForMiddleHigh ;
+        }
+    }
+
+    private void PreloadBallWaitForMiddleHigh() {
+        if (middle_value_) {
+            setPower(off_power_);
+            state_ = State.Idle ;
+        }
+    }
 
     public void setPreloadedBall() {
-        ball_count_ = 1;
+        MessageLogger logger = getRobot().getMessageLogger() ;
+
+        if (state_ == State.Idle) {
+            if (middle_value_) {
+                ball_count_ = 1;
+                setPower(-preload_power_);
+                state_ = State.PreloadBallWaitForMiddleLow ;
+            }
+            else {
+                logger.startMessage(MessageType.Error).add("Conveyor.setPreloadBall called but not ball was blocking the middle sensor").endMessage(); 
+            }
+        }
+        else {
+            logger.startMessage(MessageType.Error).add("Conveyor.setPreloadBall called when the conveyor was not idle").endMessage();
+        }
     }
 }

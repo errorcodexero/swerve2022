@@ -301,7 +301,8 @@
                 "collect": 0.8,
                 "off": 0.0,
                 "eject": -1.0,
-                "shoot": 0.8
+                "shoot": 0.8,
+                "preload" : 0.3
             },
             "duration": {
                 "eject": 1.0,
