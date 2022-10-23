@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import org.xero1425.base.XeroRobot;
 import org.xero1425.base.limelight.LimeLightSubsystem;
 import org.xero1425.base.subsystems.RobotSubsystem;
-import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
 import org.xero1425.base.subsystems.swerve.sdsswerve.SDSSwerveDriveSubsystem;
 
@@ -47,6 +46,9 @@ public class Swerve2022RobotSubsystem extends RobotSubsystem {
         if (HasClimber) {
             climber_ = new ClimberSubsystem(this) ;
         }
+        else {
+            climber_ = null ;
+        }
     }
 
     public ClimberSubsystem getClimber() {
@@ -63,10 +65,6 @@ public class Swerve2022RobotSubsystem extends RobotSubsystem {
 
     public TurretSubsystem getTurret() {
         return turret_; 
-    }
-
-    public Subsystem getClimber() {
-        return null ;
     }
 
     public TargetTrackerSubsystem getTracker() {
