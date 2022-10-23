@@ -7,7 +7,7 @@
                 {
                     "constraints": [
                     ],
-                    "endangle": 0,
+                    "endangle": -149.5,
                     "endangledelay": 0,
                     "endvelocity": 0,
                     "flags": [
@@ -22,23 +22,23 @@
                     "points": [
                         {
                             "heading": -155.898,
-                            "x": 6.803916159814537,
-                            "y": 2.7180530576427815
+                            "x": 6.616492749683358,
+                            "y": 2.6815217854062112
                         },
                         {
-                            "heading": -145.491,
-                            "x": 5.28005,
-                            "y": 2.04003
+                            "heading": -149.47029410006584,
+                            "x": 5.066220662055283,
+                            "y": 2.026665472528834
                         }
                     ],
-                    "startangle": 0,
+                    "startangle": -155.9,
                     "startangledelay": 0,
                     "startvelocity": 0
                 },
                 {
                     "constraints": [
                     ],
-                    "endangle": 0,
+                    "endangle": -141.6,
                     "endangledelay": 0,
                     "endvelocity": 0,
                     "flags": [
@@ -52,24 +52,24 @@
                     "name": "p2",
                     "points": [
                         {
-                            "heading": -145.491,
-                            "x": 5.28005,
-                            "y": 2.04003
+                            "heading": -149.47,
+                            "x": 5.06622,
+                            "y": 2.02667
                         },
                         {
-                            "heading": -172.48785589694725,
-                            "x": 1.6449305376347039,
-                            "y": 1.2114361850692426
+                            "heading": -141.581944655178,
+                            "x": 1.5246508066980433,
+                            "y": 1.4653600614910829
                         }
                     ],
-                    "startangle": 0,
+                    "startangle": -149.5,
                     "startangledelay": 0,
                     "startvelocity": 0
                 },
                 {
                     "constraints": [
                     ],
-                    "endangle": 0,
+                    "endangle": -157.8,
                     "endangledelay": 0,
                     "endvelocity": 0,
                     "flags": [
@@ -83,9 +83,9 @@
                     "name": "p3",
                     "points": [
                         {
-                            "heading": 7.512,
-                            "x": 1.64493,
-                            "y": 1.21144
+                            "heading": 38.418000000000006,
+                            "x": 1.52465,
+                            "y": 1.46536
                         },
                         {
                             "heading": 22.166345822082427,
@@ -93,7 +93,7 @@
                             "y": 2.0400298870773526
                         }
                     ],
-                    "startangle": 0,
+                    "startangle": -141.6,
                     "startangledelay": 0,
                     "startvelocity": 0
                 }
@@ -105,7 +105,7 @@
                 {
                     "constraints": [
                     ],
-                    "endangle": 0,
+                    "endangle": -98.7,
                     "endangledelay": 0,
                     "endvelocity": 0,
                     "flags": [
@@ -119,17 +119,17 @@
                     "name": "p1",
                     "points": [
                         {
-                            "heading": -155.898,
-                            "x": 6.803916159814537,
-                            "y": 2.7180530576427815
+                            "heading": -90,
+                            "x": 7.578730597176646,
+                            "y": 1.8662924979466196
                         },
                         {
-                            "heading": -145.491,
-                            "x": 5.28005,
-                            "y": 2.04003
+                            "heading": -98.65254179111476,
+                            "x": 7.49854410988554,
+                            "y": 0.676859603128527
                         }
                     ],
-                    "startangle": 0,
+                    "startangle": -90,
                     "startangledelay": 0,
                     "startvelocity": 0
                 }
