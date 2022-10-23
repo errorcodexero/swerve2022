@@ -1,38 +1,36 @@
 {
-    "system" : {
+    "system": {
         "messages": {
             // Robot framework settings settings
             "actions": true,
             "pathmanager": false,
             "xerorobot": false,
             "simulator": false,
-
             // Subsystem related messages
-            "conveyor" : false,
+            "conveyor": false,
             "gpm": false,
             "shooter": false,
-            "intake" : false,
-            "turret" : false,
-
+            "intake": false,
+            "turret": false,
             // Tank drive related settings
             "pathfollowing": false,
             "swervedrive": true,
             "swerveoi": false
         },
-        "verbose" : {
+        "verbose": {
             "swervedrive": true,
             "intake": true,
             "limelight": true,
-            "shooter-hood" : true,
-            "shooter-wheel" : true
+            "shooter-hood": true,
+            "shooter-wheel": true
         },
-        "plotting" : true,
+        "plotting": true,
         "pneumatics": {
             "type": "NONE"
         }
     },
-    "subsystems" : {
-        "swervedrive" : {
+    "subsystems": {
+        "swervedrive": {
             "pid": {
                 "xctrl": {
                     "kp": 0.001,
@@ -49,157 +47,156 @@
                     "ki": 0,
                     "kd": 0,
                 },
-
             },
-            "hw" : {
-                "gyro" : {
-                    "type" : "navx",
-                    "start-time" : 3.0
+            "hw": {
+                "gyro": {
+                    "type": "navx",
+                    "start-time": 3.0
                 },
-                "fl" : {
-                    "steer" : {
-                        "canid" : 11
+                "fl": {
+                    "steer": {
+                        "canid": 11
                     },
-                    "drive" : {
-                        "canid" : 12
+                    "drive": {
+                        "canid": 12
                     },
-                    "encoder" : {
-                        "canid" : 13,
-                        "offset" : 75.0
+                    "encoder": {
+                        "canid": 13,
+                        "offset": 75.0
                     }
                 },
-                "fr" : {
-                    "steer" : {
-                        "canid" : 21
+                "fr": {
+                    "steer": {
+                        "canid": 21
                     },
-                    "drive" : {
-                        "canid" : 22
+                    "drive": {
+                        "canid": 22
                     },
-                    "encoder" : {
-                        "canid" : 23,
-                        "offset" : 99.7                        
+                    "encoder": {
+                        "canid": 23,
+                        "offset": 99.7
                     }
                 },
-                "bl" : {
-                    "steer" : {
-                        "canid" : 41
+                "bl": {
+                    "steer": {
+                        "canid": 41
                     },
-                    "drive" : {
-                        "canid" : 42
+                    "drive": {
+                        "canid": 42
                     },
-                    "encoder" : {
-                        "canid" : 43,
-                        "offset" : -79.9       
+                    "encoder": {
+                        "canid": 43,
+                        "offset": -79.9
                     }
                 },
-                "br" : {
-                    "steer" : {
-                        "canid" : 31
+                "br": {
+                    "steer": {
+                        "canid": 31
                     },
-                    "drive" : {
-                        "canid" : 32
+                    "drive": {
+                        "canid": 32
                     },
-                    "encoder" : {
-                        "canid" : 33,
-                        "offset" : 45.45
+                    "encoder": {
+                        "canid": 33,
+                        "offset": 45.45
                     }
-                }               
+                }
             },
-            "pids" : {
-                "fl" : {
-                    "kp" : 0.1,
-                    "ki" : 0.0,
-                    "kd" : 0.0,
-                    "kf" : 0.236,
-                    "min" : -1.0,
-                    "max" : 1.0,
-                    "imax" : 0.0                    
+            "pids": {
+                "fl": {
+                    "kp": 0.1,
+                    "ki": 0.0,
+                    "kd": 0.0,
+                    "kf": 0.236,
+                    "min": -1.0,
+                    "max": 1.0,
+                    "imax": 0.0
                 },
-                "fr" : {
-                    "kp" : 0.1,
-                    "ki" : 0.0,
-                    "kd" : 0.0,
-                    "kf" : 0.26,
-                    "min" : -1.0,
-                    "max" : 1.0,
-                    "imax" : 0.0                    
+                "fr": {
+                    "kp": 0.1,
+                    "ki": 0.0,
+                    "kd": 0.0,
+                    "kf": 0.26,
+                    "min": -1.0,
+                    "max": 1.0,
+                    "imax": 0.0
                 },
-                "bl" : {
-                    "kp" : 0.1,
-                    "ki" : 0.0,
-                    "kd" : 0.0,
-                    "kf" : 0.219,
-                    "min" : -1.0,
-                    "max" : 1.0,
-                    "imax" : 0.0                    
+                "bl": {
+                    "kp": 0.1,
+                    "ki": 0.0,
+                    "kd": 0.0,
+                    "kf": 0.219,
+                    "min": -1.0,
+                    "max": 1.0,
+                    "imax": 0.0
                 },
-                "br" : {
-                    "kp" : 0.1,
-                    "ki" : 0.0,
-                    "kd" : 0.0,
-                    "kf" : 0.256,
-                    "min" : -1.0,
-                    "max" : 1.0,
-                    "imax" : 0.0                    
-                }                
+                "br": {
+                    "kp": 0.1,
+                    "ki": 0.0,
+                    "kd": 0.0,
+                    "kf": 0.256,
+                    "min": -1.0,
+                    "max": 1.0,
+                    "imax": 0.0
+                }
             },
-            "physical" : {
-                "width" : 0.5715,               // meters
-                "length" : 0.5842,              // meters
-                "maxspeed" : 4.14528,           // meters per second
-                "maxvoltage" : 12.0,
+            "physical": {
+                "width": 0.5715, // meters
+                "length": 0.5842, // meters
+                "maxspeed": 4.14528, // meters per second
+                "maxvoltage": 12.0,
                 "max-angular-speed": 100,
                 "max-angular-accel": 100
             },
-            "electrical" : {
-                "max-voltage" : 12.0,
-                "nominal-voltage" : 11.0,
-                "steer-current-limit" : 10.0,
-                "drive-current-limit" : 30.0
+            "electrical": {
+                "max-voltage": 12.0,
+                "nominal-voltage": 11.0,
+                "steer-current-limit": 10.0,
+                "drive-current-limit": 30.0
             },
-            "holonomic-path-following" : {
-                "xy-tolerance" : 0.05,
-                "angle-tolerance" : 5.0
+            "holonomic-path-following": {
+                "xy-tolerance": 0.05,
+                "angle-tolerance": 5.0
             }
-        },   
-        "swerve2022oi" : {
-            "swerve_gamepad" : {
-                "index" : 0,
-                "angle" : {
-                    "maximum" : 180,
-                    "deadband" : 0.05
+        },
+        "swerve2022oi": {
+            "swerve_gamepad": {
+                "index": 0,
+                "angle": {
+                    "maximum": 180,
+                    "deadband": 0.05
                 },
-                "position" : {
-                    "maximum" : 4.5,
-                    "deadband" : {
-                        "x" : 0.1,
-                        "y" : 0.1
+                "position": {
+                    "maximum": 4.5,
+                    "deadband": {
+                        "x": 0.1,
+                        "y": 0.1
                     }
                 },
-                "power" : 1.5
+                "power": 1.5
             },
-            "panel" : {
-                "index" : 2,
+            "panel": {
+                "index": 2,
                 "gadgets": {
                     "automode": 0,
                     "shoot_collect_mode": 6,
                     "collect_onoff": 3,
                     "climb_lock": 4,
                     "climb": 9,
-                    "deploy_climber" : 7,
-                    "force_shoot" : 1,
-                    "eject" : 2,
-                    "shoot_manual_mode" : 5,
-                    "throughput" : 8
+                    "deploy_climber": 7,
+                    "force_shoot": 1,
+                    "eject": 2,
+                    "shoot_manual_mode": 5,
+                    "throughput": 8
                 },
-                "outputs" : {
-                    "ball1" : 1,
-                    "ball2" : 2,
-                    "shooting" : {
+                "outputs": {
+                    "ball1": 1,
+                    "ball2": 2,
+                    "shooting": {
                         "limelight": 3,
-                        "turret" : 4,
-                        "shooter" : 5,
-                        "hood" : 6
+                        "turret": 4,
+                        "shooter": 5,
+                        "hood": 6
                     }
                 }
             }
@@ -212,114 +209,114 @@
             "camera_height": 29.75, // change this
             "target_height": 103
         },
-        "intake" : {
-            "hw" : {
-                "motors" : {
-                    "type" : "talon_fx",
-                    "canid" : 1,
-                    "neutral_mode" : "coast"
+        "intake": {
+            "hw": {
+                "motors": {
+                    "type": "talon_fx",
+                    "canid": 1,
+                    "neutral_mode": "coast"
                 },
-                "encoder" : {
-                    "type" : "motor",
-                    "m" : 1.0,
-                    "b" : 0.0
+                "encoder": {
+                    "type": "motor",
+                    "m": 1.0,
+                    "b": 0.0
                 },
-                "spinner" : {
-                    "motor" : {
-                        "type" : "sparkmax_brushless",
-                        "canid" : 2,
-                        "inverted" : true
+                "spinner": {
+                    "motor": {
+                        "type": "sparkmax_brushless",
+                        "canid": 2,
+                        "inverted": true
                     }
                 }
             },
-            "hold" : {
-//                 "kp" : 0.0002,
+            "hold": {
+                //                 "kp" : 0.0002,
                 "kp": 0.0001,
-                "ki" : 0,
-                "kd" : 0,
-                "kf" : 0,
-                "min" : -0.60,
-                "max" : 0.60,
-                "imax" : 0
+                "ki": 0,
+                "kd": 0,
+                "kf": 0,
+                "min": -0.60,
+                "max": 0.60,
+                "imax": 0
             },
-            "goto" : {
-                "threshold" : 10,
-                "maxd" : -40000,
-                "maxa" : 40000,
-                "maxv" : 40000
+            "goto": {
+                "threshold": 10,
+                "maxd": -40000,
+                "maxa": 40000,
+                "maxv": 40000
             },
-            "collect" : {
-                "onpos" : 7500,
-                "offpos" : 0,
-                "onpower" : 0.05
+            "collect": {
+                "onpos": 7500,
+                "offpos": 0,
+                "onpower": 0.05
             },
-            "collector" : {
-                "onpower" : 0.8,
-                "offpower" : 0,
+            "collector": {
+                "onpower": 0.8,
+                "offpower": 0,
                 "ejectpower": -0.8
             },
-            "follower" : {
-                "up" : {
-                    "kp" : 0.0000,
-                    "ka" : 0.0,
-                    "ki" : 0.0,
-                    "kd" : 0.0,
-                    "kv" : 0.000011
+            "follower": {
+                "up": {
+                    "kp": 0.0000,
+                    "ka": 0.0,
+                    "ki": 0.0,
+                    "kd": 0.0,
+                    "kv": 0.000011
                 },
-                "down" : {
-                    "kp" : 0.0000,
-                    "ka" : 0.0,
-                    "ki" : 0.0,
-                    "kd" : 0.0,
-                    "kv" : 0.000019
+                "down": {
+                    "kp": 0.0000,
+                    "ka": 0.0,
+                    "ki": 0.0,
+                    "kd": 0.0,
+                    "kv": 0.000019
                 }
             }
         },
         "agitator": {
             "ejectpower": -1.0,
-            "forwardpower":0.8,
-            "offpower":0,
+            "forwardpower": 0.8,
+            "offpower": 0,
             "hw": {
                 "motors": {
                     "type": "talon_fx",
                     "canid": 4
                 }
             }
-        },  
-        "conveyor" : {
-            "hw" : {
-                "motors" : {
-                    "type" : "talon_fx",
-                    "canid" : 3,
-                    "neutral_mode" : "brake",
-                    "inverted" : true
+        },
+        "conveyor": {
+            "hw": {
+                "motors": {
+                    "type": "talon_fx",
+                    "canid": 3,
+                    "neutral_mode": "brake",
+                    "inverted": true
                 }
             },
-            "sensors" : {
-                "intake" : 0,
-                "shooter" : 1,
-                "middle" : 2
+            "sensors": {
+                "intake": 0,
+                "shooter": 1,
+                "middle": 2
             },
-            "power" : {
-                "collect" : 0.8,
-                "off" : 0.0,
-                "eject" : -1.0,
-                "shoot" : 0.8
+            "power": {
+                "collect": 0.8,
+                "off": 0.0,
+                "eject": -1.0,
+                "shoot": 0.8
             },
-            "duration" : {
-                "eject" : 1.0,
-                "shoot" : 1.0
+            "duration": {
+                "eject": 1.0,
+                "shoot": 1.0
             }
         },
-        "turret" : {
-            "hw" : {
-                "motors" : {
-                    "type" : "talon_fx",
-                    "canid" : 7,
-                    "neutral_mode" : "coast",
+        "turret": {
+            "hw": {
+                "motors": {
+                    "type": "talon_fx",
+                    "canid": 7,
+                    "neutral_mode": "coast",
                     "inverted": true
                 },
-                "encoder" : {
+                "encoder": {
                     "type": "analog",
                     "ainput": 1,
                     "rmin": -180.0,
@@ -330,18 +327,18 @@
                     "rc": 0.0
                 }
             },
-            "follow" : {
-                "kp" : 0.025,
-                "kf" : 0.0,
-                "ki" : 0.05,
-                "kd" : 0.00,
-                "min" : -0.4,
-                "max" : 0.4,
-                "imax" : 6.0
+            "follow": {
+                "kp": 0.025,
+                "kf": 0.0,
+                "ki": 0.05,
+                "kd": 0.00,
+                "min": -0.4,
+                "max": 0.4,
+                "imax": 6.0
             },
-            "maxpos" : 90.0,
-            "minpos" : -90.0,
-            "fire_threshold": 2.0            
+            "maxpos": 90.0,
+            "minpos": -90.0,
+            "fire_threshold": 2.0
         },
         "zeke_limelight": {
             "timeout": 8.0,
@@ -361,9 +358,9 @@
                 "wheel-velocity-threshold": 10,
                 "hood-position-threshold": 10
             },
-            "ramprate" : 1.0,
-            "fire-plot-duration" : 10.0,
-            "spinup-power" : 0.4
+            "ramprate": 1.0,
+            "fire-plot-duration": 10.0,
+            "spinup-power": 0.4
         },
         "shooter-wheel": {
             "hw": {
@@ -371,7 +368,7 @@
                     "1": {
                         "type": "talon_fx",
                         "canid": 26,
-                        "inverted" : true                        
+                        "inverted": true
                     },
                     "2": {
                         "type": "talon_fx",
@@ -380,7 +377,6 @@
                 },
                 "encoder": {
                     "type": "motor",
-
                     // These values are not used for scaling the velocity
                     // value from the shooter.  See the ShooterWheelSubsystem class.
                     "m": 0.366210938,
@@ -395,8 +391,8 @@
                 "max": 1.0,
                 "min": -1.0,
                 "imax": 10.0,
-                "use-sw" : true,
-                "plot-duration" : 1.0
+                "use-sw": true,
+                "plot-duration": 1.0
             }
         },
         "shooter-hood": {
@@ -404,9 +400,9 @@
                 "motors": {
                     "type": "sparkmax_brushless",
                     "canid": 6,
-                    "neutral_mode" : "coast"
+                    "neutral_mode": "coast"
                 },
-                "encoder" : {
+                "encoder": {
                     "type": "analog",
                     "ainput": 0,
                     "rmin": -100,
@@ -426,217 +422,234 @@
                 "min": -1.0,
                 "imax": 0.0
             },
-            "maxpos" : 800.0,
-            "minpos" : 0.0
+            "maxpos": 800.0,
+            "minpos": 0.0
         },
-        "gpm" : {
-            "fire-plot-duration" : 10.0,
-            "fire-action" : {
-                "default-hood-position" : 400,
-                "default-wheel-velocity" : 3500,
-                "max-db-velocity" : 0.1,
-                "hood-threshold" : 10,
-                "wheel-threshold" : 7,
-                "hood-pwl" : {
-                    "1" : {
-                        "x" : 56,
-                        "y" : 100
+        "gpm": {
+            "fire-plot-duration": 10.0,
+            "fire-action": {
+                "default-hood-position": 400,
+                "default-wheel-velocity": 3500,
+                "max-db-velocity": 0.1,
+                "hood-threshold": 10,
+                "wheel-threshold": 7,
+                "hood-pwl": {
+                    "1": {
+                        "x": 56,
+                        "y": 100
                     },
-                    "2" : {
-                        "x" : 75,
-                        "y" : 100
+                    "2": {
+                        "x": 75,
+                        "y": 100
                     },
-                    "3" : {
-                        "x" : 93,
-                        "y" : 200
+                    "3": {
+                        "x": 93,
+                        "y": 200
                     },
-                    "4" : {
-                        "x" : 111,
-                        "y" : 250
+                    "4": {
+                        "x": 111,
+                        "y": 250
                     },
-                    "5" : {
-                        "x" : 130,
-                        "y" : 275
+                    "5": {
+                        "x": 130,
+                        "y": 275
                     },
-                    "6" : {
-                        "x" : 150,
-                        "y" : 300
+                    "6": {
+                        "x": 150,
+                        "y": 300
                     },
-                    "7" : {
-                        "x" : 169,
-                        "y" : 400
+                    "7": {
+                        "x": 169,
+                        "y": 400
                     },
-                    "8" : {
-                        "x" : 190,
-                        "y" : 450
+                    "8": {
+                        "x": 190,
+                        "y": 450
                     },
-                    "9" : {
-                        "x" : 213,
-                        "y" : 500
+                    "9": {
+                        "x": 213,
+                        "y": 500
                     },
-                    "10" : {
-                        "x" : 227,
-                        "y" : 700
+                    "10": {
+                        "x": 227,
+                        "y": 700
                     }
                 },
-                "velocity-pwl" : {
-                    "1" : {
-                        "x" : 56,
-                        "y" : 1800
+                "velocity-pwl": {
+                    "1": {
+                        "x": 56,
+                        "y": 1800
                     },
-                    "2" : {
-                        "x" : 75,
-                        "y" : 2000
+                    "2": {
+                        "x": 75,
+                        "y": 2000
                     },
-                    "3" : {
-                        "x" : 93,
-                        "y" : 2000
+                    "3": {
+                        "x": 93,
+                        "y": 2000
                     },
-                    "4" : {
-                        "x" : 111,
-                        "y" : 2000
+                    "4": {
+                        "x": 111,
+                        "y": 2000
                     },
-                    "5" : {
-                        "x" : 130,
-                        "y" : 2100
+                    "5": {
+                        "x": 130,
+                        "y": 2100
                     },
-                    "6" : {
-                        "x" : 150,
-                        "y" : 2200
+                    "6": {
+                        "x": 150,
+                        "y": 2200
                     },
-                    "7" : {
-                        "x" : 169,
-                        "y" : 2200
+                    "7": {
+                        "x": 169,
+                        "y": 2200
                     },
-                    "8" : {
-                        "x" : 190,
-                        "y" : 2300
+                    "8": {
+                        "x": 190,
+                        "y": 2300
                     },
-                    "9" : {
-                        "x" : 213,
-                        "y" : 2400
+                    "9": {
+                        "x": 213,
+                        "y": 2400
                     },
-                    "10" : {
-                        "x" : 227,
-                        "y" : 2700
+                    "10": {
+                        "x": 227,
+                        "y": 2700
                     }
+                }
+            }
+        },
+        "climber": {
+            "stow_position": 0,
+            "deploy_position": 0,
+            "start_position": 0,
+            "hw": {
+                "motors": {
+                    "1": {
+                        "type": "sparkmax_brushless",
+                        "canid": 38
+                    },
+                    "2": {
+                        "type": "sparkmax_brushless",
+                        "canid": 39
+                    }
+                },
+                "encoder": {
+                    "type": "motor",
+                    "m": 1,
+                    "b": 0
                 }
             }
         }
     },
-    "automodes" : {
-        "fourball" : {                      // Values for the auto mode named 'four-ball'
-            "p1" : {
-                "collect-delay" : 0.0,       // The delay after starting collect action and before driving for path 'p1'
-                "stop-collect-delay" : 1.0   // The delay after path following and before stopping collection
+    "automodes": {
+        "fourball": { // Values for the auto mode named 'four-ball'
+            "p1": {
+                "collect-delay": 0.0, // The delay after starting collect action and before driving for path 'p1'
+                "stop-collect-delay": 1.0 // The delay after path following and before stopping collection
             },
-            "p2" : {
-                "collect-delay" : 0.0,
-                "stop-collect-delay" : 1.0
+            "p2": {
+                "collect-delay": 0.0,
+                "stop-collect-delay": 1.0
             },
-            "p3" : {
-                "stop-collect-delay" : 1.0
+            "p3": {
+                "stop-collect-delay": 1.0
             }
         },
-        "twoballleft" : {
-            "p1" : {
-                "collect-delay" : 1.5,        // The delay after starting collect action and before driving for path 'p1'
-                "stop-collect-delay" : 2.0   // The delay after path following and before stopping collection
-            },
-            "p2" : {
-                "collect-delay" : 1.5,        // The delay after starting collect action and before driving for path 'p1'
-                "stop-collect-delay" : 2.0   // The delay after path following and before stopping collection
+        "twoballleft": {
+            "p1": {
+                "collect-delay": 1.5, // The delay after starting collect action and before driving for path 'p1'
+                "stop-collect-delay": 2.0 // The delay after path following and before stopping collection
             }
         },
-        "twoballright" : {
-            "p1" : {
-                "collect-delay" : 1.0,        // The delay after starting collect action and before driving for path 'p1'
-                "stop-collect-delay" : 1.0   // The delay after path following and before stopping collection
+        "twoballright": {
+            "p1": {
+                "collect-delay": 1.0, // The delay after starting collect action and before driving for path 'p1'
+                "stop-collect-delay": 1.0 // The delay after path following and before stopping collection
             }
         }
     },
-    "testmode" : {
-        "enabled" : true,
-        "which" : 52,
-        "0" : {
-            "angle" : 0.0,
-            "power" : 0.2
+    "testmode": {
+        "enabled": true,
+        "which": 52,
+        "0": {
+            "angle": 0.0,
+            "power": 0.2
         },
-        "1" : {
-            "angle" : 0.0,
-            "power" : 0.9,
-            "duration" : 1.5
+        "1": {
+            "angle": 0.0,
+            "power": 0.9,
+            "duration": 1.5
         },
-        "2" : {
-            "angle" : 0.0,
-            "speed" : 0.5
+        "2": {
+            "angle": 0.0,
+            "speed": 0.5
         },
-        "3" : {
-            "angle" :0.0,
-            "speed" : 2, 
-            "duration" : 6.0
+        "3": {
+            "angle": 0.0,
+            "speed": 2,
+            "duration": 6.0
         },
-        "4" : {
-            "name" :"fourball_pa",
-            "endangle" : 0.0
+        "4": {
+            "name": "fourball_pa",
+            "endangle": 0.0
         },
-        "5" : {
-            "angle" :0.0,
-            "power" : 0.1,
-            "duration" : 10 
+        "5": {
+            "angle": 0.0,
+            "power": 0.1,
+            "duration": 10
         },
-        "10" : {
-            "duration" : 4
+        "10": {
+            "duration": 4
         },
-        "11" : {
-            "power" : 0.2,
-            "duration" : 0.1
+        "11": {
+            "power": 0.2,
+            "duration": 0.1
         },
-        "12" : {
+        "12": {},
+        "13": {
+            "updown": 0.0,
+            "spinner": 0.3,
+            "duration": 1.0
         },
-        "13" : {
-            "updown" : 0.0,
-            "spinner" : 0.3,
-            "duration" : 1.0
+        "20": {
+            "power": 0.5,
+            "duration": 2.0
         },
-        "20" : {
-            "power" : 0.5,
-            "duration" : 2.0
+        "30": {
+            "power": 0.5,
+            "duration": 5.0
         },
-        "30" : {
-            "power" : 0.5,
-            "duration" : 5.0
+        "40": {
+            "power": 0.5,
+            "duration": 2
         },
-        "40" : {
-            "power" : 0.5,
-            "duration" :2
+        "41": {
+            "velocity": 2000
         },
-        "41" : {
-            "velocity" : 2000
-        },
-        "50" : {
+        "50": {
             // Hood move motor test mode
-            "power" : 0.2,
-            "duration" : 0.2
+            "power": 0.2,
+            "duration": 0.2
         },
-        "51" : {
-            "position" : 300
+        "51": {
+            "position": 300
         },
-        "60" : {
+        "60": {
             // Turret move motor test mode
-            "power" : 0.20,
-            "duration" : 0.1
+            "power": 0.20,
+            "duration": 0.1
         },
-        "61" : {
-            "angle" : 4
+        "61": {
+            "angle": 4
         },
-        "62" :{
-            "delay" : 3.0
+        "62": {
+            "delay": 3.0
         },
-        "80" : {
-            "delay" : 20
+        "80": {
+            "delay": 20
         },
-        "82" : {
+        "82": {
             "delay": 3
         }
     }

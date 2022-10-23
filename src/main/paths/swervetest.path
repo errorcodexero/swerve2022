@@ -140,43 +140,6 @@
             "paths": [
                 {
                     "constraints": [
-                        {
-                            "after": 0,
-                            "before": 10,
-                            "type": "distance_velocity",
-                            "velocity": 80
-                        }
-                    ],
-                    "endangle": 0,
-                    "endangledelay": 0,
-                    "endvelocity": 0,
-                    "flags": [
-                    ],
-                    "markers": [
-                    ],
-                    "maxacceleration": 180,
-                    "maxcentripetal": 100000,
-                    "maxjerk": 1800,
-                    "maxvelocity": 180,
-                    "name": "p1",
-                    "points": [
-                        {
-                            "heading": 0,
-                            "x": 10.432862282290055,
-                            "y": 4.1869206563020365
-                        },
-                        {
-                            "heading": 2.385944030388823,
-                            "x": 11.938651355070508,
-                            "y": 4.20906461325469
-                        }
-                    ],
-                    "startangle": 0,
-                    "startangledelay": 0,
-                    "startvelocity": 0
-                },
-                {
-                    "constraints": [
                     ],
                     "endangle": 148.7,
                     "endangledelay": 0,
@@ -189,7 +152,7 @@
                     "maxcentripetal": 100000,
                     "maxjerk": 1800,
                     "maxvelocity": 180,
-                    "name": "p2",
+                    "name": "p1",
                     "points": [
                         {
                             "heading": 132.7553194700928,
