@@ -8,16 +8,20 @@ import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
 import org.xero1425.base.subsystems.swerve.sdsswerve.SDSSwerveDriveSubsystem;
 
 import frc.robot.subsystems.oi.Swerve2022OISubsystem;
+import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.gpm.GPMSubsystem;
 import frc.robot.subsystems.targettracker.TargetTrackerSubsystem;
 import frc.robot.subsystems.turret.TurretSubsystem;
 
 public class Swerve2022RobotSubsystem extends RobotSubsystem {
+    private final boolean HasClimber = false ;
+
     private GPMSubsystem gpm_;
     private SwerveBaseSubsystem db_;
     private TurretSubsystem turret_ ;
     private TargetTrackerSubsystem tracker_ ;
     private LimeLightSubsystem limelight_ ;
+    private ClimberSubsystem climber_ ;
 
     public Swerve2022RobotSubsystem(XeroRobot robot) throws Exception {
         super(robot, "SwerveRobotSubsystem") ;
@@ -39,6 +43,14 @@ public class Swerve2022RobotSubsystem extends RobotSubsystem {
 
         tracker_ = new TargetTrackerSubsystem(this, limelight_, turret_);
         addChild(tracker_);
+
+        if (HasClimber) {
+            climber_ = new ClimberSubsystem(this) ;
+        }
+    }
+
+    public ClimberSubsystem getClimber() {
+        return climber_ ;
     }
 
     public GPMSubsystem getGPM() {
