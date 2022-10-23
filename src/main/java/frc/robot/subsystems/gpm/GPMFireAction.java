@@ -49,6 +49,11 @@ public class GPMFireAction extends Action {
     private PieceWiseLinear pwl_hood_ ;
     private PieceWiseLinear pwl_velocity_ ;
 
+    private boolean hood_ready_ ;
+    private boolean wheels_ready_ ;
+    private boolean target_ready_ ;
+    private boolean turret_ready_ ;
+
     public GPMFireAction(GPMSubsystem gpm, TargetTrackerSubsystem tracker, DriveBaseSubsystem db, TurretSubsystem turret) throws Exception {
         super(gpm.getRobot().getMessageLogger()) ;
 
@@ -73,6 +78,26 @@ public class GPMFireAction extends Action {
         pwl_velocity_ = new PieceWiseLinear(sub_.getRobot().getSettingsSupplier(), "subsystems:gpm:fire-action:velocity-pwl") ;
 
         shooting_ = false ;
+    }
+
+    public boolean shooting() {
+        return shooting_ ;
+    }
+
+    public boolean turretReady() {
+        return turret_ready_ ;
+    }
+
+    public boolean targetReady() {
+        return target_ready_ ;
+    }
+
+    public boolean shooterWheelsReady() {
+        return wheels_ready_ ;
+    }
+
+    public boolean shooterHoodReady() {
+        return hood_ready_ ;
     }
 
     @Override
@@ -116,21 +141,21 @@ public class GPMFireAction extends Action {
             //
             boolean shooter_ready = isShooterReady(sp) ;
             boolean db_ready = isDriveBaseReady() ;
-            boolean turret_ready = turret_.isReadyToFire() ;
+            turret_ready_ = turret_.isReadyToFire() ;
 
             sub_.putDashboard("sh-ready", DisplayType.Always, shooter_ready);
             sub_.putDashboard("db-ready", DisplayType.Always, db_ready);
-            sub_.putDashboard("tu-ready", DisplayType.Always, turret_ready);
+            sub_.putDashboard("tu-ready", DisplayType.Always, turret_ready_);
 
             MessageLogger logger = sub_.getRobot().getMessageLogger() ;
             logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
             logger.add("GPMFireAction: ") ;
             logger.add("shooter_ready=" + shooter_ready) ;
             logger.add("db_ready=" + db_ready) ;
-            logger.add("turret_ready=" + turret_ready) ;
+            logger.add("turret_ready=" + turret_ready_) ;
             logger.endMessage();
 
-            if (shooter_ready && db_ready && turret_ready) {
+            if (shooter_ready && db_ready && turret_ready_) {
                 logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
                 logger.add("GPMFireAction: Shooting start") ;
                 logger.endMessage();
@@ -157,6 +182,9 @@ public class GPMFireAction extends Action {
             sub_.putDashboard("hood-pcnt", DisplayType.Always, Double.NaN);
             sub_.putDashboard("wheel-pcnt", DisplayType.Always, Double.NaN);
             ret = false ;
+
+            hood_ready_ = false ;
+            wheels_ready_ = false ;
         }
         else {
             ShooterSubsystem shooter = sub_.getShooter() ;
@@ -165,7 +193,11 @@ public class GPMFireAction extends Action {
 
             sub_.putDashboard("hood-pcnt", DisplayType.Always, hoodpcnt);
             sub_.putDashboard("wheel-pcnt", DisplayType.Always, wheelpcnt);
-            ret = hoodpcnt < hood_threshold_ && wheelpcnt < wheel_threshold_ ;        
+
+            hood_ready_ = hoodpcnt < hood_threshold_ ;
+            wheels_ready_ = wheelpcnt < wheel_threshold_ ;
+
+            ret = hood_ready_ && wheels_ready_ ;
             
             MessageLogger logger = sub_.getRobot().getMessageLogger() ;
             logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
@@ -174,8 +206,6 @@ public class GPMFireAction extends Action {
             logger.add("wheel", wheelpcnt) ;
             logger.add("ready", ret) ;
             logger.endMessage();
-
-
         }
 
         return ret ;
@@ -212,6 +242,11 @@ public class GPMFireAction extends Action {
             logger.add("wheel", sp.WheelVelocity) ;
             logger.endMessage();
         }
+
+        if (sp.IsValid)
+            target_ready_ = true ;
+        else
+            target_ready_ = false ;
 
         shoot_action_.update(sp.WheelVelocity, sp.HoodPosition) ;
         return sp ;

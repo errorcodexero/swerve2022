@@ -199,7 +199,7 @@
                         "limelight": 3,
                         "turret" : 4,
                         "shooter" : 5,
-                        "distance" : 6
+                        "hood" : 6
                     }
                 }
             }

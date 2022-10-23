@@ -13,7 +13,7 @@ import frc.robot.subsystems.gpm.GPMFireAction;
 import frc.robot.subsystems.gpm.GPMStartCollectAction;
 import frc.robot.subsystems.gpm.GPMStopCollectAction;
 import frc.robot.subsystems.gpm.GPMSubsystem;
-// import frc.robot.subsystems.turret.TurretFollowTargetAction;
+import frc.robot.subsystems.turret.TurretFollowTargetAction;
 
 import org.xero1425.base.actions.Action;
 import org.xero1425.base.actions.InvalidActionRequest;
@@ -22,7 +22,6 @@ import org.xero1425.base.subsystems.oi.OILed;
 import org.xero1425.base.subsystems.oi.OIPanelButton;
 
 public class Swerve2022OIDevice extends OIPanel {
-    // private int automode_gadget_ ;
     private int collect_v_shoot_gadget_ ;
     private int start_collect_gadget_ ;
     private int eject_gadget_ ;
@@ -31,13 +30,12 @@ public class Swerve2022OIDevice extends OIPanel {
     private OILed ball1_output_ ;
     private OILed ball2_output_ ;
 
-    // private OILed limelight_ready_led_ ;
-    // private OILed shooter_ready_led_ ;
-    // private OILed turret_ready_led_ ;
-    // private OILed distance_ok_led_ ;
+    private OILed limelight_ready_led_ ;
+    private OILed shooter_ready_led_ ;
+    private OILed hood_ready_led_ ;
+    private OILed turret_ready_led_ ;
 
-    // TODO: add this back when the turret is working
-    // private Action follow_action_ ;
+    private Action follow_action_ ;
     private Action gpm_eject_action_ ;
     private Action start_collect_action_ ;
     private Action stop_collect_action_ ;
@@ -51,17 +49,11 @@ public class Swerve2022OIDevice extends OIPanel {
         ball1_output_ = createLED(parent.getSettingsValue("panel:outputs:ball1").getInteger()) ;
         ball2_output_ = createLED(parent.getSettingsValue("panel:outputs:ball2").getInteger()) ;
 
-        // limelight_ready_led_ = createLED(parent.getSettingsValue("panel:outputs:shooting:limelight").getInteger()) ;
-        // shooter_ready_led_ = createLED(parent.getSettingsValue("panel:outputs:shooting:shooter").getInteger()) ;        
-        // turret_ready_led_ = createLED(parent.getSettingsValue("panel:outputs:shooting:turret").getInteger()) ;
-        // distance_ok_led_ = createLED(parent.getSettingsValue("panel:outputs:shooting:distance").getInteger()) ;  
+        limelight_ready_led_ = createLED(parent.getSettingsValue("panel:outputs:shooting:limelight").getInteger()) ;
+        shooter_ready_led_ = createLED(parent.getSettingsValue("panel:outputs:shooting:shooter").getInteger()) ;        
+        turret_ready_led_ = createLED(parent.getSettingsValue("panel:outputs:shooting:turret").getInteger()) ;
+        hood_ready_led_ = createLED(parent.getSettingsValue("panel:outputs:shooting:hood").getInteger()) ;
     }
-
-    // @Override
-    // public int getAutoModeSelector() {
-    //     int value = getValue(automode_gadget_) ;
-    //     return value ;
-    // }
 
     @Override
     public void createStaticActions() throws Exception {
@@ -73,10 +65,9 @@ public class Swerve2022OIDevice extends OIPanel {
         stop_collect_action_ = new GPMStopCollectAction(gpm) ;
         fire_action_ = new GPMFireAction(gpm, robot.getTracker(), robot.getDB(), robot.getTurret()) ;
 
-        // TODO: add the following lines once the turret is ready
-        // if (robot.getTurret() != null) {
-        //     follow_action_ = new TurretFollowTargetAction(robot.getTurret(), robot.getTracker()) ;
-        // }
+        if (robot.getTurret() != null) {
+            follow_action_ = new TurretFollowTargetAction(robot.getTurret(), robot.getTracker()) ;
+        }
     }
 
 
@@ -87,7 +78,8 @@ public class Swerve2022OIDevice extends OIPanel {
         GPMSubsystem gpm = robot.getGPM() ;
 
         // First set the LEDs
-        setLEDs() ;
+        setBallCountLEDs() ;
+        setShootLEDs() ;
 
         if (getValue(eject_gadget_) == 1) {
             if (gpm.getAction() != gpm_eject_action_)
@@ -112,9 +104,8 @@ public class Swerve2022OIDevice extends OIPanel {
         GPMSubsystem gpm = robot.getGPM() ;
 
         if (robot.getTurret() != null) {
-            // TODO: add the following two lines once the turret works
-            // if (robot.getTurret().getAction() != follow_action_)
-                // robot.getTurret().setAction(follow_action_) ;
+            if (robot.getTurret().getAction() != follow_action_)
+                robot.getTurret().setAction(follow_action_) ;
         }
 
         if (getValue(collect_v_shoot_gadget_) == 1) {
@@ -147,8 +138,58 @@ public class Swerve2022OIDevice extends OIPanel {
 
     }
 
-    private void setLEDs()
-    {
+    private void setShootLEDs() {
+        Swerve2022RobotSubsystem robot = (Swerve2022RobotSubsystem)getSubsystem().getRobot().getRobotSubsystem();
+        GPMSubsystem gpm = robot.getGPM() ;
+        
+        if (gpm.getAction() instanceof GPMFireAction) {
+            GPMFireAction fire = (GPMFireAction)gpm.getAction() ;
+
+            if (fire.shooting()) {
+                turret_ready_led_.setState(State.BLINK_SLOW);
+                shooter_ready_led_.setState(State.BLINK_SLOW);
+                hood_ready_led_.setState(State.BLINK_SLOW);
+                limelight_ready_led_.setState(State.BLINK_SLOW);
+            }
+            else {
+                if (!fire.turretReady()) {
+                    turret_ready_led_.setState(State.BLINK_FAST);
+                }
+                else {
+                    turret_ready_led_.setState(State.ON);
+                }
+
+                if (!fire.shooterWheelsReady()) {
+                    shooter_ready_led_.setState(State.BLINK_FAST);
+                }
+                else {
+                    shooter_ready_led_.setState(State.ON);
+                }
+
+                if (!fire.shooterHoodReady()) {
+                    hood_ready_led_.setState(State.BLINK_FAST);
+                }
+                else {
+                    hood_ready_led_.setState(State.ON);
+                }
+
+                if (!fire.targetReady()) {
+                    limelight_ready_led_.setState(State.BLINK_FAST);
+                }
+                else {
+                    limelight_ready_led_.setState(State.ON);
+                }   
+            }
+        }
+        else {
+            turret_ready_led_.setState(State.OFF);
+            shooter_ready_led_.setState(State.OFF);
+            limelight_ready_led_.setState(State.OFF) ;
+            hood_ready_led_.setState(State.OFF) ;
+        }
+    }
+
+    private void setBallCountLEDs() {
         Swerve2022RobotSubsystem robot = (Swerve2022RobotSubsystem)getSubsystem().getRobot().getRobotSubsystem();
         ConveyorSubsystem sub = robot.getGPM().getConveyor() ;
         
