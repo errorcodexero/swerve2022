@@ -45,6 +45,7 @@ public class GPMFireAction extends Action {
     private double db_max_velocity_ ;
     private double hood_threshold_ ;
     private double wheel_threshold_ ;
+    private double turret_factor_ ;
 
     private PieceWiseLinear pwl_hood_ ;
     private PieceWiseLinear pwl_velocity_ ;
@@ -66,6 +67,7 @@ public class GPMFireAction extends Action {
         db_max_velocity_ = gpm.getSettingsValue("fire-action:max-db-velocity").getDouble() ;
         hood_threshold_ = gpm.getSettingsValue("fire-action:hood-threshold").getDouble() ;
         wheel_threshold_ = gpm.getSettingsValue("fire-action:wheel-threshold").getDouble() ;
+        turret_factor_ = gpm.getSettingsValue("fire-action:turret-factor").getDouble() ;
 
         double vel = gpm.getSettingsValue("fire-action:default-wheel-velocity").getDouble() ;
         double pos = gpm.getSettingsValue("fire-action:default-hood-position").getDouble() ;
@@ -262,6 +264,9 @@ public class GPMFireAction extends Action {
     private ShooterParams computeShooterParams(double dist) {
         double hood = pwl_hood_.getValue(dist) ;
         double wheel = pwl_velocity_.getValue(dist) ;
+
+        double mult = Math.abs(turret_.getPosition()) / 90.0 * turret_factor_ ;
+        wheel *= (1.0 + mult) ;
 
         return new ShooterParams(wheel, hood, true) ;
     }
