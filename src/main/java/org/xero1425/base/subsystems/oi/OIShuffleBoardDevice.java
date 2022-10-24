@@ -37,7 +37,7 @@ public class OIShuffleBoardDevice extends OIDevice {
                 }
             }
 
-            Shuffleboard.getTab("AutoMode").add("AutoMode", chooser_).withWidget(BuiltInWidgets.kComboBoxChooser) ;
+            Shuffleboard.getTab("AutoMode").add("AutoMode", chooser_).withSize(2,1).withWidget(BuiltInWidgets.kComboBoxChooser) ;
         }
         else if (chooser_ != null) {
             int num = chooser_.getSelected() ;

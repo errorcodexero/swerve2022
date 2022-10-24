@@ -93,14 +93,31 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
 
             MessageLogger logger = getSubsystem().getRobot().getMessageLogger() ;
             logger.startMessage(MessageType.Debug, getSubsystem().getLoggerID()) ;
-            logger.add("SwerveHolonomicPathFollower Target:").add("index", index_).add(", pose", target.toString());
-            logger.add(", actual", getSubsystem().getPose().toString()) ;
+            logger.add("SwerveHolonomicPathFollower Target:").add("index", index_) ;
+            logger.add(", target ") ;
+            logger.add(target.getTranslation().getX()).add(" ").add(target.getTranslation().getY()) ;
+            logger.add(" ").add(target.getRotation().getDegrees()) ;
+
+            Pose2d actual = getSubsystem().getPose() ;
+            logger.add(",actual ") ;
+            logger.add(actual.getTranslation().getX()).add(" ").add(actual.getTranslation().getY()) ;
+            logger.add(" ").add(actual.getRotation().getDegrees()) ;
+
             logger.endMessage();
 
             getSubsystem().setPathLocation(target);
             double velocity = getVelocityFromPath(index_) ;
             ChassisSpeeds speed = ctrl_.calculate(getSubsystem().getPose(), target, velocity, target.getRotation()) ;
             getSubsystem().drive(speed) ;
+
+            // if (index_ < path_.getTrajectoryEntryCount() - 1) {
+            //     index_++ ;
+            // }
+            // else {
+            //     if (ctrl_.atReference()) {
+            //         index_++ ;
+            //     }
+            // }
 
             index_++ ;
         }

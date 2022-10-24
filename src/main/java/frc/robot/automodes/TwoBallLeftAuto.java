@@ -23,7 +23,7 @@ public class TwoBallLeftAuto extends SwerveDriveAutoMode{
         TurretSubsystem turret = robot.getTurret() ;
 
         // Set state of the conveyor to reflect a single ball preloaded
-        addSubActionPair(gpm.getConveyor(), new ConveyorSetBall(gpm.getConveyor()), false);
+        addSubActionPair(gpm.getConveyor(), new ConveyorSetBall(gpm.getConveyor()), true);
 
         // Start the limelight
         startLimelightTracking() ;
@@ -32,7 +32,7 @@ public class TwoBallLeftAuto extends SwerveDriveAutoMode{
         addSubActionPair(gpm.getShooter(), new ShooterSpinUpAction(gpm.getShooter()), false) ;
 
         // Drive and collect the second ball
-        drivePath("p2", true, true) ;
+        drivePath("p1", true, true) ;
         
         // Start firing the two balls
         addSubActionPair(gpm, new GPMFireAction(gpm, tracker, db, turret), true);

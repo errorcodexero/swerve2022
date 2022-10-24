@@ -13,7 +13,11 @@ public class ConveyorSetBall extends Action {
     @Override
     public void start() {
         subsystem_.setPreloadedBall();
+    }
 
+    @Override
+    public boolean isDone() {
+        return subsystem_.isIdle() ;
     }
 
     @Override

@@ -31,9 +31,6 @@ public class GPMStopCollectAction extends Action {
         super.run() ;
 
         if (subsystem_.getConveyor().isIdle() && intake_stop_action_.isDone()) {
-            //
-            // README: Hollister, the stop collect action is done when the intake is stowed and
-            //         the conveyor is back to its idle state
             setDone() ;
         }
     }

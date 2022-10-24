@@ -14,10 +14,10 @@
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 180,
+                    "maxacceleration": 2.5,
                     "maxcentripetal": 100000,
-                    "maxjerk": 1800,
-                    "maxvelocity": 180,
+                    "maxjerk": 30,
+                    "maxvelocity": 2.5,
                     "name": "p1",
                     "points": [
                         {
@@ -38,28 +38,33 @@
                 {
                     "constraints": [
                     ],
-                    "endangle": -141.6,
+                    "endangle": -135,
                     "endangledelay": 0,
                     "endvelocity": 0,
                     "flags": [
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 180,
+                    "maxacceleration": 2,
                     "maxcentripetal": 100000,
-                    "maxjerk": 1800,
-                    "maxvelocity": 180,
+                    "maxjerk": 30,
+                    "maxvelocity": 2,
                     "name": "p2",
                     "points": [
                         {
-                            "heading": -149.47,
+                            "heading": -178.7579508795902,
                             "x": 5.06622,
                             "y": 2.02667
                         },
                         {
-                            "heading": -141.581944655178,
-                            "x": 1.5246508066980433,
-                            "y": 1.4653600614910829
+                            "heading": -178.5834053041978,
+                            "x": 3.211906947504396,
+                            "y": 2.115020430870736
+                        },
+                        {
+                            "heading": -178.40900000000002,
+                            "x": 0.667147,
+                            "y": 2.17659
                         }
                     ],
                     "startangle": -149.5,
@@ -76,24 +81,24 @@
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 180,
+                    "maxacceleration": 2.5,
                     "maxcentripetal": 100000,
-                    "maxjerk": 1800,
-                    "maxvelocity": 180,
+                    "maxjerk": 30,
+                    "maxvelocity": 2.5,
                     "name": "p3",
                     "points": [
                         {
-                            "heading": 38.418000000000006,
-                            "x": 1.52465,
-                            "y": 1.46536
+                            "heading": 1.5910000000000082,
+                            "x": 0.6671465963616439,
+                            "y": 2.1765872135596736
                         },
                         {
-                            "heading": 22.166345822082427,
-                            "x": 5.280051294831569,
-                            "y": 2.0400298870773526
+                            "heading": 9.462322208025713,
+                            "x": 5.182043993550398,
+                            "y": 2.4433766052117365
                         }
                     ],
-                    "startangle": -141.6,
+                    "startangle": -135,
                     "startangledelay": 0,
                     "startvelocity": 0
                 }
@@ -105,17 +110,17 @@
                 {
                     "constraints": [
                     ],
-                    "endangle": -98.7,
+                    "endangle": -90,
                     "endangledelay": 0,
                     "endvelocity": 0,
                     "flags": [
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 180,
+                    "maxacceleration": 1,
                     "maxcentripetal": 100000,
-                    "maxjerk": 1800,
-                    "maxvelocity": 180,
+                    "maxjerk": 10,
+                    "maxvelocity": 1,
                     "name": "p1",
                     "points": [
                         {
@@ -148,10 +153,10 @@
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 180,
+                    "maxacceleration": 1,
                     "maxcentripetal": 100000,
-                    "maxjerk": 1800,
-                    "maxvelocity": 180,
+                    "maxjerk": 10,
+                    "maxvelocity": 1,
                     "name": "p1",
                     "points": [
                         {

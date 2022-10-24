@@ -43,7 +43,7 @@ public class GPMStartCollectAction extends Action {
 
         if (intake_on_action_.isDone() && !stay_action_applied_)
         {
-            subsystem_.getIntake().setDefaultAction(intake_stay_on_action_);
+            subsystem_.getIntake().setAction(intake_stay_on_action_, true);
             stay_action_applied_ = true ;
         }
 
@@ -57,14 +57,16 @@ public class GPMStartCollectAction extends Action {
     @Override
     public void cancel() {
         super.cancel();
-        intake_on_action_.cancel();
+        if (stay_action_applied_)
+            intake_stay_on_action_.cancel() ;
+        else
+            intake_on_action_.cancel();
+            
         agitator_on_action_.cancel();
     }
 
     @Override
     public String toString(int indent) {
-        // README: Hollister, need to fill in these toString methods.  This is how we get good
-        //         readable results in the log file
         return spaces(indent) + "GPMStartCollectAction" ;
     }
 }

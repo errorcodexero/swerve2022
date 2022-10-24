@@ -137,6 +137,10 @@ public class ConveyorSubsystem extends MotorSubsystem {
             logger.startMessage(MessageType.Debug, getLoggerID()) ;
             logger.add("sensors changed: ").add(prev.toString()).add(" --> ").add(current.toString()).endMessage();
         }
+
+        putDashboard("intake-bb", DisplayType.Verbose, intake_value_);
+        putDashboard("shooter-bb", DisplayType.Verbose, shooter_value_);
+        putDashboard("middle-bb", DisplayType.Verbose, middle_value_);
     }
 
     public void collect() {
@@ -250,6 +254,7 @@ public class ConveyorSubsystem extends MotorSubsystem {
     }
 
     private void WaitForMiddleProc() {
+        MessageLogger logger = getRobot().getMessageLogger() ;
         //
         // After the intake sensor is broken and the motor is turned on, we check to see
         // if there is a second ball at the intake sensor. If there is, we keep the motor running 
@@ -257,10 +262,16 @@ public class ConveyorSubsystem extends MotorSubsystem {
         // and there isn't another ball behind it, we turn off the motor to park the ball in the middle. 
         //
         if (intake_value_ == true && middle_value_ == true) {
+            logger.startMessage(MessageType.Debug) ;
+            logger.add("Saw two at once") ;
+            logger.endMessage();
             setPower(collect_power_);
             ball_count_ = 2;
             state_ = State.WaitForShooter;
         } else if (middle_value_ == true) {
+            logger.startMessage(MessageType.Debug) ;
+            logger.add("Saw only one") ;
+            logger.endMessage();
             setPower(off_power_);
             ball_count_ = 1;
             state_ = State.WaitForIntake2;
@@ -349,13 +360,14 @@ public class ConveyorSubsystem extends MotorSubsystem {
         MessageLogger logger = getRobot().getMessageLogger() ;
 
         if (state_ == State.Idle) {
+            ball_count_ = 1;
             if (middle_value_) {
-                ball_count_ = 1;
                 setPower(-preload_power_);
                 state_ = State.PreloadBallWaitForMiddleLow ;
             }
             else {
-                logger.startMessage(MessageType.Error).add("Conveyor.setPreloadBall called but not ball was blocking the middle sensor").endMessage(); 
+                setPower(preload_power_);
+                state_ = State.PreloadBallWaitForMiddleHigh ;
             }
         }
         else {

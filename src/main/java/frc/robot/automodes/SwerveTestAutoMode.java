@@ -18,6 +18,7 @@ import org.xero1425.base.subsystems.swerve.common.SwervePowerAngleAction;
 import org.xero1425.base.subsystems.swerve.common.SwerveSpeedAngleAction;
 
 import frc.robot.subsystems.Swerve2022RobotSubsystem;
+import frc.robot.subsystems.conveyor.ConveyorSetBall;
 import frc.robot.subsystems.conveyor.ConveyorSubsystem;
 import frc.robot.subsystems.gpm.GPMEjectAction;
 import frc.robot.subsystems.gpm.GPMStartCollectAction;
@@ -101,9 +102,9 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 break ;
 
             case 12:
-                addSubActionPair(intake, new MotorEncoderGotoAction(intake, 7500, false), true);
+                addSubActionPair(intake, new MotorEncoderGotoAction(intake, getDouble("down"), false), true);
                 addAction(new DelayAction(getAutoController().getRobot(), 3.00));
-                addSubActionPair(intake, new MotorEncoderGotoAction(intake, 0, false), true);
+                addSubActionPair(intake, new MotorEncoderGotoAction(intake, getDouble("up"), false), true);
                 break ;
 
             case 13:
@@ -125,7 +126,11 @@ public class SwerveTestAutoMode extends TestAutoMode {
             //
             case 30:
                 addSubActionPair(conveyor, new MotorPowerAction(conveyor, getDouble("power"), getDouble("duration")), true) ;
-                break ;            
+                break ;  
+                
+            case 31:
+                addSubActionPair(conveyor, new ConveyorSetBall(conveyor), true);
+                break ;
 
             //
             // Shooter test modes

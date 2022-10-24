@@ -21,7 +21,7 @@ public class FourBallAuto extends SwerveDriveAutoMode {
         TurretSubsystem turret = swerve.getTurret() ;
 
         // Set state of the conveyor to reflect a single ball preloaded
-        addSubActionPair(gpm.getConveyor(), new ConveyorSetBall(gpm.getConveyor()), false);
+        addSubActionPair(gpm.getConveyor(), new ConveyorSetBall(gpm.getConveyor()), true);
 
         // Start the limelight
         startLimelightTracking() ;
@@ -45,6 +45,9 @@ public class FourBallAuto extends SwerveDriveAutoMode {
         // Drive and get the third ball, and the fourth if the human player rolls
         // the ball in correctly
         drivePath("p2", true, false) ;
+
+        // Start spin up of the shooter ASAP since this shooter takes a while
+        addSubActionPair(gpm.getShooter(), new ShooterSpinUpAction(gpm.getShooter()), false);
 
         // Drive back to the shooting location
         drivePath("p3", false, false) ;

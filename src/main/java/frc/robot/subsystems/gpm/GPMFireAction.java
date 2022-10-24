@@ -202,7 +202,9 @@ public class GPMFireAction extends Action {
             MessageLogger logger = sub_.getRobot().getMessageLogger() ;
             logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
             logger.add("GPMFireAction: isShooterReady: ") ;
-            logger.add("hood", hoodpcnt) ;
+            logger.add("hood-pcnt", hoodpcnt) ;
+            logger.add("hood-pos", shooter.getHoodSubsystem().getPosition()) ;
+            logger.add("hood-target", p.HoodPosition) ;
             logger.add("wheel", wheelpcnt) ;
             logger.add("ready", ret) ;
             logger.endMessage();
