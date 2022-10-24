@@ -1,21 +1,24 @@
 {
     "system": {
         "messages": {
-            // Robot framework settings settings
+            // Robot framework settings
             "actions": true,
             "pathmanager": false,
             "xerorobot": false,
             "simulator": false,
+
+            // Special settings
+            "pathfollowing": false,
+
             // Subsystem related messages
             "conveyor": false,
             "gpm": false,
             "shooter": false,
             "intake": false,
             "turret": false,
-            // Tank drive related settings
-            "pathfollowing": false,
             "swervedrive": true,
-            "swerveoi": false
+            "swerveoi": false,
+            "targettracker" : true
         },
         "verbose": {
             "swervedrive": true,
@@ -353,7 +356,8 @@
         "targettracker": {
             "camera_offset_angle": 3.0,
             "lost_count": 10,
-            "track_method": "v"
+            "track_method": "v",
+            "filter-sample-size" : 10
         },
         "shooter": {
             "shooter-action": {

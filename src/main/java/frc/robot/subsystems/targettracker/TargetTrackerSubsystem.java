@@ -9,10 +9,10 @@ import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
 import org.xero1425.misc.MissingParameterException;
 
+import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.subsystems.turret.TurretSubsystem;
-
 
 //
 // The purpose of the tracker class is to generate two things.  It generates
@@ -31,6 +31,11 @@ public class TargetTrackerSubsystem extends Subsystem {
     private boolean has_vision_target_ ;
     private TrackMethod track_method_ ;
     private TargetTracker field_target_tracker_ ;
+
+    private int filter_sample_count_ ;
+    private int required_sample_count_ ;
+    private MedianFilter distance_filter_ ;
+    private MedianFilter yaw_filter_ ;
 
     // Lock the target to a fixed distance/angle. Don't track based on vision or field.
     private boolean lock_enabled_ ;
@@ -56,6 +61,11 @@ public class TargetTrackerSubsystem extends Subsystem {
 
         ll_ = ll ;
         turret_ = turret ;
+
+        required_sample_count_ = getSettingsValue("filter-sample-size").getInteger() ;
+        distance_filter_ = new MedianFilter(required_sample_count_) ;
+        yaw_filter_ = new MedianFilter(required_sample_count_) ;
+        filter_sample_count_ = 0 ;
 
         desired_turret_angle_ = 0.0 ;
         lost_count_ = 0 ;
@@ -115,10 +125,6 @@ public class TargetTrackerSubsystem extends Subsystem {
         }
     }
 
-    public LimeLightSubsystem getLimelight() {
-        return ll_ ;
-    }
-
     public void enable(boolean b) {
         enabled_ = b ;
 
@@ -175,18 +181,26 @@ public class TargetTrackerSubsystem extends Subsystem {
             {
                 if (ll_.isTargetDetected() && (track_method_ != TrackMethod.FieldPositionOnly))
                 {
-                    distance_ = ll_.getDistance() ;
+                    filter_sample_count_++ ;
+                    double distance = ll_.getDistance() ;
+                    distance_ = distance_filter_.calculate(distance) ;
                 
                     double yaw = ll_.getYaw() - camera_offset_angle_ ;
-                    desired_turret_angle_ = -yaw + turret_.getPosition() ;
+                    double filteredyaw = yaw_filter_.calculate(yaw) ;
+
+                    desired_turret_angle_ = -filteredyaw + turret_.getPosition() ;
+                    
                     logger.startMessage(MessageType.Debug, getLoggerID());
-                    logger.add("yaw", yaw).add("distance", distance_) ;
-                    logger.add(" ll", ll_.getYaw()).add(" offset", camera_offset_angle_) ;
+                    logger.add("yaw", yaw).add("filteredyaw", filteredyaw) ;
+                    logger.add("distance", distance).add("filtereddistance", distance_) ;
+                    logger.add(" llyaw", ll_.getYaw()).add(" camera offset", camera_offset_angle_) ;
                     logger.add(" tpos", turret_.getPosition()).add(" desired", desired_turret_angle_);
                     logger.endMessage();
 
-                    has_vision_target_ = true ;
-                    lost_count_ = 0 ;
+                    if (filter_sample_count_ >= required_sample_count_) {
+                        has_vision_target_ = true ;
+                        lost_count_ = 0 ;
+                    }
                 }
                 else if (track_method_ != TrackMethod.VisionOnly) 
                 {
@@ -202,10 +216,12 @@ public class TargetTrackerSubsystem extends Subsystem {
                 // Using track method that allows vision, but target is not detected
                 if (!ll_.isTargetDetected() && (track_method_ != TrackMethod.FieldPositionOnly))
                 {
-                    lost_count_++ ;
-                    
-                    if (lost_count_ > max_lost_count_)
+                    lost_count_++ ;                    
+                    if (lost_count_ > max_lost_count_) {
+                        filter_sample_count_ = 0 ;
+                        distance_filter_.reset() ;
                         has_vision_target_ = false ;
+                    }
 
                     logger.startMessage(MessageType.Debug, getLoggerID());
                     logger.add("targettracker: lost target ").add(" lost count", lost_count_) ;
@@ -220,6 +236,7 @@ public class TargetTrackerSubsystem extends Subsystem {
             // If the target tracker is disabled, we set the desired angle to zero, which is
             // straight ahead.
             //
+            has_vision_target_ = false ;
             distance_ = 0.0 ;
             desired_turret_angle_ = 0.0 ;
         }
