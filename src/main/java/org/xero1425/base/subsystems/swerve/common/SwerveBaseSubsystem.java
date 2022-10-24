@@ -12,10 +12,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
@@ -30,11 +26,7 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         "bl-ang-t (deg)", "bl-ang-a (deg)","bl-drv-t (m/s)","bl-drv-a (m/s)",
         "br-ang-t (deg)", "br-ang-a (deg)","br-drv-t (m/s)","br-drv-a (m/s)",
     } ;
-
-    private boolean pathing_ ;
-    private NetworkTableEntry robot_loc_ ;
-    private NetworkTableEntry path_loc_ ;
-    private double [] path_values_ ;
+    
     private int index_ ;
 
     private SwerveDriveKinematics kinematics_ ;
@@ -68,13 +60,6 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         plotdata_ = new Double[columns_.length] ;
         plotid_ = -1 ;
        
-        pathing_ = false ;
-        NetworkTableInstance inst = NetworkTableInstance.getDefault() ;
-        NetworkTable table = inst.getTable("XeroLocation") ;
-        robot_loc_ = table.getEntry("Robot") ;
-        path_loc_ = table.getEntry("Path") ;
-        path_values_ = new double[3] ;
-
         width_ = getSettingsValue("physical:width").getDouble() ;
         length_ = getSettingsValue("physical:length").getDouble() ;
 
@@ -123,8 +108,6 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         double dist = p.getTranslation().getDistance(last_pose_.getTranslation()) ;
         velocity_ = dist / getRobot().getDeltaTime() ;
         last_pose_ = p ;
-
-        setRobotLocation(getPose());
     }
 
     @Override
@@ -176,35 +159,6 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         return length_ ;
     }
    
-    public void startPathing() {
-        if (!DriverStation.isFMSAttached())
-        {
-            pathing_ = true ;
-        }
-    }
-
-    public void setPathLocation(Pose2d loc) {
-        if (pathing_) {
-            path_values_[0] = loc.getX() ;
-            path_values_[1] = loc.getY() ;
-            path_values_[2] = loc.getRotation().getDegrees() ;
-            path_loc_.setDoubleArray(path_values_) ;
-        }
-    }
-
-    public void setRobotLocation(Pose2d loc) {
-        if (pathing_) {
-            path_values_[0] = loc.getX() ;
-            path_values_[1] = loc.getY() ;
-            path_values_[2] = loc.getRotation().getDegrees() ;
-            robot_loc_.setDoubleArray(path_values_) ;
-        }
-    }
-
-    public void endPathing() {
-        pathing_ = false ;
-    }
-
     public void startSwervePlot(String name) {
         if (plotid_ == -1) {
             plotid_ = initPlot(name) ;

@@ -137,8 +137,6 @@ public class XeroSwerveDriveSubsystem extends SwerveBaseSubsystem {
             double angle = gyro().getYaw();
             angular_.update(getRobot().getDeltaTime(), angle);
         }
-       
-        setRobotLocation(getPose());
     }
 
     @Override

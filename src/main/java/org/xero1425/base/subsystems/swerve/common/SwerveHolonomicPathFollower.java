@@ -1,5 +1,6 @@
 package org.xero1425.base.subsystems.swerve.common;
 
+import org.xero1425.base.misc.XeroTimer;
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.misc.BadParameterTypeException;
@@ -26,17 +27,35 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
     private XeroPath path_;
     private int index_ ;
     private boolean setpose_ ;
+    private boolean finishing_ ;
+    private XeroTimer finish_timer_ ;
+
+    private double start_ ;
+    private int plot_id_ ;
+    private Double[] plot_data_ ;
+
+    private static final String [] columns_ = {
+        "time",
+        "tx", "ty", "ta",
+        "ax", "ay", "aa"
+    } ;
 
     public SwerveHolonomicPathFollower(SwerveBaseSubsystem sub, String pathname, boolean setpose) {
         super(sub) ;
 
         pathname_ = pathname ;
-        this.setpose_ = setpose ;
+        setpose_ = setpose ;
+        finish_timer_ = new XeroTimer(sub.getRobot(), "SwerveHolonomicPathFollower", 2.0) ;
+
+        plot_data_ = new Double[columns_.length] ;
     }
 
     @Override
     public void start() throws BadParameterTypeException, MissingParameterException, MissingPathException {
         double kp, ki, kd ;
+
+        plot_id_ = getSubsystem().initPlot("holonomic-" + pathname_) ;
+        start_ = getSubsystem().getRobot().getTime() ;
 
         double maxv = getSubsystem().getSettingsValue("physical:max-angular-speed").getDouble() ;
         double maxa = getSubsystem().getSettingsValue("physical:max-angular-accel").getDouble() ;
@@ -67,6 +86,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
         ctrl_.setTolerance(new Pose2d(xytol, xytol, Rotation2d.fromDegrees(angletol))) ;
 
         path_ = getSubsystem().getRobot().getPathManager().getPath(pathname_);
+        finishing_ = false ;
 
         if (setpose_) {
             Pose2d pose = getPoseFromPath(0) ;
@@ -80,8 +100,7 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
 
         index_ = 0 ;
 
-        getSubsystem().startSwervePlot("SwerveHolonomicPathFollower") ;
-        getSubsystem().startPathing();
+        getSubsystem().startSwervePlot("SwerveHolonomicPathFollower:" + pathname_) ;
     }
 
     @Override
@@ -95,38 +114,54 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
             logger.startMessage(MessageType.Debug, getSubsystem().getLoggerID()) ;
             logger.add("SwerveHolonomicPathFollower Target:").add("index", index_) ;
             logger.add(", target ") ;
-            logger.add(target.getTranslation().getX()).add(" ").add(target.getTranslation().getY()) ;
+            logger.add(target.getX()).add(" ").add(target.getY()) ;
             logger.add(" ").add(target.getRotation().getDegrees()) ;
 
             Pose2d actual = getSubsystem().getPose() ;
             logger.add(",actual ") ;
-            logger.add(actual.getTranslation().getX()).add(" ").add(actual.getTranslation().getY()) ;
+            logger.add(actual.getX()).add(" ").add(actual.getY()) ;
             logger.add(" ").add(actual.getRotation().getDegrees()) ;
 
             logger.endMessage();
 
-            getSubsystem().setPathLocation(target);
+            int i = 0 ;
+            plot_data_[i++] = getSubsystem().getRobot().getTime() - start_ ;
+            plot_data_[i++] = target.getX() ;
+            plot_data_[i++] = target.getY() ;
+            plot_data_[i++] = target.getRotation().getDegrees() ;
+            plot_data_[i++] = actual.getX() ;
+            plot_data_[i++] = actual.getY() ;
+            plot_data_[i++] = actual.getRotation().getDegrees() ;
+            getSubsystem().addPlotData(plot_id_, plot_data_) ;
+
             double velocity = getVelocityFromPath(index_) ;
             ChassisSpeeds speed = ctrl_.calculate(getSubsystem().getPose(), target, velocity, target.getRotation()) ;
             getSubsystem().drive(speed) ;
 
-            // if (index_ < path_.getTrajectoryEntryCount() - 1) {
-            //     index_++ ;
-            // }
-            // else {
-            //     if (ctrl_.atReference()) {
-            //         index_++ ;
-            //     }
-            // }
+            if (index_ < path_.getTrajectoryEntryCount() - 1) {
+                index_++ ;
+            }
+            else {
+                if (!finishing_) {
+                    //
+                    // The first time we get the to last point on the path, we start a timer
+                    // If the timer expires, we finish the path no matter where we are
+                    //
+                    finish_timer_.start() ;
+                    finishing_ = true ;
+                }
 
-            index_++ ;
+                if (finish_timer_.isExpired() && ctrl_.atReference()) {
+                    index_++ ;
+                }
+            }
         }
 
         if (index_ >= path_.getTrajectoryEntryCount())
         {
             getSubsystem().endSwervePlot() ;
+            getSubsystem().endPlot(plot_id_);
             getSubsystem().drive(new ChassisSpeeds()) ;
-            getSubsystem().endPathing();
             setDone();
         }
     }

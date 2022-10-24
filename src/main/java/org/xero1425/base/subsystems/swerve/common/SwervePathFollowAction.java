@@ -48,7 +48,6 @@ public class SwervePathFollowAction extends SwerveDriveAction {
         getSubsystem().setPose(pose);
 
         getSubsystem().startSwervePlot("SwervePathFollowAction") ;
-        getSubsystem().startPathing();
     }
 
     @Override
@@ -70,7 +69,6 @@ public class SwervePathFollowAction extends SwerveDriveAction {
             speeds_[XeroSwerveDriveSubsystem.BL] = bl.getVelocity() ;
             speeds_[XeroSwerveDriveSubsystem.BR] = br.getVelocity() ;
 
-            getSubsystem().setPathLocation(getPoseFromPath(index_));
             getSubsystem().setRawTargets(false, angles_, speeds_);
             index_++ ;
         }
@@ -78,7 +76,6 @@ public class SwervePathFollowAction extends SwerveDriveAction {
         if (index_ == path_.getTrajectoryEntryCount())
         {
             getSubsystem().drive(new ChassisSpeeds()) ;
-            getSubsystem().endPathing();
             getSubsystem().endSwervePlot();
             setDone() ;
         }
@@ -95,17 +92,4 @@ public class SwervePathFollowAction extends SwerveDriveAction {
         String ret = prefix(indent) + "SwerveDriveFollowPathAction-" + pathname_ ;
         return ret ;
     }
-
-    private Pose2d getPoseFromPath(int index) {
-        XeroPathSegment fl = path_.getSegment(XeroSwerveDriveSubsystem.FL, index) ;
-        XeroPathSegment fr = path_.getSegment(XeroSwerveDriveSubsystem.FR, index) ;
-        XeroPathSegment bl = path_.getSegment(XeroSwerveDriveSubsystem.BL, index) ;
-        XeroPathSegment br = path_.getSegment(XeroSwerveDriveSubsystem.BR, index) ;
-
-        double x = (fl.getX() + fr.getX() + bl.getX() + br.getX()) / 4.0 ;
-        double y = (fl.getY() + fr.getY() + bl.getY() + br.getY()) / 4.0 ;
-        double heading = fl.getHeading() ;
-
-        return new Pose2d(x, y, Rotation2d.fromDegrees(heading)) ;
-    }    
 }
