@@ -357,7 +357,7 @@
             "camera_offset_angle": 3.0,
             "lost_count": 10,
             "track_method": "v",
-            "filter-sample-size" : 10
+            "filter-sample-size" : 20
         },
         "shooter": {
             "shooter-action": {
