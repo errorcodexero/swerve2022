@@ -22,6 +22,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: run regressions
-      run: bash gradlew build ; bash runtests init
+      run: bash gradlew build ; bash scripts/runtests
       
     
