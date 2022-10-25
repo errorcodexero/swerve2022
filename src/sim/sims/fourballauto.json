@@ -11,24 +11,30 @@
                     "values" : 
                     {
                         "comment" : "automode must be set to the correct testmode in droid param file",
-                        "start" : 5.0,
+                        "start" : 1.0,
                         "autonomous" : 15.0,
-                        "between" : 0.0,
+                        "between" : 10000.0,
                         "teleop" : 0.0,
-                        "fms" : true
-                    }
-                },
-                {
-                    "model" : "swerve2022oi",
-                    "instance" : "1",
-                    "values" :
-                    {
-                        "comment" : "Collect/shoot mode switch set to collect",                        
-                        "button6" : true,
-                        "button4" : true                        
+                        "fms" : false
                     }
                 }
             ]
-        }
+        },
+        {
+            "time" : 2.0,
+            "events" : 
+            [
+                {
+                    "model" : "conveyor",
+                    "instance" : "1",
+                    "values" : {
+                        "comment" : "first ball breaks the middle sensor on the conveyor",
+                        "intake" : true,
+                        "shooter" : true,
+                        "middle" : false
+                    }
+                }
+            ]
+        }        
     ]
 }

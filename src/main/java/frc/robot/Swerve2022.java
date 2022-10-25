@@ -42,7 +42,7 @@ public class Swerve2022 extends XeroRobot {
         if (ret != null)
             return ret;
 
-        return "automode";
+        return "fourballauto";
     }
 
     public AutoController createAutoController() {

@@ -11,7 +11,8 @@ public class ConveyorSetBall extends Action {
     }
 
     @Override
-    public void start() {
+    public void start() throws Exception {
+        super.start() ;
         subsystem_.setPreloadedBall();
     }
 

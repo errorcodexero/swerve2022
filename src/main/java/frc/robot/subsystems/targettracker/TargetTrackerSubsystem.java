@@ -184,11 +184,11 @@ public class TargetTrackerSubsystem extends Subsystem {
                     filter_sample_count_++ ;
                     double distance = ll_.getDistance() ;
                     distance_ = distance_filter_.calculate(distance) ;
-                
+
                     double yaw = ll_.getYaw() - camera_offset_angle_ ;
                     double filteredyaw = yaw_filter_.calculate(yaw) ;
 
-                    desired_turret_angle_ = -filteredyaw + turret_.getPosition() ;
+                    desired_turret_angle_ = -yaw + turret_.getPosition() ;
                     
                     logger.startMessage(MessageType.Debug, getLoggerID());
                     logger.add("yaw", yaw).add("filteredyaw", filteredyaw) ;

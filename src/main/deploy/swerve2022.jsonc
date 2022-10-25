@@ -16,9 +16,9 @@
             "shooter": false,
             "intake": false,
             "turret": false,
-            "swervedrive": true,
+            "swervedrive": false,
             "swerveoi": false,
-            "targettracker" : true
+            "targettracker" : false
         },
         "verbose": {
             "swervedrive": true,
@@ -36,17 +36,17 @@
         "swervedrive": {
             "pid": {
                 "xctrl": {
-                    "kp": 4.0,
+                    "kp": 6.0,
                     "ki": 0,
                     "kd": 0
                 },
                 "yctrl": {
-                    "kp": 4.0,
+                    "kp": 6.0,
                     "ki": 0,
                     "kd": 0
                 },
                 "rotation": {
-                    "kp": 4.0,
+                    "kp": 1.0,
                     "ki": 0,
                     "kd": 0
                 }
@@ -357,7 +357,7 @@
             "camera_offset_angle": 3.0,
             "lost_count": 10,
             "track_method": "v",
-            "filter-sample-size" : 20
+            "filter-sample-size" : 10
         },
         "shooter": {
             "shooter-action": {
@@ -439,89 +439,97 @@
                 "max-db-velocity": 0.1,
                 "hood-threshold": 10,
                 "wheel-threshold": 7,
-                "turret-factor" : 0.3,
+                "turret-factor" : 0.05,
                 "hood-pwl": {
                     "1": {
-                        "x": 56,
+                        "x": 37,
                         "y": 100
                     },
                     "2": {
-                        "x": 75,
-                        "y": 100
+                        "x": 57,
+                        "y": 120
                     },
                     "3": {
-                        "x": 93,
-                        "y": 200
+                        "x": 77,
+                        "y": 160
                     },
                     "4": {
-                        "x": 111,
-                        "y": 250
+                        "x": 100,
+                        "y": 170
                     },
                     "5": {
-                        "x": 130,
-                        "y": 275
+                        "x": 124,
+                        "y": 220
                     },
                     "6": {
-                        "x": 150,
-                        "y": 300
+                        "x": 142,
+                        "y": 280
                     },
                     "7": {
-                        "x": 169,
-                        "y": 400
+                        "x": 162,
+                        "y": 290
                     },
                     "8": {
-                        "x": 190,
-                        "y": 450
+                        "x": 182,
+                        "y": 320
                     },
                     "9": {
-                        "x": 213,
-                        "y": 500
+                        "x": 199,
+                        "y": 340
                     },
                     "10": {
-                        "x": 227,
-                        "y": 700
+                        "x": 225,
+                        "y": 400
+                    },
+                    "11": {
+                        "x": 244,
+                        "y": 500
                     }
                 },
                 "velocity-pwl": {
                     "1": {
-                        "x": 56,
+                        "x": 37,
                         "y": 1800
                     },
                     "2": {
-                        "x": 75,
-                        "y": 2000
+                        "x": 57,
+                        "y": 1800
                     },
                     "3": {
-                        "x": 93,
-                        "y": 2000
+                        "x": 77,
+                        "y": 1900
                     },
                     "4": {
-                        "x": 111,
+                        "x": 100,
                         "y": 2000
                     },
                     "5": {
-                        "x": 130,
-                        "y": 2100
+                        "x": 124,
+                        "y": 2050
                     },
                     "6": {
-                        "x": 150,
-                        "y": 2200
+                        "x": 142,
+                        "y": 2250
                     },
                     "7": {
-                        "x": 169,
-                        "y": 2200
-                    },
-                    "8": {
-                        "x": 190,
+                        "x": 162,
                         "y": 2300
                     },
+                    "8": {
+                        "x": 182,
+                        "y": 2350
+                    },
                     "9": {
-                        "x": 213,
-                        "y": 2400
+                        "x": 199,
+                        "y": 2500
                     },
                     "10": {
-                        "x": 227,
-                        "y": 2700
+                        "x": 225,
+                        "y": 2600
+                    },
+                    "11": {
+                        "x": 244,
+                        "y": 2650
                     }
                 }
             }
@@ -552,8 +560,8 @@
     "automodes": {
         "fourball": { // Values for the auto mode named 'four-ball'
             "p1": {
-                "collect-delay": 0.5,       // The delay after starting collect action and before driving for path 'p1'
-                "stop-collect-delay": 0.5   // The delay after path following and before stopping collection
+                "collect-delay": 0.2,       // The delay after starting collect action and before driving for path 'p1'
+                "stop-collect-delay": 1.0   // The delay after path following and before stopping collection
             },
             "p2": {
                 "collect-delay": 0.0,
@@ -577,7 +585,7 @@
     },
     "testmode": {
         "enabled": false,
-        "which": 51,
+        "which": 83,
         "0": {
             "angle": 0.0,
             "power": 0.2
