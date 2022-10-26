@@ -72,6 +72,7 @@ public abstract class DriveBaseSubsystem extends Subsystem {
     public abstract void setPose(Pose2d p) ;
 
     public abstract double getVelocity() ;
+    public abstract double getRotationalVelocity() ;
 
     public XeroGyro gyro() {
         return gyro_ ;

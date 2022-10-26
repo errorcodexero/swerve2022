@@ -40,6 +40,7 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     private double rotate_angle_ ;
     private Pose2d last_pose_ ;
     private double velocity_ ;
+    private double rotational_velocity_ ;
    
     static public final int FL = 0;                                                             // Index of the front left module
     static public final int FR = 1;                                                             // Index of the front right module
@@ -107,6 +108,8 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         Pose2d p = getPose() ;
         double dist = p.getTranslation().getDistance(last_pose_.getTranslation()) ;
         velocity_ = dist / getRobot().getDeltaTime() ;
+
+        rotational_velocity_ = (p.getRotation().getDegrees() - last_pose_.getRotation().getDegrees()) / getRobot().getDeltaTime() ;
         last_pose_ = p ;
     }
 
@@ -135,6 +138,10 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
 
     public double getVelocity() {
         return velocity_ ;
+    }
+
+    public double getRotationalVelocity() {
+        return rotational_velocity_ ;
     }
 
     public Rotation2d getHeading() {

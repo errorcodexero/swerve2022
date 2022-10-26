@@ -42,7 +42,8 @@ public class GPMFireAction extends Action {
     private ConveyorShootAction conveyor_action_ ;
     private boolean shooting_ ;
 
-    private double db_max_velocity_ ;
+    private double db_max_linear_velocity_ ;
+    private double db_max_rotational_velocity_ ;
     private double hood_threshold_ ;
     private double wheel_threshold_ ;
     private double turret_factor_ ;
@@ -64,7 +65,8 @@ public class GPMFireAction extends Action {
         turret_ = turret ;
         last_params_ = null ;
 
-        db_max_velocity_ = gpm.getSettingsValue("fire-action:max-db-velocity").getDouble() ;
+        db_max_linear_velocity_ = gpm.getSettingsValue("fire-action:max-db-linear-velocity").getDouble() ;
+        db_max_rotational_velocity_ = gpm.getSettingsValue("fire-action:max-db-rotational-velocity").getDouble() ;
         hood_threshold_ = gpm.getSettingsValue("fire-action:hood-threshold").getDouble() ;
         wheel_threshold_ = gpm.getSettingsValue("fire-action:wheel-threshold").getDouble() ;
         turret_factor_ = gpm.getSettingsValue("fire-action:turret-factor").getDouble() ;
@@ -216,7 +218,7 @@ public class GPMFireAction extends Action {
     }
 
     private boolean isDriveBaseReady() {
-        return db_.getVelocity() < db_max_velocity_ ;
+        return db_.getVelocity() < db_max_linear_velocity_  && db_.getRotationalVelocity() < db_max_rotational_velocity_ ;
     }
 
     private ShooterParams setShooterParams() throws BadMotorRequestException, MotorRequestFailedException {

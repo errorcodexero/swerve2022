@@ -50,6 +50,9 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
     private Speedometer left_linear_ ;
     private Speedometer right_linear_ ;
 
+    private double rotational_velocity_ ;
+    private Pose2d last_pose_ ;
+
     private double teleop_ramp_rate_ ;
     private double auto_ramp_rate_ ;
 
@@ -102,6 +105,8 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
         auto_ramp_rate_ = 0.0 ;
 
         attachHardware();
+
+        last_pose_ = new Pose2d() ;
     }
 
     /// \brief set the open loop ramp rate for the tank drive motors
@@ -169,6 +174,10 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
     /// \returns the velocity of the robot
     public double getVelocity() {
         return (left_linear_.getVelocity() + right_linear_.getVelocity()) / 2.0 ;
+    }
+
+    public double getRotationalVelocity() {
+        return rotational_velocity_ ;
     }
 
     /// \brief returns the acceleration of the left side of the robot
@@ -349,6 +358,10 @@ public class TankDriveSubsystem extends DriveBaseSubsystem {
         logger.startMessage(MessageType.Debug, getLoggerID()) ;
         logger.add("Power: ") ;
         logger.add("left", left_power_).add("right", right_power_).endMessage();
+
+        Pose2d p = getPose() ;
+        rotational_velocity_ = (p.getRotation().getDegrees() - last_pose_.getRotation().getDegrees()) / getRobot().getDeltaTime() ;
+        last_pose_ = p ;
     }
 
     /// \brief set the power for the tank drive

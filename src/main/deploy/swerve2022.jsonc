@@ -436,7 +436,8 @@
             "fire-action": {
                 "default-hood-position": 400,
                 "default-wheel-velocity": 3500,
-                "max-db-velocity": 0.1,
+                "max-db-linear-velocity": 0.05,
+                "max-db-rotational-velocity" : 5,
                 "hood-threshold": 10,
                 "wheel-threshold": 7,
                 "turret-factor" : 0.05,
