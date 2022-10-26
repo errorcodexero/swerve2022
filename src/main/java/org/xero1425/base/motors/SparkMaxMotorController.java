@@ -91,29 +91,34 @@ public class SparkMaxMotorController extends MotorController
                 controller_ = new CANSparkMax(index, CANSparkMax.MotorType.kBrushed) ;
             }
 
-            // controller_.restoreFactoryDefaults() ;
-            code = controller_.enableVoltageCompensation(11.0) ;
-            if (code != REVLibError.kOk) {
-                throw new MotorRequestFailedException(this, "enableVoltageCompensation() failed during initialization", code) ;
+            try {
+                controller_.restoreFactoryDefaults() ;
+                code = controller_.enableVoltageCompensation(11.0) ;
+                // if (code != REVLibError.kOk) {
+                //     throw new MotorRequestFailedException(this, "enableVoltageCompensation() failed during initialization", code) ;
+                // }
+            }
+            catch(Exception ex) {
+
             }
 
             if (leader) {
                 code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 100) ;
-                if (code != REVLibError.kOk) {
-                    throw new MotorRequestFailedException(this, "Failed to set periodic status frame 0 rate", code) ;
-                }
+                // if (code != REVLibError.kOk) {
+                //     throw new MotorRequestFailedException(this, "Failed to set periodic status frame 0 rate", code) ;
+                // }
             }
             else {
                 code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus0, 20) ;                
-                if (code != REVLibError.kOk) {
-                    throw new MotorRequestFailedException(this, "Failed to set periodic status frame 0 rate", code) ;
-                }
+                // if (code != REVLibError.kOk) {
+                //     throw new MotorRequestFailedException(this, "Failed to set periodic status frame 0 rate", code) ;
+                // }
             }
 
             code = controller_.setPeriodicFramePeriod(CANSparkMaxLowLevel.PeriodicFrame.kStatus3, 1000) ;
-            if (code != REVLibError.kOk) {
-                throw new MotorRequestFailedException(this, "Failed to set periodic status frame 0 rate", code) ;
-            }            
+            // if (code != REVLibError.kOk) {
+            //     throw new MotorRequestFailedException(this, "Failed to set periodic status frame 0 rate", code) ;
+            // }            
 
             encoder_ = controller_.getEncoder() ;
         }

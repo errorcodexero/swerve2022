@@ -30,8 +30,8 @@ public class SwerveHolonomicPathFollower extends SwerveDriveAction {
 
     private static final String [] columns_ = {
         "time",
-        "tx", "ty", "ta",
-        "ax", "ay", "aa"
+        "tx (m)", "ty (m)", "ta (deg)",
+        "ax (m)", "ay (m)", "aa (deg)"
     } ;
 
     public SwerveHolonomicPathFollower(SwerveBaseSubsystem sub, String pathname, boolean setpose) {
