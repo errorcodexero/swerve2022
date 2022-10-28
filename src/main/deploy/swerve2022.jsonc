@@ -398,7 +398,7 @@
             },
             "ramprate": 1.0,
             "fire-plot-duration": 10.0,
-            "spinup-power": 0.4
+            "spinup-power": 0.3
         },
         "shooter-wheel": {
             "hw": {
