@@ -64,6 +64,22 @@
                 "ec" : 1.33,
                 "rc" : 0
             }
+        },
+        {
+            "model" : "hood",
+            "instance" : "1",
+            "props" : {
+                "hood:motor:type": "sparkmax-brushless",
+                "hood:motor:index": 6,
+                "distance_per_second_per_volt" : 1000,
+                "encoder" : 0,
+                "rmin": -100,
+                "rmax": 900.0,
+                "emin": 0.0,
+                "emax": 5.0,
+                "ec": 1.557,
+                "rc": 0.0
+            }
         }
     ]
 }

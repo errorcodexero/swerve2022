@@ -192,6 +192,10 @@ public class GPMFireAction extends Action {
             }
 
             data_[i++] = 0.0 ;
+
+            if (data_[0] > 10.0) {
+                sub_.endPlot(plot_id_);
+            }
         }
 
         sub_.addPlotData(plot_id_, data_);

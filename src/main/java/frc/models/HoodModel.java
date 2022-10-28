@@ -14,8 +14,8 @@ import org.xero1425.misc.SettingsValue;
 public class HoodModel extends SimulationModel {
         
     private SimMotorController motor_ ;
-    private double degrees_per_second_per_volt_ ;
-    private double angle_  ;
+    private double dist_per_second_per_volt_ ;
+    private double position_  ;
     private int encoder_input_ ;
     private EncoderMapper mapper_ ;
     private double voltage_ ;
@@ -28,8 +28,9 @@ public class HoodModel extends SimulationModel {
 
     public boolean create() {
         motor_ = new SimMotorController(this, "hood") ;
-        if (!motor_.createMotor())
+        if (!motor_.createMotor()) {
             return false ;
+        }
 
         try {
             encoder_input_ = getProperty("encoder").getInteger() ;
@@ -42,7 +43,7 @@ public class HoodModel extends SimulationModel {
         }
 
         try {
-            degrees_per_second_per_volt_ = getProperty("degrees_per_second_per_volt").getDouble();
+            dist_per_second_per_volt_ = getProperty("distance_per_second_per_volt").getDouble();
         } catch (BadParameterTypeException e) {
             MessageLogger logger = getEngine().getMessageLogger() ;
             logger.startMessage(MessageType.Error) ;
@@ -51,7 +52,7 @@ public class HoodModel extends SimulationModel {
             return false ;
         }
 
-        angle_ = 0 ;
+        position_ = 0 ;
 
         double rmax, rmin, emax, emin, rc, ec ;
 
@@ -125,7 +126,7 @@ public class HoodModel extends SimulationModel {
     public boolean processEvent(String name, SettingsValue value) {
         boolean ret = false ;
 
-        if (name.equals("angle")) {
+        if (name.equals("position")) {
             if (!value.isDouble()) {
                 MessageLogger logger = getEngine().getMessageLogger();
                 logger.startMessage(MessageType.Error);
@@ -137,7 +138,7 @@ public class HoodModel extends SimulationModel {
             }
 
             try {
-                angle_ = value.getDouble();
+                position_ = value.getDouble();
             } catch (BadParameterTypeException e) {
             }
         }
@@ -146,12 +147,16 @@ public class HoodModel extends SimulationModel {
 
     public void run(double dt) {
         double power = motor_.getPower() ;
-        angle_ += degrees_per_second_per_volt_ * dt * power ;
-        voltage_ = mapper_.toEncoder(angle_) ;
+        position_ += dist_per_second_per_volt_ * dt * power ;
+        voltage_ = mapper_.toEncoder(position_) ;
         AnalogInDataJNI.setVoltage(encoder_input_, voltage_) ;
+
+        if (power > 0.1) {
+            System.out.println("HoodModel: power " + power + ", position " + position_ + ", voltage_ " + voltage_ + ", encoder " + encoder_input_) ;
+        }
     }
 
-    public Rotation2d getAngle() {
-        return Rotation2d.fromDegrees(angle_) ;
+    public Rotation2d getPosition() {
+        return Rotation2d.fromDegrees(position_) ;
     }
 }
