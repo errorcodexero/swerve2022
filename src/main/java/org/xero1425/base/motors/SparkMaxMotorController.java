@@ -99,7 +99,6 @@ public class SparkMaxMotorController extends MotorController
                 // }
             }
             catch(Exception ex) {
-
             }
 
             if (leader) {

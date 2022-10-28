@@ -4,6 +4,7 @@ import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.base.subsystems.DriveBaseSubsystem;
 import org.xero1425.base.subsystems.Subsystem;
+import org.xero1425.misc.MinMaxData;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -39,8 +40,9 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     private double length_ ;
     private double rotate_angle_ ;
     private Pose2d last_pose_ ;
-    private double velocity_ ;
-    private double rotational_velocity_ ;
+
+    private MinMaxData velocity_ ;
+    private MinMaxData rotational_velocity_ ;
    
     static public final int FL = 0;                                                             // Index of the front left module
     static public final int FR = 1;                                                             // Index of the front right module
@@ -52,6 +54,10 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
 
         angles_ = new double[4] ;
         powers_ = new double[4] ;
+
+        // Note: Change to 1 to get previous behavior
+        velocity_ = new MinMaxData(10) ;
+        rotational_velocity_ = new MinMaxData(10) ;
 
         for(int i = 0 ; i < 4 ; i++) {
             angles_[i] = 0.0 ;
@@ -107,9 +113,12 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
 
         Pose2d p = getPose() ;
         double dist = p.getTranslation().getDistance(last_pose_.getTranslation()) ;
-        velocity_ = dist / getRobot().getDeltaTime() ;
+        double v = dist / getRobot().getDeltaTime() ;
+        velocity_.addData(v);
 
-        rotational_velocity_ = (p.getRotation().getDegrees() - last_pose_.getRotation().getDegrees()) / getRobot().getDeltaTime() ;
+        v = (p.getRotation().getDegrees() - last_pose_.getRotation().getDegrees()) / getRobot().getDeltaTime() ;
+        rotational_velocity_.addData(v) ;
+
         last_pose_ = p ;
     }
 
@@ -136,12 +145,14 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         gyro().reset() ;
     }
 
+    // This is a hack for this one event.  Need to rethink this after block party
     public double getVelocity() {
-        return velocity_ ;
+        return velocity_.getMax() ;
     }
 
+    // This is a hack for this one event.  Need to rethink this after block party
     public double getRotationalVelocity() {
-        return rotational_velocity_ ;
+        return rotational_velocity_.getMax() ;
     }
 
     public Rotation2d getHeading() {
