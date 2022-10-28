@@ -18,6 +18,7 @@ import org.xero1425.base.subsystems.swerve.common.SwervePowerAngleAction;
 import org.xero1425.base.subsystems.swerve.common.SwerveSpeedAngleAction;
 
 import frc.robot.subsystems.Swerve2022RobotSubsystem;
+import frc.robot.subsystems.climber.ClimberSubsystem;
 import frc.robot.subsystems.conveyor.ConveyorSetBall;
 import frc.robot.subsystems.conveyor.ConveyorSubsystem;
 import frc.robot.subsystems.gpm.GPMEjectAction;
@@ -44,6 +45,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
         MotorSubsystem agitator = gpm.getAgitator() ;
         ConveyorSubsystem conveyor = gpm.getConveyor(); 
         TurretSubsystem turret = robotsys.getTurret() ;
+        ClimberSubsystem climber = robotsys.getClimber() ;
 
         switch (getTestNumber()) {
             case 0:
@@ -183,7 +185,20 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 addSubActionPair(turret, new MotorEncoderTrackPositionAction(turret, "follow", 0.0), false) ;
 
                 break ;    
-            
+
+            //
+            // Climber test mode
+            //
+            case 70:
+                addSubActionPair(climber, new MotorEncoderPowerAction(climber, getDouble("power"), getDouble("duration")), true) ;
+                break ;
+
+            case 71:
+                addSubActionPair(climber, new MotorEncoderGotoAction(climber, getDouble("up"), false), true);
+                addAction(new DelayAction(getAutoController().getRobot(), 1.00));
+                addSubActionPair(climber, new MotorEncoderGotoAction(climber, getDouble("down"), false), true);
+                break ;
+                          
             //
             // GPM test modes
             //

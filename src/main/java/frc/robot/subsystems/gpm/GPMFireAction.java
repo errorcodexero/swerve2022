@@ -56,6 +56,12 @@ public class GPMFireAction extends Action {
     private boolean target_ready_ ;
     private boolean turret_ready_ ;
 
+    private double start_ ;
+    private int plot_id_ ;
+    private Double[] data_ ;
+
+    private static String[] plot_columns_ = { "time","sact (rpm)", "hact (enc)", "starget (rpm)", "htarget (enc)", "fire" } ;
+
     public GPMFireAction(GPMSubsystem gpm, TargetTrackerSubsystem tracker, DriveBaseSubsystem db, TurretSubsystem turret) throws Exception {
         super(gpm.getRobot().getMessageLogger()) ;
 
@@ -82,6 +88,9 @@ public class GPMFireAction extends Action {
         pwl_velocity_ = new PieceWiseLinear(sub_.getRobot().getSettingsSupplier(), "subsystems:gpm:fire-action:velocity-pwl") ;
 
         shooting_ = false ;
+
+        data_ = new Double[plot_columns_.length] ;
+        plot_id_ = sub_.initPlot("shoot") ;
     }
 
     public boolean shooting() {
@@ -110,6 +119,9 @@ public class GPMFireAction extends Action {
 
         shooting_ = false ;
         sub_.getShooter().setAction(shoot_action_, true) ;
+
+        start_ = sub_.getRobot().getTime() ;
+        sub_.startPlot(plot_id_, plot_columns_);
     }
 
     @Override
@@ -117,6 +129,14 @@ public class GPMFireAction extends Action {
         super.run() ;
 
         ConveyorSubsystem conveyor = sub_.getConveyor() ;
+        ShooterParams sp = setShooterParams();
+
+        int i = 0 ;
+        data_[i++] = sub_.getRobot().getTime() - start_ ;
+        data_[i++] = sub_.getShooter().getWheelSubsystem().getVelocity() ;
+        data_[i++] = sub_.getShooter().getHoodSubsystem().getPosition() ;
+        data_[i++] = sp.WheelVelocity ;
+        data_[i++] = sp.HoodPosition ;
 
         if (shooting_) {
             //
@@ -130,15 +150,17 @@ public class GPMFireAction extends Action {
                 logger.endMessage();
                 
                 shoot_action_.cancel() ;
+                sub_.endPlot(plot_id_);
                 setDone() ;
             }
+
+            data_[i++] = 1.0 ;
         }
         else {
             //
             // Set the shooter hood position and wheel velocity based on the target, or if a target
             // is not seen, based on the latest or default values.
             //
-            ShooterParams sp = setShooterParams();
 
             //
             // See if everyone is ready to shoot, 
@@ -168,7 +190,11 @@ public class GPMFireAction extends Action {
                 conveyor.setAction(conveyor_action_, true) ;
                 shooting_ = true ;
             }
+
+            data_[i++] = 0.0 ;
         }
+
+        sub_.addPlotData(plot_id_, data_);
     }
 
     private double getPercent(double target, double actual) {
@@ -269,6 +295,8 @@ public class GPMFireAction extends Action {
 
         double mult = Math.abs(turret_.getPosition()) / 90.0 * turret_factor_ ;
         wheel *= (1.0 + mult) ;
+
+        wheel *= 0.98 ;
 
         return new ShooterParams(wheel, hood, true) ;
     }

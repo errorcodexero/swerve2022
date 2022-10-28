@@ -86,8 +86,8 @@ public class TurretFollowTargetAction extends MotorAction {
 
             if (desired_ > 60.0)
                 desired_ = 60.0 ;
-            else if (desired_ < -60.0)
-                desired_ = -60.0 ;
+            else if (desired_ < -55.0)
+                desired_ = -55.0 ;
             //
             // Update the turret motor power based on the current position of the turret and
             // the desired positon of the turret.

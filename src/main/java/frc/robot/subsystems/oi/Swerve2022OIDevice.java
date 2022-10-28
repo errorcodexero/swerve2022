@@ -4,6 +4,9 @@ import org.xero1425.base.subsystems.oi.OIPanel;
 import org.xero1425.base.subsystems.oi.OISubsystem;
 import org.xero1425.base.subsystems.oi.OILed.State;
 import org.xero1425.misc.BadParameterTypeException;
+import org.xero1425.misc.ISettingsSupplier;
+import org.xero1425.misc.MessageLogger;
+import org.xero1425.misc.MessageType;
 import org.xero1425.misc.MissingParameterException;
 
 import frc.robot.subsystems.Swerve2022RobotSubsystem;
@@ -18,7 +21,10 @@ import frc.robot.subsystems.turret.TurretFollowTargetAction;
 
 import org.xero1425.base.actions.Action;
 import org.xero1425.base.actions.InvalidActionRequest;
+import org.xero1425.base.motors.MotorController.NeutralMode;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderGotoAction;
+import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderHoldAction;
+import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderTrackPositionAction;
 import org.xero1425.base.subsystems.oi.Gamepad;
 import org.xero1425.base.subsystems.oi.OILed;
 import org.xero1425.base.subsystems.oi.OIPanelButton;
@@ -30,6 +36,12 @@ public class Swerve2022OIDevice extends OIPanel {
     private int climb_lock_gadget_ ;
     private int climb_deploy_gadget_;
     private int start_climb_gadget_;
+    private int abort_climb_gadget_ ;
+
+    private int stow_position_ ;
+    private int deploy_position_ ;
+    private int threshold_ ;
+    private boolean climbing_ ;
 
     private OILed ball1_output_ ;
     private OILed ball2_output_ ;
@@ -46,7 +58,8 @@ public class Swerve2022OIDevice extends OIPanel {
     private Action fire_action_ ;
     private Action climber_stow_action_;
     private Action climber_deploy_action_;
-    private Action climber_start_action_;
+    private Action climber_climb_action_;
+    private Action turret_zero_action_ ;
 
     public Swerve2022OIDevice(OISubsystem parent, String name, int index) throws BadParameterTypeException, MissingParameterException {
         super(parent, name, index) ;
@@ -60,6 +73,13 @@ public class Swerve2022OIDevice extends OIPanel {
         shooter_ready_led_ = createLED(parent.getSettingsValue("panel:outputs:shooting:shooter").getInteger()) ;        
         turret_ready_led_ = createLED(parent.getSettingsValue("panel:outputs:shooting:turret").getInteger()) ;
         hood_ready_led_ = createLED(parent.getSettingsValue("panel:outputs:shooting:hood").getInteger()) ;
+
+        ISettingsSupplier settings = parent.getRobot().getSettingsSupplier() ;
+        stow_position_ = settings.get("subsystems:climber:stow-position").getInteger() ;
+        deploy_position_ = settings.get("subsystems:climber:deploy-position").getInteger() ;
+        threshold_ = settings.get("subsystems:climber:threshold").getInteger() ;
+        
+        climbing_ = false ;
     }
 
     @Override
@@ -73,14 +93,14 @@ public class Swerve2022OIDevice extends OIPanel {
         stop_collect_action_ = new GPMStopCollectAction(gpm) ;
         fire_action_ = new GPMFireAction(gpm, robot.getTracker(), robot.getDB(), robot.getTurret()) ;
         follow_action_ = new TurretFollowTargetAction(robot.getTurret(), robot.getTracker()) ;
+        turret_zero_action_ = new MotorEncoderTrackPositionAction(robot.getTurret(), "follow", 0) ;
 
         if (climber != null) {
-            climber_deploy_action_ = new MotorEncoderGotoAction(climber, "deploy_position", true);
-            climber_stow_action_ = new MotorEncoderGotoAction(climber, "stow_position", true);
-            climber_start_action_ = new MotorEncoderGotoAction(climber, "start_position", true);
+            climber_deploy_action_ = new MotorEncoderGotoAction(climber, "deploy-position", true);
+            climber_stow_action_ = new MotorEncoderGotoAction(climber, "stow-position", true);
+            climber_climb_action_ = new MotorEncoderHoldAction(climber, "climbpid", "climb-position") ;
         }
     }
-
 
     @Override
     public void generateActions() throws InvalidActionRequest {
@@ -101,12 +121,13 @@ public class Swerve2022OIDevice extends OIPanel {
             // We do nothing and wait for the eject action to complete
             //
         }
-        else if (getValue(climb_lock_gadget_) == 1) {
-            generateCargoActions() ;
-        }
-        
-        else if (robot.getClimber() != null) {
-            generateClimbActions() ;
+        else {
+            if (getValue(climb_lock_gadget_) == 1) {
+                generateCargoActions() ;
+            }
+            else if (robot.getClimber() != null) {
+                generateClimbActions() ;
+            }
         }
     }
 
@@ -145,37 +166,66 @@ public class Swerve2022OIDevice extends OIPanel {
         }
     }
 
+    private boolean isInPosition(int pos) {
+        Swerve2022RobotSubsystem robot = (Swerve2022RobotSubsystem) getSubsystem().getRobot().getRobotSubsystem();
+        ClimberSubsystem climber = (ClimberSubsystem) robot.getClimber();
+        return Math.abs(climber.getPosition() - pos) < threshold_ ;
+    }
+
     private void generateClimbActions() {
-        Swerve2022RobotSubsystem robot = (Swerve2022RobotSubsystem)getSubsystem().getRobot().getRobotSubsystem();
+        Swerve2022RobotSubsystem robot = (Swerve2022RobotSubsystem) getSubsystem().getRobot().getRobotSubsystem();
         ClimberSubsystem climber = (ClimberSubsystem) robot.getClimber();
 
-        if (climber != null) {
-        if (getValue(climb_lock_gadget_ ) == 1) {
-                if (getValue(climb_deploy_gadget_) == 1)  {
-                    if (climber.getAction() != climber_deploy_action_) {
-                        climber.setAction(climber_deploy_action_);
-                    }
+        if (robot.getTurret().getAction() != turret_zero_action_) {
+            robot.getTurret().setAction(turret_zero_action_) ;
+        }
 
-                    if (getValue(start_climb_gadget_) == 1) {
-                        if (climber.getAction() != climber_start_action_) {
-                            climber.setAction(climber_start_action_);
-                        }
-                    }
+        MessageLogger logger = robot.getRobot().getMessageLogger() ;
+        logger.startMessage(MessageType.Debug, getSubsystem().getLoggerID()) ;
+        logger.add("Climber OI:") ;
+        logger.add("pos", climber.getPosition()) ;
+        logger.add(", deployPosition", deploy_position_) ;
+        logger.add(", stowPosition", stow_position_) ;
+        logger.add(", button", getValue(climb_deploy_gadget_)) ;
+        logger.add(", pos", isInPosition(deploy_position_)) ;
+        logger.endMessage();
 
-                } else {
-                    if (climber.getAction() != climber_stow_action_) {
-                        climber.setAction(climber_stow_action_);
-                    }
-                }
-
-
-
-            } else {
-                if (climber.getAction() != climber_stow_action_) {
-                    climber.setAction(climber_stow_action_);
-                }
+        if (getValue(climb_deploy_gadget_) == 1 && !isInPosition(deploy_position_) &&  !climbing_) {
+            if (climber.getAction() != climber_deploy_action_) {
+                climber.setAction(climber_deploy_action_);
             }
         }
+        else if (!climbing_ && getValue(climb_deploy_gadget_) == 0 && !isInPosition(stow_position_)) {
+            if (climber.getAction() != climber_stow_action_) {
+                climber.setAction(climber_stow_action_);
+            }
+        }
+        else if (getValue(start_climb_gadget_) == 1 && isInPosition(deploy_position_)) {            
+            climbing_ = true ;
+
+            try {
+                climber.getMotorController().setNeutralMode(NeutralMode.Brake);
+            }
+            catch(Exception ex) {
+
+            }
+
+            if (climber.getAction() != climber_climb_action_) {
+                climber.setAction(climber_climb_action_) ;
+            }
+        }
+        else if (getValue(abort_climb_gadget_) == 1 && climbing_) {
+            try {
+                climber.getMotorController().setNeutralMode(NeutralMode.Coast);
+            }
+            catch(Exception ex) {
+            }
+            climbing_ = false ;
+            if (climber.getAction() != climber_deploy_action_) {
+                climber.setAction(climber_deploy_action_) ;
+            }
+        }
+        logger.endMessage();
     }
 
     private void setShootLEDs() {
@@ -280,16 +330,16 @@ public class Swerve2022OIDevice extends OIPanel {
         num = getSubsystem().getSettingsValue("panel:gadgets:eject").getInteger();
         eject_gadget_ = mapButton(num, OIPanelButton.ButtonType.Level);
 
-        num = getSubsystem().getSettingsValue("panel:gadgets:climb_lock").getInteger();
+        num = getSubsystem().getSettingsValue("panel:gadgets:climb-lock").getInteger();
         climb_lock_gadget_ = mapButton(num, OIPanelButton.ButtonType.Level);
 
-        num = getSubsystem().getSettingsValue("panel:gadgets:climb_lock").getInteger();
-        climb_lock_gadget_ = mapButton(num, OIPanelButton.ButtonType.Level);
-
-        num = getSubsystem().getSettingsValue("panel:gadgets:deploy_climber").getInteger();
+        num = getSubsystem().getSettingsValue("panel:gadgets:deploy-climber").getInteger();
         climb_deploy_gadget_ = mapButton(num, OIPanelButton.ButtonType.Level);
 
-        num = getSubsystem().getSettingsValue("panel:gadgets:climb").getInteger();
-        start_climb_gadget_ = mapButton(num, OIPanelButton.ButtonType.Level);        
+        num = getSubsystem().getSettingsValue("panel:gadgets:start-climb").getInteger();
+        start_climb_gadget_ = mapButton(num, OIPanelButton.ButtonType.Level);    
+        
+        num = getSubsystem().getSettingsValue("panel:gadgets:abort-climb").getInteger();
+        abort_climb_gadget_ = mapButton(num, OIPanelButton.ButtonType.Level);  
     }
 }

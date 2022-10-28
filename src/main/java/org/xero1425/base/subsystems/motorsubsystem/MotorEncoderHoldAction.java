@@ -74,7 +74,20 @@ public class MotorEncoderHoldAction extends MotorAction {
 
         String subname = "subsystems:" + subsystem.getName() + ":hold" ;
         pid_ = new PIDCtrl(subsystem.getRobot().getSettingsSupplier(), subname, subsystem.isAngular()) ;           
-    }      
+    }     
+    
+    /// \brief Create the action that holds the motor at an explicit position
+    /// \param subsystem the MotorEncoderSubsystem for the action    
+    /// \param target a string giving the name of a setting from the settings file with the target    
+    public MotorEncoderHoldAction(MotorEncoderSubsystem subsystem, String pidname, String target)
+            throws BadParameterTypeException, MissingParameterException {
+        super(subsystem) ;
+        has_explicit_target_ = true ;
+        target_ = subsystem.getSettingsValue(target).getDouble() ;
+
+        String subname = "subsystems:" + subsystem.getName() + ":" + pidname ;
+        pid_ = new PIDCtrl(subsystem.getRobot().getSettingsSupplier(), subname, subsystem.isAngular()) ;           
+    }    
 
     /// \brief Returns the current target for the action.  If this type of action is an implicit action
     /// and the action has not been started, then this value is not valid and will return NaN.

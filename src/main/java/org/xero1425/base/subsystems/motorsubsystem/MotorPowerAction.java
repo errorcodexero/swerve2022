@@ -1,6 +1,8 @@
 package org.xero1425.base.subsystems.motorsubsystem ;
 
 import org.xero1425.misc.BadParameterTypeException;
+import org.xero1425.misc.MessageLogger;
+import org.xero1425.misc.MessageType;
 import org.xero1425.misc.MissingParameterException;
 
 /// \file
@@ -108,8 +110,9 @@ public class MotorPowerAction extends MotorAction {
     /// the time the power applied meets the duration.
     @Override
     public void run() {
+        double now = getSubsystem().getRobot().getTime() ;
         if (timed_) {
-            if (getSubsystem().getRobot().getTime() - start_ > duration_)
+            if (now - start_ > duration_)
             {
                 getSubsystem().setPower(0.0) ;
                 setDone() ;

@@ -17,8 +17,9 @@
             "intake": false,
             "turret": false,
             "swervedrive": false,
-            "swerveoi": false,
-            "targettracker" : false
+            "swerve2022oi": true,
+            "targettracker" : false,
+            "climber" : false
         },
         "verbose": {
             "swervedrive": true,
@@ -184,10 +185,10 @@
                     "automode": 0,
                     "shoot_collect_mode": 6,
                     "collect_onoff": 3,
-                    "climb_lock": 4,
-                    "climb": 9,
-                    "deploy_climber": 7,
-                    "force_shoot": 1,
+                    "climb-lock": 4,
+                    "start-climb": 9,
+                    "deploy-climber": 7,
+                    "abort-climb": 1,
                     "eject": 2,
                     "shoot_manual_mode": 5,
                     "throughput": 8
@@ -305,7 +306,7 @@
                 "collect": 0.4,
                 "off": 0.0,
                 "eject": -1.0,
-                "shoot": 0.8,
+                "shoot": 0.7,
                 "preload" : 0.3
             },
             "duration": {
@@ -343,7 +344,38 @@
             },
             "maxpos": 90.0,
             "minpos": -90.0,
-            "fire_threshold": 2.0
+            "fire_threshold": 2.0,
+            "goto": {
+                "threshold": 10,
+                "maxd": -100,
+                "maxa": 100,
+                "maxv": 100
+            },
+            "hold": {
+                "kp": 0.0003,
+                "ki": 0,
+                "kd": 0,
+                "kf": 0,
+                "min": -0.3,
+                "max": 0.3,
+                "imax": 0
+            },
+            "follower": {
+                "up": {
+                    "kp": 0.0001,
+                    "ka": 0.0,
+                    "ki": 0.0,
+                    "kd": 0.0,
+                    "kv": 0.000285388
+                },
+                "down": {
+                    "kp": 0.0001,
+                    "ka": 0.0,
+                    "ki": 0.0,
+                    "kd": 0.0,
+                    "kv": 0.000285388
+                }
+            }
         },
         "zeke_limelight": {
             "timeout": 8.0,
@@ -390,10 +422,10 @@
                 }
             },
             "wheels": {
-                "kp": 0.0001,
-                "ki": 0.001,
-                "kd": 0.00005,
-                "kf": 0.000152,
+                "kp": 0.000045,
+                "ki": 0.000,
+                "kd": 0.00000,
+                "kf": 0.000162,
                 "max": 1.0,
                 "min": -1.0,
                 "imax": 10.0,
@@ -420,7 +452,7 @@
                 }
             },
             "hoodpos": {
-                "kp": 0.0030,
+                "kp": 0.0015,
                 "ki": 0.0,
                 "kd": 0.0,
                 "kf": 0.0,
@@ -439,7 +471,7 @@
                 "max-db-linear-velocity": 0.05,
                 "max-db-rotational-velocity" : 5,
                 "hood-threshold": 10,
-                "wheel-threshold": 7,
+                "wheel-threshold": 10,
                 "turret-factor" : 0.05,
                 "hood-pwl": {
                     "1": {
@@ -536,24 +568,69 @@
             }
         },
         "climber": {
-            "stow_position": 0,
-            "deploy_position": 0,
-            "start_position": 0,
+            "stow-position": 0,
+            "deploy-position": 4300,
+            "climb-position": 0,
+            "threshold" : 20,
+            "max-position" : 5100,
             "hw": {
                 "motors": {
                     "1": {
                         "type": "sparkmax_brushless",
-                        "canid": 38
+                        "canid": 38,
+                        "inverted": true,
+                        "neutral_mode": "coast"
                     },
                     "2": {
                         "type": "sparkmax_brushless",
-                        "canid": 39
+                        "canid": 39,
+                        "neutral_mode": "coast"
                     }
                 },
                 "encoder": {
                     "type": "motor",
                     "m": 1,
                     "b": 0
+                }
+            },
+            "hold": {
+                "kp": 0.0003,
+                "ki": 0,
+                "kd": 0,
+                "kf": 0,
+                "min": -1.0,
+                "max": 1.0,
+                "imax": 0
+            },
+            "climbpid": {
+                "kp": 0.0005,
+                "ki": 0,
+                "kd": 0,
+                "kf": 0,
+                "min": -0.40,
+                "max": 0.40,
+                "imax": 0
+            },
+            "goto": {
+                "threshold": 10,
+                "maxd": -6000,
+                "maxa": 6000,
+                "maxv": 6000
+            },
+            "follower": {
+                "up": {
+                    "kp": 0.0000,
+                    "ka": 0.0,
+                    "ki": 0.0,
+                    "kd": 0.0,
+                    "kv": 0.000285388
+                },
+                "down": {
+                    "kp": 0.0000,
+                    "ka": 0.0,
+                    "ki": 0.0,
+                    "kd": 0.0,
+                    "kv": 0.000285388
                 }
             }
         }
@@ -585,8 +662,8 @@
         }
     },
     "testmode": {
-        "enabled": false,
-        "which": 83,
+        "enabled": true,
+        "which": 71,
         "0": {
             "angle": 0.0,
             "power": 0.2
@@ -663,6 +740,14 @@
         },
         "62": {
             "delay": 3.0
+        },
+        "70" : {
+            "power": 0.5,
+            "duration": 1.0
+        },
+        "71" : {
+            "up" : 3000,
+            "down" : 50
         },
         "80": {
             "delay": 20

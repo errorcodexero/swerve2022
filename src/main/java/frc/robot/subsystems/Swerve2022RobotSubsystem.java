@@ -13,8 +13,6 @@ import frc.robot.subsystems.targettracker.TargetTrackerSubsystem;
 import frc.robot.subsystems.turret.TurretSubsystem;
 
 public class Swerve2022RobotSubsystem extends RobotSubsystem {
-    private final boolean HasClimber = false ;
-
     private GPMSubsystem gpm_;
     private SwerveBaseSubsystem db_;
     private TurretSubsystem turret_ ;
@@ -43,12 +41,8 @@ public class Swerve2022RobotSubsystem extends RobotSubsystem {
         tracker_ = new TargetTrackerSubsystem(this, limelight_, turret_);
         addChild(tracker_);
 
-        if (HasClimber) {
-            climber_ = new ClimberSubsystem(this) ;
-        }
-        else {
-            climber_ = null ;
-        }
+        climber_ = new ClimberSubsystem(this) ;
+        addChild(climber_);
     }
 
     public ClimberSubsystem getClimber() {

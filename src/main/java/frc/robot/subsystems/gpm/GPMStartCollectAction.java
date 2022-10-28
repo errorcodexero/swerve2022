@@ -6,6 +6,7 @@ import org.xero1425.base.subsystems.intake2motor.IntakePowerPowerAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorPowerAction;
 
 import frc.robot.subsystems.conveyor.ConveyorCollectAction;
+import frc.robot.subsystems.shooter.ShooterSpinUpAction;
 
 public class GPMStartCollectAction extends Action {
     private GPMSubsystem subsystem_;
@@ -14,6 +15,7 @@ public class GPMStartCollectAction extends Action {
     private IntakePowerPowerAction intake_stay_on_action_ ;
     private MotorPowerAction agitator_on_action_;
     private ConveyorCollectAction conveyor_on_action_ ;
+    private ShooterSpinUpAction spinup_action_ ;
     private boolean stay_action_applied_ ;
 
     public GPMStartCollectAction(GPMSubsystem subsystem) throws Exception {
@@ -25,6 +27,7 @@ public class GPMStartCollectAction extends Action {
         conveyor_on_action_ = new ConveyorCollectAction(subsystem_.getConveyor()) ;
         intake_stop_action_ = new IntakePositionPowerAction(subsystem.getIntake(), "collect:offpos", "collector:offpower", true, true);
         intake_stay_on_action_ = new IntakePowerPowerAction(subsystem.getIntake(), "collect:onpower", "collector:onpower") ;
+        spinup_action_ = new ShooterSpinUpAction(subsystem.getShooter()) ;
     }
 
     @Override
@@ -34,6 +37,7 @@ public class GPMStartCollectAction extends Action {
         subsystem_.getIntake().setAction(intake_on_action_, true);
         subsystem_.getAgitator().setAction(agitator_on_action_, true);
         subsystem_.getConveyor().setAction(conveyor_on_action_, true) ;
+        subsystem_.getShooter().setAction(spinup_action_, true) ;
         stay_action_applied_ = false ;
     }
 
