@@ -32,6 +32,8 @@ public class TwoBallRightAuto extends SwerveDriveAutoMode {
 
         // Drive and collect the second ball
         drivePath("p1", true, true) ;
+
+        drivePath("p2", false, false) ;
         
         // Start firing the two balls
         addSubActionPair(gpm, new GPMFireAction(gpm, tracker, db, turret), true);

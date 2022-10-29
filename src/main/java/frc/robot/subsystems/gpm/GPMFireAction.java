@@ -182,8 +182,9 @@ public class GPMFireAction extends Action {
             logger.endMessage();
 
             if (shooter_ready && db_ready && turret_ready_) {
-                logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
+                logger.startMessage(MessageType.Debug) ;
                 logger.add("GPMFireAction: Shooting start") ;
+                logger.add(", distance", tracker_.getDistance());
                 logger.endMessage();
 
                 shoot_action_.startPlot();
@@ -300,7 +301,12 @@ public class GPMFireAction extends Action {
         double mult = Math.abs(turret_.getPosition()) / 90.0 * turret_factor_ ;
         wheel *= (1.0 + mult) ;
 
-        wheel *= 0.98 ;
+        hood += 175 ;
+        wheel *= 1.04 ;
+
+        if (hood > 900) {
+            hood = 900 ;
+        }
 
         return new ShooterParams(wheel, hood, true) ;
     }

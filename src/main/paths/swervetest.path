@@ -132,6 +132,37 @@
                     "startangle": -90,
                     "startangledelay": 0,
                     "startvelocity": 0
+                },
+                {
+                    "constraints": [
+                    ],
+                    "endangle": 90,
+                    "endangledelay": 0,
+                    "endvelocity": 0,
+                    "flags": [
+                    ],
+                    "markers": [
+                    ],
+                    "maxacceleration": 1,
+                    "maxcentripetal": 3000,
+                    "maxjerk": 10,
+                    "maxvelocity": 1,
+                    "name": "p2",
+                    "points": [
+                        {
+                            "heading": 94.16890252571596,
+                            "x": 7.49854,
+                            "y": 0.67686
+                        },
+                        {
+                            "heading": 90,
+                            "x": 7.480537213937401,
+                            "y": 1.868753300114986
+                        }
+                    ],
+                    "startangle": 90,
+                    "startangledelay": 0,
+                    "startvelocity": 0
                 }
             ]
         },
@@ -163,6 +194,37 @@
                             "heading": 132.8,
                             "x": 5.017865906379898,
                             "y": 6.2194726101332405
+                        }
+                    ],
+                    "startangle": 132.8,
+                    "startangledelay": 0,
+                    "startvelocity": 0
+                },
+                {
+                    "constraints": [
+                    ],
+                    "endangle": 132.8,
+                    "endangledelay": 0,
+                    "endvelocity": 0,
+                    "flags": [
+                    ],
+                    "markers": [
+                    ],
+                    "maxacceleration": 1,
+                    "maxcentripetal": 3000,
+                    "maxjerk": 10,
+                    "maxvelocity": 1,
+                    "name": "p2",
+                    "points": [
+                        {
+                            "heading": -47.199999999999974,
+                            "x": 5.01787,
+                            "y": 6.21947
+                        },
+                        {
+                            "heading": -43.667780146130376,
+                            "x": 6.105545733884462,
+                            "y": 5.275448608902865
                         }
                     ],
                     "startangle": 132.8,

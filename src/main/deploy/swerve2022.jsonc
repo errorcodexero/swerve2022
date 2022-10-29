@@ -329,7 +329,7 @@
                     "rmax": 180.0,
                     "emin": 0.0,
                     "emax": 5.0,
-                    "ec": 0.135,
+                    "ec": 0.8459,
                     "rc": 0.0
                 }
             },
@@ -569,7 +569,7 @@
         },
         "climber": {
             "stow-position": 0,
-            "deploy-position": 4300,
+            "deploy-position": 4600,
             "climb-position": 0,
             "threshold" : 20,
             "max-position" : 5100,
@@ -652,18 +652,26 @@
             "p1": {
                 "collect-delay": 1.5, // The delay after starting collect action and before driving for path 'p1'
                 "stop-collect-delay": 2.0 // The delay after path following and before stopping collection
+            },
+            "p2": {
+                "collect-delay": 1.5, // The delay after starting collect action and before driving for path 'p1'
+                "stop-collect-delay": 2.0 // The delay after path following and before stopping collection
             }
         },
         "twoballright": {
             "p1": {
                 "collect-delay": 1.0, // The delay after starting collect action and before driving for path 'p1'
-                "stop-collect-delay": 1.0 // The delay after path following and before stopping collection
+                "stop-collect-delay": 2.0 // The delay after path following and before stopping collection
+            },
+            "p2": {
+                "collect-delay": 1.5, // The delay after starting collect action and before driving for path 'p1'
+                "stop-collect-delay": 2.0 // The delay after path following and before stopping collection
             }
         }
     },
     "testmode": {
-        "enabled": true,
-        "which": 71,
+        "enabled": false,
+        "which": 20,
         "0": {
             "angle": 0.0,
             "power": 0.2
