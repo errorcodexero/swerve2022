@@ -5,6 +5,8 @@ import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderSubsystem;
 import org.xero1425.misc.SettingsValue;
 
 public class TurretSubsystem extends MotorEncoderSubsystem {
+
+    private final boolean FixTurret = true ;
     
     private boolean is_ready_to_fire_ ;
     
@@ -13,7 +15,7 @@ public class TurretSubsystem extends MotorEncoderSubsystem {
     public TurretSubsystem(Subsystem parent) throws Exception {
         super(parent, SubsystemName, false) ;
 
-        is_ready_to_fire_ = false ;
+        is_ready_to_fire_ = true ;
     }
 
     @Override
@@ -28,6 +30,9 @@ public class TurretSubsystem extends MotorEncoderSubsystem {
     }
 
     public boolean isReadyToFire() {
+        if (FixTurret) {
+            return true ;
+        }
         return is_ready_to_fire_ ;
     }
 
@@ -42,7 +47,9 @@ public class TurretSubsystem extends MotorEncoderSubsystem {
 
     @Override
     protected double limitPower(double p) {
+        if (FixTurret) {
+            p = 0.0 ;
+        }
         return p ;
     }
 }
-

@@ -472,7 +472,7 @@
                 "max-db-rotational-velocity" : 5,
                 "hood-threshold": 10,
                 "wheel-threshold": 10,
-                "turret-factor" : 0.05,
+                "turret-factor" : 0.0,
                 "hood-pwl": {
                     "1": {
                         "x": 37,

@@ -136,7 +136,7 @@
                 {
                     "constraints": [
                     ],
-                    "endangle": 90,
+                    "endangle": -90,
                     "endangledelay": 0,
                     "endvelocity": 0,
                     "flags": [
@@ -160,7 +160,7 @@
                             "y": 1.868753300114986
                         }
                     ],
-                    "startangle": 90,
+                    "startangle": -90,
                     "startangledelay": 0,
                     "startvelocity": 0
                 }
