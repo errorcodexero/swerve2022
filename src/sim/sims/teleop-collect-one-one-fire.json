@@ -14,7 +14,7 @@
                         "start" : 1.0,
                         "autonomous" : 0.0,
                         "between" : 0.0,
-                        "teleop" : 30.0,
+                        "teleop" : 3000.0,
                         "fms" : false
                     }
                 },
@@ -256,6 +256,23 @@
                     {
                         "comment" : "Collect/shoot mode switch set to shoot",                        
                         "button6" : false,
+                    }
+                }
+            ]
+        },
+        {
+            "time" : 13.0,
+            "events" : 
+            [
+                {
+                    "model" : "limelight",
+                    "instance" : "1",
+                    "values" :
+                    {
+                        "comment" : "Target detected",                        
+                        "tv" : 1.0,
+                        "tx" : 3.0,
+                        "ty" : -16.2
                     }
                 }
             ]

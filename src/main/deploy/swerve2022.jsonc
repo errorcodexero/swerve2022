@@ -14,10 +14,12 @@
             "conveyor": false,
             "gpm": false,
             "shooter": false,
+            "shooter-wheel": false,
+            "shooter-hood" : false,
             "intake": false,
             "turret": false,
             "swervedrive": false,
-            "swerve2022oi": true,
+            "swerve2022oi": false,
             "targettracker" : false,
             "climber" : false
         },

@@ -150,10 +150,6 @@ public class HoodModel extends SimulationModel {
         position_ += dist_per_second_per_volt_ * dt * power ;
         voltage_ = mapper_.toEncoder(position_) ;
         AnalogInDataJNI.setVoltage(encoder_input_, voltage_) ;
-
-        if (power > 0.1) {
-            System.out.println("HoodModel: power " + power + ", position " + position_ + ", voltage_ " + voltage_ + ", encoder " + encoder_input_) ;
-        }
     }
 
     public Rotation2d getPosition() {

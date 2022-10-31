@@ -116,6 +116,7 @@ public abstract class SimulationModel {
     }
 
     protected double getDoubleProperty(String name) throws Exception {
+        double ret = Double.NaN ;
         MessageLogger logger = getEngine().getMessageLogger() ;
 
         if (!hasProperty(name)) {
@@ -128,7 +129,7 @@ public abstract class SimulationModel {
         }
 
         SettingsValue value = getProperty(name) ;
-        if (!value.isDouble()) {
+        if (!value.isDouble() && !value.isInteger()) {
             logger.startMessage(MessageType.Error);
             logger.add("event: model ").addQuoted(getModelName());
             logger.add(" instance ").addQuoted(getInstanceName());
@@ -136,8 +137,14 @@ public abstract class SimulationModel {
             logger.endMessage();   
             throw new Exception("getDoubleProperty failed") ;         
         }
+        else if (value.isDouble()) {
+            ret = value.getDouble() ;
+        }
+        else if (value.isInteger()) {
+            ret = value.getInteger() ;
+        }
 
-        return value.getDouble() ;
+        return ret ;
     }
 
     protected String getStringProperty(String name) throws Exception {

@@ -32,6 +32,7 @@ public class Swerve2022 extends XeroRobot {
         factory.registerModel("swerve2022oi", "frc.models.Swerve2022OIModel") ;
         factory.registerModel("turret", "frc.models.TurretModel");
         factory.registerModel("hood", "frc.models.HoodModel") ;
+        factory.registerModel("shooter", "frc.models.ShooterModel") ;
     }    
 
     public String getName() {
@@ -43,7 +44,7 @@ public class Swerve2022 extends XeroRobot {
         if (ret != null)
             return ret;
 
-        return "automode";
+        return "teleop-collect-one-one-fire";
     }
 
     public AutoController createAutoController() {

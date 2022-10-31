@@ -60,7 +60,7 @@ public class GPMFireAction extends Action {
     private int plot_id_ ;
     private Double[] data_ ;
 
-    private static String[] plot_columns_ = { "time","sact (rpm)", "hact (enc)", "starget (rpm)", "htarget (enc)", "fire" } ;
+    private static String[] plot_columns_ = { "time", "distance (in)", "sact (rpm)", "hact (enc)", "starget (rpm)", "htarget (enc)", "fire" } ;
 
     public GPMFireAction(GPMSubsystem gpm, TargetTrackerSubsystem tracker, DriveBaseSubsystem db, TurretSubsystem turret) throws Exception {
         super(gpm.getRobot().getMessageLogger()) ;
@@ -133,6 +133,7 @@ public class GPMFireAction extends Action {
 
         int i = 0 ;
         data_[i++] = sub_.getRobot().getTime() - start_ ;
+        data_[i++] = tracker_.getDistance() ;
         data_[i++] = sub_.getShooter().getWheelSubsystem().getVelocity() ;
         data_[i++] = sub_.getShooter().getHoodSubsystem().getPosition() ;
         data_[i++] = sp.WheelVelocity ;
@@ -176,9 +177,10 @@ public class GPMFireAction extends Action {
             MessageLogger logger = sub_.getRobot().getMessageLogger() ;
             logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
             logger.add("GPMFireAction: ") ;
-            logger.add("shooter_ready=" + shooter_ready) ;
-            logger.add("db_ready=" + db_ready) ;
-            logger.add("turret_ready=" + turret_ready_) ;
+            logger.add("wheels " + wheels_ready_) ;
+            logger.add(", hood " + hood_ready_) ;
+            logger.add(", db " + db_ready) ;
+            logger.add(", turret " + turret_ready_) ;
             logger.endMessage();
 
             if (shooter_ready && db_ready && turret_ready_) {
@@ -240,7 +242,9 @@ public class GPMFireAction extends Action {
             logger.add("hood-pcnt", hoodpcnt) ;
             logger.add("hood-pos", shooter.getHoodSubsystem().getPosition()) ;
             logger.add("hood-target", p.HoodPosition) ;
-            logger.add("wheel", wheelpcnt) ;
+            logger.add("wheel-pcnt", wheelpcnt) ;
+            logger.add("wheel-vel", shooter.getWheelSubsystem().getVelocity()) ;
+            logger.add("wheel-target", p.WheelVelocity) ;
             logger.add("ready", ret) ;
             logger.endMessage();
         }

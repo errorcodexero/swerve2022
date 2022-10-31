@@ -17,6 +17,13 @@
             }            
         },
         {
+            "model" : "limelight",
+            "instance" : "1",
+            "props" : {
+                "latency" : 0.01
+            }
+        },
+        {
             "model" : "conveyor",
             "instance" : "1",
             "props" : {
@@ -53,9 +60,9 @@
             "model" : "turret",
             "instance" : "1",
             "props" : {
-                "turret:motor:type": "sparkmax-brushless",
+                "turret:motor:type": "talon_fx",
                 "turret:motor:index": 7,
-                "degrees_per_second_per_volt" : 180,
+                "degrees_per_second_per_volt" : -180,
                 "encoder" : 1,
                 "rmax" : 180.0,
                 "rmin" : -180.0,
@@ -79,6 +86,16 @@
                 "emax": 5.0,
                 "ec": 1.557,
                 "rc": 0.0
+            }
+        },
+        {
+            "model" : "shooter",
+            "instance" : "1",
+            "props" : {
+                "shooter:motor:type": "talon_fx",
+                "shooter:motor:index": 26,
+                "rps-per-volt-per-time": 7.86,
+                "ticks-per-rev" : 2048
             }
         }
     ]

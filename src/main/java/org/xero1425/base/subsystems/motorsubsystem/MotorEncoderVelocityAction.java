@@ -195,6 +195,14 @@ public class MotorEncoderVelocityAction extends MotorAction {
             error_ = Math.abs(target_ - me.getVelocity()) ;
             double out = pid_.getOutput(target_, me.getVelocity(), getSubsystem().getRobot().getDeltaTime()) ;
             getSubsystem().setPower(out) ;
+
+            MessageLogger logger = getSubsystem().getRobot().getMessageLogger() ;
+            logger.startMessage(MessageType.Debug, getSubsystem().getLoggerID()) ;
+            logger.add("MotorEncoderVelocityAction:") ;
+            logger.add(" target", target_) ;
+            logger.add(", actual", me.getVelocity()) ;
+            logger.add(", power", out) ;
+            logger.endMessage();            
         }
         else {
             //
