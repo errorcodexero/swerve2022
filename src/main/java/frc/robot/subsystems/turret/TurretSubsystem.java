@@ -6,7 +6,7 @@ import org.xero1425.misc.SettingsValue;
 
 public class TurretSubsystem extends MotorEncoderSubsystem {
 
-    private final boolean FixTurret = true ;
+    private final boolean FixTurret = false ;
     
     private boolean is_ready_to_fire_ ;
     
