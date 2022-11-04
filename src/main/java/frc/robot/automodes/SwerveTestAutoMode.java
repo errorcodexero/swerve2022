@@ -9,7 +9,7 @@ import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderGotoAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderPowerAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderSubsystem;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderTrackPositionAction;
-import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderVelocityAction;
+import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderTrackVelocityAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorPowerAction;
 import org.xero1425.base.subsystems.motorsubsystem.MotorSubsystem;
 import org.xero1425.base.subsystems.swerve.common.SwerveBaseSubsystem;
@@ -143,7 +143,7 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 break ;
 
             case 41:
-                addSubActionPair(wheels, new MotorEncoderVelocityAction(wheels, "wheels", getDouble("velocity")), true) ;
+                addSubActionPair(wheels, new MotorEncoderTrackVelocityAction(wheels, "wheels", getDouble("velocity")), true) ;
                 break ;
             
             //
@@ -165,6 +165,9 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 addSubActionPair(hood, new MotorEncoderTrackPositionAction(hood, "hoodpos", 200), false);
                 addAction(new DelayAction(getAutoController().getRobot(), 1.00));
                 break ;
+
+            case 53:
+
 
             //
             // Turret test modes

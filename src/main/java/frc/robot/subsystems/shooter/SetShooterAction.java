@@ -5,13 +5,13 @@ import org.xero1425.base.actions.Action;
 import org.xero1425.base.motors.BadMotorRequestException;
 import org.xero1425.base.motors.MotorRequestFailedException;
 import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderTrackPositionAction;
-import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderVelocityAction;
+import org.xero1425.base.subsystems.motorsubsystem.MotorEncoderTrackVelocityAction;
 import org.xero1425.misc.MessageLogger;
 import org.xero1425.misc.MessageType;
 
 public class SetShooterAction extends Action {
     private ShooterSubsystem sub_;
-    private MotorEncoderVelocityAction wheel_action_;
+    private MotorEncoderTrackVelocityAction wheel_action_;
     private MotorEncoderTrackPositionAction hood_action_;
 
     private static int plot_number_ = 0 ;
@@ -30,7 +30,7 @@ public class SetShooterAction extends Action {
     {
         super(sub.getRobot().getMessageLogger());
         sub_ = sub;
-        wheel_action_ = new MotorEncoderVelocityAction(sub.getWheelSubsystem(), "wheels", wheels);
+        wheel_action_ = new MotorEncoderTrackVelocityAction(sub.getWheelSubsystem(), "wheels", wheels);
         hood_action_ = new MotorEncoderTrackPositionAction(sub.getHoodSubsystem(), "hoodpos", hood);
 
         plot_id_ = -1 ;

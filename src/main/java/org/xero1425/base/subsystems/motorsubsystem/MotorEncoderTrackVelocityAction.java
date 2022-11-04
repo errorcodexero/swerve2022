@@ -14,7 +14,7 @@ import org.xero1425.misc.PIDCtrl;
 /// \file
 
 /// \brief This action causes a MotorEncoderSubsystem to maintain a constant velocity.
-public class MotorEncoderVelocityAction extends MotorAction {   
+public class MotorEncoderTrackVelocityAction extends MotorAction {   
 
     // An index used to ensure individual instances of this action produce separate plots
     private static int which_ = 1 ;
@@ -53,7 +53,7 @@ public class MotorEncoderVelocityAction extends MotorAction {
     /// \param sub the target MotorEncoderSubsystem
     /// \param name the name of the action, for entries from the settings file
     /// \param target the traget velocity
-    public MotorEncoderVelocityAction(MotorEncoderSubsystem sub, String name, double target)
+    public MotorEncoderTrackVelocityAction(MotorEncoderSubsystem sub, String name, double target)
             throws MissingParameterException, BadParameterTypeException, BadMotorRequestException, MotorRequestFailedException {
 
         super(sub);
@@ -88,7 +88,7 @@ public class MotorEncoderVelocityAction extends MotorAction {
     /// \brief Create a new MotorEncoderVelocityAction
     /// \param sub the target MotorEncoderSubsystem
     /// \param target a string with the name of the target velocity in settings file
-    public MotorEncoderVelocityAction(MotorEncoderSubsystem sub, String name, String target) throws BadParameterTypeException, MissingParameterException, BadMotorRequestException, MotorRequestFailedException {
+    public MotorEncoderTrackVelocityAction(MotorEncoderSubsystem sub, String name, String target) throws BadParameterTypeException, MissingParameterException, BadMotorRequestException, MotorRequestFailedException {
         super(sub) ;
 
         ISettingsSupplier settings = sub.getRobot().getSettingsSupplier() ;
