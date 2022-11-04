@@ -25,6 +25,8 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
     // The columns to plot
     private static String [] columns_ = { "time", "target(pos)", "actual(pos)", "error", "power"}  ;
 
+    private static int plot_count_ = 0 ;
+
     /// \brief Create the action
     /// \param sub the MotorEncoderSubsystem subsystem for the action    
     /// \param target the target position
@@ -39,7 +41,7 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
         
         ctrl_ = new PIDCtrl(sub.getRobot().getSettingsSupplier(), "subsystems:" + sub.getName() + ":" + name, false) ;
 
-        plot_id_ = sub.initPlot(toString(0)) ;
+        plot_id_ = sub.initPlot(toString(0) + "-" + plot_count_++) ;
     }
 
     public double getError() {

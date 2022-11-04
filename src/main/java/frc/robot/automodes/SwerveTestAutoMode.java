@@ -166,9 +166,6 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 addAction(new DelayAction(getAutoController().getRobot(), 1.00));
                 break ;
 
-            case 53:
-
-
             //
             // Turret test modes
             //
