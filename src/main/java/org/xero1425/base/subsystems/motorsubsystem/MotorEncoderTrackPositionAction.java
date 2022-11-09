@@ -59,7 +59,7 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
             getSubsystem().startPlot(plot_id_, columns_) ;        
     }
 
-    public void setTarget(double t) {
+    public void update(double t) {
         MotorEncoderSubsystem sub = (MotorEncoderSubsystem)getSubsystem() ;
 
         target_ = checkTarget(t) ;

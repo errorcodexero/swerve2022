@@ -35,7 +35,7 @@ public class VelocityTestAction extends MotorAction {
 
     public void run() throws BadMotorRequestException, MotorRequestFailedException {
         current_ = widget_.getEntry().getDouble(current_) ;
-        action_.setTarget(current_);
+        action_.update(current_);
     }
 
     public void cancel() {

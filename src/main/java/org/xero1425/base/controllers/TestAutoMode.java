@@ -66,6 +66,19 @@ public class TestAutoMode extends AutoMode {
         return which_;
     }
 
+    protected double[] getDoubleArray(String propname, String valuename) throws Exception {
+        if (!parameters_.containsKey(which_)) {
+            throw new Exception("settings file does not contain test parameters for test number " + which_) ;
+        }
+
+        Map<String, SettingsValue> params = parameters_.get(which_) ;
+        if (!params.containsKey(propname)) {
+            throw new Exception("settings file contains parameters for test " + which_ + ", but not the parameter '" + propname + "'") ;
+        }
+        
+        return new double[1] ;
+    }
+
     /// \brief Returns the double value of a given parameter from the settings file test mode settings
     /// \returns the name value from the settings file    
     protected double getDouble(String name) throws Exception {

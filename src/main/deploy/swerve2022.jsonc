@@ -672,8 +672,8 @@
         }
     },
     "testmode": {
-        "enabled": false,
-        "which":62,
+        "enabled": true,
+        "which":53,
         "0": {
             "angle": 0.0,
             "power": 0.2

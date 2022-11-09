@@ -1,6 +1,7 @@
 package frc.robot.automodes;
 
 import org.xero1425.base.actions.DelayAction;
+import org.xero1425.base.actions.UpdatableTestAction;
 import org.xero1425.base.controllers.TestAutoMode;
 import org.xero1425.base.subsystems.intake2motor.IntakePositionPowerAction;
 import org.xero1425.base.subsystems.intake2motor.IntakePowerPowerAction;
@@ -35,6 +36,9 @@ public class SwerveTestAutoMode extends TestAutoMode {
 
         double[] angles = new double[4];
         double[] powers = new double[4];
+
+        double [] test53_times = { 2.0, 2.0, 2.0, 2.0, 2.0} ;
+        double [] test53_values = { 100, 600, 200, 700, 400} ;
 
         Swerve2022RobotSubsystem robotsys = (Swerve2022RobotSubsystem) ctrl.getRobot().getRobotSubsystem();
         SwerveBaseSubsystem swerve = (SwerveBaseSubsystem) robotsys.getDB();
@@ -164,6 +168,10 @@ public class SwerveTestAutoMode extends TestAutoMode {
                 addAction(new DelayAction(getAutoController().getRobot(), 1.00));
                 addSubActionPair(hood, new MotorEncoderTrackPositionAction(hood, "hoodpos", 200), false);
                 addAction(new DelayAction(getAutoController().getRobot(), 1.00));
+                break ;
+
+            case 53:
+                addAction(new UpdatableTestAction(hood, new MotorEncoderTrackPositionAction(hood, "hoodpos", 0.0), test53_times, test53_values)) ;
                 break ;
 
             //

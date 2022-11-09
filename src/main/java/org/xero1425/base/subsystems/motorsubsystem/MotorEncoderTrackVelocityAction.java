@@ -128,7 +128,7 @@ public class MotorEncoderTrackVelocityAction extends MotorAction {
 
     /// \brief Update the target velocity to a new velocity
     /// \param target the target velocity desired
-    public void setTarget(double target) throws BadMotorRequestException, MotorRequestFailedException {
+    public void update(double target) throws BadMotorRequestException, MotorRequestFailedException {
         target_ = target ;
 
         if (!useSWPID()) {
@@ -171,7 +171,7 @@ public class MotorEncoderTrackVelocityAction extends MotorAction {
             double outmax = getSubsystem().getSettingsValue(name_ + ":max").getDouble() ;
 
             getSubsystem().getMotorController().setPID(PidType.Velocity, p, i, d, f, outmax);
-            setTarget(target_);
+            update(target_);
         }
         else {
             //

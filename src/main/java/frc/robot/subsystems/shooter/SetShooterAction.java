@@ -45,13 +45,13 @@ public class SetShooterAction extends Action {
         String change ="" ;
 
         if (wheel_ == Double.NaN || wheel_ != wheel) {
-            wheel_action_.setTarget(wheel);
+            wheel_action_.update(wheel);
             change += "wheel: " + Double.toString(wheel_) + " --> " + Double.toString(wheel) ;
             wheel_ = wheel ;
         }
 
         if (hood_ == Double.NaN || hood != hood_) {
-            hood_action_.setTarget(hood);
+            hood_action_.update(hood);
             if (change.length() > 0) {
                 change += "  " ;
             }

@@ -40,6 +40,17 @@ public abstract class Action
         canceled_ = false ;
     }
 
+    /// \brief
+    /// For actions that have updatable targets, this method should
+    /// overridden to update targets.  This allows this action to be used with
+    /// some of the test modes that are available
+    public void update(double value) throws Exception {
+    }
+
+    public double getTarget() {
+        return 0.0 ;
+    }
+
     /// \brief start an action
     /// This method is typically overridden by any derived class.  The derived version
     /// this method should call the base class method.

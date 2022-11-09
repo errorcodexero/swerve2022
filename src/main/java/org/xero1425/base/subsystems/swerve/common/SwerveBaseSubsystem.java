@@ -6,6 +6,8 @@ import org.xero1425.base.subsystems.DriveBaseSubsystem;
 import org.xero1425.base.subsystems.Subsystem;
 import org.xero1425.misc.MinMaxData;
 
+import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -17,6 +19,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
+    private static final boolean UseEstimator = true ;
+
     private int plotid_ ;
     private double plotstart_ ;
     private Double[] plotdata_ ;
@@ -31,6 +35,7 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     private int index_ ;
 
     private SwerveDriveKinematics kinematics_ ;
+    private SwerveDrivePoseEstimator estimator_ ;
     private SwerveDriveOdometry odometry_ ;
 
     private double [] angles_ ;
@@ -79,6 +84,10 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
                         new Translation2d(-getWidth() / 2.0, getLength() / 2.0), new Translation2d(-getWidth() / 2.0, -getLength() / 2.0)) ;
 
         odometry_ = new SwerveDriveOdometry(kinematics_, Rotation2d.fromDegrees(gyro().getYaw())) ;
+        estimator_ = new SwerveDrivePoseEstimator(Rotation2d.fromDegrees(gyro().getYaw()), new Pose2d(), kinematics_,
+                VecBuilder.fill(0.02, 0.02, 0.01), // estimator values (x, y, rotation) std-devs
+                VecBuilder.fill(0.01), // Gyroscope rotation std-dev
+                VecBuilder.fill(0.1, 0.1, 0.01)); // Vision (x, y, rotation) std-devs
 
         ShuffleboardTab shuffleboardTab = Shuffleboard.getTab("Drivetrain");
         shuffleboardTab.addNumber("Heading", () -> getHeading().getDegrees());
@@ -110,6 +119,7 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         super.computeMyState();
 
         odometry_.update(Rotation2d.fromDegrees(gyro().getYaw()), getModuleState(FL), getModuleState(FR), getModuleState(BL), getModuleState(BR));
+        estimator_.update(Rotation2d.fromDegrees(gyro().getYaw()), getModuleState(FL), getModuleState(FR), getModuleState(BL), getModuleState(BR));
 
         Pose2d p = getPose() ;
         double dist = p.getTranslation().getDistance(last_pose_.getTranslation()) ;
@@ -131,11 +141,15 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         return kinematics_ ;
     }
 
-    protected SwerveDriveOdometry getOdometry() {
-        return odometry_ ;
-    }
+    // protected SwerveDriveOdometry getOdometry() {
+    //     return odometry_ ;
+    // }
     
     public Pose2d getPose() {
+        if (UseEstimator) {
+            return estimator_.getEstimatedPosition() ;
+        }
+
         return odometry_.getPoseMeters() ;
     }
 
@@ -143,6 +157,8 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
         Rotation2d rot = Rotation2d.fromDegrees(gyro().getYaw()) ;
         odometry_.resetPosition(pose, rot) ;
         gyro().reset() ;
+
+        estimator_.resetPosition(pose, Rotation2d.fromDegrees(gyro().getYaw())) ;
     }
 
     // This is a hack for this one event.  Need to rethink this after block party
