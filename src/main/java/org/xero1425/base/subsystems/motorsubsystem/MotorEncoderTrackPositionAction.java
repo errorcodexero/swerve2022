@@ -67,14 +67,6 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
     }
 
     private double checkTarget(double t) {
-        // MotorEncoderSubsystem sub = (MotorEncoderSubsystem)getSubsystem() ;
-
-        // if (t < sub.getMinPos())
-        //     t = sub.getMinPos() ;
-
-        // if (t > sub.getMaxPos())
-        //     t = sub.getMaxPos() ;
-
         return t ;
     }
 
@@ -105,12 +97,6 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
             data[3] = error_ ;
             data[4] = out ;
             getSubsystem().addPlotData(plot_id_, data);
-
-            if (getSubsystem().getRobot().getTime() - start_ > 2.5)
-            {
-                getSubsystem().endPlot(plot_id_) ;
-                plot_id_ = -1 ;
-            }
         }        
     }
 
@@ -118,7 +104,7 @@ public class MotorEncoderTrackPositionAction extends MotorAction {
     public void cancel() {
         super.cancel() ;
 
-        if (plot_id_ == -1) {
+        if (plot_id_ != -1) {
             getSubsystem().endPlot(plot_id_) ;
             plot_id_ = -1 ;            
         }

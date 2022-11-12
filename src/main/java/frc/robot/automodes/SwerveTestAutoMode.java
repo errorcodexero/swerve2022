@@ -40,6 +40,9 @@ public class SwerveTestAutoMode extends TestAutoMode {
         double [] test53_times = { 2.0, 2.0, 2.0, 2.0, 2.0} ;
         double [] test53_values = { 100, 600, 200, 700, 400} ;
 
+        double [] test42_times = { 3.0, 3.0, 3.0 } ;
+        double [] test42_values = { 1800, 2700, 2000} ;
+
         Swerve2022RobotSubsystem robotsys = (Swerve2022RobotSubsystem) ctrl.getRobot().getRobotSubsystem();
         SwerveBaseSubsystem swerve = (SwerveBaseSubsystem) robotsys.getDB();
         GPMSubsystem gpm = robotsys.getGPM() ;
@@ -149,6 +152,11 @@ public class SwerveTestAutoMode extends TestAutoMode {
             case 41:
                 addSubActionPair(wheels, new MotorEncoderTrackVelocityAction(wheels, "wheels", getDouble("velocity")), true) ;
                 break ;
+        
+            case 42:
+                addAction(new UpdatableTestAction(wheels, new MotorEncoderTrackVelocityAction(wheels, "wheels", 0.0), test42_times, test42_values)) ;
+                break ;
+
             
             //
             // Hood test modes

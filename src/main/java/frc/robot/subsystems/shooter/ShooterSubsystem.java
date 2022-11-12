@@ -16,11 +16,11 @@ public class ShooterSubsystem extends Subsystem {
         wheelSubsystem_ = new MotorEncoderSubsystem(this, SubsystemName + "-wheel", false, 8, true);
         addChild(wheelSubsystem_) ;
 
-        if (isSettingDefined("ramprate")) {
-            MotorController ctrl = wheelSubsystem_.getMotorController() ;
-            double rate = getSettingsValue("ramprate").getDouble() ;
-            ctrl.setOpenLoopRampRate(rate);
-        }
+        // if (isSettingDefined("ramprate")) {
+        //     MotorController ctrl = wheelSubsystem_.getMotorController() ;
+        //     double rate = getSettingsValue("ramprate").getDouble() ;
+        //     ctrl.setOpenLoopRampRate(rate);
+        // }
         hoodSubsystem_ = new HoodMotorSubsystem(this) ;
         addChild(hoodSubsystem_) ;
     }

@@ -30,6 +30,8 @@ public class GPMFireAction extends Action {
         }
     }
 
+    private static int count_ = 1 ;
+
     private TargetTrackerSubsystem tracker_ ;
     private DriveBaseSubsystem db_ ;
     private TurretSubsystem turret_ ;
@@ -60,6 +62,9 @@ public class GPMFireAction extends Action {
     private int plot_id_ ;
     private Double[] data_ ;
 
+    private int howmany_ ;
+    private int howmany_threshold_ ;
+
     private static String[] plot_columns_ = { "time", "distance (in)", "sact (rpm)", "hact (enc)", "starget (rpm)", "htarget (enc)", "fire" } ;
 
     public GPMFireAction(GPMSubsystem gpm, TargetTrackerSubsystem tracker, DriveBaseSubsystem db, TurretSubsystem turret) throws Exception {
@@ -81,6 +86,8 @@ public class GPMFireAction extends Action {
         double pos = gpm.getSettingsValue("fire-action:default-hood-position").getDouble() ;
         default_params_ = new ShooterParams(vel, pos, false) ;
 
+        howmany_threshold_ = gpm.getSettingsValue("fire-action:how-many-threshold").getInteger() ;
+
         shoot_action_ = new SetShooterAction(gpm.getShooter(), 0.0, 0.0) ;
         conveyor_action_ = new ConveyorShootAction(gpm.getConveyor()) ;
 
@@ -90,7 +97,9 @@ public class GPMFireAction extends Action {
         shooting_ = false ;
 
         data_ = new Double[plot_columns_.length] ;
-        plot_id_ = sub_.initPlot("shoot") ;
+
+
+        howmany_ = 0 ;
     }
 
     public boolean shooting() {
@@ -121,6 +130,8 @@ public class GPMFireAction extends Action {
         sub_.getShooter().setAction(shoot_action_, true) ;
 
         start_ = sub_.getRobot().getTime() ;
+        plot_id_ = sub_.initPlot("shoot-" + count_) ;
+        count_++ ;
         sub_.startPlot(plot_id_, plot_columns_);
     }
 
@@ -184,14 +195,21 @@ public class GPMFireAction extends Action {
             logger.endMessage();
 
             if (shooter_ready && db_ready && turret_ready_) {
-                logger.startMessage(MessageType.Debug) ;
-                logger.add("GPMFireAction: Shooting start") ;
-                logger.add(", distance", tracker_.getDistance());
-                logger.endMessage();
+                howmany_++ ;
 
-                shoot_action_.startPlot();
-                conveyor.setAction(conveyor_action_, true) ;
-                shooting_ = true ;
+                if (howmany_ > howmany_threshold_) {
+                    logger.startMessage(MessageType.Debug) ;
+                    logger.add("GPMFireAction: Shooting start") ;
+                    logger.add(", distance", tracker_.getDistance());
+                    logger.endMessage();
+    
+                    shoot_action_.startPlot();
+                    conveyor.setAction(conveyor_action_, true) ;
+                    shooting_ = true ;
+                }
+            }
+            else {
+                howmany_ = 0 ;
             }
 
             data_[i++] = 0.0 ;
@@ -204,9 +222,9 @@ public class GPMFireAction extends Action {
         sub_.addPlotData(plot_id_, data_);
     }
 
-    private double getPercent(double target, double actual) {
-        return Math.abs(target - actual) / target * 100.0 ;
-    }
+    // private double getPercent(double target, double actual) {
+    //     return Math.abs(target - actual) / target * 100.0 ;
+    // }
 
     private boolean isShooterReady(ShooterParams p) {
         boolean ret = false ;
@@ -225,24 +243,24 @@ public class GPMFireAction extends Action {
         }
         else {
             ShooterSubsystem shooter = sub_.getShooter() ;
-            double hoodpcnt = getPercent(p.HoodPosition, shooter.getHoodSubsystem().getPosition());
-            double wheelpcnt = getPercent(p.WheelVelocity, shooter.getWheelSubsystem().getVelocity()) ;
+            double hooderr = Math.abs(p.HoodPosition - shooter.getHoodSubsystem().getPosition()) ;
+            double wheelerr = Math.abs(p.WheelVelocity - shooter.getWheelSubsystem().getVelocity()) ;
 
-            sub_.putDashboard("hood-pcnt", DisplayType.Always, hoodpcnt);
-            sub_.putDashboard("wheel-pcnt", DisplayType.Always, wheelpcnt);
+            sub_.putDashboard("hood-pcnt", DisplayType.Always, hooderr);
+            sub_.putDashboard("wheel-pcnt", DisplayType.Always, wheelerr);
 
-            hood_ready_ = hoodpcnt < hood_threshold_ ;
-            wheels_ready_ = wheelpcnt < wheel_threshold_ ;
+            hood_ready_ = hooderr < hood_threshold_ ;
+            wheels_ready_ = wheelerr < wheel_threshold_ ;
 
             ret = hood_ready_ && wheels_ready_ ;
             
             MessageLogger logger = sub_.getRobot().getMessageLogger() ;
             logger.startMessage(MessageType.Debug, sub_.getLoggerID()) ;
             logger.add("GPMFireAction: isShooterReady: ") ;
-            logger.add("hood-pcnt", hoodpcnt) ;
+            logger.add("hood-pcnt", hooderr) ;
             logger.add("hood-pos", shooter.getHoodSubsystem().getPosition()) ;
             logger.add("hood-target", p.HoodPosition) ;
-            logger.add("wheel-pcnt", wheelpcnt) ;
+            logger.add("wheel-pcnt", wheelerr) ;
             logger.add("wheel-vel", shooter.getWheelSubsystem().getVelocity()) ;
             logger.add("wheel-target", p.WheelVelocity) ;
             logger.add("ready", ret) ;
@@ -305,8 +323,8 @@ public class GPMFireAction extends Action {
         double mult = Math.abs(turret_.getPosition()) / 90.0 * turret_factor_ ;
         wheel *= (1.0 + mult) ;
 
-        hood += 175 ;
-        wheel *= 1.04 ;
+        // hood += 175 ;
+        // wheel *= 1.04 ;
 
         if (hood > 900) {
             hood = 900 ;

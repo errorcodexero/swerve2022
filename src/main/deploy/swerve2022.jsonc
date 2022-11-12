@@ -308,7 +308,7 @@
                 "collect": 0.4,
                 "off": 0.0,
                 "eject": -1.0,
-                "shoot": 0.7,
+                "shoot": 1.0,
                 "preload" : 0.3
             },
             "duration": {
@@ -398,7 +398,7 @@
                 "wheel-velocity-threshold": 10,
                 "hood-position-threshold": 10
             },
-            "ramprate": 1.0,
+            // "ramprate": 1.0,
             "fire-plot-duration": 10.0,
             "spinup-power": 0.3
         },
@@ -424,15 +424,14 @@
                 }
             },
             "wheels": {
-                "kp": 0.000045,
-                "ki": 0.000,
-                "kd": 0.00000,
-                "kf": 0.000162,
+                "kp": 0.00003,
+                "ki": 0.0,
+                "kd": 0.0,
+                "kf": 0.0001715,
                 "max": 1.0,
                 "min": -1.0,
                 "imax": 10.0,
-                "use-sw": true,
-                "plot-duration": 1.0
+                "use-sw": true
             }
         },
         "shooter-hood": {
@@ -454,12 +453,12 @@
                 }
             },
             "hoodpos": {
-                "kp": 0.0015,
+                "kp": 0.0018,
                 "ki": 0.0,
                 "kd": 0.0,
                 "kf": 0.0,
-                "max": 1.0,
-                "min": -1.0,
+                "max": 0.4,
+                "min": -0.4,
                 "imax": 0.0
             },
             "maxpos": 800.0,
@@ -468,12 +467,13 @@
         "gpm": {
             "fire-plot-duration": 10.0,
             "fire-action": {
+                "how-many-threshold" : 20,
                 "default-hood-position": 400,
                 "default-wheel-velocity": 3500,
                 "max-db-linear-velocity": 0.05,
                 "max-db-rotational-velocity" : 5,
-                "hood-threshold": 10,
-                "wheel-threshold": 10,
+                "hood-threshold": 20,
+                "wheel-threshold": 50,
                 "turret-factor" : 0.0,
                 "hood-pwl": {
                     "1": {
@@ -673,7 +673,7 @@
     },
     "testmode": {
         "enabled": true,
-        "which":53,
+        "which":4,
         "0": {
             "angle": 0.0,
             "power": 0.2
@@ -693,8 +693,7 @@
             "duration": 6.0
         },
         "4": {
-            "name": "fourball_pa",
-            "endangle": 0.0
+            "name": "fourball_p2"
         },
         "5": {
             "angle": 0.0,

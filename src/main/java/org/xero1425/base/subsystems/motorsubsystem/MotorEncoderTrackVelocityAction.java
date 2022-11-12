@@ -47,7 +47,7 @@ public class MotorEncoderTrackVelocityAction extends MotorAction {
     private XeroTimer plot_timer_ ;
 
     // The columns to plot
-    private static String [] columns_ = { "time", "target(rpm)", "actual(rpm)"}  ;
+    private static String [] columns_ = { "time", "target(rpm)", "actual(rpm)", "error", "out"}  ;
 
     /// \brief Create a new MotorEncoderVelocityAction
     /// \param sub the target MotorEncoderSubsystem
@@ -78,7 +78,7 @@ public class MotorEncoderTrackVelocityAction extends MotorAction {
             
         plot_id_ = sub.initPlot(toString(0) + "-" + String.valueOf(which_++)) ;     
 
-        plot_duration_ = 10.0 ;
+        plot_duration_ = Double.MAX_VALUE;
         if (settings.isDefined(pidname + ":plot-duration")) {
             plot_duration_ = settings.get(pidname + ":plot-duration").getDouble() ;
         }
@@ -186,6 +186,7 @@ public class MotorEncoderTrackVelocityAction extends MotorAction {
     public void run() throws Exception {
         super.run() ;
 
+        double out = 0.0 ;
         MotorEncoderSubsystem me = (MotorEncoderSubsystem)getSubsystem() ;
 
         if (useSWPID()) {
@@ -193,7 +194,7 @@ public class MotorEncoderTrackVelocityAction extends MotorAction {
             // Running the PID loop in the RoboRio, do the calculations
             //
             error_ = Math.abs(target_ - me.getVelocity()) ;
-            double out = pid_.getOutput(target_, me.getVelocity(), getSubsystem().getRobot().getDeltaTime()) ;
+            out = pid_.getOutput(target_, me.getVelocity(), getSubsystem().getRobot().getDeltaTime()) ;
             getSubsystem().setPower(out) ;
 
             MessageLogger logger = getSubsystem().getRobot().getMessageLogger() ;
@@ -216,6 +217,8 @@ public class MotorEncoderTrackVelocityAction extends MotorAction {
             data[0] = getSubsystem().getRobot().getTime() - start_ ;
             data[1] = target_ ;
             data[2] = me.getVelocity() ;
+            data[3] = error_ ;
+            data[4] = out ;
             getSubsystem().addPlotData(plot_id_, data);
 
             if (plot_timer_.isExpired()) {
