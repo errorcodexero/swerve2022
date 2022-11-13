@@ -49,7 +49,7 @@
                     "kd": 0
                 },
                 "rotation": {
-                    "kp": 1.0,
+                    "kp": 3.0,
                     "ki": 0,
                     "kd": 0
                 }
@@ -693,7 +693,7 @@
             "duration": 6.0
         },
         "4": {
-            "name": "fourball_p2"
+            "name": "test_straight"
         },
         "5": {
             "angle": 0.0,

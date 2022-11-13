@@ -260,10 +260,10 @@
                     ],
                     "markers": [
                     ],
-                    "maxacceleration": 30,
+                    "maxacceleration": 1,
                     "maxcentripetal": 3000,
-                    "maxjerk": 300,
-                    "maxvelocity": 3,
+                    "maxjerk": 10,
+                    "maxvelocity": 1,
                     "name": "straight",
                     "points": [
                         {
@@ -275,8 +275,53 @@
                         {
                             "heading": 0,
                             "swrot": 0,
-                            "x": 6.4,
-                            "y": 4.201263350520823
+                            "x": 2.877702737400069,
+                            "y": 4.221178375263801
+                        },
+                        {
+                            "heading": 0,
+                            "swrot": 0,
+                            "x": 5.6857212261598855,
+                            "y": 4.221178375263801
+                        }
+                    ],
+                    "startangle": 0,
+                    "startangledelay": 0,
+                    "startvelocity": 0
+                },
+                {
+                    "constraints": [
+                    ],
+                    "endangle": 0,
+                    "endangledelay": 0,
+                    "endvelocity": 0,
+                    "flags": [
+                    ],
+                    "markers": [
+                    ],
+                    "maxacceleration": 2,
+                    "maxcentripetal": 3000,
+                    "maxjerk": 100,
+                    "maxvelocity": 2,
+                    "name": "curve",
+                    "points": [
+                        {
+                            "heading": 0,
+                            "swrot": 0,
+                            "x": 0.44806971875682367,
+                            "y": 5.1571845381837385
+                        },
+                        {
+                            "heading": -77.71167683672464,
+                            "swrot": 180,
+                            "x": 6.800962611766621,
+                            "y": 4.280923449492732
+                        },
+                        {
+                            "heading": -180,
+                            "swrot": 0,
+                            "x": 0.6273049414436205,
+                            "y": 3.524152509259591
                         }
                     ],
                     "startangle": 0,

@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
-    private static final boolean UseEstimator = true ;
+    private static final boolean UseEstimator = false ;
 
     private int plotid_ ;
     private double plotstart_ ;
@@ -140,11 +140,7 @@ public abstract class SwerveBaseSubsystem extends DriveBaseSubsystem {
     protected SwerveDriveKinematics getKinematics() {
         return kinematics_ ;
     }
-
-    // protected SwerveDriveOdometry getOdometry() {
-    //     return odometry_ ;
-    // }
-    
+   
     public Pose2d getPose() {
         if (UseEstimator) {
             return estimator_.getEstimatedPosition() ;

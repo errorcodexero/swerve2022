@@ -184,14 +184,6 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
     @Override
     public void computeMyState() throws Exception {
         super.computeMyState();
-
-        if (getRobot().isDisabled())
-        {
-            fl_.set(0.0, 0.0) ;
-            fr_.set(0.0, 0.0) ;
-            bl_.set(0.0, 0.0) ;
-            br_.set(0.0, 0.0) ;
-        }
     }
 
     @Override
@@ -234,9 +226,17 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
             powers_[BR] = pid_ctrls_[BR].getOutput(speeds_[BR], getModuleState(BR).speedMetersPerSecond, getRobot().getDeltaTime()) ;
         }
 
-        fl_.set(powers_[FL] * nominal_voltage_, Math.toRadians(angles_[FL])) ;
-        fr_.set(powers_[FR] * nominal_voltage_, Math.toRadians(angles_[FR])) ;
-        bl_.set(powers_[BL] * nominal_voltage_, Math.toRadians(angles_[BL])) ;
-        br_.set(powers_[BR] * nominal_voltage_, Math.toRadians(angles_[BR])) ;                      
+        if (Math.abs(powers_[FL]) < 0.01 && Math.abs(powers_[FL]) < 0.01 && Math.abs(powers_[FL]) < 0.01 && Math.abs(powers_[FL]) < 0.01) {
+            fl_.set(0.0, getModuleState(FL).angle.getRadians()) ;
+            fr_.set(0.0, getModuleState(FR).angle.getRadians()) ;
+            bl_.set(0.0, getModuleState(BL).angle.getRadians()) ;
+            br_.set(0.0, getModuleState(BR).angle.getRadians()) ;
+        }
+        else {
+            fl_.set(powers_[FL] * nominal_voltage_, Math.toRadians(angles_[FL])) ;
+            fr_.set(powers_[FR] * nominal_voltage_, Math.toRadians(angles_[FR])) ;
+            bl_.set(powers_[BL] * nominal_voltage_, Math.toRadians(angles_[BL])) ;
+            br_.set(powers_[BR] * nominal_voltage_, Math.toRadians(angles_[BR])) ;
+        }
     }
 }
