@@ -1,8 +1,8 @@
 package frc.robot.subsystems.targettracker;
 
-import org.xero1425.base.limelight.LimeLightSubsystem;
-import org.xero1425.base.limelight.LimeLightSubsystem.LedMode;
 import org.xero1425.base.subsystems.Subsystem;
+import org.xero1425.base.subsystems.vision.LimeLightSubsystem;
+import org.xero1425.base.subsystems.vision.LimeLightSubsystem.LedMode;
 import org.xero1425.base.utils.TargetTracker;
 import org.xero1425.misc.BadParameterTypeException;
 import org.xero1425.misc.MessageLogger;
