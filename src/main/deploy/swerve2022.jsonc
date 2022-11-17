@@ -39,17 +39,17 @@
         "swervedrive": {
             "pid": {
                 "xctrl": {
-                    "kp": 6.0,
+                    "kp": 3.0,
                     "ki": 0,
                     "kd": 0
                 },
                 "yctrl": {
-                    "kp": 6.0,
+                    "kp": 3.0,
                     "ki": 0,
                     "kd": 0
                 },
                 "rotation": {
-                    "kp": 3.0,
+                    "kp": 13.0,
                     "ki": 0,
                     "kd": 0
                 }

@@ -166,8 +166,7 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
         chassis_speed_ = speed ;     
         mode_ = Mode.Chassis ;
     }
-
-
+    
     @Override
     public void setRawTargets(boolean power, double [] angles, double [] speeds_powers)  {
         angles_ = angles.clone() ;
@@ -184,6 +183,13 @@ public class SDSSwerveDriveSubsystem extends SwerveBaseSubsystem {
     @Override
     public void computeMyState() throws Exception {
         super.computeMyState();
+
+        if (getRobot().isDisabled()) {
+            fl_.set(0.0, fl_.getSteerAngle()) ;
+            fr_.set(0.0, fr_.getSteerAngle()) ;
+            bl_.set(0.0, bl_.getSteerAngle()) ;
+            br_.set(0.0, br_.getSteerAngle()) ;
+        }
     }
 
     @Override

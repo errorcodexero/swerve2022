@@ -1,4 +1,4 @@
-package org.xero1425.base.limelight;
+package org.xero1425.base.subsystems.vision ;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
