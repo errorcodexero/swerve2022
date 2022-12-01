@@ -11,7 +11,9 @@ public class PhotonVisionAprilTags extends Subsystem {
     private double latency_ ;
     private double targetArea_ ;
     private double targetPitch_ ;
-    private double targetPose_ ;
+    private double[] targetPose_ ;
+
+    private double targetSkew_;
     private double targetYaw_ ;
     private double targetPixelsX_ ;
     private double targetPixelsY_ ;
@@ -38,12 +40,13 @@ public class PhotonVisionAprilTags extends Subsystem {
             hasTarget_ = nt_.getEntry("hasTarget").getBoolean(false) ;
             if (hasTarget_) {
                 latency_ = nt_.getEntry("latencyMillis").getNumber(0.0).doubleValue() ;
-                latency_ = nt_.getEntry("targetArea").getNumber(0.0).doubleValue() ;
-                latency_ = nt_.getEntry("targetPitch").getNumber(0.0).doubleValue() ;
-                latency_ = nt_.getEntry("targetPose").getNumber(0.0).doubleValue() ;
-                latency_ = nt_.getEntry("targetYaw").getNumber(0.0).doubleValue() ;
-                latency_ = nt_.getEntry("targetPixelsX").getNumber(0.0).doubleValue() ;
-                latency_ = nt_.getEntry("targetPixelsY").getNumber(0.0).doubleValue() ;
+                targetArea_ = nt_.getEntry("targetArea").getNumber(0.0).doubleValue() ;
+                targetPitch_ = nt_.getEntry("targetPitch").getNumber(0.0).doubleValue() ;
+                targetPose_ = nt_.getEntry("targetPose").getDoubleArray(new double[3]);
+                targetYaw_ = nt_.getEntry("targetYaw").getNumber(0.0).doubleValue() ;
+                targetSkew_ = nt_.getEntry("targetSkew").getNumber(0.0).doubleValue() ;
+                targetPixelsX_ = nt_.getEntry("targetPixelsX").getNumber(0.0).doubleValue() ;
+                targetPixelsY_ = nt_.getEntry("targetPixelsY").getNumber(0.0).doubleValue() ;
             }
         }
         else
@@ -72,7 +75,7 @@ public class PhotonVisionAprilTags extends Subsystem {
         return targetPitch_ ;
     }
 
-    public double targetPose() {
+    public double[] targetPose() {
         return targetPose_ ;
     }
 
@@ -86,5 +89,37 @@ public class PhotonVisionAprilTags extends Subsystem {
 
     public double targetPixelsY() {
         return targetPixelsY_ ;
+    }
+    public double targetSkew() {
+        return targetSkew_ ;
+    }
+
+    public void setPipelineIndex(int index) {
+        nt_.getEntry("pipelineIndex").setNumber(index);
+    }
+    public int getPipelineIndex() {
+        return nt_.getEntry("pipelineIndex").getNumber(0).intValue();
+    }
+
+    public void setDriverMode(boolean driverMode) {
+        nt_.getEntry("driverMode").setBoolean(driverMode);
+    }
+    public boolean getDriverMode() {
+        return nt_.getEntry("driverMode").getBoolean(false);
+    }
+
+    public void setInputSaveImgCmd(boolean saveImg) {
+        nt_.getEntry("inputSaveImgCmd").setBoolean(saveImg);
+    }
+    public boolean getInputSaveImgCmd() {
+        return nt_.getEntry("inputSaveImgCmd").getBoolean(false);
+    }
+
+
+    public void setOutputSaveImgCmd(boolean saveImg) {
+        nt_.getEntry("outputSaveImgCmd").setBoolean(saveImg);
+    }
+    public boolean getOutputSaveImgCmd() {
+        return nt_.getEntry("outputSaveImgCmd").getBoolean(false);
     }
 }
